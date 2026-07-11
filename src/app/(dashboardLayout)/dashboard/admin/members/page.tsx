@@ -18,9 +18,11 @@ const membersData = [
 ];
 
 import { useState } from "react";
+import AddMemberModal from "@/components/shared/modals/addMemberModal";
 
 export default function MembersPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isMemberOpen, setIsMemberOpen] = useState(false); 
 
   const filteredMembers = membersData.filter(member => 
     member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -44,7 +46,9 @@ export default function MembersPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 members</span>
-          <Button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
+          <Button
+            onClick={() => setIsMemberOpen(true)}
+           className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
             <Plus className="w-4 h-4 mr-2" /> Add Member
           </Button>
         </div>
@@ -102,6 +106,10 @@ export default function MembersPage() {
           </Table>
         </div>
       </div>
+      <AddMemberModal
+      isOpen={isMemberOpen}
+        onClose={() => setIsMemberOpen(false)}
+      ></AddMemberModal>
     </div>
   );
 }
