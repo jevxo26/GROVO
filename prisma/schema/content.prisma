@@ -1,0 +1,89 @@
+model LiveDonationFeed {
+  id          String   @id @default(uuid())
+  campaignId  String
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  donorName   String?
+  amount      Float
+  message     String?
+  isAnonymous Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model SuccessStory {
+  id            String       @id @default(uuid())
+  title         String
+  slug          String       @unique
+  summary       String?
+  content       String
+  beneficiaryId String?
+  beneficiary   Beneficiary? @relation(fields: [beneficiaryId], references: [id], onDelete: SetNull)
+  campaignId    String?
+  campaign      Campaign?    @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  publishedBy   String
+  publishedAt   DateTime?
+  status        String       @default("DRAFT")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  media         StoryMedia[]
+}
+
+model StoryMedia {
+  id        String       @id @default(uuid())
+  storyId   String
+  story     SuccessStory @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  mediaType String
+  fileUrl   String
+  caption   String?
+  sortOrder Int          @default(0)
+  createdAt DateTime     @default(now())
+}
+
+model Testimonial {
+  id           String   @id @default(uuid())
+  authorName   String
+  designation  String?
+  organization String?
+  photo        String?
+  content      String
+  rating       Int      @default(5)
+  status       String   @default("ACTIVE")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PressRelease {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  content     String
+  source      String?
+  publishedAt DateTime?
+  status      String    @default("DRAFT")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model News {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  content     String
+  thumbnail   String?
+  author      String
+  publishedAt DateTime?
+  status      String    @default("DRAFT")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Newsletter {
+  id             String   @id @default(uuid())
+  title          String
+  subject        String
+  content        String
+  recipientCount Int      @default(0)
+  sentAt         DateTime?
+  status         String   @default("DRAFT")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

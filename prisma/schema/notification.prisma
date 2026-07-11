@@ -1,0 +1,97 @@
+model Notification {
+  id            String                  @id @default(uuid())
+  templateId    String?
+  template      NotificationTemplate?   @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  title         String
+  message       String
+  type          String
+  priority      String                  @default("NORMAL")
+  senderId      String?
+  status        String                  @default("PENDING")
+  scheduledAt   DateTime?
+  sentAt        DateTime?
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+  recipients    NotificationRecipient[]
+  pushDetails   PushNotification[]
+  emailDetails  EmailNotification[]
+  smsDetails    SMSNotification[]
+  inAppDetails  InAppNotification[]
+}
+
+model NotificationTemplate {
+  id            String         @id @default(uuid())
+  templateName  String         @unique
+  templateType  String
+  subject       String?
+  body          String
+  variables     String[]
+  status        String         @default("ACTIVE")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  notifications Notification[]
+}
+
+model NotificationRecipient {
+  id             String       @id @default(uuid())
+  notificationId String
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  userId         String
+  readAt         DateTime?
+  deliveredAt    DateTime?
+  status         String       @default("PENDING")
+  createdAt      DateTime     @default(now())
+}
+
+model PushNotification {
+  id             String       @id @default(uuid())
+  notificationId String
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  deviceToken    String
+  payload        String?
+  deliveryStatus String       @default("PENDING")
+  sentAt         DateTime?
+  createdAt      DateTime     @default(now())
+}
+
+model EmailNotification {
+  id             String       @id @default(uuid())
+  notificationId String
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  recipientEmail String
+  subject        String
+  body           String
+  deliveryStatus String       @default("PENDING")
+  sentAt         DateTime?
+  createdAt      DateTime     @default(now())
+}
+
+model SMSNotification {
+  id             String       @id @default(uuid())
+  notificationId String
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  recipientPhone String
+  message        String
+  deliveryStatus String       @default("PENDING")
+  sentAt         DateTime?
+  createdAt      DateTime     @default(now())
+}
+
+model InAppNotification {
+  id             String       @id @default(uuid())
+  notificationId String
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  userId         String
+  readAt         DateTime?
+  status         String       @default("UNREAD")
+  createdAt      DateTime     @default(now())
+}
+
+model NotificationActivity {
+  id             String   @id @default(uuid())
+  notificationId String
+  action         String
+  performedBy    String
+  details        String?
+  createdAt      DateTime @default(now())
+}

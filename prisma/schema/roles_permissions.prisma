@@ -1,0 +1,44 @@
+model Role {
+  id              String           @id @default(uuid())
+  roleName        String           @unique
+  displayName     String
+  description     String?
+  roleType        RoleType         @default(CUSTOM)
+  priority        Int              @default(0)
+  status          String           @default("ACTIVE")
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  permissions     RolePermission[]
+  userRoles       UserRole[]
+  staffRoles      StaffRole[]
+  volunteerRoles  VolunteerRole[]
+  coordinatorRoles CoordinatorRole[]
+  parentRoles     RoleHierarchy[]  @relation("ParentRole")
+  childRoles      RoleHierarchy[]  @relation("ChildRole")
+  accessLogs      AccessLog[]
+}
+
+model Permission {
+  id             String           @id @default(uuid())
+  permissionName String           @unique
+  module         String
+  description    String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  roles          RolePermission[]
+}
+
+model RolePermission {
+  id           String     @id @default(uuid())
+  roleId       String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  canView      Boolean    @default(false)
+  canCreate    Boolean    @default(false)
+  canUpdate    Boolean    @default(false)
+  canDelete    Boolean    @default(false)
+  canApprove   Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}

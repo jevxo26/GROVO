@@ -1,0 +1,58 @@
+model Media {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  mediaType   String
+  fileUrl     String
+  thumbnailUrl String?
+  fileSize    Int          @default(0)
+  mimeType    String?
+  uploadedBy  String
+  categoryId  String?
+  category    MediaCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  status      String       @default("ACTIVE")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  albumMedia  AlbumMedia[]
+}
+
+model MediaCategory {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  media       Media[]
+}
+
+model Album {
+  id          String       @id @default(uuid())
+  albumName   String
+  description String?
+  coverImage  String?
+  createdBy   String
+  status      String       @default("ACTIVE")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  albumMedia  AlbumMedia[]
+}
+
+model AlbumMedia {
+  id        String   @id @default(uuid())
+  albumId   String
+  album     Album    @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  mediaId   String
+  media     Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model MediaActivityLog {
+  id          String   @id @default(uuid())
+  mediaId     String
+  action      String
+  performedBy String
+  details     String?
+  createdAt   DateTime @default(now())
+}

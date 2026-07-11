@@ -1,0 +1,81 @@
+model Fund {
+  id                  String                  @id @default(uuid())
+  fundName            String
+  fundCode            String                  @unique
+  description         String?
+  currentBalance      Float                   @default(0)
+  status              String                  @default("ACTIVE")
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  donationItems       DonationItem[]
+  transfersFrom       FundTransfer[]          @relation("TransfersFrom")
+  transfersTo         FundTransfer[]          @relation("TransfersTo")
+  allocationHistories FundAllocationHistory[]
+}
+
+model FundTransfer {
+  id         String   @id @default(uuid())
+  fromFundId String
+  fromFund   Fund     @relation("TransfersFrom", fields: [fromFundId], references: [id], onDelete: Cascade)
+  toFundId   String
+  toFund     Fund     @relation("TransfersTo", fields: [toFundId], references: [id], onDelete: Cascade)
+  amount     Float
+  reason     String?
+  approvedBy String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model FundAllocationHistory {
+  id               String          @id @default(uuid())
+  fundId           String
+  fund             Fund            @relation(fields: [fundId], references: [id], onDelete: Cascade)
+  projectId        String?
+  campaignId       String?
+  allocatedAmount  Float
+  allocatedBy      String
+  allocationDate   DateTime
+  remarks          String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  fundAllocationId String?
+  fundAllocation   FundAllocation? @relation(fields: [fundAllocationId], references: [id], onDelete: Cascade)
+}
+
+model Settlement {
+  id               String         @id @default(uuid())
+  paymentGatewayId String
+  paymentGateway   PaymentGateway @relation(fields: [paymentGatewayId], references: [id], onDelete: Cascade)
+  totalCollected   Float
+  processingFee    Float          @default(0)
+  netAmount        Float
+  settlementDate   DateTime
+  status           String         @default("COMPLETED")
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model Payout {
+  id            String    @id @default(uuid())
+  branchId      String
+  projectId     String?
+  amount        Float
+  paymentMethod String
+  approvedBy    String?
+  paymentStatus String    @default("PAID")
+  paidAt        DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model FinancialReport {
+  id            String   @id @default(uuid())
+  reportType    String
+  startDate     DateTime
+  endDate       DateTime
+  totalDonation Float
+  totalExpense  Float
+  netBalance    Float
+  generatedBy   String
+  createdAt     DateTime @default(now())
+}

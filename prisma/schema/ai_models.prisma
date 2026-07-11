@@ -1,0 +1,66 @@
+model AITrainingDataset {
+  id          String   @id @default(uuid())
+  datasetName String
+  datasetType String
+  description String?
+  fileUrl     String
+  recordCount Int      @default(0)
+  version     String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AIModel {
+  id          String           @id @default(uuid())
+  modelName   String
+  modelType   String
+  description String?
+  algorithm   String
+  accuracy    Float            @default(0)
+  status      String           @default("ACTIVE")
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  versions    AIModelVersion[]
+  jobs        AIJob[]
+}
+
+model AIModelVersion {
+  id          String   @id @default(uuid())
+  modelId     String
+  model       AIModel  @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  versionNo   String
+  accuracy    Float    @default(0)
+  parameters  String?
+  fileUrl     String?
+  trainedAt   DateTime?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AIJob {
+  id          String    @id @default(uuid())
+  modelId     String
+  model       AIModel   @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  jobType     String
+  inputData   String?
+  outputData  String?
+  startedAt   DateTime?
+  completedAt DateTime?
+  duration    Float     @default(0)
+  status      String    @default("PENDING")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model AIAuditLog {
+  id          String   @id @default(uuid())
+  modelId     String?
+  action      String
+  input       String?
+  output      String?
+  userId      String?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+}

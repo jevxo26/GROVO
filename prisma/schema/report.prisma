@@ -1,0 +1,51 @@
+model Report {
+  id           String          @id @default(uuid())
+  reportName   String
+  reportType   String
+  templateId   String?
+  template     ReportTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  parameters   String?
+  generatedBy  String
+  fileUrl      String?
+  status       String          @default("GENERATED")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  exports      ReportExport[]
+}
+
+model ReportTemplate {
+  id           String            @id @default(uuid())
+  templateName String            @unique
+  reportType   String
+  layout       String?
+  fields       String[]
+  status       String            @default("ACTIVE")
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  reports      Report[]
+  scheduled    ScheduledReport[]
+}
+
+model ScheduledReport {
+  id         String         @id @default(uuid())
+  templateId String
+  template   ReportTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  frequency  String
+  recipients String[]
+  nextRunAt  DateTime?
+  lastRunAt  DateTime?
+  status     String         @default("ACTIVE")
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+model ReportExport {
+  id         String   @id @default(uuid())
+  reportId   String
+  report     Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  format     String
+  fileUrl    String
+  fileSize   Int      @default(0)
+  exportedBy String
+  createdAt  DateTime @default(now())
+}
