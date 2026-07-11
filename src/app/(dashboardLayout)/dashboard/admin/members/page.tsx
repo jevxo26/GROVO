@@ -17,14 +17,30 @@ const membersData = [
   { id: "8", name: "Hasan Mahmud", phone: "+880 1818-789012", membership: "ASH-MEM-2024-1345", type: "General Member", district: "Barishal", status: "active", joined: "2024-08-30" },
 ];
 
+import { useState } from "react";
+
 export default function MembersPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredMembers = membersData.filter(member => 
+    member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    member.phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    member.membership.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    member.district.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       {/* Top Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Search members..." className="pl-9 bg-card border-border shadow-sm rounded-xl" />
+          <Input 
+            placeholder="Search members..." 
+            className="pl-9 bg-card border-border shadow-sm rounded-xl" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 members</span>
@@ -50,7 +66,7 @@ export default function MembersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {membersData.map((member) => (
+              {filteredMembers.map((member) => (
                 <TableRow key={member.id} className="hover:bg-muted/50 border-border group transition-colors">
                   <TableCell className="py-4">
                     <div className="font-bold text-foreground">{member.name}</div>

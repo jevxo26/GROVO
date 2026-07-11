@@ -27,14 +27,29 @@ const formatCurrency = (amount: number) => {
   }).format(amount).replace('BDT', '৳');
 };
 
+import { useState } from "react";
+
 export default function CampaignsPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredCampaigns = campaignsData.filter(campaign => 
+    campaign.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    campaign.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    campaign.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       {/* Top Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Search campaigns..." className="pl-9 bg-card border-border shadow-sm rounded-xl" />
+          <Input 
+            placeholder="Search campaigns..." 
+            className="pl-9 bg-card border-border shadow-sm rounded-xl" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 campaigns</span>
@@ -61,7 +76,7 @@ export default function CampaignsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {campaignsData.map((campaign) => (
+              {filteredCampaigns.map((campaign) => (
                 <TableRow key={campaign.id} className="hover:bg-muted/50 border-border group transition-colors">
                   <TableCell className="py-4">
                     <div className="font-bold text-foreground">{campaign.name}</div>
