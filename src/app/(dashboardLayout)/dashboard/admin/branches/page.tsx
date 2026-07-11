@@ -18,7 +18,18 @@ const branchesData = [
   { id: "8", name: "ASHRAY Barishal District", address: "Bakerganj Sadar Road", code: "BR-BAR-008", type: "District", location: "Bakerganj, Barishal, Barishal", status: "active", established: "2025-02-18" },
 ];
 
+import { useState } from "react";
+
 export default function BranchesPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredBranches = branchesData.filter(branch => 
+    branch.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    branch.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    branch.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    branch.type.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       {/* Top Summary Cards */}
@@ -53,7 +64,12 @@ export default function BranchesPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Search branches..." className="pl-9 bg-card border-border shadow-sm rounded-xl" />
+          <Input 
+            placeholder="Search branches..." 
+            className="pl-9 bg-card border-border shadow-sm rounded-xl" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 branches</span>
@@ -79,7 +95,7 @@ export default function BranchesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {branchesData.map((branch) => (
+              {filteredBranches.map((branch) => (
                 <TableRow key={branch.id} className="hover:bg-muted/50 border-border group transition-colors">
                   <TableCell className="py-4">
                     <div className="font-bold text-foreground">{branch.name}</div>

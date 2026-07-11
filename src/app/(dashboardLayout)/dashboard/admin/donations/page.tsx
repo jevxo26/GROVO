@@ -26,7 +26,17 @@ const formatCurrency = (amount: number) => {
   }).format(amount).replace('BDT', '৳');
 };
 
+import { useState } from "react";
+
 export default function DonationsPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredDonations = donationsData.filter(donation => 
+    donation.donor.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    donation.receipt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    donation.campaign.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       {/* Top Summary Cards */}
@@ -55,7 +65,12 @@ export default function DonationsPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Search donations..." className="pl-9 bg-card border-border shadow-sm rounded-xl" />
+          <Input 
+            placeholder="Search donations..." 
+            className="pl-9 bg-card border-border shadow-sm rounded-xl" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 donations</span>
@@ -82,7 +97,7 @@ export default function DonationsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {donationsData.map((donation) => (
+              {filteredDonations.map((donation) => (
                 <TableRow key={donation.id} className="hover:bg-muted/50 border-border group transition-colors">
                   <TableCell className="py-4 font-bold text-foreground">{donation.receipt}</TableCell>
                   <TableCell className="text-muted-foreground">{donation.donor}</TableCell>
