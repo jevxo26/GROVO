@@ -3,6 +3,7 @@ import next from "next";
 import cors from "cors";
 import dotenv from "dotenv";
 import { donationRouter } from "../routes/donation.routes";
+import { volunteerRouter } from "../routes/volunteer.routes";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app
 
     // MVC Router Configurations
     server.use("/api/donations", donationRouter);
+    server.use("/api/volunteers", volunteerRouter);
 
     // Next.js Catch-All View Delivery Engine
     server.all("*", (req, res) => {
