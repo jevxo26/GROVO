@@ -36,7 +36,7 @@ const branchTypeOptions = [
 // Status Options
 const statusOptions = [
   { value: "Active", label: "Active" },
-  { value: "Pending", label: "Pending" }, // ফিক্সড টাইপো (panding -> Pending)
+  { value: "Pending", label: "Pending" },
 ];
 
 const branchSchema = z.object({

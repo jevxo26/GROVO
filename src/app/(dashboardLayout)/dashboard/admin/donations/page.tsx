@@ -27,9 +27,11 @@ const formatCurrency = (amount: number) => {
 };
 
 import { useState } from "react";
+import RecordDonationModal from "@/components/shared/modals/recordDonationModal";
 
 export default function DonationsPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredDonations = donationsData.filter(donation => 
     donation.donor.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -74,7 +76,9 @@ export default function DonationsPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 donations</span>
-          <Button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
+          <Button 
+          onClick={() => setIsModalOpen(true)}
+          className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
             <Plus className="w-4 h-4 mr-2" /> Record Donation
           </Button>
         </div>
@@ -127,6 +131,10 @@ export default function DonationsPage() {
           </Table>
         </div>
       </div>
+      <RecordDonationModal
+      isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+      ></RecordDonationModal>
+
     </div>
   );
 }

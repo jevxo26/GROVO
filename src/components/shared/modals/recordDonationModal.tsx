@@ -8,11 +8,10 @@ import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
 
-const campaignOptions = [{ value: "Emergency Flood Relief", label: "Emergency Flood Relief" }, { value: "Winter Warmth", label: "Winter Warmth" }, { value: "Education Program", label: "Education Program" }];
-const categoryOptions = [{ value: "Emergency Relief", label: "Emergency Relief" }, { value: "Zakat", label: "Zakat" }, { value: "General Donation", label: "General Donation" }];
+const campaignOptions = [{ value: "Emergency Flood Relief", label: "Emergency Flood Relief" }, { value: "Winter Warmth", label: "Winter Warmth" }, { value: "Education Program", label: "Education Program"}, { value: "Food Security", label: "Food Security" }, { value: "Medical Camp", label: "Medical Camp" }, { value: "Orphan Support", label: "Orphan Support" },];
+const categoryOptions = [{ value: "Emergency Relief", label: "Emergency Relief" }, { value: "Zakat", label: "Zakat" }, { value: "General", label: "General"}, { value: "Education", label: "Education"}, { value: "Medical", label: "Medical"}, { value: "Food", label: "Food"}, { value: "Orphan Support", label: "Orphan Support"}, { value: "Sadaqha", label: "Sadaqha"}];
 const typeOptions = [{ value: "one time", label: "one time" }, { value: "Monthly", label: "Monthly" }];
-const statusOptions = [{ value: "Completed", label: "Completed" }, { value: "Pending", label: "Pending" }];
-
+const statusOptions = [{ value: "Completed", label: "Completed" }, { value: "Pending", label: "Pending" }, { value: "Failed", label: "Failed" }];
 const donationSchema = z.object({
   donorName: z.string().min(1, "Donor name is required"),
   receiptNumber: z.string().min(1, "Receipt number is required"),
