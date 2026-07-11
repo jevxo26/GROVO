@@ -1,4 +1,4 @@
-class customError extends Error {
+export default class customError extends Error {
   private readonly statusCode: number;
   private readonly success: boolean;
 
