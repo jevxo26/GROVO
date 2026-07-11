@@ -1,0 +1,83 @@
+model VolunteerAssignment {
+  id           String              @id @default(uuid())
+  volunteerId  String
+  volunteer    Volunteer           @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+  campaignId   String?
+  projectId    String?
+  assignedBy   String
+  assignedRole String?
+  assignedDate DateTime            @default(now())
+  status       String              @default("ACTIVE")
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  schedules    VolunteerSchedule[]
+  tasks        VolunteerTask[]
+}
+
+model VolunteerSchedule {
+  id           String                @id @default(uuid())
+  volunteerId  String
+  assignmentId String
+  assignment   VolunteerAssignment   @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  scheduleDate DateTime
+  startTime    String
+  endTime      String
+  location     String?
+  status       String                @default("SCHEDULED")
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  attendances  VolunteerAttendance[]
+}
+
+model VolunteerAttendance {
+  id               String            @id @default(uuid())
+  volunteerId      String
+  scheduleId       String
+  schedule         VolunteerSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  checkInTime      DateTime?
+  checkOutTime     DateTime?
+  attendanceStatus String            @default("PRESENT")
+  remarks          String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model VolunteerTask {
+  id           String              @id @default(uuid())
+  assignmentId String
+  assignment   VolunteerAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?
+  priority     String
+  dueDate      DateTime?
+  completedAt  DateTime?
+  status       String              @default("PENDING")
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+}
+
+model VolunteerAnnouncement {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  targetGroup String?
+  startDate   DateTime
+  endDate     DateTime
+  publishedBy String
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model VolunteerTraining {
+  id                   String   @id @default(uuid())
+  trainingTitle        String
+  description          String?
+  trainer              String?
+  trainingDate         DateTime
+  location             String?
+  certificateAvailable Boolean  @default(false)
+  status               String   @default("ACTIVE")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}

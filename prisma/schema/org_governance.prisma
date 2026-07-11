@@ -1,0 +1,54 @@
+model Committee {
+  id            String            @id @default(uuid())
+  branchId      String
+  branch        Branch            @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  committeeName String
+  committeeLevel CommitteeLevel
+  description   String?
+  formationDate DateTime
+  status        String            @default("ACTIVE")
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  members       CommitteeMember[]
+  committeeRoles CommitteeRole[]
+}
+
+model CommitteeMember {
+  id            String      @id @default(uuid())
+  committeeId   String
+  committee     Committee   @relation(fields: [committeeId], references: [id], onDelete: Cascade)
+  memberId      String
+  member        User        @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  designationId String
+  designation   Designation @relation(fields: [designationId], references: [id], onDelete: Cascade)
+  joiningDate   DateTime
+  endDate       DateTime?
+  status        String      @default("ACTIVE")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Department {
+  id             String        @id @default(uuid())
+  departmentName String        @unique
+  description    String?
+  status         String        @default("ACTIVE")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  designations   Designation[]
+  employees      Employee[]
+}
+
+model Designation {
+  id              String            @id @default(uuid())
+  departmentId    String
+  department      Department        @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  designationName String
+  level           Int               @default(1)
+  description     String?
+  status          String            @default("ACTIVE")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  employees       Employee[]
+  committeeMembers CommitteeMember[]
+}

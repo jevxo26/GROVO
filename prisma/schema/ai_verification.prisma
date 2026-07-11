@@ -1,0 +1,62 @@
+model FraudDetection {
+  id              String   @id @default(uuid())
+  entityType      String
+  entityId        String
+  riskScore       Float    @default(0)
+  riskLevel       String
+  flaggedReason   String?
+  resolvedBy      String?
+  resolvedAt      DateTime?
+  status          String   @default("FLAGGED")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model DuplicateDetection {
+  id              String   @id @default(uuid())
+  entityType      String
+  primaryId       String
+  duplicateId     String
+  matchScore      Float    @default(0)
+  matchedFields   String[]
+  resolvedBy      String?
+  status          String   @default("DETECTED")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model FaceVerification {
+  id                 String   @id @default(uuid())
+  userId             String?
+  beneficiaryId      String?
+  referenceImageUrl  String
+  capturedImageUrl   String
+  matchScore         Float    @default(0)
+  verificationStatus String   @default("PENDING")
+  verifiedAt         DateTime?
+  createdAt          DateTime @default(now())
+}
+
+model OCRDocumentVerification {
+  id                 String   @id @default(uuid())
+  documentType       String
+  documentImageUrl   String
+  extractedData      String?
+  confidenceScore    Float    @default(0)
+  verificationStatus String   @default("PENDING")
+  verifiedBy         String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model QRVerification {
+  id                 String   @id @default(uuid())
+  qrCode             String
+  entityType         String
+  entityId           String
+  scannedBy          String?
+  scannedAt          DateTime @default(now())
+  verificationStatus String   @default("VALID")
+  location           String?
+  createdAt          DateTime @default(now())
+}

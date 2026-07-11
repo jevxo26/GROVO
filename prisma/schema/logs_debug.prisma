@@ -1,0 +1,36 @@
+model AuditLog {
+  id          String   @id @default(uuid())
+  userId      String?
+  action      String
+  module      String
+  entityType  String
+  entityId    String
+  oldData     String?
+  newData     String?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+}
+
+model SystemLog {
+  id        String   @id @default(uuid())
+  level     String
+  source    String
+  message   String
+  metadata  String?
+  createdAt DateTime @default(now())
+}
+
+model ErrorLog {
+  id         String   @id @default(uuid())
+  errorCode  String?
+  message    String
+  stackTrace String?
+  source     String
+  userId     String?
+  ipAddress  String?
+  resolved   Boolean  @default(false)
+  resolvedBy String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

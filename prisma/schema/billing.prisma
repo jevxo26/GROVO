@@ -1,0 +1,37 @@
+model Refund {
+  id           String    @id @default(uuid())
+  paymentId    String
+  payment      Payment   @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  refundAmount Float
+  refundReason String?
+  refundStatus String    @default("PENDING")
+  processedBy  String?
+  processedAt  DateTime?
+  createdAt    DateTime  @default(now())
+}
+
+model DonationReceipt {
+  id            String   @id @default(uuid())
+  donationId    String
+  donation      Donation @relation(fields: [donationId], references: [id], onDelete: Cascade)
+  receiptNumber String   @unique
+  receiptUrl    String?
+  issuedAt      DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  invoiceNumber String   @unique
+  donationId    String
+  donation      Donation @relation(fields: [donationId], references: [id], onDelete: Cascade)
+  donorId       String
+  amount        Float
+  tax           Float    @default(0)
+  totalAmount   Float
+  invoiceUrl    String?
+  status        String   @default("UNPAID")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

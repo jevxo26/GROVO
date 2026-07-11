@@ -1,0 +1,53 @@
+model CommitteeRole {
+  id          String               @id @default(uuid())
+  committeeId String
+  committee   Committee            @relation(fields: [committeeId], references: [id], onDelete: Cascade)
+  memberId    String
+  member      User                 @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  role        CommitteeDesignation
+  startDate   DateTime
+  endDate     DateTime?
+  status      String               @default("ACTIVE")
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+}
+
+model AdminPermission {
+  id         String   @id @default(uuid())
+  adminId    String
+  admin      User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  module     String
+  canView    Boolean  @default(false)
+  canCreate  Boolean  @default(false)
+  canUpdate  Boolean  @default(false)
+  canDelete  Boolean  @default(false)
+  canApprove Boolean  @default(false)
+  canExport  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model RoleHierarchy {
+  id             String   @id @default(uuid())
+  parentRoleId   String
+  parentRole     Role     @relation("ParentRole", fields: [parentRoleId], references: [id], onDelete: Cascade)
+  childRoleId    String
+  childRole      Role     @relation("ChildRole", fields: [childRoleId], references: [id], onDelete: Cascade)
+  hierarchyLevel Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model AccessLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roleId    String
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  module    String
+  action    String
+  ipAddress String?
+  device    String?
+  browser   String?
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,54 @@
+model SystemSetting {
+  id          String   @id @default(uuid())
+  settingKey  String   @unique
+  settingValue String
+  category    String
+  description String?
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SystemConfiguration {
+  id          String   @id @default(uuid())
+  configKey   String   @unique
+  configValue String
+  configType  String
+  environment String   @default("PRODUCTION")
+  isEncrypted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model MaintenanceMode {
+  id          String    @id @default(uuid())
+  isActive    Boolean   @default(false)
+  message     String?
+  startTime   DateTime?
+  endTime     DateTime?
+  activatedBy String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model VersionHistory {
+  id          String   @id @default(uuid())
+  versionNo   String
+  releaseDate DateTime
+  changelog   String?
+  releasedBy  String
+  status      String   @default("RELEASED")
+  createdAt   DateTime @default(now())
+}
+
+model SystemHealth {
+  id          String   @id @default(uuid())
+  serviceName String
+  status      String   @default("HEALTHY")
+  responseTime Float   @default(0)
+  cpuUsage    Float    @default(0)
+  memoryUsage Float    @default(0)
+  diskUsage   Float    @default(0)
+  checkedAt   DateTime @default(now())
+  createdAt   DateTime @default(now())
+}

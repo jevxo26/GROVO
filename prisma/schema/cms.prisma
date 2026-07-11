@@ -1,0 +1,92 @@
+model CMSPage {
+  id          String       @id @default(uuid())
+  title       String
+  slug        String       @unique
+  content     String?
+  metaTitle   String?
+  metaDesc    String?
+  template    String?
+  publishedAt DateTime?
+  status      String       @default("DRAFT")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  sections    CMSSection[]
+}
+
+model CMSSection {
+  id          String         @id @default(uuid())
+  pageId      String
+  page        CMSPage        @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  title       String?
+  content     String?
+  sortOrder   Int            @default(0)
+  status      String         @default("ACTIVE")
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  components  CMSComponent[]
+}
+
+model CMSComponent {
+  id          String     @id @default(uuid())
+  sectionId   String
+  section     CMSSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  componentType String
+  content     String?
+  config      String?
+  sortOrder   Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Banner {
+  id          String    @id @default(uuid())
+  title       String
+  subtitle    String?
+  imageUrl    String
+  linkUrl     String?
+  position    String
+  sortOrder   Int       @default(0)
+  startDate   DateTime?
+  endDate     DateTime?
+  status      String    @default("ACTIVE")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Slider {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String
+  linkUrl     String?
+  sortOrder   Int      @default(0)
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Menu {
+  id        String     @id @default(uuid())
+  menuName  String     @unique
+  position  String
+  status    String     @default("ACTIVE")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     MenuItem[]
+}
+
+model MenuItem {
+  id        String     @id @default(uuid())
+  menuId    String
+  menu      Menu       @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  parentId  String?
+  parent    MenuItem?  @relation("MenuItemParent", fields: [parentId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  children  MenuItem[] @relation("MenuItemParent")
+  label     String
+  url       String?
+  icon      String?
+  sortOrder Int        @default(0)
+  status    String     @default("ACTIVE")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}

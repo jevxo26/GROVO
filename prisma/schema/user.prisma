@@ -1,17 +1,42 @@
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  role          String?
-  banned        Boolean?  @default(false)
-  banReason     String?
-  banExpires    DateTime?
-  sessions      Session[]
-  accounts      Account[]
+  id                      String                    @id
+  name                    String
+  email                   String
+  emailVerified           Boolean                   @default(false)
+  image                   String?
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  role                    String?
+  banned                  Boolean?                  @default(false)
+  banReason               String?
+  banExpires              DateTime?
+  sessions                Session[]
+  accounts                Account[]
+  userRoles               UserRole[]
+  employees               Employee[]
+  areaAssignments         AreaAssignment[]
+  accessLogs              AccessLog[]
+  adminPermissions        AdminPermission[]
+  committeeMembers        CommitteeMember[]
+  committeeRoles          CommitteeRole[]
+  volunteerRoles          VolunteerRole[]
+  coordinatorRoles        CoordinatorRole[]
+  userProfile             UserProfile?
+  addresses               UserAddress[]
+  notificationSetting     UserNotificationSetting?
+  security                UserSecurity?
+  devices                 UserDevice[]
+  userSessions            UserSession[]
+  tokens                  UserToken[]
+  otps                    UserOTP[]
+  loginHistories          UserLoginHistory[]
+  membership              Membership?
+  donor                   Donor?
+  volunteer               Volunteer?
+  superAdmin              SuperAdmin?
+  branchManagers          BranchManager[]
+  branchStaff             BranchStaff[]
+  regionalCoordinators    RegionalCoordinator[]
 
   @@unique([email])
   @@map("user")
