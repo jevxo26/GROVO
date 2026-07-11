@@ -18,14 +18,30 @@ const volunteersData = [
   { id: "8", name: "Kabir Hossain", district: "Barishal, Barishal", code: "VOL-BAR-0056", location: "Bakerganj", members: 31, score: 71, rank: "Silver", status: "active" },
 ];
 
+import { useState } from "react";
+
 export default function VolunteersPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredVolunteers = volunteersData.filter(volunteer => 
+    volunteer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    volunteer.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    volunteer.district.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    volunteer.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       {/* Top Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Search volunteers..." className="pl-9 bg-card border-border shadow-sm rounded-xl" />
+          <Input 
+            placeholder="Search volunteers..." 
+            className="pl-9 bg-card border-border shadow-sm rounded-xl" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 volunteers</span>
@@ -52,7 +68,7 @@ export default function VolunteersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {volunteersData.map((volunteer) => (
+              {filteredVolunteers.map((volunteer) => (
                 <TableRow key={volunteer.id} className="hover:bg-muted/50 border-border group transition-colors">
                   <TableCell className="py-4">
                     <div className="font-bold text-foreground">{volunteer.name}</div>

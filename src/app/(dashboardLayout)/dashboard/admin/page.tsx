@@ -27,13 +27,13 @@ const categoryData = [
 ];
 
 const quickLinks = [
-  { name: "Members", icon: Users, href: "/dashboard/members" },
-  { name: "Volunteers", icon: UserCheck, href: "/dashboard/volunteers" },
-  { name: "Campaigns", icon: Flag, href: "/dashboard/campaigns" },
-  { name: "Donations", icon: HandCoins, href: "/dashboard/donations" },
-  { name: "Beneficiaries", icon: HeartHandshake, href: "/dashboard/beneficiaries" },
-  { name: "Branches", icon: Building2, href: "/dashboard/branches" },
-  { name: "Finance", icon: PieChart, href: "/dashboard/finance", disabled: true },
+  { name: "Members", icon: Users, href: "/dashboard/admin/members" },
+  { name: "Volunteers", icon: UserCheck, href: "/dashboard/admin/volunteers" },
+  { name: "Campaigns", icon: Flag, href: "/dashboard/admin/campaigns" },
+  { name: "Donations", icon: HandCoins, href: "/dashboard/admin/donations" },
+  { name: "Beneficiaries", icon: HeartHandshake, href: "/dashboard/admin/beneficiaries" },
+  { name: "Branches", icon: Building2, href: "/dashboard/admin/branches" },
+  { name: "Finance", icon: PieChart, href: "/dashboard/admin/finance", disabled: true },
 ];
 
 export default function DashboardOverview() {

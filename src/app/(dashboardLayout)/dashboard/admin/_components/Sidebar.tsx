@@ -17,13 +17,13 @@ import {
 import { cn } from "@/lib/utils";
 
 const sidebarLinks = [
-  { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Members", href: "/dashboard/members", icon: Users },
-  { name: "Volunteers", href: "/dashboard/volunteers", icon: UserCheck },
-  { name: "Campaigns", href: "/dashboard/campaigns", icon: Flag },
-  { name: "Donations", href: "/dashboard/donations", icon: HandCoins },
-  { name: "Beneficiaries", href: "/dashboard/beneficiaries", icon: HeartHandshake },
-  { name: "Branches", href: "/dashboard/branches", icon: Building2 },
+  { name: "Overview", href: "/dashboard/admin", icon: LayoutDashboard },
+  { name: "Members", href: "/dashboard/admin/members", icon: Users },
+  { name: "Volunteers", href: "/dashboard/admin/volunteers", icon: UserCheck },
+  { name: "Campaigns", href: "/dashboard/admin/campaigns", icon: Flag },
+  { name: "Donations", href: "/dashboard/admin/donations", icon: HandCoins },
+  { name: "Beneficiaries", href: "/dashboard/admin/beneficiaries", icon: HeartHandshake },
+  { name: "Branches", href: "/dashboard/admin/branches", icon: Building2 },
 ];
 
 export function Sidebar({ onClose }: { onClose?: () => void }) {

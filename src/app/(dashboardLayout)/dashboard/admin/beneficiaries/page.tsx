@@ -18,7 +18,18 @@ const beneficiariesData = [
   { id: "8", name: "Fatema Khatun", phone: "+880 1915-777999", code: "BEN-2026-0154", category: "Medical Need", location: "Bakerganj, Barishal", status: "pending", registered: "2026-07-08" },
 ];
 
+import { useState } from "react";
+
 export default function BeneficiariesPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredBeneficiaries = beneficiariesData.filter(beneficiary => 
+    beneficiary.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    beneficiary.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    beneficiary.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    beneficiary.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       {/* Top Summary Cards */}
@@ -53,7 +64,12 @@ export default function BeneficiariesPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Search beneficiaries..." className="pl-9 bg-card border-border shadow-sm rounded-xl" />
+          <Input 
+            placeholder="Search beneficiaries..." 
+            className="pl-9 bg-card border-border shadow-sm rounded-xl" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 beneficiaries</span>
@@ -79,7 +95,7 @@ export default function BeneficiariesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {beneficiariesData.map((beneficiary) => (
+              {filteredBeneficiaries.map((beneficiary) => (
                 <TableRow key={beneficiary.id} className="hover:bg-muted/50 border-border group transition-colors">
                   <TableCell className="py-4">
                     <div className="font-bold text-foreground">{beneficiary.name}</div>
