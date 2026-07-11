@@ -2,15 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "node",
     "outDir": "dist",
-    "noEmit": false,
-    "target": "ES2023",
-    "strict": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "isolatedModules": false
+    "esModuleInterop": true
   },
-  "include": ["server/**/*.ts"]
+  "include": ["server/**/*"]
 }
