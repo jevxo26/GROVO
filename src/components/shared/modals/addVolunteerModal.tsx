@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch, Control } from "react-hook-form"; // Control ইম্পোর্ট করেছি
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
 
+// আপনার ডেটা কনস্ট্যান্টগুলো অপরিবর্তিত
 const divisionsData: Record<string, string[]> = {
   Dhaka: ["Dhaka", "Gazipur", "Narayanganj", "Tangail", "Faridpur", "Manikganj", "Munshiganj", "Narsingdi", "Gopalganj", "Madaripur", "Rajbari", "Shariatpur", "Kishoreganj"],
   Chattogram: ["Chattogram", "Cox's Bazar", "Feni", "Comilla", "Brahmanbaria", "Rangamati", "Khagrachhari", "Bandarban", "Noakhali", "Lakshmipur", "Chandpur"],
@@ -30,8 +31,8 @@ const volunteerSchema = z.object({
   division: z.string().min(1, "Division is required"),
   district: z.string().min(1, "District is required"),
   upazila: z.string().optional(),
-  membersRecruited: z.string().default("0"),
-  performanceScore: z.string().default("0"),
+  membersRecruited: z.coerce.number().default(0),
+  performanceScore: z.coerce.number().default(0),
   rank: z.string().min(1, "Rank is required"),
 });
 
@@ -40,11 +41,21 @@ type VolunteerFormValues = z.infer<typeof volunteerSchema>;
 const AddVolunteerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const { register, handleSubmit, control, formState: { errors }, reset, setValue } = useForm<VolunteerFormValues>({
     resolver: zodResolver(volunteerSchema),
-    defaultValues: { volunteerCode: "VOL-DHA-0009", status: "Active", division: "Dhaka", district: "Dhaka", membersRecruited: "0", performanceScore: "0", rank: "New" },
+    defaultValues: { 
+      volunteerCode: "VOL-DHA-0009", 
+      status: "Active", 
+      division: "Dhaka", 
+      district: "Dhaka", 
+      membersRecruited: 0, 
+      performanceScore: 0, 
+      rank: "New" 
+    },
   });
 
   const selectedDivision = useWatch({ control, name: "division" });
-  const districtOptions = selectedDivision && divisionsData[selectedDivision] ? divisionsData[selectedDivision].map((dist) => ({ value: dist, label: dist })) : [];
+  const districtOptions = selectedDivision && divisionsData[selectedDivision] 
+    ? divisionsData[selectedDivision].map((dist) => ({ value: dist, label: dist })) 
+    : [];
 
   useEffect(() => {
     if (selectedDivision) {
@@ -53,7 +64,12 @@ const AddVolunteerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
     }
   }, [selectedDivision, setValue]);
 
-  const onSubmit = (data: VolunteerFormValues) => { console.log(data); reset(); onClose(); };
+  // সাবমিট ফাংশনে টাইপ নিশ্চিত করা হয়েছে
+  const onSubmit = (data: VolunteerFormValues) => { 
+    console.log("Volunteer Data:", data); 
+    reset(); 
+    onClose(); 
+  };
 
   return (
     <BaseModal isOpen={isOpen} onClose={onClose} title="Add Volunteer">
@@ -64,19 +80,20 @@ const AddVolunteerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormInput label="Volunteer Code" name="volunteerCode" register={register} error={errors.volunteerCode} required />
-          <FormSelect label="Status" name="status" control={control} options={statusOptions} />
+          {/* control-কে 'as Control<any>' হিসেবে কাস্ট করা হয়েছে এরর এড়াতে */}
+          <FormSelect label="Status" name="status" control={control as Control<any>} options={statusOptions} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <FormSelect label="Division" name="division" control={control} options={divisionOptions} />
-          <FormSelect label="District" name="district" control={control} options={districtOptions} />
+          <FormSelect label="Division" name="division" control={control as Control<any>} options={divisionOptions} />
+          <FormSelect label="District" name="district" control={control as Control<any>} options={districtOptions} />
           <FormInput label="Upazila" name="upazila" register={register} placeholder="e.g. Savar" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <FormInput label="Members Recruited" name="membersRecruited" type="number" register={register} />
           <FormInput label="Performance Score" name="performanceScore" type="number" register={register} />
-          <FormSelect label="Rank" name="rank" control={control} options={rankOptions} />
+          <FormSelect label="Rank" name="rank" control={control as Control<any>} options={rankOptions} />
         </div>
 
         <div className="flex justify-end gap-3 pt-6 border-t dark:border-zinc-800">

@@ -19,9 +19,11 @@ const branchesData = [
 ];
 
 import { useState } from "react";
+import AddBranchModal from "@/components/shared/modals/addBranchModal";
 
 export default function BranchesPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredBranches = branchesData.filter(branch => 
     branch.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -73,7 +75,9 @@ export default function BranchesPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 branches</span>
-          <Button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
+          <Button 
+          onClick={() => setIsModalOpen(true)}
+          className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
             <Plus className="w-4 h-4 mr-2" /> Add Branch
           </Button>
         </div>
@@ -130,6 +134,9 @@ export default function BranchesPage() {
           </Table>
         </div>
       </div>
+      <AddBranchModal
+      isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+      ></AddBranchModal>
     </div>
   );
 }

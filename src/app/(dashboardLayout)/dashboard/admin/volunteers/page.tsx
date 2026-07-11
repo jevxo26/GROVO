@@ -45,7 +45,9 @@ export default function VolunteersPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 volunteers</span>
-          <Button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
+          <Button 
+          
+          className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
             <Plus className="w-4 h-4 mr-2" /> Add Volunteer
           </Button>
         </div>
