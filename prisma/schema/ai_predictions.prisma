@@ -1,0 +1,45 @@
+model DonationPrediction {
+  id              String   @id @default(uuid())
+  donorId         String?
+  campaignId      String?
+  predictedAmount Float
+  predictedDate   DateTime?
+  confidenceScore Float    @default(0)
+  algorithm       String?
+  status          String   @default("ACTIVE")
+  createdAt       DateTime @default(now())
+}
+
+model CampaignPrediction {
+  id               String   @id @default(uuid())
+  campaignId       String
+  predictedAmount  Float
+  predictedDonors  Int      @default(0)
+  completionDate   DateTime?
+  confidenceScore  Float    @default(0)
+  algorithm        String?
+  status           String   @default("ACTIVE")
+  createdAt        DateTime @default(now())
+}
+
+model DemandForecast {
+  id              String   @id @default(uuid())
+  category        String
+  region          String?
+  forecastPeriod  String
+  predictedDemand Float
+  actualDemand    Float    @default(0)
+  accuracy        Float    @default(0)
+  createdAt       DateTime @default(now())
+}
+
+model BudgetForecast {
+  id               String   @id @default(uuid())
+  branchId         String?
+  projectId        String?
+  forecastPeriod   String
+  predictedIncome  Float    @default(0)
+  predictedExpense Float    @default(0)
+  confidenceScore  Float    @default(0)
+  createdAt        DateTime @default(now())
+}

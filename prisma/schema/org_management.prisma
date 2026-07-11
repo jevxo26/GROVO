@@ -1,0 +1,54 @@
+model Employee {
+  id                 String       @id @default(uuid())
+  userId             String       @unique
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  employeeCode       String       @unique
+  branchId           String
+  branch             Branch       @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  departmentId       String
+  department         Department   @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  designationId      String
+  designation        Designation  @relation(fields: [designationId], references: [id], onDelete: Cascade)
+  joiningDate        DateTime
+  salary             Float
+  employmentType     String
+  reportingManagerId String?
+  reportingManager   Employee?    @relation("ManagerToEmployees", fields: [reportingManagerId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  subordinates       Employee[]   @relation("ManagerToEmployees")
+  staffRoles         StaffRole[]
+  status             String       @default("ACTIVE")
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+}
+
+model OrganizationHierarchy {
+  id             String   @id @default(uuid())
+  parentBranchId String
+  parentBranch   Branch   @relation("ParentBranch", fields: [parentBranchId], references: [id], onDelete: Cascade)
+  childBranchId  String
+  childBranch    Branch   @relation("ChildBranch", fields: [childBranchId], references: [id], onDelete: Cascade)
+  hierarchyLevel Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model AreaAssignment {
+  id           String    @id @default(uuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  branchId     String
+  branch       Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  divisionId   String?
+  division     Division? @relation(fields: [divisionId], references: [id], onDelete: SetNull)
+  districtId   String?
+  district     District? @relation(fields: [districtId], references: [id], onDelete: SetNull)
+  upazilaId    String?
+  upazila      Upazila?  @relation(fields: [upazilaId], references: [id], onDelete: SetNull)
+  unionId      String?
+  union        Union?    @relation(fields: [unionId], references: [id], onDelete: SetNull)
+  assignedBy   String
+  assignedDate DateTime  @default(now())
+  status       String    @default("ACTIVE")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}

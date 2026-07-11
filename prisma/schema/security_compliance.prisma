@@ -1,0 +1,76 @@
+model Consent {
+  id          String   @id @default(uuid())
+  userId      String
+  consentType String
+  isGranted   Boolean  @default(true)
+  grantedAt   DateTime @default(now())
+  revokedAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PrivacyPolicyAcceptance {
+  id         String   @id @default(uuid())
+  userId     String
+  policyVersion String
+  acceptedAt DateTime @default(now())
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+}
+
+model TermsAcceptance {
+  id           String   @id @default(uuid())
+  userId       String
+  termsVersion String
+  acceptedAt   DateTime @default(now())
+  ipAddress    String?
+  createdAt    DateTime @default(now())
+}
+
+model ComplianceDocument {
+  id           String   @id @default(uuid())
+  documentName String
+  documentType String
+  version      String
+  fileUrl      String
+  effectiveDate DateTime
+  status       String   @default("ACTIVE")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ComplianceAudit {
+  id          String   @id @default(uuid())
+  auditType   String
+  auditor     String
+  findings    String?
+  auditDate   DateTime
+  nextAuditDate DateTime?
+  status      String   @default("COMPLETED")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DataRetentionPolicy {
+  id               String   @id @default(uuid())
+  entityType       String
+  retentionPeriod  Int
+  retentionUnit    String   @default("DAYS")
+  action           String   @default("DELETE")
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model DataDeletionRequest {
+  id           String    @id @default(uuid())
+  userId       String
+  requestType  String
+  reason       String?
+  requestedAt  DateTime  @default(now())
+  processedAt  DateTime?
+  processedBy  String?
+  status       String    @default("PENDING")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}

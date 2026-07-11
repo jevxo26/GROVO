@@ -1,0 +1,29 @@
+model BroadcastCampaign {
+  id               String               @id @default(uuid())
+  title            String
+  message          String
+  channel          String
+  targetGroup      String?
+  scheduledAt      DateTime?
+  sentAt           DateTime?
+  totalRecipients  Int                  @default(0)
+  deliveredCount   Int                  @default(0)
+  failedCount      Int                  @default(0)
+  status           String               @default("DRAFT")
+  createdBy        String
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  recipients       BroadcastRecipient[]
+}
+
+model BroadcastRecipient {
+  id          String            @id @default(uuid())
+  broadcastId String
+  broadcast   BroadcastCampaign @relation(fields: [broadcastId], references: [id], onDelete: Cascade)
+  userId      String
+  channel     String
+  deliveredAt DateTime?
+  readAt      DateTime?
+  status      String            @default("PENDING")
+  createdAt   DateTime          @default(now())
+}

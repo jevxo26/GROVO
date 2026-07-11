@@ -1,0 +1,21 @@
+enum RoleType {
+  SYSTEM
+  CUSTOM
+}
+
+enum OrganizationLevel {
+  NATIONAL
+  DIVISION
+  DISTRICT
+  UPAZILA
+  UNION
+}
+
+enum CommitteeDesignation {
+  CHAIRMAN
+  VICE_CHAIRMAN
+  GENERAL_SECRETARY
+  JOINT_SECRETARY
+  TREASURER
+  EXECUTIVE_MEMBER
+}

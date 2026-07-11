@@ -1,0 +1,88 @@
+model Membership {
+  id                  String                   @id @default(uuid())
+  userId              String                   @unique
+  user                User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  membershipNumber    String                   @unique
+  membershipType      String
+  organizationRole    String?
+  joiningDate         DateTime                 @default(now())
+  expiryDate          DateTime?
+  monthlyContribution Float                    @default(0)
+  status              String                   @default("PENDING")
+  approvedBy          String?
+  approvedAt          DateTime?
+  createdAt           DateTime                 @default(now())
+  updatedAt           DateTime                 @updatedAt
+  cards               MembershipCard[]
+  verifications       MembershipVerification[]
+  renewals            MembershipRenewal[]
+  activities          MembershipActivity[]
+  payments            MembershipPayment[]
+  histories           MembershipHistory[]
+}
+
+model MembershipCard {
+  id           String             @id @default(uuid())
+  membershipId String
+  membership   Membership         @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  cardNumber   String             @unique
+  cardType     String             @default("DIGITAL")
+  issueDate    DateTime           @default(now())
+  expiryDate   DateTime?
+  cardStatus   String             @default("ACTIVE")
+  profilePhoto String?
+  signature    String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  qrCodes      MembershipQRCode[]
+}
+
+model MembershipQRCode {
+  id               String         @id @default(uuid())
+  membershipCardId String
+  membershipCard   MembershipCard @relation(fields: [membershipCardId], references: [id], onDelete: Cascade)
+  qrCode           String
+  barcode          String?
+  verificationUrl  String?
+  scanCount        Int            @default(0)
+  lastScannedAt    DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model MembershipVerification {
+  id                 String     @id @default(uuid())
+  membershipId       String
+  membership         Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  verificationMethod String
+  verifiedBy         String?
+  verificationStatus String     @default("VERIFIED")
+  verificationDate   DateTime   @default(now())
+  remarks            String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+}
+
+model MembershipRenewal {
+  id             String     @id @default(uuid())
+  membershipId   String
+  membership     Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  renewalDate    DateTime   @default(now())
+  renewalAmount  Float
+  paymentStatus  String     @default("PAID")
+  nextExpiryDate DateTime?
+  processedBy    String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model MembershipActivity {
+  id           String     @id @default(uuid())
+  membershipId String
+  membership   Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  activityType String
+  description  String
+  performedBy  String
+  ipAddress    String?
+  createdAt    DateTime   @default(now())
+}

@@ -1,0 +1,93 @@
+model Backup {
+  id          String          @id @default(uuid())
+  backupName  String
+  backupType  String
+  fileUrl     String
+  fileSize    Int             @default(0)
+  createdBy   String
+  status      String          @default("COMPLETED")
+  createdAt   DateTime        @default(now())
+  histories   BackupHistory[]
+}
+
+model BackupHistory {
+  id        String   @id @default(uuid())
+  backupId  String
+  backup    Backup   @relation(fields: [backupId], references: [id], onDelete: Cascade)
+  action    String
+  details   String?
+  performedBy String
+  createdAt DateTime @default(now())
+}
+
+model APIKey {
+  id          String         @id @default(uuid())
+  keyName     String
+  apiKey      String         @unique
+  secretKey   String
+  permissions String[]
+  expiresAt   DateTime?
+  isActive    Boolean        @default(true)
+  createdBy   String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  accessLogs  APIAccessLog[]
+}
+
+model APIAccessLog {
+  id          String   @id @default(uuid())
+  apiKeyId    String
+  apiKey      APIKey   @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+  endpoint    String
+  method      String
+  statusCode  Int
+  ipAddress   String?
+  responseTime Float   @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Integration {
+  id              String   @id @default(uuid())
+  integrationName String
+  integrationType String
+  apiUrl          String?
+  apiKey          String?
+  config          String?
+  isActive        Boolean  @default(true)
+  lastSyncAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PaymentConfiguration {
+  id          String   @id @default(uuid())
+  gatewayName String
+  merchantId  String?
+  apiKey      String?
+  secretKey   String?
+  environment String   @default("SANDBOX")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NotificationConfiguration {
+  id          String   @id @default(uuid())
+  channel     String
+  provider    String
+  apiKey      String?
+  config      String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SecurityConfiguration {
+  id          String   @id @default(uuid())
+  configKey   String   @unique
+  configValue String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
