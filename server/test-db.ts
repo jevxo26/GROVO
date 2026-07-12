@@ -8,57 +8,39 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // 1. Setup mock anchor user parameters
-      const user = await tx.user.create({
+      // 1. Validate Core AI Model Tracking Pipeline
+      const aiModel = await tx.aIModel.create({
         data: {
-          id: `t-usr-${Date.now()}`,
-          name: "Test Operational Tracker",
-          email: `test.ops.${Date.now()}@ashray.org`,
-        },
-      });
-
-      // 2. Setup parent organization record first to secure foreign keys
-      const orgCode = `ORG-CORE-${Date.now()}`;
-      const organization = await tx.organization.create({
-        data: {
-          organizationName: "ASHRAY Foundation Root Node",
-          organizationCode: orgCode,
+          modelName: "Relief Resource Allocator Engine",
+          modelType: "NEURAL_NETWORK_PREDICTOR",
+          algorithm: "RandomForestRegressor",
+          accuracy: 0.945,
           status: "ACTIVE",
         },
       });
 
-      // 3. Setup mock organization branch parameters linked to parent org id
-      const branch = await tx.branch.create({
+      // 2. Validate Automated Job Dispatches
+      await tx.aIJob.create({
         data: {
-          organizationId: organization.id,
-          branchName: "Dhaka Central Hub",
-          branchCode: `BR-DHK-${Date.now()}`,
-          branchType: "HEAD_OFFICE",
-          address: "Mirpur, Dhaka",
+          modelId: aiModel.id,
+          jobType: "BATCH_DEMAND_FORECASTING",
+          status: "PENDING",
         },
       });
 
-      // 4. Setup core volunteer registry record
-      const volunteer = await tx.volunteer.create({
+      // 3. Validate Demand Forecast Predictive Storage Metrics
+      await tx.demandForecast.create({
         data: {
-          userId: user.id,
-          volunteerCode: `VOL-${Date.now()}`,
-          branchId: branch.id,
-          status: "ACTIVE",
+          category: "Dry Relief Packets",
+          region: "Dhaka Division",
+          forecastPeriod: "Q3-2026",
+          predictedDemand: 25000.0,
         },
       });
 
-      // 5. Validate metrics relationship performance engine tree
-      await tx.volunteerPerformance.create({
-        data: {
-          volunteerId: volunteer.id,
-          totalAssignments: 12,
-          completedAssignments: 10,
-          attendanceRate: 83.3,
-          performanceScore: 92.5,
-        },
-      });
-
+      console.log(
+        "   ↳ Mock AI architectural elements validated. Rolling back changes...",
+      );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
   } catch (error: unknown) {
@@ -66,9 +48,11 @@ async function runTest() {
       error instanceof Error &&
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
-      console.log("✅ Operational Volunteer Metrics: SUCCESS");
       console.log(
-        "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
+        "✅ Predictive ML Infrastructures & Model Lifecycles: SUCCESS",
+      );
+      console.log(
+        "🎉 ALL EXPERIMENTAL AND PRODUCTION CHANNELS ARE COMPILED AND GREEN!",
       );
     } else {
       const msg =

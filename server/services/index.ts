@@ -4,6 +4,23 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { donationRouter } from "../routes/donation.routes";
 import { volunteerRouter } from "../routes/volunteer.routes";
+import { beneficiaryRouter } from "../routes/beneficiary.routes";
+import { aiRouter } from "../routes/ai.routes";
+import { analyticsRouter } from "../routes/analytics.routes";
+import { mediaRouter } from "../routes/media.routes";
+import { financialRouter } from "../routes/financial.routes";
+import { notificationRouter } from "../routes/notification.routes";
+import { governanceRouter } from "../routes/governance.routes";
+import { eventRouter } from "../routes/event.routes";
+import { cmsRouter } from "../routes/cms.routes";
+import { securityRouter } from "../routes/security.routes";
+import { localizationRouter } from "../routes/localization.routes";
+import { supportRouter } from "../routes/support.routes";
+import { volunteerLogisticsRouter } from "../routes/volunteer-logistics.routes";
+import { automationRouter } from "../routes/automation.routes";
+import { inventoryRouter } from "../routes/inventory.routes";
+import { fieldActivityRouter } from "../routes/field-activity.routes";
+import { aiEngineRouter } from "../routes/ai-engine.routes";
 
 dotenv.config();
 
@@ -24,7 +41,23 @@ app
     // MVC Router Configurations
     server.use("/api/donations", donationRouter);
     server.use("/api/volunteers", volunteerRouter);
-
+    server.use("/api/beneficiaries", beneficiaryRouter);
+    server.use("/api/ai-engine", aiRouter);
+    server.use("/api/analytics", analyticsRouter);
+    server.use("/api/media-vault", mediaRouter);
+    server.use("/api/finance", financialRouter);
+    server.use("/api/notifications", notificationRouter);
+    server.use("/api/governance", governanceRouter);
+    server.use("/api/events", eventRouter);
+    server.use("/api/content", cmsRouter);
+    server.use("/api/security-vault", securityRouter);
+    server.use("/api/localization", localizationRouter);
+    server.use("/api/support-desk", supportRouter);
+    server.use("/api/volunteers-logistics", volunteerLogisticsRouter);
+    server.use("/api/automation", automationRouter);
+    server.use("/api/inventory-desk", inventoryRouter);
+    server.use("/api/field-desk", fieldActivityRouter);
+    server.use("/api/ai-engine", aiEngineRouter);
     // Next.js Catch-All View Delivery Engine
     server.all("*", (req, res) => {
       return handle(req, res);
