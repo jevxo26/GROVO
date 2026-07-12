@@ -19,9 +19,11 @@ const beneficiariesData = [
 ];
 
 import { useState } from "react";
+import AddBeneficiaryModal from "@/components/shared/modals/addBeneficiaryModal";
 
 export default function BeneficiariesPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isBeneficiaryOpen, setIsBeneficiaryOpen] = useState(false);
 
   const filteredBeneficiaries = beneficiariesData.filter(beneficiary => 
     beneficiary.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -73,7 +75,9 @@ export default function BeneficiariesPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">8 beneficiaries</span>
-          <Button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
+          <Button 
+            onClick={() => setIsBeneficiaryOpen(true)}
+          className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
             <Plus className="w-4 h-4 mr-2" /> Add Beneficiary
           </Button>
         </div>
@@ -131,6 +135,10 @@ export default function BeneficiariesPage() {
           </Table>
         </div>
       </div>
+      <AddBeneficiaryModal
+      isOpen={isBeneficiaryOpen}
+      onClose={() => setIsBeneficiaryOpen(false)}
+      ></AddBeneficiaryModal>
     </div>
   );
 }

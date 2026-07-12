@@ -7,7 +7,6 @@ import { z } from "zod";
 import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
-// আপনার তৈরি করা টেক্সট-এরিয়া কম্পোনেন্ট (যদি ফোল্ডার পাথ আলাদা হয় তবে চেঞ্জ করে নেবেন)
 import FormTextarea from "../forms/formTextarea"; 
 
 const divisionsData: Record<string, string[]> = {
@@ -22,8 +21,8 @@ const divisionsData: Record<string, string[]> = {
 };
 
 const divisionOptions = Object.keys(divisionsData).map((div) => ({ value: div, label: div }));
-const categoryOptions = [{ value: "Flood Victim", label: "Flood Victim" }, { value: "Drought Affected", label: "Drought Affected" }, { value: "General", label: "General" }];
-const statusOptions = [{ value: "Active", label: "Active" }, { value: "Pending", label: "Pending" }];
+const categoryOptions = [{ value: "Flood Victim", label: "Flood Victim" }, { value: "Orphan", label: "Orphan" }, { value: "Medical Need", label: "Medical Need" }, { value: "Education", label: "Education" }, { value: "Food Security", label: "Food Security" }, { value: "Winter Relife", label: "Winter Relife" }, { value: "Emergency", label: "Emergency" }, { value: "General", label: "General" }, { value: "Other", label: "Other" }];
+const statusOptions = [{ value: "Active", label: "Active" }, { value: "Assisted", label: "Assisted" }, { value: "Pending", label: "Pending" }];
 
 const beneficiarySchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -72,10 +71,8 @@ const AddBeneficiaryModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
   };
 
   return (
-    // ফিক্স ১: maxWidth প্রপস পাস করা হলো যাতে ৩-কলাম রেসপন্সিভ গ্রিড ফুল স্পেস পায়
     <BaseModal isOpen={isOpen} onClose={onClose} title="Add Beneficiary" maxWidth="max-w-3xl">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-[#5c4033] dark:text-zinc-100 font-medium w-full mx-auto">
-        
         {/* Full Name */}
         <div>
           <FormInput label="Full Name" name="fullName" register={register} error={errors.fullName} placeholder="Enter full name" required />
@@ -101,8 +98,6 @@ const AddBeneficiaryModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
           <FormInput label="Upazila" name="upazila" register={register} placeholder="e.g. Savar" />
           <FormInput label="Union" name="union" register={register} placeholder="e.g. Tetuljhora" />
         </div>
-
-        {/* ফিক্স ২: এড্রেস ফিল্ডে টেক্সট-এরিয়া ব্যবহার (ইমেজের ডিজাইন কনসিস্টেন্সির জন্য) */}
         <div>
           <FormTextarea 
             label="Address" 
@@ -111,7 +106,6 @@ const AddBeneficiaryModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             error={errors.address} 
             placeholder="Village, Ward details..." 
             required 
-            // rows={2}
           />
         </div>
 
