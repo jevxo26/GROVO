@@ -15,10 +15,10 @@ import { cn } from "@/lib/utils";
 
 // সাইডবার লিঙ্কগুলোর তালিকা আপডেট করা হয়েছে
 const sidebarLinks = [
-  { name: "Overview", href: "/corporate", icon: LayoutGrid },
-  { name: "Donations", href: "/corporate/donations", icon: HandCoins },
-  { name: "Projects", href: "/corporate/projects", icon: Folder },
-  { name: "CSR Reports", href: "/corporate/reports", icon: BarChart3 }
+  { name: "Overview", href: "/dashboard/corporate", icon: LayoutGrid },
+  { name: "Donations", href: "/dashboard/corporate/donations", icon: HandCoins },
+  { name: "Projects", href: "/dashboard/corporate/projects", icon: Folder },
+  { name: "CSR Reports", href: "/dashboard/corporate/reports", icon: BarChart3 }
 ];
 
 export function Sidebar({ onClose }: { onClose?: () => void }) {
