@@ -99,6 +99,7 @@ const branchesData = [
 
 import { useState } from "react";
 import AddBranchModal from "@/components/shared/modals/addBranchModal";
+import EditBranchModal from "@/components/shared/modals/EditBranchModal";
 import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
 
 export default function BranchesPage() {
@@ -284,6 +285,7 @@ export default function BranchesPage() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       ></AddBranchModal>
+
       <DeleteBranchModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}

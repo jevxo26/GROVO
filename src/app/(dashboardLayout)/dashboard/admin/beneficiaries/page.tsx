@@ -100,12 +100,15 @@ const beneficiariesData = [
 import { useState } from "react";
 import AddBeneficiaryModal from "@/components/shared/modals/addBeneficiaryModal";
 import DeleteBeneficiaryModal from "@/components/shared/modals/deleteBeneficiaryModal";
+import EditBeneficiaryModal from "@/components/shared/modals/EditBeneficiaryModal";
 
 export default function BeneficiariesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isBeneficiaryOpen, setIsBeneficiaryOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [beneficiaryToDelete, setBeneficiaryToDelete] = useState<any>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedBeneficiary, setSelectedBeneficiary] = useState<Beneficiary | null>(null);
 
   const filteredBeneficiaries = beneficiariesData.filter(
     (beneficiary) =>
@@ -114,6 +117,11 @@ export default function BeneficiariesPage() {
       beneficiary.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
       beneficiary.location.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  const handleEdit = (beneficiary: Beneficiary) => {
+    setSelectedBeneficiary(beneficiary);
+    setIsEditModalOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -256,6 +264,7 @@ export default function BeneficiariesPage() {
                   <TableCell className="text-right pr-6">
                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
+                      onClick={() => handleEdit(beneficiary)}
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-muted-foreground hover:text-foreground"
@@ -285,6 +294,15 @@ export default function BeneficiariesPage() {
         isOpen={isBeneficiaryOpen}
         onClose={() => setIsBeneficiaryOpen(false)}
       ></AddBeneficiaryModal>
+      <EditBeneficiaryModal
+      isOpen={isEditModalOpen} 
+        onClose={() => setIsEditModalOpen(false)}
+        defaultData={selectedBeneficiary}
+        onSave={(updatedData) => {
+          console.log("Updated:", updatedData);
+          setIsEditModalOpen(false);
+        }}
+      ></EditBeneficiaryModal>
       <DeleteBeneficiaryModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
