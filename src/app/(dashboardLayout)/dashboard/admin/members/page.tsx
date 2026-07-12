@@ -106,7 +106,7 @@ export default function MembersPage() {
   const [selectedMember, setSelectedMember] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [memberToDelete, setMemberToDelete] = useState<any>(null);
-
+  
   const handleEdit = (member: any) => {
     setSelectedMember(member);
     setIsEditModalOpen(true);
