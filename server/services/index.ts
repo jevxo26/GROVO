@@ -6,6 +6,7 @@ import { donationRouter } from "../routes/donation.routes";
 import { volunteerRouter } from "../routes/volunteer.routes";
 import { beneficiaryRouter } from "../routes/beneficiary.routes";
 import { aiRouter } from "../routes/ai.routes";
+import { analyticsRouter } from "../routes/analytics.routes";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app
     server.use("/api/volunteers", volunteerRouter);
     server.use("/api/beneficiaries", beneficiaryRouter);
     server.use("/api/ai-engine", aiRouter);
+    server.use("/api/analytics", analyticsRouter);
     // Next.js Catch-All View Delivery Engine
     server.all("*", (req, res) => {
       return handle(req, res);
