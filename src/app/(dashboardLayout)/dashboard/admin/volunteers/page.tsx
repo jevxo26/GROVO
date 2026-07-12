@@ -107,12 +107,13 @@ const volunteersData = [
 
 import { useState } from "react";
 import DeleteVolunteerModal from "@/components/shared/modals/deleteVolunteerModal";
+import AddVolunteerModal from "@/components/shared/modals/addVolunteerModal";
 
 export default function VolunteersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [volunteerToDelete, setVolunteerToDelete] = useState<any>(null);
-
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const filteredVolunteers = volunteersData.filter(
     (volunteer) =>
       volunteer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -134,7 +135,10 @@ export default function VolunteersPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-4 w-full sm:w-auto">
+        <div
+          onClick={() => setIsAddModalOpen(true)}
+          className="flex items-center gap-4 w-full sm:w-auto"
+        >
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">
             8 volunteers
           </span>
@@ -264,6 +268,11 @@ export default function VolunteersPage() {
           </Table>
         </div>
       </div>
+
+      <AddVolunteerModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+      ></AddVolunteerModal>
 
       <DeleteVolunteerModal
         isOpen={isDeleteModalOpen}

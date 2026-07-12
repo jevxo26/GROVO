@@ -118,11 +118,14 @@ const formatCurrency = (amount: number) => {
 
 import { useState } from "react";
 import DeleteCampaignModal from "@/components/shared/modals/deleteCampaignModal";
+import EditCampaignModal from "@/components/shared/modals/editCampaignModal";
 
 export default function CampaignsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [campaignToDelete, setCampaignToDelete] = useState<any>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
 
   const filteredCampaigns = campaignsData.filter(
     (campaign) =>
@@ -130,6 +133,11 @@ export default function CampaignsPage() {
       campaign.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
       campaign.category.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  const handleEditClick = (campaign: any) => {
+    setSelectedCampaign(campaign);
+    setIsEditModalOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -238,6 +246,7 @@ export default function CampaignsPage() {
                   <TableCell className="text-right pr-6">
                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
+                        onClick={() => handleEditClick(campaign)}
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-muted-foreground hover:text-foreground"
@@ -263,6 +272,16 @@ export default function CampaignsPage() {
           </Table>
         </div>
       </div>
+      <EditCampaignModal
+      isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          defaultData={selectedCampaign}
+          onSave={(updatedData) => {
+            console.log("Campaign updated:", updatedData);
+            // Add your API call or state update logic here
+            setIsEditModalOpen(false);
+          }}
+      ></EditCampaignModal>
 
       <DeleteCampaignModal
       isOpen={isDeleteModalOpen}
