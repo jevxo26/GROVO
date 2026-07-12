@@ -8,29 +8,47 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // 1. Validate Background Automated Task Table Pipeline
-      await tx.autoTask.create({
+      const orgCode = `ORG-INV-${Date.now()}`;
+      const organization = await tx.organization.create({
         data: {
-          taskName: "Midnight Inventory Sync Trigger",
-          taskType: "INVENTORY_RECONCILIATION",
-          scheduledAt: new Date(Date.now() + 3600000),
-          status: "PENDING",
-          payload: JSON.stringify({ branchId: "all" }),
+          organizationName: "ASHRAY Logistics Root",
+          organizationCode: orgCode,
         },
       });
 
-      // 2. Validate Telemetry Automation Logs Pipeline
-      await tx.automationLog.create({
+      const branch = await tx.branch.create({
         data: {
-          automationType: "CRON_JOB",
-          triggerEvent: "SYSTEM_CLOCK_MIDNIGHT",
-          action: "CLEAR_STALE_SESSIONS",
-          status: "SUCCESS",
+          organizationId: organization.id,
+          branchName: "Chittagong Relief Hub",
+          branchCode: `BR-CTG-${Date.now()}`,
+          branchType: "DISTRICT_OFFICE",
+          address: "Agrabad, Chittagong",
+        },
+      });
+
+      // 1. Validate Branch Inventory Model Pipeline
+      await tx.branchInventory.create({
+        data: {
+          branchId: branch.id,
+          itemName: "Emergency Hydration Tablets",
+          quantity: 5000,
+          unit: "PACKETS",
+          status: "AVAILABLE",
+        },
+      });
+
+      // 2. Validate Branch Transport Assets Vehicle Pipeline adding vehicleType
+      await tx.branchVehicle.create({
+        data: {
+          branchId: branch.id,
+          vehicleNumber: `LOG-CTG-${Date.now()}`,
+          vehicleType: "TRUCK",
+          status: "AVAILABLE",
         },
       });
 
       console.log(
-        "   ↳ Mock system automation matrices validated. Rolling back changes...",
+        "   ↳ Mock inventory supply chain parameters validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -40,10 +58,10 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational Background Tasks & Automation Engines: SUCCESS",
+        "✅ Operational Relief Packages & Supply Chain Inventories: SUCCESS",
       );
       console.log(
-        "🎉 ALL OPERATIONAL ENGINE CHANNELS ARE FUNCTIONAL AND GREEN!",
+        "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
       );
     } else {
       const msg =
