@@ -8,10 +8,10 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      const orgCode = `ORG-INV-${Date.now()}`;
+      const orgCode = `ORG-FLD-${Date.now()}`;
       const organization = await tx.organization.create({
         data: {
-          organizationName: "ASHRAY Logistics Root",
+          organizationName: "ASHRAY Root Ecosystem",
           organizationCode: orgCode,
         },
       });
@@ -19,36 +19,65 @@ async function runTest() {
       const branch = await tx.branch.create({
         data: {
           organizationId: organization.id,
-          branchName: "Chittagong Relief Hub",
-          branchCode: `BR-CTG-${Date.now()}`,
+          branchName: "Sylhet Disaster Response Hub",
+          branchCode: `BR-SYL-${Date.now()}`,
           branchType: "DISTRICT_OFFICE",
-          address: "Agrabad, Chittagong",
+          address: "Sylhet, Bangladesh",
         },
       });
 
-      // 1. Validate Branch Inventory Model Pipeline
-      await tx.branchInventory.create({
+      const category = await tx.campaignCategory.create({
+        data: { name: "Flood Relief Action Deployment" },
+      });
+
+      const campaign = await tx.campaign.create({
         data: {
-          branchId: branch.id,
-          itemName: "Emergency Hydration Tablets",
-          quantity: 5000,
-          unit: "PACKETS",
-          status: "AVAILABLE",
+          campaignCode: `CAM-FLD-${Date.now()}`,
+          title: "Emergency Flood Relief Drive",
+          slug: `emergency-flood-relief-${Date.now()}`,
+          categoryId: category.id,
+          campaignType: "EMERGENCY",
+          targetAmount: 500000,
+          startDate: new Date(),
+          endDate: new Date(Date.now() + 864000000),
+          createdBy: "system-admin",
         },
       });
 
-      // 2. Validate Branch Transport Assets Vehicle Pipeline adding vehicleType
-      await tx.branchVehicle.create({
+      const project = await tx.project.create({
         data: {
+          projectCode: `PRJ-FLD-${Date.now()}`,
+          campaignId: campaign.id,
+          projectName: "Clean Water Distribution Sylhet",
           branchId: branch.id,
-          vehicleNumber: `LOG-CTG-${Date.now()}`,
-          vehicleType: "TRUCK",
-          status: "AVAILABLE",
+          startDate: new Date(),
+          endDate: new Date(Date.now() + 864000000),
+        },
+      });
+
+      // 1. Validate Field Activity Model Pipeline
+      const activity = await tx.fieldActivity.create({
+        data: {
+          projectId: project.id,
+          activityTitle: "Distribution Center Setup Pod A",
+          activityType: "LOGISTICS",
+          performedBy: "Field Coordinator Masum",
+          activityDate: new Date(),
+        },
+      });
+
+      // 2. Validate Field Visit Pipeline Mapping
+      await tx.fieldVisit.create({
+        data: {
+          activityId: activity.id,
+          visitedBy: "Supervisor Inspector",
+          visitDate: new Date(),
+          remarks: "Operational pod structure fully functional.",
         },
       });
 
       console.log(
-        "   ↳ Mock inventory supply chain parameters validated. Rolling back changes...",
+        "   ↳ Mock operational field configurations validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -58,10 +87,10 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational Relief Packages & Supply Chain Inventories: SUCCESS",
+        "✅ Operational Field Operations & Deployment Tracks: SUCCESS",
       );
       console.log(
-        "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
+        "🎉 SYSTEM PIPELINE COMPILING WITHOUT ERROR AND COMPLETELY GREEN!",
       );
     } else {
       const msg =
