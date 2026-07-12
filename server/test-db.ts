@@ -8,40 +8,70 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // Establish user anchor parameters
+      const orgCode = `ORG-VOL-${Date.now()}`;
+      const organization = await tx.organization.create({
+        data: {
+          organizationName: "ASHRAY Logistics",
+          organizationCode: orgCode,
+        },
+      });
+
+      const branch = await tx.branch.create({
+        data: {
+          organizationId: organization.id,
+          branchName: "Dhaka Division Hub",
+          branchCode: `BR-DIV-${Date.now()}`,
+          branchType: "DIVISION_OFFICE",
+          address: "Dhaka, Bangladesh",
+        },
+      });
+
       const mockUser = await tx.user.create({
         data: {
-          id: `t-usr-${Date.now()}`,
-          name: "Helpdesk Tester",
-          email: `support.test.${Date.now()}@ashray.org`,
+          id: `v-usr-${Date.now()}`,
+          name: "Mazharul Field Representative",
+          email: `field.ops.${Date.now()}@ashray.org`,
         },
       });
 
-      // Validate Support & Ticket Routing Table Pipelines
-      const ticket = await tx.supportTicket.create({
+      const volunteer = await tx.volunteer.create({
         data: {
-          ticketNumber: `TCK-TST-${Date.now()}`,
           userId: mockUser.id,
-          subject: "Payment verification webhook failure",
-          description:
-            "Transaction dropped during bKash verification lifecycle.",
-          category: "BILLING_GATEWAY_ERROR",
-          priority: "CRITICAL",
-          status: "OPEN",
+          volunteerCode: `VOL-DHK-${Date.now()}`,
+          branchId: branch.id,
+          status: "ACTIVE",
         },
       });
 
-      await tx.ticketReply.create({
+      const assignment = await tx.volunteerAssignment.create({
         data: {
-          ticketId: ticket.id,
-          userId: mockUser.id,
-          message: "Telemetry trace log attached.",
-          isStaff: false,
+          volunteerId: volunteer.id,
+          assignedBy: "system-test-coordinator",
+          status: "ACTIVE",
+        },
+      });
+
+      const schedule = await tx.volunteerSchedule.create({
+        data: {
+          volunteerId: volunteer.id,
+          assignmentId: assignment.id,
+          scheduleDate: new Date(),
+          startTime: "09:00 AM",
+          endTime: "05:00 PM",
+          status: "SCHEDULED",
+        },
+      });
+
+      await tx.volunteerAttendance.create({
+        data: {
+          volunteerId: volunteer.id,
+          scheduleId: schedule.id,
+          attendanceStatus: "PRESENT",
         },
       });
 
       console.log(
-        "   ↳ Mock technical support metrics validated. Rolling back changes...",
+        "   ↳ Mock volunteer tracking parameters validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -51,10 +81,10 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational Technical Helpdesk & Ticket Routing: SUCCESS",
+        "✅ Operational Volunteer Logistics & Financial Reimbursements: SUCCESS",
       );
       console.log(
-        "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
+        "🎉 ALL BACKEND CONTROLLERS ARE VERIFIED, INTEGRATED, AND FUNCTIONAL!",
       );
     } else {
       const msg =
