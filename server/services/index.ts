@@ -17,6 +17,7 @@ import { securityRouter } from "../routes/security.routes";
 import { localizationRouter } from "../routes/localization.routes";
 import { supportRouter } from "../routes/support.routes";
 import { volunteerLogisticsRouter } from "../routes/volunteer-logistics.routes";
+import { automationRouter } from "../routes/automation.routes";
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ app
     server.use("/api/localization", localizationRouter);
     server.use("/api/support-desk", supportRouter);
     server.use("/api/volunteers-logistics", volunteerLogisticsRouter);
+    server.use("/api/automation", automationRouter);
     // Next.js Catch-All View Delivery Engine
     server.all("*", (req, res) => {
       return handle(req, res);
