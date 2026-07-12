@@ -1,5 +1,5 @@
 "use client";
-import { HandCoins, Flag, Award, Crown} from "lucide-react";
+import { HandCoins, Flag, Award, Crown } from "lucide-react";
 import { StatCard } from "./components/StatCard";
 import { RecentDonations } from "./components/RecentDonations/RecentDonations";
 import { SupportedCampaigns } from "./components/SupportedCampaigns/SupportedCampaigns";
@@ -20,12 +20,11 @@ const MemberDashboard: React.FC = () => {
     <div className="space-y-8 p-4 md:p-8 bg-[#fcfaf9] dark:bg-[#12100f] min-h-screen transition-colors duration-300">
       {/* Header Banner - ইমেজের স্টাইল অনুযায়ী */}
       <UserWelcomeSection
-      name="Kamal Hossain"
-      memberSince="2024-03-15"
-      memberId="ASH-MEM-2024-0847"
-      onDonationClick={() => console.log("Donation clicked!")}
-    />
-
+        name="Kamal Hossain"
+        memberSince="2024-03-15"
+        memberId="ASH-MEM-2024-0847"
+        onDonationClick={() => {}}
+      />
       {/* Stats Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
@@ -61,7 +60,6 @@ const MemberDashboard: React.FC = () => {
           iconColor="text-teal-600"
         />
       </section>
-
       {/* Badges Section */}
       <section>
         <h2 className="font-bold text-gray-800 dark:text-gray-200 mb-4 tracking-wide text-sm">
