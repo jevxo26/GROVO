@@ -8,8 +8,8 @@ import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
 
-const typeOptions = [{ value: "General Member", label: "General Member" }, { value: "Life Member", label: "Life Member" }, { value: "Corporate Donor", label: "Corporate Donor" }];
-const districtOptions = [{ value: "Dhaka", label: "Dhaka" }, { value: "Chattogram", label: "Chattogram" }, { value: "Rajshahi", label: "Rajshahi" }, { value: "Barishal", label: "Barishal" }];
+const typeOptions = [{ value: "General Member", label: "General Member" }, { value: "Individual Donar", label: "Individual Donar" }, { value: "Corporate Donor", label: "Corporate Donor" }];
+const districtOptions = [{ value: "Dhaka", label: "Dhaka" }, { value: "Chattogram", label: "Chattogram" }, { value: "Rajshahi", label: "Rajshahi" }, { value: "Barishal", label: "Barishal"}, { value: "Khulna", label: "Khulna" }, { value: "Sylhet", label: "Sylhet" }, { value: "Rangpur", label: "Rangpur" }, { value: "Mymensingh", label: "Mymensingh" }  ];
 const statusOptions = [{ value: "active", label: "Active" }, { value: "pending", label: "Pending" }, { value: "suspended", label: "Suspended" }];
 
 const memberSchema = z.object({
