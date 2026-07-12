@@ -119,6 +119,7 @@ const formatCurrency = (amount: number) => {
 import { useState } from "react";
 import DeleteCampaignModal from "@/components/shared/modals/deleteCampaignModal";
 import EditCampaignModal from "@/components/shared/modals/editCampaignModal";
+import CreateCampaignModal from "@/components/shared/modals/createCampaignModal";
 
 export default function CampaignsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -126,6 +127,7 @@ export default function CampaignsPage() {
   const [campaignToDelete, setCampaignToDelete] = useState<any>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const filteredCampaigns = campaignsData.filter(
     (campaign) =>
@@ -156,7 +158,10 @@ export default function CampaignsPage() {
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">
             8 campaigns
           </span>
-          <Button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
+          <Button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm"
+          >
             <Plus className="w-4 h-4 mr-2" /> New Campaign
           </Button>
         </div>
@@ -272,19 +277,29 @@ export default function CampaignsPage() {
           </Table>
         </div>
       </div>
+
+      <CreateCampaignModal
+        isOpen={isCreateModalOpen}
+  onClose={() => setIsCreateModalOpen(false)}
+  onCreate={(data) => {
+    console.log("Add new campaign", data);
+    setIsCreateModalOpen(false);
+  }}
+      >
+      </CreateCampaignModal>
       <EditCampaignModal
-      isOpen={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
-          defaultData={selectedCampaign}
-          onSave={(updatedData) => {
-            console.log("Campaign updated:", updatedData);
-            // Add your API call or state update logic here
-            setIsEditModalOpen(false);
-          }}
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        defaultData={selectedCampaign}
+        onSave={(updatedData) => {
+          console.log("Campaign updated:", updatedData);
+          // Add your API call or state update logic here
+          setIsEditModalOpen(false);
+        }}
       ></EditCampaignModal>
 
       <DeleteCampaignModal
-      isOpen={isDeleteModalOpen}
+        isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={() => {
           console.log("Deleting campaign:", campaignToDelete?.id);
