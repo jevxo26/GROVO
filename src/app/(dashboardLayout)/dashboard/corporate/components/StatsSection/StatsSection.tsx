@@ -1,23 +1,22 @@
 import React from 'react';
+import { statsData } from '@/data/stats';
+import { cn } from '@/lib/utils';
 
-const stats = [
-  { title: "Total Donated", value: "৳ 32,000" },
-  { title: "Total Donations", value: "8" },
-  { title: "Campaigns Supported", value: "6" },
-];
-
-export const StatsSection = () => {
+export const StatsSection: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {stats.map((stat, index) => (
+      {statsData.map((stat, index) => (
         <div 
           key={index} 
-          className="bg-white dark:bg-[#1a1716] p-6 rounded-2xl border border-[#efe9e6] dark:border-[#2f2824] shadow-sm transition-colors duration-300"
+          className="bg-[#fdfcf9] p-6 rounded-2xl border border-[#efe9e6] shadow-sm"
         >
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+          {/* টাইটেল: আপারকেস এবং ছোট ফন্ট সাইজ */}
+          <p className="text-[10px] md:text-[12px] tracking-widest font-bold text-[#a0522d] mb-2">
             {stat.title}
           </p>
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 font-serif">
+          
+          {/* ভ্যালু: ইমেজের স্টাইল অনুযায়ী কালার এবং সাইজ */}
+          <h3 className={cn("text-3xl font-bold font-serif", stat.color || "text-[#2a2a2a]")}>
             {stat.value}
           </h3>
         </div>
