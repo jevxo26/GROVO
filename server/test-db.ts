@@ -8,29 +8,37 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // Validate Security & Network Control Tables Pipeline
-      await tx.iPWhitelist.create({
+      // Validate Multi-Currency Configurations Table Pipeline
+      await tx.currency.create({
         data: {
-          ipAddress: "192.168.1.100",
-          description: "Dhaka HQ Central Security Terminal Gateway Override",
-          addedBy: "root-security-bot",
-          isActive: true,
+          currencyCode: `USD-${Date.now()}`,
+          currencyName: "US Dollar Ledger Reference",
+          symbol: "$",
+          exchangeRate: 118.5,
+          isDefault: false,
         },
       });
 
-      // Validate Security Telemetry Logging
-      await tx.securityIncident.create({
+      // Validate Localization Translation Pipelines
+      const lang = await tx.language.create({
         data: {
-          incidentType: "RATE_LIMIT_EXCEEDED_BRUTE_FORCE",
-          severity: "CRITICAL",
-          description:
-            "Repeated parsing anomalies flagged on authorization node.",
-          status: "OPEN",
+          languageCode: `bn-${Date.now()}`,
+          languageName: "Bangla Core Matrix",
+          isDefault: true,
+        },
+      });
+
+      await tx.translation.create({
+        data: {
+          languageId: lang.id,
+          key: "WELCOME_MSG",
+          value: "আশ্রয় প্ল্যাটফর্মে আপনাকে স্বাগতম",
+          module: "CORE_UI",
         },
       });
 
       console.log(
-        "   ↳ Mock network security configurations validated. Rolling back changes...",
+        "   ↳ Mock localization configurations validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -40,7 +48,7 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational Security Configurations & Access Control: SUCCESS",
+        "✅ Operational Localization Snapshots & Currency Ledgers: SUCCESS",
       );
       console.log(
         "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
