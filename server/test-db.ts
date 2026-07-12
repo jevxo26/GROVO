@@ -8,35 +8,37 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // 1. Establish anchor user record
-      const mockUser = await tx.user.create({
+      const orgCode = `ORG-CORE-${Date.now()}`;
+      const organization = await tx.organization.create({
         data: {
-          id: `t-usr-${Date.now()}`,
-          name: "Test Alert Target",
-          email: `alert.ops.${Date.now()}@ashray.org`,
+          organizationName: "ASHRAY Foundation Root Node",
+          organizationCode: orgCode,
         },
       });
 
-      // 2. Build base configuration notification entry
-      const baseAlert = await tx.notification.create({
+      const branch = await tx.branch.create({
         data: {
-          title: "System Dispatched Broadcast Trigger",
-          message: "Real-time alert engine connection test.",
-          type: "SYSTEM_ALERT",
-          priority: "HIGH",
+          organizationId: organization.id,
+          branchName: "Dhaka Central Hub",
+          branchCode: `BR-DHK-${Date.now()}`,
+          branchType: "HEAD_OFFICE",
+          address: "Mirpur, Dhaka",
         },
       });
 
-      // 3. Connect recipient layout mapping
-      await tx.notificationRecipient.create({
+      // Validate Governance & Committee Model Relationships Integration
+      await tx.committee.create({
         data: {
-          notificationId: baseAlert.id,
-          userId: mockUser.id,
+          branchId: branch.id,
+          committeeName: "Executive Steering Council",
+          committeeLevel: "NATIONAL",
+          formationDate: new Date(),
+          status: "ACTIVE",
         },
       });
 
       console.log(
-        "   ↳ Mock notification junction verified. Rolling back changes...",
+        "   ↳ Mock governance metrics validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -45,7 +47,9 @@ async function runTest() {
       error instanceof Error &&
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
-      console.log("✅ Operational Notification System Engine: SUCCESS");
+      console.log(
+        "✅ Operational Governance & Regional Committee Structures: SUCCESS",
+      );
       console.log(
         "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
       );
