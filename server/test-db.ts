@@ -8,7 +8,6 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // 1. Setup mock anchor user parameters
       const user = await tx.user.create({
         data: {
           id: `t-usr-${Date.now()}`,
@@ -17,17 +16,14 @@ async function runTest() {
         },
       });
 
-      // 2. Setup parent organization record first to secure foreign keys
       const orgCode = `ORG-CORE-${Date.now()}`;
       const organization = await tx.organization.create({
         data: {
-          organizationName: "ASHRAY Foundation Root Node",
+          organizationName: "ASHRAY Foundation Root",
           organizationCode: orgCode,
-          status: "ACTIVE",
         },
       });
 
-      // 3. Setup mock organization branch parameters linked to parent org id
       const branch = await tx.branch.create({
         data: {
           organizationId: organization.id,
@@ -38,27 +34,27 @@ async function runTest() {
         },
       });
 
-      // 4. Setup core volunteer registry record
-      const volunteer = await tx.volunteer.create({
+      // Validate Beneficiary Cascade Models Integration
+      const bCode = `BEN-TEST-${Date.now()}`;
+      const beneficiary = await tx.beneficiary.create({
         data: {
-          userId: user.id,
-          volunteerCode: `VOL-${Date.now()}`,
+          beneficiaryCode: bCode,
+          fullName: "Test Recipient",
           branchId: branch.id,
-          status: "ACTIVE",
         },
       });
 
-      // 5. Validate metrics relationship performance engine tree
-      await tx.volunteerPerformance.create({
+      await tx.beneficiaryProfile.create({
         data: {
-          volunteerId: volunteer.id,
-          totalAssignments: 12,
-          completedAssignments: 10,
-          attendanceRate: 83.3,
-          performanceScore: 92.5,
+          beneficiaryId: beneficiary.id,
+          occupation: "Day Laborer",
+          monthlyIncome: 8500,
         },
       });
 
+      console.log(
+        "   ↳ Mock beneficiary trees validated. Rolling back changes...",
+      );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
   } catch (error: unknown) {
@@ -66,7 +62,7 @@ async function runTest() {
       error instanceof Error &&
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
-      console.log("✅ Operational Volunteer Metrics: SUCCESS");
+      console.log("✅ Operational Beneficiary Metrics: SUCCESS");
       console.log(
         "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
       );
