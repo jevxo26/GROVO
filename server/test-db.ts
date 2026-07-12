@@ -11,7 +11,7 @@ async function runTest() {
       const orgCode = `ORG-CORE-${Date.now()}`;
       const organization = await tx.organization.create({
         data: {
-          organizationName: "ASHRAY Foundation Root Node",
+          organizationName: "ASHRAY Root Node",
           organizationCode: orgCode,
         },
       });
@@ -26,19 +26,29 @@ async function runTest() {
         },
       });
 
-      // Validate Governance & Committee Model Relationships Integration
-      await tx.committee.create({
+      const category = await tx.eventCategory.create({
+        data: { name: "Emergency Relief Response", status: "ACTIVE" },
+      });
+
+      // Validate Event Fields Relationships Integration
+      await tx.event.create({
         data: {
+          eventCode: `EVT-TEST-${Date.now()}`,
+          title: "Flood Logistics Planning",
+          slug: `flood-ops-log-${Date.now()}`,
+          categoryId: category.id,
+          eventType: "FIELD_OPERATION",
           branchId: branch.id,
-          committeeName: "Executive Steering Council",
-          committeeLevel: "NATIONAL",
-          formationDate: new Date(),
+          venue: "Mirpur Sector 10 Ground",
+          startDate: new Date(),
+          endDate: new Date(Date.now() + 86400000),
+          createdBy: "system-test-admin",
           status: "ACTIVE",
         },
       });
 
       console.log(
-        "   ↳ Mock governance metrics validated. Rolling back changes...",
+        "   ↳ Mock event parameters validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -48,7 +58,7 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational Governance & Regional Committee Structures: SUCCESS",
+        "✅ Operational Field Events & Attendance Infrastructure: SUCCESS",
       );
       console.log(
         "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
