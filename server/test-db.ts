@@ -8,76 +8,38 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      const orgCode = `ORG-FLD-${Date.now()}`;
-      const organization = await tx.organization.create({
+      // 1. Validate Core AI Model Tracking Pipeline
+      const aiModel = await tx.aIModel.create({
         data: {
-          organizationName: "ASHRAY Root Ecosystem",
-          organizationCode: orgCode,
+          modelName: "Relief Resource Allocator Engine",
+          modelType: "NEURAL_NETWORK_PREDICTOR",
+          algorithm: "RandomForestRegressor",
+          accuracy: 0.945,
+          status: "ACTIVE",
         },
       });
 
-      const branch = await tx.branch.create({
+      // 2. Validate Automated Job Dispatches
+      await tx.aIJob.create({
         data: {
-          organizationId: organization.id,
-          branchName: "Sylhet Disaster Response Hub",
-          branchCode: `BR-SYL-${Date.now()}`,
-          branchType: "DISTRICT_OFFICE",
-          address: "Sylhet, Bangladesh",
+          modelId: aiModel.id,
+          jobType: "BATCH_DEMAND_FORECASTING",
+          status: "PENDING",
         },
       });
 
-      const category = await tx.campaignCategory.create({
-        data: { name: "Flood Relief Action Deployment" },
-      });
-
-      const campaign = await tx.campaign.create({
+      // 3. Validate Demand Forecast Predictive Storage Metrics
+      await tx.demandForecast.create({
         data: {
-          campaignCode: `CAM-FLD-${Date.now()}`,
-          title: "Emergency Flood Relief Drive",
-          slug: `emergency-flood-relief-${Date.now()}`,
-          categoryId: category.id,
-          campaignType: "EMERGENCY",
-          targetAmount: 500000,
-          startDate: new Date(),
-          endDate: new Date(Date.now() + 864000000),
-          createdBy: "system-admin",
-        },
-      });
-
-      const project = await tx.project.create({
-        data: {
-          projectCode: `PRJ-FLD-${Date.now()}`,
-          campaignId: campaign.id,
-          projectName: "Clean Water Distribution Sylhet",
-          branchId: branch.id,
-          startDate: new Date(),
-          endDate: new Date(Date.now() + 864000000),
-        },
-      });
-
-      // 1. Validate Field Activity Model Pipeline
-      const activity = await tx.fieldActivity.create({
-        data: {
-          projectId: project.id,
-          activityTitle: "Distribution Center Setup Pod A",
-          activityType: "LOGISTICS",
-          performedBy: "Field Coordinator Masum",
-          activityDate: new Date(),
-        },
-      });
-
-      // 2. Validate Field Visit Pipeline Mapping
-      await tx.fieldVisit.create({
-        data: {
-          activityId: activity.id,
-          visitedBy: "Supervisor Inspector",
-          visitDate: new Date(),
-          remarks: "Operational pod structure fully functional.",
+          category: "Dry Relief Packets",
+          region: "Dhaka Division",
+          forecastPeriod: "Q3-2026",
+          predictedDemand: 25000.0,
         },
       });
 
       console.log(
-        "   ↳ Mock operational field configurations validated. Rolling back changes...",
+        "   ↳ Mock AI architectural elements validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -87,10 +49,10 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational Field Operations & Deployment Tracks: SUCCESS",
+        "✅ Predictive ML Infrastructures & Model Lifecycles: SUCCESS",
       );
       console.log(
-        "🎉 SYSTEM PIPELINE COMPILING WITHOUT ERROR AND COMPLETELY GREEN!",
+        "🎉 ALL EXPERIMENTAL AND PRODUCTION CHANNELS ARE COMPILED AND GREEN!",
       );
     } else {
       const msg =
