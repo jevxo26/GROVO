@@ -1,9 +1,10 @@
 "use client";
-import { HandCoins, Flag, Award, Crown, Heart } from "lucide-react";
+import { HandCoins, Flag, Award, Crown} from "lucide-react";
 import { StatCard } from "./components/StatCard";
 import { RecentDonations } from "./components/RecentDonations/RecentDonations";
 import { SupportedCampaigns } from "./components/SupportedCampaigns/SupportedCampaigns";
 import { QuickActions } from "./components/QuickActions/QuickActions";
+import UserWelcomeSection from "./components/UserWelcomeSection/UserWelcomeSection";
 
 type Badge = string;
 
@@ -18,18 +19,12 @@ const MemberDashboard: React.FC = () => {
   return (
     <div className="space-y-8 p-4 md:p-8 bg-[#fcfaf9] dark:bg-[#12100f] min-h-screen transition-colors duration-300">
       {/* Header Banner - ইমেজের স্টাইল অনুযায়ী */}
-      <section className="bg-[#8b4513] text-white p-8 rounded-3xl flex flex-col md:flex-row justify-between items-center shadow-lg gap-4">
-        <div>
-          <p className="text-sm opacity-90 font-medium">Welcome back</p>
-          <h1 className="text-3xl font-bold font-serif">Kamal Hossain</h1>
-          <p className="text-sm opacity-80 mt-1">
-            Member since 2024-03-15 · ASH-MEM-2024-0847
-          </p>
-        </div>
-        <button className="bg-white text-[#8b4513] px-6 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-gray-100 transition shadow-sm">
-          <Heart className="w-4 h-4" /> Make a Donation
-        </button>
-      </section>
+      <UserWelcomeSection
+      name="Kamal Hossain"
+      memberSince="2024-03-15"
+      memberId="ASH-MEM-2024-0847"
+      onDonationClick={() => console.log("Donation clicked!")}
+    />
 
       {/* Stats Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
