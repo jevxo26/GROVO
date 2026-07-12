@@ -8,38 +8,35 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // 1. Build operational Media record
-      const mediaItem = await tx.media.create({
+      // 1. Establish anchor Funds
+      const primaryFund = await tx.fund.create({
         data: {
-          title: "annual_report_2026.pdf",
-          mediaType: "DOCUMENT",
-          fileUrl: "https://s3.amazonaws.com/ashray-vault/report.pdf",
-          fileSize: 4096,
-          uploadedBy: "system-test-admin",
-          status: "ACTIVE",
+          fundName: "Emergency Reserve",
+          fundCode: `FND-EMG-${Date.now()}`,
+          currentBalance: 50000,
         },
       });
 
-      // 2. Build mock target Album record
-      const albumItem = await tx.album.create({
+      const projectFund = await tx.fund.create({
         data: {
-          albumName: "Q3 Humanitarian Drive Photos",
-          createdBy: "system-test-admin",
-          status: "ACTIVE",
+          fundName: "Medical Drive Unit",
+          fundCode: `FND-MED-${Date.now()}`,
+          currentBalance: 1000,
         },
       });
 
-      // 3. Connect them via junction model
-      await tx.albumMedia.create({
+      // 2. Validate Intra-Fund Transfer Logic
+      await tx.fundTransfer.create({
         data: {
-          albumId: albumItem.id,
-          mediaId: mediaItem.id,
-          sortOrder: 1,
+          fromFundId: primaryFund.id,
+          toFundId: projectFund.id,
+          amount: 5000,
+          reason: "Initial allocation override test",
         },
       });
 
       console.log(
-        "   ↳ Mock media vault metrics validated. Rolling back changes...",
+        "   ↳ Mock liquidity tracking validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -48,7 +45,7 @@ async function runTest() {
       error instanceof Error &&
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
-      console.log("✅ Operational Media Vault & Asset Pipeline: SUCCESS");
+      console.log("✅ Operational Financial Ledger Integration: SUCCESS");
       console.log(
         "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
       );

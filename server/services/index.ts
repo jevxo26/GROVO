@@ -8,6 +8,7 @@ import { beneficiaryRouter } from "../routes/beneficiary.routes";
 import { aiRouter } from "../routes/ai.routes";
 import { analyticsRouter } from "../routes/analytics.routes";
 import { mediaRouter } from "../routes/media.routes";
+import { financialRouter } from "../routes/financial.routes";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app
     server.use("/api/ai-engine", aiRouter);
     server.use("/api/analytics", analyticsRouter);
     server.use("/api/media-vault", mediaRouter);
+    server.use("/api/finance", financialRouter);
     // Next.js Catch-All View Delivery Engine
     server.all("*", (req, res) => {
       return handle(req, res);
