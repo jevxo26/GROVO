@@ -13,6 +13,7 @@ import { notificationRouter } from "../routes/notification.routes";
 import { governanceRouter } from "../routes/governance.routes";
 import { eventRouter } from "../routes/event.routes";
 import { cmsRouter } from "../routes/cms.routes";
+import { securityRouter } from "../routes/security.routes";
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app
     server.use("/api/governance", governanceRouter);
     server.use("/api/events", eventRouter);
     server.use("/api/content", cmsRouter);
+    server.use("/api/security-vault", securityRouter);
     // Next.js Catch-All View Delivery Engine
     server.all("*", (req, res) => {
       return handle(req, res);

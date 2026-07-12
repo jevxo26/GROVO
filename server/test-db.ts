@@ -8,38 +8,29 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // Validate CMS Table Pipelines Integration
-      const targetPage = await tx.cMSPage.create({
+      // Validate Security & Network Control Tables Pipeline
+      await tx.iPWhitelist.create({
         data: {
-          title: "Emergency Flood Relief Portal 2026",
-          slug: `flood-relief-hub-${Date.now()}`,
-          status: "ACTIVE",
+          ipAddress: "192.168.1.100",
+          description: "Dhaka HQ Central Security Terminal Gateway Override",
+          addedBy: "root-security-bot",
+          isActive: true,
         },
       });
 
-      await tx.cMSSection.create({
+      // Validate Security Telemetry Logging
+      await tx.securityIncident.create({
         data: {
-          pageId: targetPage.id,
-          title: "Hero Metrics Section",
-          content: "Showing real-time field deployments",
-          sortOrder: 1,
-          status: "ACTIVE",
-        },
-      });
-
-      // Validate Editorial Impact Pipelines
-      await tx.successStory.create({
-        data: {
-          title: "Resilience in Sunamganj Distruct",
-          slug: `resilience-sunamganj-${Date.now()}`,
-          content: "Detailed reporting of structural relief distributions.",
-          publishedBy: "editorial-test-bot",
-          status: "ACTIVE",
+          incidentType: "RATE_LIMIT_EXCEEDED_BRUTE_FORCE",
+          severity: "CRITICAL",
+          description:
+            "Repeated parsing anomalies flagged on authorization node.",
+          status: "OPEN",
         },
       });
 
       console.log(
-        "   ↳ Mock content layout parameters validated. Rolling back changes...",
+        "   ↳ Mock network security configurations validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -49,7 +40,7 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational CMS, Portals & Editorial Structures: SUCCESS",
+        "✅ Operational Security Configurations & Access Control: SUCCESS",
       );
       console.log(
         "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
