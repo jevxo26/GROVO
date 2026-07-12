@@ -1,5 +1,4 @@
 "use client";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Search, Plus, Pencil, Trash2 } from "lucide-react";
-
 const membersData = [
   {
     id: "1",
@@ -113,7 +111,6 @@ export default function MembersPage() {
     setSelectedMember(member);
     setIsEditModalOpen(true);
   };
-
   const filteredMembers = membersData.filter(
     (member) =>
       member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -121,7 +118,6 @@ export default function MembersPage() {
       member.membership.toLowerCase().includes(searchQuery.toLowerCase()) ||
       member.district.toLowerCase().includes(searchQuery.toLowerCase()),
   );
-
   return (
     <div className="space-y-6">
       {/* Top Bar */}
@@ -147,7 +143,6 @@ export default function MembersPage() {
           </Button>
         </div>
       </div>
-
       {/* Table */}
       <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
@@ -255,13 +250,12 @@ export default function MembersPage() {
         initialData={selectedMember}
       ></EditMemberModal>
       <DeleteMemberModal
-      isOpen={isDeleteModalOpen} 
-  onClose={() => setIsDeleteModalOpen(false)}
-  onDelete={() => {
-    console.log("Deleting member:", memberToDelete?.id);
-  }}
-  memberName={memberToDelete?.name}
-
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={() => {
+          console.log("Deleting member:", memberToDelete?.id);
+        }}
+        memberName={memberToDelete?.name}
       ></DeleteMemberModal>
     </div>
   );
