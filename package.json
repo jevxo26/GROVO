@@ -2,8 +2,9 @@
   "name": "grovo",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "nodemon --watch server --watch tsconfig.server.json --ext ts --exec ts-node --project tsconfig.server.json server/index.ts",
+    "dev": "nodemon --watch server --watch tsconfig.server.json --ext ts --exec \"tsx --tsconfig tsconfig.server.json\" server/index.ts",
     "build": " npx prisma generate && next build && tsc --project tsconfig.server.json",
     "start": "next start",
     "lint": "eslint",
