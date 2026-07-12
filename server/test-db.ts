@@ -8,47 +8,38 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      const orgCode = `ORG-CORE-${Date.now()}`;
-      const organization = await tx.organization.create({
+      // Validate CMS Table Pipelines Integration
+      const targetPage = await tx.cMSPage.create({
         data: {
-          organizationName: "ASHRAY Root Node",
-          organizationCode: orgCode,
+          title: "Emergency Flood Relief Portal 2026",
+          slug: `flood-relief-hub-${Date.now()}`,
+          status: "ACTIVE",
         },
       });
 
-      const branch = await tx.branch.create({
+      await tx.cMSSection.create({
         data: {
-          organizationId: organization.id,
-          branchName: "Dhaka Central Hub",
-          branchCode: `BR-DHK-${Date.now()}`,
-          branchType: "HEAD_OFFICE",
-          address: "Mirpur, Dhaka",
+          pageId: targetPage.id,
+          title: "Hero Metrics Section",
+          content: "Showing real-time field deployments",
+          sortOrder: 1,
+          status: "ACTIVE",
         },
       });
 
-      const category = await tx.eventCategory.create({
-        data: { name: "Emergency Relief Response", status: "ACTIVE" },
-      });
-
-      // Validate Event Fields Relationships Integration
-      await tx.event.create({
+      // Validate Editorial Impact Pipelines
+      await tx.successStory.create({
         data: {
-          eventCode: `EVT-TEST-${Date.now()}`,
-          title: "Flood Logistics Planning",
-          slug: `flood-ops-log-${Date.now()}`,
-          categoryId: category.id,
-          eventType: "FIELD_OPERATION",
-          branchId: branch.id,
-          venue: "Mirpur Sector 10 Ground",
-          startDate: new Date(),
-          endDate: new Date(Date.now() + 86400000),
-          createdBy: "system-test-admin",
+          title: "Resilience in Sunamganj Distruct",
+          slug: `resilience-sunamganj-${Date.now()}`,
+          content: "Detailed reporting of structural relief distributions.",
+          publishedBy: "editorial-test-bot",
           status: "ACTIVE",
         },
       });
 
       console.log(
-        "   ↳ Mock event parameters validated. Rolling back changes...",
+        "   ↳ Mock content layout parameters validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -58,7 +49,7 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational Field Events & Attendance Infrastructure: SUCCESS",
+        "✅ Operational CMS, Portals & Editorial Structures: SUCCESS",
       );
       console.log(
         "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
