@@ -8,37 +8,40 @@ async function runTest() {
 
     console.log("🔄 Executing Transactional Operational Triggers...");
     await prisma.$transaction(async (tx) => {
-      // Validate Multi-Currency Configurations Table Pipeline
-      await tx.currency.create({
+      // Establish user anchor parameters
+      const mockUser = await tx.user.create({
         data: {
-          currencyCode: `USD-${Date.now()}`,
-          currencyName: "US Dollar Ledger Reference",
-          symbol: "$",
-          exchangeRate: 118.5,
-          isDefault: false,
+          id: `t-usr-${Date.now()}`,
+          name: "Helpdesk Tester",
+          email: `support.test.${Date.now()}@ashray.org`,
         },
       });
 
-      // Validate Localization Translation Pipelines
-      const lang = await tx.language.create({
+      // Validate Support & Ticket Routing Table Pipelines
+      const ticket = await tx.supportTicket.create({
         data: {
-          languageCode: `bn-${Date.now()}`,
-          languageName: "Bangla Core Matrix",
-          isDefault: true,
+          ticketNumber: `TCK-TST-${Date.now()}`,
+          userId: mockUser.id,
+          subject: "Payment verification webhook failure",
+          description:
+            "Transaction dropped during bKash verification lifecycle.",
+          category: "BILLING_GATEWAY_ERROR",
+          priority: "CRITICAL",
+          status: "OPEN",
         },
       });
 
-      await tx.translation.create({
+      await tx.ticketReply.create({
         data: {
-          languageId: lang.id,
-          key: "WELCOME_MSG",
-          value: "আশ্রয় প্ল্যাটফর্মে আপনাকে স্বাগতম",
-          module: "CORE_UI",
+          ticketId: ticket.id,
+          userId: mockUser.id,
+          message: "Telemetry trace log attached.",
+          isStaff: false,
         },
       });
 
       console.log(
-        "   ↳ Mock localization configurations validated. Rolling back changes...",
+        "   ↳ Mock technical support metrics validated. Rolling back changes...",
       );
       throw new Error("ROLLBACK_VERIFIED_SUCCESSFULLY");
     });
@@ -48,7 +51,7 @@ async function runTest() {
       error.message === "ROLLBACK_VERIFIED_SUCCESSFULLY";
     if (isRollback) {
       console.log(
-        "✅ Operational Localization Snapshots & Currency Ledgers: SUCCESS",
+        "✅ Operational Technical Helpdesk & Ticket Routing: SUCCESS",
       );
       console.log(
         "🎉 ALL OPERATIONAL CORE CONTROLLERS ARE FUNCTIONAL AND GREEN!",
