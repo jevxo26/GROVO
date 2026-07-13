@@ -20,7 +20,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Plus, Trash2 } from "lucide-react";
 
 import RecordDonationModal from "@/components/shared/modals/recordDonationModal";
-import DeleteDonationModal from "@/components/shared/modals/deleteDonationModal";
+import ConfirmModal from "@/components/shared/modals/ConfirmModal";
 import { Donation } from "@/type";
 
 const formatCurrency = (amount: number) => {
@@ -185,12 +185,15 @@ export default function DonationsPage() {
         onClose={() => setIsModalOpen(false)}
       />
       
-      <DeleteDonationModal
+      <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={() => {
+        onConfirm={() => {
           console.log("Deleting donation:", donationToDelete?.id);
         }}
+        title="Delete Donation"
+        message="Are you sure you want to delete this donation record?"
+        confirmLabel="Delete Forever"
       />
     </div>
   );

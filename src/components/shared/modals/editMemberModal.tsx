@@ -7,8 +7,9 @@ import { z } from "zod";
 import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
+import ModalFooter from "./ModalFooter";
 
-const typeOptions = [{ value: "General Member", label: "General Member" }, { value: "Individual Donar", label: "Individual Donar" }, { value: "Corporate Donor", label: "Corporate Donor" }];
+const typeOptions = [{ value: "General Member", label: "General Member" }, { value: "Individual Donor", label: "Individual Donor" }, { value: "Corporate Donor", label: "Corporate Donor" }];
 const districtOptions = [{ value: "Dhaka", label: "Dhaka" }, { value: "Chattogram", label: "Chattogram" }, { value: "Rajshahi", label: "Rajshahi" }, { value: "Barishal", label: "Barishal"}, { value: "Khulna", label: "Khulna" }, { value: "Sylhet", label: "Sylhet" }, { value: "Rangpur", label: "Rangpur" }, { value: "Mymensingh", label: "Mymensingh" }  ];
 const statusOptions = [{ value: "active", label: "Active" }, { value: "pending", label: "Pending" }, { value: "suspended", label: "Suspended" }];
 
@@ -25,7 +26,8 @@ const memberSchema = z.object({
 
 type MemberFormValues = z.infer<typeof memberSchema>;
 
-interface EditMemberModalProps { isOpen: boolean; onClose: () => void; initialData?: MemberFormValues | null; }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface EditMemberModalProps { isOpen: boolean; onClose: () => void; initialData?: Record<string, any> | null; }
 
 const EditMemberModal = ({ isOpen, onClose, initialData }: EditMemberModalProps) => {
   const { register, handleSubmit, control, formState: { errors }, reset } = useForm<MemberFormValues>({
@@ -60,14 +62,10 @@ const EditMemberModal = ({ isOpen, onClose, initialData }: EditMemberModalProps)
           <FormSelect label="Status" name="status" control={control} options={statusOptions} />
         </div>
 
-        <div className="flex justify-end gap-3 pt-6 border-t dark:border-zinc-800">
-          <button type="button" onClick={onClose} className="px-6 py-2.5 border border-[#e8dfd8] dark:border-zinc-700 rounded-xl text-sm font-semibold text-[#5c4033] dark:text-zinc-200 hover:bg-[#fbf7f4] dark:hover:bg-zinc-800 transition-colors">
-            Cancel
-          </button>
-          <button type="submit" className="px-6 py-2.5 bg-[#00a389] hover:bg-[#008f77] text-white text-sm font-semibold rounded-xl transition-colors shadow-sm">
-            Save Changes
-          </button>
-        </div>
+        <ModalFooter
+          onCancel={onClose}
+          submitLabel="Save Changes"
+        />
       </form>
     </BaseModal>
   );

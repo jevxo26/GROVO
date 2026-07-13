@@ -19,7 +19,7 @@ import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 
 import AddMemberModal from "@/components/shared/modals/addMemberModal";
 import EditMemberModal from "@/components/shared/modals/editMemberModal";
-import DeleteMemberModal from "@/components/shared/modals/deleteMemberModal";
+import ConfirmModal from "@/components/shared/modals/ConfirmModal";
 import { Member } from "@/type";
 
 export default function MembersPage() {
@@ -151,13 +151,15 @@ export default function MembersPage() {
         onClose={() => setIsEditModalOpen(false)}
         initialData={selectedMember}
       />
-      <DeleteMemberModal
+      <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={() => {
+        onConfirm={() => {
           console.log("Deleting member:", memberToDelete?.id);
         }}
-        memberName={memberToDelete?.name}
+        title="Delete Member"
+        message={`Are you sure you want to delete ${memberToDelete?.name ?? "this member"}?`}
+        confirmLabel="Delete Forever"
       />
     </div>
   );

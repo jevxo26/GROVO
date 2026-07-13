@@ -26,63 +26,59 @@ const statusOptions = [
 ];
 
 const branchSchema = z.object({
-  branchName: z.string().min(1, "Branch name is required"),
-  branchCode: z.string().min(1, "Branch code is required"),
-  branchType: z.string().min(1, "Branch type is required"),
+  name: z.string().min(1, "Branch name is required"),
+  code: z.string().min(1, "Branch code is required"),
+  type: z.string().min(1, "Branch type is required"),
   status: z.string().min(1, "Status is required"),
   division: z.string().min(1, "Division is required"),
   district: z.string().min(1, "District is required"),
   upazila: z.string().optional(),
   union: z.string().optional(),
   address: z.string().min(1, "Address is required"),
-  establishedDate: z.string().min(1, "Established date is required"),
+  established: z.string().min(1, "Established date is required"),
 });
 
-type BranchFormValues = z.infer<typeof branchSchema>;
+export type BranchData = z.infer<typeof branchSchema>;
 
-const AddBranchModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const { register, handleSubmit, control, formState: { errors }, reset, setValue } = useForm<BranchFormValues>({
+interface EditBranchModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  defaultData?: BranchData | null;
+  onSave: (data: BranchData) => void;
+}
+
+const EditBranchModal = ({ isOpen, onClose, defaultData, onSave }: EditBranchModalProps) => {
+  const { register, handleSubmit, control, formState: { errors }, reset, setValue } = useForm<BranchData>({
     resolver: zodResolver(branchSchema),
-    defaultValues: {
-      branchCode: "BR-DHA-009", 
-      branchType: "District", 
-      status: "Active",
-      division: "Dhaka", 
-      district: "Dhaka", 
-      establishedDate: "2026-07-11",
-    },
   });
 
-  const selectedDivision = useWatch({
-    control,
-    name: "division",
-  });
+  useEffect(() => {
+    if (defaultData) {
+      reset(defaultData);
+    }
+  }, [defaultData, reset]);
 
+  const selectedDivision = useWatch({ control, name: "division" });
   const districtOptions = getDistrictOptions(selectedDivision);
 
   useEffect(() => {
-    if (selectedDivision) {
-      const districts = divisionsData[selectedDivision] || [];
-      if (districts.length > 0) {
+    if (selectedDivision && divisionsData[selectedDivision]) {
+      const districts = divisionsData[selectedDivision];
+      // Only auto-set district if editing and division changed from original
+      if (defaultData && selectedDivision !== defaultData.division && districts.length > 0) {
         setValue("district", districts[0]);
       }
     }
-  }, [selectedDivision, setValue]);
-
-  const onSubmit = (data: BranchFormValues) => { 
-    console.log(data); 
-    reset(); 
-    onClose(); 
-  };
+  }, [selectedDivision, setValue, defaultData]);
 
   return (
-    <BaseModal isOpen={isOpen} onClose={onClose} title="Add Branch">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-[#3d2b22] dark:text-zinc-100">
-        <FormInput label="Branch Name" name="branchName" register={register} error={errors.branchName} required placeholder="e.g. ASHRAY Chattogram Division" />
+    <BaseModal isOpen={isOpen} onClose={onClose} title="Edit Branch">
+      <form onSubmit={handleSubmit(onSave)} className="space-y-4 text-[#3d2b22] dark:text-zinc-100">
+        <FormInput label="Branch Name" name="name" register={register} error={errors.name} required placeholder="e.g. ASHRAY Chattogram Division" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <FormInput label="Branch Code" name="branchCode" register={register} error={errors.branchCode} required />
-          <FormSelect label="Branch Type" name="branchType" control={control} options={branchTypeOptions} />
+          <FormInput label="Branch Code" name="code" register={register} error={errors.code} required />
+          <FormSelect label="Branch Type" name="type" control={control} options={branchTypeOptions} />
           <FormSelect label="Status" name="status" control={control} options={statusOptions} />
         </div>
 
@@ -95,17 +91,16 @@ const AddBranchModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormInput label="Address" name="address" register={register} error={errors.address} required placeholder="Full street address..." />
-          <FormInput label="Established Date" name="establishedDate" type="date" register={register} />
+          <FormInput label="Established Date" name="established" type="date" register={register} />
         </div>
 
         <ModalFooter
           onCancel={onClose}
-          onReset={reset}
-          submitLabel="Add Branch"
+          submitLabel="Save Changes"
         />
       </form>
     </BaseModal>
   );
 };
 
-export default AddBranchModal;
+export default EditBranchModal;

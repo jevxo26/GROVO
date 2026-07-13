@@ -7,17 +7,8 @@ import { z } from "zod";
 import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
-
-const divisionsData: Record<string, string[]> = {
-  Dhaka: ["Dhaka", "Gazipur", "Narayanganj", "Tangail", "Faridpur", "Manikganj", "Munshiganj", "Narsingdi"],
-  Chattogram: ["Chattogram", "Cox's Bazar", "Comilla", "Brahmanbaria", "Chandpur", "Noakhali", "Feni", "Lakshmipur"],
-  Rajshahi: ["Rajshahi", "Bogura", "Pabna", "Natore", "Sirajganj", "Joypurhat", "Naogaon", "Chapainawabganj"],
-  Khulna: ["Khulna", "Jashore", "Satkhira", "Kushtia", "Jhenaidah", "Magura", "Narail", "Chuadanga"],
-  Barishal: ["Barishal", "Bhola", "Patuakhali", "Pirojpur", "Jhalokathi", "Barguna", "Mehendiganj", "Bakerganj"],
-  Sylhet: ["Sylhet", "Moulvibazar", "Habiganj", "Sunamganj", "Chhatak", "Sreemangal", "Beanibazar", "Jagannathpur"],
-  Rangpur: ["Rangpur", "Dinajpur", "Gaibandha", "Kurigram", "Lalmonirhat", "Nilphamari", "Panchagarh", "Thakurgaon"],
-  Mymensingh: ["Mymensingh", "Jamalpur", "Netrokona", "Sherpur", "Trishal", "Muktagachha", "Bhaluka", "Gauripur"]
-};
+import ModalFooter from "./ModalFooter";
+import { divisionsData, divisionOptions, getDistrictOptions } from "@/data/locationData";
 
 const volunteerSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
@@ -45,6 +36,8 @@ const AddVolunteerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
   });
 
   const selectedDivision = useWatch({ control, name: "division" });
+  const districtOptions = getDistrictOptions(selectedDivision);
+
   useEffect(() => {
     if (selectedDivision && divisionsData[selectedDivision]) {
       setValue("district", divisionsData[selectedDivision][0]);
@@ -68,8 +61,8 @@ const AddVolunteerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          <FormSelect label="Division" name="division" control={control} options={Object.keys(divisionsData).map(d => ({ value: d, label: d }))} />
-          <FormSelect label="District *" name="district" control={control} options={(divisionsData[selectedDivision] || []).map(d => ({ value: d, label: d }))} />
+          <FormSelect label="Division" name="division" control={control} options={divisionOptions} />
+          <FormSelect label="District *" name="district" control={control} options={districtOptions} />
           <FormInput label="Upazila" name="upazila" register={register} placeholder="e.g. Savar" />
         </div>
 
@@ -79,14 +72,11 @@ const AddVolunteerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
           <FormSelect label="Rank" name="rank" control={control} options={[{value: "New", label: "New"}, {value: "Bronze", label: "Bronze"}, {value: "Silver", label: "Silver"}, {value: "Gold", label: "Gold"}]} />
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t dark:border-zinc-800">
-          <button type="button" onClick={onClose} className="px-6 py-2 border border-gray-200 dark:border-zinc-700 rounded-xl text-sm font-semibold hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
-            Cancel
-          </button>
-          <button type="submit" className="px-6 py-2 bg-[#00a389] hover:bg-[#008f77] text-white text-sm font-semibold rounded-xl transition-colors">
-            Add Volunteer
-          </button>
-        </div>
+        <ModalFooter
+          onCancel={onClose}
+          onReset={reset}
+          submitLabel="Add Volunteer"
+        />
       </form>
     </BaseModal>
   );

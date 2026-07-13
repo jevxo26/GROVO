@@ -7,6 +7,7 @@ import { z } from "zod";
 import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
+import ModalFooter from "./ModalFooter";
 
 const editCampaignSchema = z.object({
   title: z.string().min(1, "Required"),
@@ -30,16 +31,16 @@ type FormValues = z.infer<typeof editCampaignSchema>;
 interface EditCampaignModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultData: FormValues;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  defaultData?: Record<string, any> | null; 
   onSave: (data: FormValues) => void;
 }
 
 const EditCampaignModal = ({ isOpen, onClose, defaultData, onSave }: EditCampaignModalProps) => {
   const { register, handleSubmit, control, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(editCampaignSchema),
-    defaultValues: defaultData,
+    defaultValues: defaultData || {},
   });
-
   return (
     <BaseModal isOpen={isOpen} onClose={onClose} title="Edit Campaign">
       <form onSubmit={handleSubmit(onSave)} className="space-y-4">
@@ -112,14 +113,10 @@ const EditCampaignModal = ({ isOpen, onClose, defaultData, onSave }: EditCampaig
           <FormInput label="Banner URL" name="bannerUrl" register={register} />
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t dark:border-zinc-800">
-          <button type="button" onClick={onClose} className="px-6 py-2 border border-gray-200 dark:border-zinc-700 rounded-xl text-sm font-semibold hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
-            Cancel
-          </button>
-          <button type="submit" className="px-6 py-2 bg-[#00a389] hover:bg-[#008f77] text-white text-sm font-semibold rounded-xl transition-colors">
-            Save Changes
-          </button>
-        </div>
+        <ModalFooter
+          onCancel={onClose}
+          submitLabel="Save Changes"
+        />
       </form>
     </BaseModal>
   );

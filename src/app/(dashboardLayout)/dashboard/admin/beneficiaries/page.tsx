@@ -20,7 +20,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 
 import AddBeneficiaryModal from "@/components/shared/modals/addBeneficiaryModal";
-import DeleteBeneficiaryModal from "@/components/shared/modals/deleteBeneficiaryModal";
+import ConfirmModal from "@/components/shared/modals/ConfirmModal";
 import EditBeneficiaryModal from "@/components/shared/modals/EditBeneficiaryModal";
 import { Beneficiary } from "@/type";
 
@@ -195,18 +195,20 @@ export default function BeneficiariesPage() {
       <EditBeneficiaryModal
         isOpen={isEditModalOpen} 
         onClose={() => setIsEditModalOpen(false)}
-        defaultData={selectedBeneficiary}
         onSave={(updatedData) => {
           console.log("Updated:", updatedData);
           setIsEditModalOpen(false);
         }}
       />
-      <DeleteBeneficiaryModal
+      <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={() => {
+        onConfirm={() => {
           console.log("Deleting beneficiary:", beneficiaryToDelete?.id);
         }}
+        title="Delete Beneficiary"
+        message={`Are you sure you want to delete ${beneficiaryToDelete?.name ?? "this beneficiary"}?`}
+        confirmLabel="Delete Forever"
       />
     </div>
   );

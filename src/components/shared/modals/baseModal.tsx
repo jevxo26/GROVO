@@ -1,51 +1,3 @@
-// import React from "react";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogDescription,
-// } from "@/components/ui/dialog";
-
-// interface BaseModalProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   title: string;
-//   description?: string;
-//   children: React.ReactNode;
-// }
-
-// const BaseModal = ({
-//   isOpen,
-//   onClose,
-//   title,
-//   description,
-//   children,
-// }: BaseModalProps) => {
-//   return (
-//     <Dialog open={isOpen} onOpenChange={onClose}>
-//       <DialogContent className="max-w-2xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-6 shadow-lg transition-colors">
-//         <DialogHeader>
-//           <DialogTitle className="text-2xl font-semibold text-[#3d2b22] dark:text-zinc-100">
-//             {title}
-//           </DialogTitle>
-//           {description && (
-//             <DialogDescription className="text-gray-500 dark:text-zinc-400">
-//               {description}
-//             </DialogDescription>
-//           )}
-//         </DialogHeader>
-        
-//         <div className="mt-4">{children}</div>
-//       </DialogContent>
-//     </Dialog>
-//   );
-// };
-
-// export default BaseModal;
-
-
-
 import React from "react";
 import {
   Dialog,
@@ -55,13 +7,29 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+const sizeMap = {
+  sm: "sm:max-w-sm",
+  md: "sm:max-w-md",
+  lg: "sm:max-w-lg",
+  xl: "sm:max-w-xl",
+  "2xl": "sm:max-w-2xl",
+  "3xl": "sm:max-w-3xl",
+  "4xl": "sm:max-w-4xl",
+  full: "sm:max-w-[90vw]",
+} as const;
+
+export type ModalSize = keyof typeof sizeMap;
+
 interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   description?: string;
   children: React.ReactNode;
-  maxWidth?: string; // এখানে আমরা ডাইনামিক উইডথ পাস করতে পারব
+  /** Preset size — preferred over maxWidth */
+  size?: ModalSize;
+  /** Raw Tailwind class for custom width (legacy support). Ignored if `size` is provided. */
+  maxWidth?: string;
 }
 
 const BaseModal = ({
@@ -70,12 +38,19 @@ const BaseModal = ({
   title,
   description,
   children,
-  maxWidth = "sm:max-w-3xl", // ডিফল্ট উইডথ বাড়িয়ে 3xl করা হলো
+  size,
+  maxWidth,
 }: BaseModalProps) => {
+  // Size prop takes priority; fall back to maxWidth string; default to 3xl
+  const widthClass = size
+    ? sizeMap[size]
+    : maxWidth ?? "sm:max-w-3xl";
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      {/* Shadcn এর উইডথ ওভাররাইড করার জন্য sm: এবং ! (important) ক্লাস ব্যবহার করা হয়েছে */}
-      <DialogContent className={`w-full ${maxWidth} !max-w-3xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-6 shadow-lg transition-colors`}>
+      <DialogContent
+        className={`w-full ${widthClass} bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-6 shadow-lg transition-colors max-h-[90vh] overflow-y-auto`}
+      >
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold text-[#3d2b22] dark:text-zinc-100">
             {title}
@@ -86,7 +61,7 @@ const BaseModal = ({
             </DialogDescription>
           )}
         </DialogHeader>
-        
+
         <div className="mt-4">{children}</div>
       </DialogContent>
     </Dialog>

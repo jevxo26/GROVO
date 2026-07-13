@@ -7,6 +7,7 @@ import { z } from "zod";
 import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
+import ModalFooter from "./ModalFooter";
 
 const campaignOptions = [{ value: "Emergency Flood Relief", label: "Emergency Flood Relief" }, { value: "Winter Warmth", label: "Winter Warmth" }, { value: "Education Program", label: "Education Program"}, { value: "Food Security", label: "Food Security" }, { value: "Medical Camp", label: "Medical Camp" }, { value: "Orphan Support", label: "Orphan Support" },];
 const categoryOptions = [{ value: "Emergency Relief", label: "Emergency Relief" }, { value: "Zakat", label: "Zakat" }, { value: "General", label: "General"}, { value: "Education", label: "Education"}, { value: "Medical", label: "Medical"}, { value: "Food", label: "Food"}, { value: "Orphan Support", label: "Orphan Support"}, { value: "Sadaqha", label: "Sadaqha"}];
@@ -56,14 +57,11 @@ const RecordDonationModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
           <FormInput label="Date" name="date" type="date" register={register} />
         </div>
 
-        <div className="flex justify-end gap-3 pt-6 border-t dark:border-zinc-800">
-          <button type="button" onClick={() => { reset(); onClose(); }} className="px-6 py-2.5 border border-[#e8dfd8] dark:border-zinc-700 rounded-xl text-sm font-semibold text-[#5c4033] dark:text-zinc-200 hover:bg-[#fbf7f4] dark:hover:bg-zinc-800 transition-colors">
-            Cancel
-          </button>
-          <button type="submit" className="px-6 py-2.5 bg-[#00a389] hover:bg-[#008f77] text-white text-sm font-semibold rounded-xl transition-colors shadow-sm">
-            Record Donation
-          </button>
-        </div>
+        <ModalFooter
+          onCancel={onClose}
+          onReset={reset}
+          submitLabel="Record Donation"
+        />
       </form>
     </BaseModal>
   );

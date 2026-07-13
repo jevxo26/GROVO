@@ -7,6 +7,7 @@ import { z } from "zod";
 import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
+import ModalFooter from "./ModalFooter";
 
 const typeOptions = [{ value: "General Member", label: "General Member" }, { value: "Individual Donor", label: "Individual Donor" }, { value: "Corporate Donor", label: "Corporate Donor" }];
 const districtOptions = [{ value: "Dhaka", label: "Dhaka" }, { value: "Chattogram", label: "Chattogram" }, { value: "Rajshahi", label: "Rajshahi" }, { value: "Barishal", label: "Barishal" },{ value: "Khulna", label: "Khulna" }, { value: "Sylhet", label: "Sylhet" }, { value: "Rangpur", label: "Rangpur" }, { value: "Mymensingh", label: "Mymensingh" }];
@@ -56,14 +57,11 @@ const AddMemberModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
           <FormSelect label="Status" name="status" control={control} options={statusOptions} />
         </div>
 
-        <div className="flex justify-end gap-3 pt-6 border-t dark:border-zinc-800">
-          <button type="button" onClick={() => { reset(); onClose(); }} className="px-6 py-2.5 border border-[#e8dfd8] dark:border-zinc-700 rounded-xl text-sm font-semibold text-[#5c4033] dark:text-zinc-200 hover:bg-[#fbf7f4] dark:hover:bg-zinc-800 transition-colors">
-            Cancel
-          </button>
-          <button type="submit" className="px-6 py-2.5 bg-[#00a389] hover:bg-[#008f77] text-white text-sm font-semibold rounded-xl transition-colors shadow-sm">
-            Add Member
-          </button>
-        </div>
+        <ModalFooter
+          onCancel={onClose}
+          onReset={reset}
+          submitLabel="Add Member"
+        />
       </form>
     </BaseModal>
   );

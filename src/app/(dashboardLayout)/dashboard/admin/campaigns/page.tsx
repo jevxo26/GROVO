@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 
-import DeleteCampaignModal from "@/components/shared/modals/deleteCampaignModal";
+import ConfirmModal from "@/components/shared/modals/ConfirmModal";
 import EditCampaignModal from "@/components/shared/modals/editCampaignModal";
 import CreateCampaignModal from "@/components/shared/modals/createCampaignModal";
 import { Campaign } from "@/type";
@@ -190,12 +190,16 @@ export default function CampaignsPage() {
         }}
       />
 
-      <DeleteCampaignModal
+      <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={() => {
+        onConfirm={() => {
           console.log("Deleting campaign:", campaignToDelete?.id);
         }}
+        title="Delete Campaign"
+        message={`Are you sure you want to delete ${campaignToDelete?.name ?? "this campaign"}?`}
+        description="This action cannot be undone. All associated data will be permanently removed."
+        confirmLabel="Delete Forever"
       />
     </div>
   );

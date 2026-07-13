@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState } from "react";
@@ -19,15 +17,19 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 
-import DeleteVolunteerModal from "@/components/shared/modals/deleteVolunteerModal";
+import ConfirmModal from "@/components/shared/modals/ConfirmModal";
 import AddVolunteerModal from "@/components/shared/modals/addVolunteerModal";
 import { Volunteer } from "@/type";
+import EditVolunteerModal from "@/components/shared/modals/editValonderModal";
 
 export default function VolunteersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [volunteerToDelete, setVolunteerToDelete] = useState<Volunteer | null>(null);
+  const [volunteerToDelete, setVolunteerToDelete] = useState<Volunteer | null>(
+    null,
+  );
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const filteredVolunteers = volunteersData.filter(
     (volunteer) =>
@@ -54,7 +56,7 @@ export default function VolunteersPage() {
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">
             {filteredVolunteers.length} volunteers
           </span>
-          <Button 
+          <Button
             onClick={() => setIsAddModalOpen(true)}
             className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm"
           >
@@ -69,14 +71,30 @@ export default function VolunteersPage() {
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow className="hover:bg-transparent border-border">
-                <TableHead className="font-semibold text-foreground">VOLUNTEER</TableHead>
-                <TableHead className="font-semibold text-foreground">CODE</TableHead>
-                <TableHead className="font-semibold text-foreground">LOCATION</TableHead>
-                <TableHead className="font-semibold text-foreground">MEMBERS</TableHead>
-                <TableHead className="font-semibold text-foreground w-[150px]">SCORE</TableHead>
-                <TableHead className="font-semibold text-foreground">RANK</TableHead>
-                <TableHead className="font-semibold text-foreground">STATUS</TableHead>
-                <TableHead className="font-semibold text-foreground text-right pr-6">ACTIONS</TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  VOLUNTEER
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  CODE
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  LOCATION
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  MEMBERS
+                </TableHead>
+                <TableHead className="font-semibold text-foreground w-[150px]">
+                  SCORE
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  RANK
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  STATUS
+                </TableHead>
+                <TableHead className="font-semibold text-foreground text-right pr-6">
+                  ACTIONS
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -86,12 +104,22 @@ export default function VolunteersPage() {
                   className="hover:bg-muted/50 border-border group transition-colors"
                 >
                   <TableCell className="py-4">
-                    <div className="font-bold text-foreground">{volunteer.name}</div>
-                    <div className="text-sm text-muted-foreground">{volunteer.district}</div>
+                    <div className="font-bold text-foreground">
+                      {volunteer.name}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {volunteer.district}
+                    </div>
                   </TableCell>
-                  <TableCell className="font-medium text-foreground">{volunteer.code}</TableCell>
-                  <TableCell className="text-muted-foreground">{volunteer.location}</TableCell>
-                  <TableCell className="font-bold text-foreground">{volunteer.members}</TableCell>
+                  <TableCell className="font-medium text-foreground">
+                    {volunteer.code}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {volunteer.location}
+                  </TableCell>
+                  <TableCell className="font-bold text-foreground">
+                    {volunteer.members}
+                  </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Progress
@@ -132,6 +160,10 @@ export default function VolunteersPage() {
                   <TableCell className="text-right pr-6">
                     <div className="flex justify-end gap-2">
                       <Button
+                        onClick={() => {
+                          // setSelectedVolunteer(volunteer);
+                          setIsEditModalOpen(true);
+                        }}
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-muted-foreground hover:text-foreground"
@@ -164,12 +196,24 @@ export default function VolunteersPage() {
         onClose={() => setIsAddModalOpen(false)}
       />
 
-      <DeleteVolunteerModal
+      <EditVolunteerModal
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          // setSelectedVolunteer(null);
+        }}
+
+      ></EditVolunteerModal>
+
+      <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={() => {
+        onConfirm={() => {
           console.log("Deleting volunteer:", volunteerToDelete?.id);
         }}
+        title="Delete Volunteer"
+        message={`Are you sure you want to delete ${volunteerToDelete?.name ?? "this volunteer"}?`}
+        confirmLabel="Delete Forever"
       />
     </div>
   );

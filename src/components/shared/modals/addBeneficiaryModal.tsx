@@ -8,20 +8,10 @@ import BaseModal from "./baseModal";
 import FormInput from "../forms/formInput";
 import FormSelect from "../forms/formSelect";
 import FormTextarea from "../forms/formTextarea"; 
+import ModalFooter from "./ModalFooter";
+import { divisionsData, divisionOptions, getDistrictOptions } from "@/data/locationData";
 
-const divisionsData: Record<string, string[]> = {
-  Dhaka: ["Dhaka", "Gazipur", "Narayanganj", "Tangail", "Faridpur", "Manikganj", "Munshiganj", "Narsingdi", "Gopalganj", "Madaripur", "Rajbari", "Shariatpur", "Kishoreganj"],
-  Chattogram: ["Chattogram", "Cox's Bazar", "Feni", "Comilla", "Brahmanbaria", "Rangamati", "Khagrachhari", "Bandarban", "Noakhali", "Lakshmipur", "Chandpur"],
-  Rajshahi: ["Rajshahi", "Bogura", "Pabna", "Joypurhat", "Naogaon", "Natore", "Chapainawabganj", "Sirajganj"],
-  Khulna: ["Khulna", "Jashore", "Bagerhat", "Satkhira", "Kushtia", "Chuadanga", "Meherpur", "Jhenaidah", "Magura", "Narail"],
-  Barishal: ["Barishal", "Patuakhali", "Bhola", "Pirojpur", "Barguna", "Jhalokati"],
-  Sylhet: ["Sylhet", "Moulvibazar", "Habiganj", "Sunamganj"],
-  Rangpur: ["Rangpur", "Dinajpur", "Gaibandha", "Kurigram", "Lalmonirhat", "Nilphamari", "Panchagarh", "Thakurgaon"],
-  Mymensingh: ["Mymensingh", "Jamalpur", "Netrokona", "Sherpur"]
-};
-
-const divisionOptions = Object.keys(divisionsData).map((div) => ({ value: div, label: div }));
-const categoryOptions = [{ value: "Flood Victim", label: "Flood Victim" }, { value: "Orphan", label: "Orphan" }, { value: "Medical Need", label: "Medical Need" }, { value: "Education", label: "Education" }, { value: "Food Security", label: "Food Security" }, { value: "Winter Relife", label: "Winter Relife" }, { value: "Emergency", label: "Emergency" }, { value: "General", label: "General" }, { value: "Other", label: "Other" }];
+const categoryOptions = [{ value: "Flood Victim", label: "Flood Victim" }, { value: "Orphan", label: "Orphan" }, { value: "Medical Need", label: "Medical Need" }, { value: "Education", label: "Education" }, { value: "Food Security", label: "Food Security" }, { value: "Winter Relief", label: "Winter Relief" }, { value: "Emergency", label: "Emergency" }, { value: "General", label: "General" }, { value: "Other", label: "Other" }];
 const statusOptions = [{ value: "Active", label: "Active" }, { value: "Assisted", label: "Assisted" }, { value: "Pending", label: "Pending" }];
 
 const beneficiarySchema = z.object({
@@ -53,9 +43,7 @@ const AddBeneficiaryModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
   });
 
   const selectedDivision = useWatch({ control, name: "division" });
-  const districtOptions = selectedDivision && divisionsData[selectedDivision] 
-    ? divisionsData[selectedDivision].map((dist) => ({ value: dist, label: dist })) 
-    : [];
+  const districtOptions = getDistrictOptions(selectedDivision);
 
   useEffect(() => {
     if (selectedDivision) {
@@ -71,7 +59,7 @@ const AddBeneficiaryModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
   };
 
   return (
-    <BaseModal isOpen={isOpen} onClose={onClose} title="Add Beneficiary" maxWidth="max-w-3xl">
+    <BaseModal isOpen={isOpen} onClose={onClose} title="Add Beneficiary" size="3xl">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-[#5c4033] dark:text-zinc-100 font-medium w-full mx-auto">
         {/* Full Name */}
         <div>
@@ -109,22 +97,11 @@ const AddBeneficiaryModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
           />
         </div>
 
-        {/* Footer Buttons */}
-        <div className="flex justify-end gap-3 pt-5 border-t border-gray-100 dark:border-zinc-800">
-          <button 
-            type="button" 
-            onClick={() => { reset(); onClose(); }} 
-            className="px-6 py-2.5 border border-[#e8dfd8] dark:border-zinc-700 rounded-xl text-sm font-semibold text-[#5c4033] dark:text-zinc-200 hover:bg-[#fbf7f4] dark:hover:bg-zinc-800 transition-colors"
-          >
-            Cancel
-          </button>
-          <button 
-            type="submit" 
-            className="px-6 py-2.5 bg-[#00a389] hover:bg-[#008f77] text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
-          >
-            Add Beneficiary
-          </button>
-        </div>
+        <ModalFooter
+          onCancel={onClose}
+          onReset={reset}
+          submitLabel="Add Beneficiary"
+        />
       </form>
     </BaseModal>
   );

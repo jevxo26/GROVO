@@ -1,9 +1,6 @@
-
 "use client";
-
 import { useState } from "react";
 import { branchesData } from "@/data/branchesData";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,10 +16,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 
 import AddBranchModal from "@/components/shared/modals/addBranchModal";
-import EditBranchModal from "@/components/shared/modals/EditBeneficiaryModal";
-// import EditBranchModal from "@/components/shared/modals/editBranchModal";
-import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
+import ConfirmModal from "@/components/shared/modals/ConfirmModal";
 import { Branch } from "@/type";
+import EditBranchModal from "@/components/shared/modals/editBranchModal";
 
 export default function BranchesPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,7 +28,6 @@ export default function BranchesPage() {
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
   const [branchToDelete, setBranchToDelete] = useState<Branch | null>(null);
 
-  // সার্চিং ফিল্টার লজিক
   const filteredBranches = branchesData.filter(
     (branch) =>
       branch.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -41,17 +36,19 @@ export default function BranchesPage() {
       branch.type.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  // সামারি সেকশনের জন্য ডায়নামিক ক্যালকুলেশন লজিক
   const totalBranchesCount = branchesData.length;
-  const activeBranchesCount = branchesData.filter((b) => b.status === "active").length;
-  const pendingBranchesCount = branchesData.filter((b) => b.status === "pending").length;
-  
-  // লোকেশন স্ট্রিং থেকে ইউনিক বিভাগ (Division) সংখ্যা বের করার লজিক
+  const activeBranchesCount = branchesData.filter(
+    (b) => b.status === "active",
+  ).length;
+  const pendingBranchesCount = branchesData.filter(
+    (b) => b.status === "pending",
+  ).length;
+
   const divisionsCoveredCount = new Set(
     branchesData.map((b) => {
       const parts = b.location.split(",");
       return parts[parts.length - 1]?.trim();
-    })
+    }),
   ).size;
 
   const handleEditClick = (branch: Branch) => {
@@ -61,7 +58,6 @@ export default function BranchesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Top Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         <Card className="shadow-sm border-border bg-card">
           <CardContent className="p-4 md:p-6">
@@ -135,13 +131,27 @@ export default function BranchesPage() {
           <Table className="min-w-[800px]">
             <TableHeader className="bg-muted/50">
               <TableRow className="hover:bg-transparent border-border">
-                <TableHead className="font-semibold text-foreground">BRANCH</TableHead>
-                <TableHead className="font-semibold text-foreground">CODE</TableHead>
-                <TableHead className="font-semibold text-foreground">TYPE</TableHead>
-                <TableHead className="font-semibold text-foreground">LOCATION</TableHead>
-                <TableHead className="font-semibold text-foreground">ESTABLISHED</TableHead>
-                <TableHead className="font-semibold text-foreground">STATUS</TableHead>
-                <TableHead className="font-semibold text-foreground text-right pr-6">ACTIONS</TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  BRANCH
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  CODE
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  TYPE
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  LOCATION
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  ESTABLISHED
+                </TableHead>
+                <TableHead className="font-semibold text-foreground">
+                  STATUS
+                </TableHead>
+                <TableHead className="font-semibold text-foreground text-right pr-6">
+                  ACTIONS
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -151,13 +161,25 @@ export default function BranchesPage() {
                   className="hover:bg-muted/50 border-border group transition-colors"
                 >
                   <TableCell className="py-4">
-                    <div className="font-bold text-foreground">{branch.name}</div>
-                    <div className="text-sm text-muted-foreground">{branch.address}</div>
+                    <div className="font-bold text-foreground">
+                      {branch.name}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {branch.address}
+                    </div>
                   </TableCell>
-                  <TableCell className="font-medium text-foreground">{branch.code}</TableCell>
-                  <TableCell className="text-muted-foreground">{branch.type}</TableCell>
-                  <TableCell className="text-muted-foreground">{branch.location}</TableCell>
-                  <TableCell className="text-muted-foreground">{branch.established}</TableCell>
+                  <TableCell className="font-medium text-foreground">
+                    {branch.code}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {branch.type}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {branch.location}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {branch.established}
+                  </TableCell>
                   <TableCell>
                     <Badge
                       variant="outline"
@@ -209,19 +231,21 @@ export default function BranchesPage() {
       <EditBranchModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
-        defaultData={selectedBranch}
         onSave={(updatedData) => {
-          console.log("Branch updated:", updatedData);
+          console.log(updatedData);
           setIsEditModalOpen(false);
         }}
       />
 
-      <DeleteBranchModal
+      <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={() => {
+        onConfirm={() => {
           console.log("Deleting branch:", branchToDelete?.id);
         }}
+        title="Delete Branch"
+        message={`Are you sure you want to delete ${branchToDelete?.name ?? "this branch"}?`}
+        confirmLabel="Delete Forever"
       />
     </div>
   );

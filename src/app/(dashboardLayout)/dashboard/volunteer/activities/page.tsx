@@ -55,7 +55,6 @@ const activityTypes = [
 
 const Activities: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
-
   const {
     register,
     handleSubmit,
