@@ -1,7 +1,10 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import AddBranchModal from "@/components/shared/modals/addBranchModal";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -10,9 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Search, Trash2 } from "lucide-react";
+import { useState } from "react";
+
+import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
 
 const branchesData = [
   {
@@ -96,11 +100,6 @@ const branchesData = [
     established: "2025-02-18",
   },
 ];
-
-import { useState } from "react";
-import AddBranchModal from "@/components/shared/modals/addBranchModal";
-import EditBranchModal from "@/components/shared/modals/EditBranchModal";
-import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
 
 export default function BranchesPage() {
   const [searchQuery, setSearchQuery] = useState("");

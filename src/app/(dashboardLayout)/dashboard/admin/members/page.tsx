@@ -1,6 +1,7 @@
 "use client";
-import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -9,8 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 const membersData = [
   {
     id: "1",
@@ -94,10 +94,10 @@ const membersData = [
   },
 ];
 
-import { useState } from "react";
 import AddMemberModal from "@/components/shared/modals/addMemberModal";
-import EditMemberModal from "@/components/shared/modals/editMemberModal";
 import DeleteMemberModal from "@/components/shared/modals/deleteMemberModal";
+import EditMemberModal from "@/components/shared/modals/editMemberModal";
+import { useState } from "react";
 
 export default function MembersPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -106,7 +106,7 @@ export default function MembersPage() {
   const [selectedMember, setSelectedMember] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [memberToDelete, setMemberToDelete] = useState<any>(null);
-  
+
   const handleEdit = (member: any) => {
     setSelectedMember(member);
     setIsEditModalOpen(true);
@@ -255,7 +255,6 @@ export default function MembersPage() {
         onDelete={() => {
           console.log("Deleting member:", memberToDelete?.id);
         }}
-        memberName={memberToDelete?.name}
       ></DeleteMemberModal>
     </div>
   );
