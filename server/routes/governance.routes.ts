@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { GovernanceController } from "../controllers/governance.controller";
+import { governanceController } from "../controllers/governance.controller";
 
 const router = Router();
 
-router.post("/committee/create", GovernanceController.createCommittee);
+router.post("/committee/create", governanceController.createCommittee);
 router.post(
   "/committee/member/assign",
-  GovernanceController.assignCommitteeMember,
+  governanceController.assignCommitteeMember,
 );
 
 export const governanceRouter = router;
+

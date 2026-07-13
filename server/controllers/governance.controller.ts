@@ -1,78 +1,66 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
 import { CommitteeLevel } from "../../generated/prisma/enums";
+import customError from "../error/customError";
+import { governanceService } from "../services/governance.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-interface CommitteePayload {
-  branchId: string;
-  committeeName: string;
-  committeeLevel: CommitteeLevel;
-  description?: string;
-  formationDate: string;
-}
+const createCommittee = catchAsync(async (req, res) => {
+  const {
+    branchId,
+    committeeName,
+    committeeLevel,
+    description,
+    formationDate,
+  } = req.body;
 
-export class GovernanceController {
-  static async createCommittee(req: Request, res: Response): Promise<void> {
-    const {
-      branchId,
-      committeeName,
-      committeeLevel,
-      description,
-      formationDate,
-    } = req.body as CommitteePayload;
-
-    if (!branchId || !committeeName || !committeeLevel) {
-      res
-        .status(400)
-        .json({ success: false, error: "Missing core committee parameters." });
-      return;
-    }
-
-    try {
-      const committee = await prisma.committee.create({
-        data: {
-          branchId,
-          committeeName,
-          committeeLevel,
-          description,
-          formationDate: new Date(formationDate),
-          status: "ACTIVE",
-        },
-      });
-      res.status(200).json({ success: true, data: committee });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!branchId || !committeeName || !committeeLevel) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing core committee parameters.",
+    );
   }
 
-  static async assignCommitteeMember(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    const { committeeId, memberId, designationId, joiningDate } = req.body as {
-      committeeId: string;
-      memberId: string;
-      designationId: string;
-      joiningDate: string;
-    };
+  const result = await governanceService.createCommittee({
+    branchId,
+    committeeName,
+    committeeLevel: committeeLevel as CommitteeLevel,
+    description,
+    formationDate,
+  });
 
-    try {
-      const assignment = await prisma.committeeMember.create({
-        data: {
-          committeeId,
-          memberId,
-          designationId,
-          joiningDate: new Date(joiningDate),
-          status: "ACTIVE",
-        },
-      });
-      res.status(200).json({ success: true, data: assignment });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to bind committee membership details.",
-      });
-    }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Committee created successfully",
+    data: result,
+  });
+});
+
+const assignCommitteeMember = catchAsync(async (req, res) => {
+  const { committeeId, memberId, designationId, joiningDate } = req.body;
+
+  if (!committeeId || !memberId || !designationId || !joiningDate) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required committee assignment parameters.",
+    );
   }
-}
+
+  const result = await governanceService.assignCommitteeMember({
+    committeeId,
+    memberId,
+    designationId,
+    joiningDate,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Committee member assigned successfully",
+    data: result,
+  });
+});
+
+export const governanceController = {
+  createCommittee,
+  assignCommitteeMember,
+};
