@@ -6,8 +6,8 @@ interface UserWelcomeProps {
   memberSince: string;
   memberId: string;
   onDonationClick: () => void;
-  // নতুন প্রপ: ব্যাকগ্রাউন্ড কালারের জন্য
-  bgColor?: string; 
+  bgColor?: string; // ব্যাকগ্রাউন্ড কালার ক্লাস (যেমন: "bg-[#8b4513]")
+  btnTextColor?: string; // নতুন প্রপ: বাটনের টেক্সট কালারের জন্য
 }
 
 const UserWelcomeSection: React.FC<UserWelcomeProps> = ({ 
@@ -15,10 +15,10 @@ const UserWelcomeSection: React.FC<UserWelcomeProps> = ({
   memberSince, 
   memberId, 
   onDonationClick,
-  bgColor = "bg-[#8b4513]" // ডিফল্ট কালার
+  bgColor = "bg-[#8b4513]", // ডিফল্ট ব্যাকগ্রাউন্ড
+  btnTextColor = "text-[#8b4513]" // ডিফল্ট বাটন টেক্সট কালার
 }) => {
   return (
-    // ডাইনামিক ক্লাস ব্যবহার করা হয়েছে
     <section className={`${bgColor} text-white p-8 rounded-3xl flex flex-col md:flex-row justify-between items-center shadow-lg gap-4`}>
       <div>
         <p className="text-sm opacity-90 font-medium">Welcome back</p>
@@ -27,9 +27,11 @@ const UserWelcomeSection: React.FC<UserWelcomeProps> = ({
           Member since {memberSince} · {memberId}
         </p>
       </div>
+      
       <button 
         onClick={onDonationClick}
-        className="bg-white text-slate-800 px-6 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-gray-100 transition shadow-sm"
+        // এখানে btnTextColor ডাইনামিক্যালি ব্যবহার করা হয়েছে
+        className={`bg-white ${btnTextColor} px-6 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-gray-100 transition shadow-sm`}
       >
         <Heart className="w-4 h-4 text-red-500" /> Make a Donation
       </button>
