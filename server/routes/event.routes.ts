@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { EventController } from "../controllers/event.controller";
+import { eventController } from "../controllers/event.controller";
 
 const router = Router();
 
-router.post("/schedule", EventController.scheduleEvent);
-router.post("/attendance/check-in", EventController.logAttendance);
+router.post("/schedule", eventController.scheduleEvent);
+router.post("/attendance/check-in", eventController.logAttendance);
 
 export const eventRouter = router;
+

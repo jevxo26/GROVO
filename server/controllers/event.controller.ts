@@ -1,86 +1,72 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { eventService } from "../services/event.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-interface EventPayload {
-  title: string;
-  slug: string;
-  categoryId: string;
-  eventType: string;
-  branchId: string;
-  venue: string;
-  startDate: string;
-  endDate: string;
-  createdBy: string;
-}
+const scheduleEvent = catchAsync(async (req, res) => {
+  const {
+    title,
+    slug,
+    categoryId,
+    eventType,
+    branchId,
+    venue,
+    startDate,
+    endDate,
+    createdBy,
+  } = req.body;
 
-export class EventController {
-  static async scheduleEvent(req: Request, res: Response): Promise<void> {
-    const {
-      title,
-      slug,
-      categoryId,
-      eventType,
-      branchId,
-      venue,
-      startDate,
-      endDate,
-      createdBy,
-    } = req.body as EventPayload;
-
-    if (!title || !slug || !branchId || !categoryId) {
-      res
-        .status(400)
-        .json({ success: false, error: "Missing core scheduling records." });
-      return;
-    }
-
-    try {
-      const eventCode = `EVT-${Date.now()}`;
-      const event = await prisma.event.create({
-        data: {
-          eventCode,
-          title,
-          slug,
-          categoryId,
-          eventType,
-          branchId,
-          venue,
-          startDate: new Date(startDate),
-          endDate: new Date(endDate),
-          createdBy,
-          status: "ACTIVE",
-        },
-      });
-      res.status(200).json({ success: true, data: event });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!title || !slug || !branchId || !categoryId) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing core scheduling records.",
+    );
   }
 
-  static async logAttendance(req: Request, res: Response): Promise<void> {
-    const { eventId, userId, checkInTime } = req.body as {
-      eventId: string;
-      userId: string;
-      checkInTime: string;
-    };
+  const result = await eventService.scheduleEvent({
+    title,
+    slug,
+    categoryId,
+    eventType,
+    branchId,
+    venue,
+    startDate,
+    endDate,
+    createdBy,
+  });
 
-    try {
-      const log = await prisma.eventAttendance.create({
-        data: {
-          eventId,
-          userId,
-          checkInTime: new Date(checkInTime),
-          attendanceStatus: "PRESENT",
-        },
-      });
-      res.status(200).json({ success: true, data: log });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to record check-in telemetry.",
-      });
-    }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Event scheduled successfully",
+    data: result,
+  });
+});
+
+const logAttendance = catchAsync(async (req, res) => {
+  const { eventId, userId, checkInTime } = req.body;
+
+  if (!eventId || !userId || !checkInTime) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required attendance parameters.",
+    );
   }
-}
+
+  const result = await eventService.logAttendance({
+    eventId,
+    userId,
+    checkInTime,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Check-in telemetry recorded successfully",
+    data: result,
+  });
+});
+
+export const eventController = {
+  scheduleEvent,
+  logAttendance,
+};
