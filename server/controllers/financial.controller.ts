@@ -53,7 +53,31 @@ const verifyTransaction = catchAsync(async (req, res) => {
   });
 });
 
+const generateFinancialReport = catchAsync(async (req, res) => {
+  const { report_type, start_date, end_date } = req.body;
+
+  if (!report_type || !start_date || !end_date) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "report_type, start_date, and end_date are required.",
+    );
+  }
+
+  const result = await financialService.generateFinancialReport({
+    reportType: report_type,
+    startDate: start_date,
+    endDate: end_date,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Financial report generated successfully",
+    data: result,
+  });
+});
+
 export const financialController = {
   transferCapital,
   verifyTransaction,
+  generateFinancialReport,
 };

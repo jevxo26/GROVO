@@ -60,7 +60,50 @@ const verifyTransaction = async (payload: {
   return txRecord;
 };
 
+const generateFinancialReport = async (payload: {
+  reportType: string;
+  startDate: string;
+  endDate: string;
+}) => {
+  const [totalDonations, totalRefunds] = await Promise.all([
+    prisma.donation.aggregate({
+      where: {
+        createdAt: {
+          gte: new Date(payload.startDate),
+          lte: new Date(payload.endDate),
+        },
+        paymentStatus: "COMPLETED",
+      },
+      _sum: { amount: true },
+    }),
+    prisma.refund.aggregate({
+      where: {
+        createdAt: {
+          gte: new Date(payload.startDate),
+          lte: new Date(payload.endDate),
+        },
+        refundStatus: "SUCCESS",
+      },
+      _sum: { refundAmount: true },
+    }),
+  ]);
+
+  const reportUrl = `https://ashray.org/reports/financial-${payload.reportType}-${Date.now()}.pdf`;
+
+  return {
+    reportType: payload.reportType,
+    startDate: payload.startDate,
+    endDate: payload.endDate,
+    totalDonations: totalDonations._sum.amount || 0,
+    totalRefunds: totalRefunds._sum.refundAmount || 0,
+    netRevenue: (totalDonations._sum.amount || 0) - (totalRefunds._sum.refundAmount || 0),
+    reportUrl,
+    generatedAt: new Date(),
+  };
+};
+
 export const financialService = {
   transferCapital,
   verifyTransaction,
+  generateFinancialReport,
 };
