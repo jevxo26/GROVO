@@ -20,13 +20,13 @@ interface InfoItem {
 
 const Profile = () => {
   const personalInfo: InfoItem[] = [
-    { label: "Full Name", value: "Kamal Hossain" },
-    { label: "Email", value: "kamal.hossain@email.com" },
+    { label: "Full Name", value: "Dr. Imran Hossain" },
+    { label: "Email", value: "afljafsdkj@gamil.com" },
     { label: "Phone", value: "+880 1712-345678" },
   ];
 
   const membershipInfo: InfoItem[] = [
-    { label: "Type", value: "General Member" },
+    { label: "Type", value: "Executive Member" },
     { label: "Number", value: "ASH-MEM-2024-0847" },
     { label: "Joined", value: "2024-03-15" },
     { label: "Expiry", value: "2027-03-15" },
@@ -50,10 +50,10 @@ const Profile = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                Kamal Hossain
+                Dr. Imran Hossain
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                General Member · ASH-MEM-2024-0847
+                Executive Member · ASH-MEM-2024-0847
               </p>
             </div>
             <button className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-[#2f2824] border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition">
@@ -79,7 +79,12 @@ const Profile = () => {
         <InfoCard title="Membership Info" data={membershipInfo} />
       </div>
       <div>
-        <MembershipCard></MembershipCard>
+        <MembershipCard
+          memberName="Rahim Ahmed"
+          memberNo="ASH-MEM-2024-0848"
+          memberType="Life Member"
+          validUntil="2030-12-31"
+        />
       </div>
     </div>
   );
