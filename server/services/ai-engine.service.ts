@@ -1,9 +1,7 @@
 import { AIModel, DemandForecast } from "../../generated/prisma/browser";
 import { prisma } from "../lib/prisma";
 
-const createAiEngine = async (payload: AIModel) => {
-  return true;
-};
+
 
 const registerModelMetrics = async (payload: AIModel) => {
   return await prisma.aIModel.create({
@@ -29,7 +27,7 @@ const recordForecast = async (payload: DemandForecast) => {
 };
 
 export const aiEngineService = {
-  createAiEngine,
+
   registerModelMetrics,
   recordForecast,
 };
