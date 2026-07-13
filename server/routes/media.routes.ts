@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { MediaController } from "../controllers/media.controller";
+import { mediaController } from "../controllers/media.controller";
 
 const router = Router();
-router.post("/upload/register", MediaController.registerUpload);
-router.get("/user/:userId/assets", MediaController.getUserAssets);
+router.post("/upload/register", mediaController.registerUpload);
+router.get("/user/:userId/assets", mediaController.getUserAssets);
 
 export const mediaRouter = router;
+
