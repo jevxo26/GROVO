@@ -23,59 +23,110 @@ const sidebarNavigation = {
   member: [
     { name: "Overview", href: "/dashboard/member", icon: LayoutDashboard },
     { name: "My Profile", href: "/dashboard/member/profile", icon: Users },
-    { name: "My Donations", href: "/dashboard/member/donations", icon: HandCoins },
+    {
+      name: "My Donations",
+      href: "/dashboard/member/donations",
+      icon: HandCoins,
+    },
     { name: "My Campaigns", href: "/dashboard/member/campaigns", icon: Flag },
-    { name: "Certificates", href: "/dashboard/member/certificates", icon: Award },
+    {
+      name: "Certificates",
+      href: "/dashboard/member/certificates",
+      icon: Award,
+    },
   ],
   corporate: [
     { name: "Overview", href: "/dashboard/corporate", icon: LayoutGrid },
-    { name: "Donations", href: "/dashboard/corporate/donations", icon: HandCoins },
+    {
+      name: "Donations",
+      href: "/dashboard/corporate/donations",
+      icon: HandCoins,
+    },
     { name: "Projects", href: "/dashboard/corporate/projects", icon: Folder },
-    { name: "CSR Reports", href: "/dashboard/corporate/reports", icon: BarChart3 },
+    {
+      name: "CSR Reports",
+      href: "/dashboard/corporate/reports",
+      icon: BarChart3,
+    },
   ],
-  executiveMember: [
-    { name: "Overview", href: "/dashboard/executivemember", icon: LayoutDashboard },
-    { name: "My Profile", href: "/dashboard/executivemember/profile", icon: Users },
-    { name: "My Donations", href: "/dashboard/executivemember/donations", icon: HandCoins },
-    { name: "My Campaigns", href: "/dashboard/executivemember/campaigns", icon: Flag },
-    { name: "Certificates", href: "/dashboard/executivemember/certificates", icon: Award },
+  executivemember: [
+    {
+      name: "Overview",
+      href: "/dashboard/executivemember",
+      icon: LayoutDashboard,
+    },
+    {
+      name: "My Profile",
+      href: "/dashboard/executivemember/profile",
+      icon: Users,
+    },
+    {
+      name: "My Donations",
+      href: "/dashboard/executivemember/donations",
+      icon: HandCoins,
+    },
+    {
+      name: "My Campaigns",
+      href: "/dashboard/executivemember/campaigns",
+      icon: Flag,
+    },
+    {
+      name: "Certificates",
+      href: "/dashboard/executivemember/certificates",
+      icon: Award,
+    },
   ],
   volunteer: [
     { name: "Overview", href: "/dashboard/volunteer", icon: LayoutGrid },
-    { name: "Register Members", href: "/dashboard/volunteer/registermember", icon: UserPlus },
-    { name: "My Activities", href: "/dashboard/volunteer/activities", icon: SquareCheck },
-    { name: "Performance", href: "/dashboard/volunteer/performance", icon: BarChart3 },
+    {
+      name: "Register Members",
+      href: "/dashboard/volunteer/registermember",
+      icon: UserPlus,
+    },
+    {
+      name: "My Activities",
+      href: "/dashboard/volunteer/activities",
+      icon: SquareCheck,
+    },
+    {
+      name: "Performance",
+      href: "/dashboard/volunteer/performance",
+      icon: BarChart3,
+    },
   ],
 };
 
 // টাইপ ডিফিনিশন আপডেট করা হয়েছে
-type UserRole = "member" | "corporate" | "executiveMember" | "volunteer";
+type UserRole = "member" | "corporate" | "executivemember" | "volunteer";
 
-export function Sidebar({ 
-  onClose, 
-  role = "member" 
-}: { 
-  onClose?: () => void, 
-  role?: UserRole 
+export function Sidebar({
+  onClose,
+  role = "volunteer",
+}: {
+  onClose?: () => void;
+  role?: UserRole;
 }) {
   const pathname = usePathname();
   const links = sidebarNavigation[role];
 
   return (
     <aside className="w-64 bg-sidebar border-r border-sidebar-border h-screen flex flex-col transition-colors duration-300 relative">
-      
       {/* Header Section */}
       <div className="p-6 flex items-center gap-3">
         <div className="bg-sidebar-primary p-2 rounded-lg">
           <HandCoins className="w-6 h-6 text-sidebar-primary-foreground" />
         </div>
         <div>
-          <h1 className="font-bold text-xl text-sidebar-foreground font-sans tracking-tight">ASHRAY</h1>
-          <p className="text-xs text-sidebar-foreground/70 capitalize">{role.replace(/([A-Z])/g, ' $1')} Panel</p>
+          <h1 className="font-bold text-xl text-sidebar-foreground font-sans tracking-tight">
+            ASHRAY
+          </h1>
+          <p className="text-xs text-sidebar-foreground/70 capitalize">
+            {role.replace(/([A-Z])/g, " $1")} Panel
+          </p>
         </div>
         {onClose && (
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="md:hidden ml-auto p-1 text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors"
           >
             <X className="w-5 h-5" />
@@ -86,9 +137,16 @@ export function Sidebar({
       {/* Navigation Links */}
       <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
         {links.map((link) => {
-          // সক্রিয় লিঙ্কের লজিক
-          const isActive = pathname === link.href || (link.href !== "/dashboard/member" && link.href !== "/dashboard/corporate" && link.href !== "/dashboard/executivemember" && link.href !== "/dashboard/volunteer" && pathname.startsWith(link.href));
-          
+          const isRootDashboard =
+            link.href === "/dashboard/member" ||
+            link.href === "/dashboard/corporate" ||
+            link.href === "/dashboard/executivemember" ||
+            link.href === "/dashboard/volunteer";
+
+          const isActive = isRootDashboard
+            ? pathname === link.href
+            : pathname.startsWith(link.href);
+
           return (
             <Link
               key={link.name}
@@ -98,10 +156,17 @@ export function Sidebar({
                 "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium",
                 isActive
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
               )}
             >
-              <link.icon className={cn("w-5 h-5", isActive ? "text-sidebar-accent-foreground" : "text-sidebar-foreground/70")} />
+              <link.icon
+                className={cn(
+                  "w-5 h-5",
+                  isActive
+                    ? "text-sidebar-accent-foreground"
+                    : "text-sidebar-foreground/70",
+                )}
+              />
               {link.name}
             </Link>
           );

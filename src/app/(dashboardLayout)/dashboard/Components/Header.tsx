@@ -6,24 +6,33 @@ import { ModeToggle } from "@/components/ui/modeToggle";
 import { usePathname } from "next/navigation";
 
 const getPageTitle = (pathname: string) => {
+  // Member Dashboard
   if (pathname === "/dashboard/member") return "Member Dashboard";
-  if (pathname.includes("/profile")) return "My Profile";
-  if (pathname.includes("/donations")) return "My Donations";
-  if (pathname.includes("/campaigns")) return "My Campaigns";
-  if (pathname.includes("/certificates")) return "Certificates & Badges";
+  if (pathname === "/dashboard/member/profile") return "My Profile";
+  if (pathname === "/dashboard/member/donations") return "My Donations";
+  if (pathname === "/dashboard/member/campaigns") return "My Campaigns";
+  if (pathname === "/dashboard/member/certificates") return "Certificates & Badges";
+
+  // Corporate Dashboard
   if (pathname === "/dashboard/corporate") return "Corporate Dashboard";
-  if (pathname.includes("/corporate/donations")) return "Donations";
-  if (pathname.includes("/corporate/projects")) return "Projects";
-  if (pathname.includes("/corporate/reports")) return "CSR Reports";
+  if (pathname === "/dashboard/corporate/donations") return "Donations";
+  if (pathname === "/dashboard/corporate/projects") return "Projects";
+  if (pathname === "/dashboard/corporate/reports") return "CSR Reports";
+
+  // Executive Dashboard
   if (pathname === "/dashboard/executivemember") return "Executive Dashboard";
-  if (pathname.includes("/profile")) return "My Profile";
-  if (pathname.includes("/donations")) return "My Donations";
-  if (pathname.includes("/campaigns")) return "My Campaigns";
-  if (pathname.includes("/certificates")) return "Certificates & Badges";
+  if (pathname === "/dashboard/executivemember/profile") return "My Profile";
+  if (pathname === "/dashboard/executivemember/donations") return "My Donations";
+  if (pathname === "/dashboard/executivemember/campaigns") return "My Campaigns";
+  if (pathname === "/dashboard/executivemember/certificates") return "Certificates & Badges";
+
+  // Volunteer Dashboard
   if (pathname === "/dashboard/volunteer") return "Volunteer Dashboard";
-  if (pathname.includes("/registermember")) return "Register New Members";
-  if (pathname.includes("/activities")) return "My Activities";
-  if (pathname.includes("/performance")) return "Performance Tracking";
+  if (pathname === "/dashboard/volunteer/registermember") return "Register New Members";
+  if (pathname === "/dashboard/volunteer/activities") return "My Activities";
+  if (pathname === "/dashboard/volunteer/performance") return "Performance Tracking";
+
+  return "Dashboard"; // ডিফল্ট টাইটেল
 };
 
 export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
