@@ -6,7 +6,7 @@ import { ModeToggle } from "@/components/ui/modeToggle";
 import { usePathname } from "next/navigation";
 
 const getPageTitle = (pathname: string) => {
-  if (pathname === "/dashboard/member") return "Member Dashboard";
+  if (pathname === "/dashboard/executivemember") return "Executive Dashboard";
   if (pathname.includes("/profile")) return "My Profile";
   if (pathname.includes("/donations")) return "My Donations";
   if (pathname.includes("/campaigns")) return "My Campaigns";
