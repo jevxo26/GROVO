@@ -7,7 +7,7 @@ const processDonation = async (payload: {
   paymentMethod: string;
   transactionId: string;
 }) => {
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     const donationNumber = `DN-${Date.now()}`;
 
     const donation = await tx.donation.create({

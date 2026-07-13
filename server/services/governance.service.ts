@@ -1,4 +1,4 @@
-import { CommitteeLevel } from "../../generated/prisma/enums";
+import { CommitteeLevel } from "../../generated/prisma/client";
 import { prisma } from "../lib/prisma";
 
 const createCommittee = async (payload: {

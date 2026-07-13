@@ -8,7 +8,7 @@ const registerBeneficiary = async (payload: {
   occupation?: string;
   monthlyIncome?: number;
 }) => {
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     const beneficiaryCode = `BEN-${Date.now()}`;
     const beneficiary = await tx.beneficiary.create({
       data: {

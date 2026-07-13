@@ -7,7 +7,7 @@ const queueAlert = async (payload: {
   body: string;
   priority?: string;
 }) => {
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     const baseAlert = await tx.notification.create({
       data: {
         title: payload.title,

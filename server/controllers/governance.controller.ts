@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { CommitteeLevel } from "../../generated/prisma/enums";
+import { CommitteeLevel } from "../../generated/prisma/client";
 import customError from "../error/customError";
 import { governanceService } from "../services/governance.service";
 import catchAsync from "../utils/catchAsync";

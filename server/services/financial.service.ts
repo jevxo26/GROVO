@@ -7,7 +7,7 @@ const transferCapital = async (payload: {
   reason?: string;
   approvedBy?: string;
 }) => {
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     const source = await tx.fund.update({
       where: { id: payload.fromFundId },
       data: { currentBalance: { decrement: payload.amount } },
