@@ -1,64 +1,51 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { volunteerService } from "../services/volunteer.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-export class VolunteerController {
-  static async registerPerformance(req: Request, res: Response): Promise<void> {
-    const {
-      volunteerId,
-      totalAssignments,
-      completedAssignments,
-      attendanceRate,
-      score,
-    } = req.body as {
-      volunteerId: string;
-      totalAssignments: number;
-      completedAssignments: number;
-      attendanceRate: number;
-      score: number;
-    };
+const registerPerformance = catchAsync(async (req, res) => {
+  const {
+    volunteerId,
+    totalAssignments,
+    completedAssignments,
+    attendanceRate,
+    score,
+  } = req.body;
 
-    if (!volunteerId) {
-      res
-        .status(400)
-        .json({ success: false, error: "Volunteer target ID required." });
-      return;
-    }
-
-    try {
-      const metric = await prisma.volunteerPerformance.create({
-        data: {
-          volunteerId,
-          totalAssignments,
-          completedAssignments,
-          attendanceRate,
-          performanceScore: score,
-        },
-      });
-      res.status(200).json({ success: true, data: metric });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!volunteerId) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Volunteer target ID required.",
+    );
   }
 
-  static async getAvailableVolunteers(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    try {
-      const active = await prisma.volunteer.findMany({
-        where: { status: "ACTIVE" },
-        include: {
-          availabilities: { where: { isAvailable: true } },
-          skills: true,
-        },
-      });
-      res.status(200).json({ success: true, data: active });
-    } catch (error: unknown) {
-      res
-        .status(500)
-        .json({ success: false, error: "Failed to track active metrics." });
-    }
-  }
-}
+  const result = await volunteerService.registerPerformance({
+    volunteerId,
+    totalAssignments,
+    completedAssignments,
+    attendanceRate,
+    score,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Volunteer performance registered successfully",
+    data: result,
+  });
+});
+
+const getAvailableVolunteers = catchAsync(async (req, res) => {
+  const result = await volunteerService.getAvailableVolunteers();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Available volunteers retrieved successfully",
+    data: result,
+  });
+});
+
+export const volunteerController = {
+  registerPerformance,
+  getAvailableVolunteers,
+};
