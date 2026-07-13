@@ -1,4 +1,5 @@
 "use client";
+import React from 'react';
 import { mytask } from '@/data/mytask';
 import { HiOutlineCheckCircle, HiOutlineDocumentReport, HiOutlineDatabase, HiOutlineLink, HiOutlineFolder } from 'react-icons/hi';
 
@@ -22,29 +23,38 @@ const MyTask = ({ activeTab }: { activeTab: string }) => {
   return (
     <div className="flex flex-col gap-4">
       {filteredTasks.map((task) => (
-        <div key={task.id} className="flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
+        <div 
+          key={task.id} 
+          className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl shadow-sm transition-colors duration-200"
+        >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-gray-50 rounded-lg text-gray-500 text-xl">
+            <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-gray-500 dark:text-gray-300 text-xl">
               {getIcon(task.id)}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-semibold text-gray-800">{task.title}</h3>
-                <span className="text-[10px] uppercase px-2 py-0.5 bg-orange-50 text-orange-600 rounded">
+                <h3 className="font-semibold text-gray-800 dark:text-white">{task.title}</h3>
+                <span className="text-[10px] uppercase px-2 py-0.5 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded">
                   {task.priority}
                 </span>
               </div>
-              <p className="text-xs text-gray-400 mt-1">Assigned by: {task.assignedBy} · Due: {task.due}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Assigned by: {task.assignedBy} · Due: {task.due}</p>
             </div>
           </div>
 
           <div>
             {task.status === 'in progress' ? (
-              <span className="text-xs text-teal-600 bg-teal-50 px-3 py-1 rounded-full uppercase">in progress</span>
+              <span className="text-xs text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1 rounded-full uppercase">
+                in progress
+              </span>
             ) : (
               <div className="flex items-center gap-3">
-                <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full uppercase">pending</span>
-                <button className="text-xs text-teal-600 bg-teal-50 px-4 py-1 rounded hover:bg-teal-100">Start</button>
+                <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full uppercase">
+                  pending
+                </span>
+                <button className="text-xs text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-4 py-1 rounded hover:bg-teal-100 dark:hover:bg-teal-800 transition-colors">
+                  Start
+                </button>
               </div>
             )}
           </div>
