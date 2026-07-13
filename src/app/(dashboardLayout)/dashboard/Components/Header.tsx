@@ -11,7 +11,19 @@ const getPageTitle = (pathname: string) => {
   if (pathname.includes("/donations")) return "My Donations";
   if (pathname.includes("/campaigns")) return "My Campaigns";
   if (pathname.includes("/certificates")) return "Certificates & Badges";
-  return "Member Dashboard";
+  if (pathname === "/dashboard/corporate") return "Corporate Dashboard";
+  if (pathname.includes("/corporate/donations")) return "Donations";
+  if (pathname.includes("/corporate/projects")) return "Projects";
+  if (pathname.includes("/corporate/reports")) return "CSR Reports";
+  if (pathname === "/dashboard/executivemember") return "Executive Dashboard";
+  if (pathname.includes("/profile")) return "My Profile";
+  if (pathname.includes("/donations")) return "My Donations";
+  if (pathname.includes("/campaigns")) return "My Campaigns";
+  if (pathname.includes("/certificates")) return "Certificates & Badges";
+  if (pathname === "/dashboard/volunteer") return "Volunteer Dashboard";
+  if (pathname.includes("/registermember")) return "Register New Members";
+  if (pathname.includes("/activities")) return "My Activities";
+  if (pathname.includes("/performance")) return "Performance Tracking";
 };
 
 export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
