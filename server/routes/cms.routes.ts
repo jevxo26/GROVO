@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { CMSController } from "../controllers/cms.controller";
+import { cmsController } from "../controllers/cms.controller";
 
 const router = Router();
 
-router.post("/pages/create", CMSController.createPage);
-router.post("/stories/publish", CMSController.publishImpactStory);
+router.post("/pages/create", cmsController.createPage);
+router.post("/stories/publish", cmsController.publishImpactStory);
 
 export const cmsRouter = router;
+
