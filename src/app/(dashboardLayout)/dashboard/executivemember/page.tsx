@@ -21,9 +21,9 @@ const MemberDashboard: React.FC = () => {
       <section className="bg-[#8b4513] text-white p-8 rounded-3xl flex flex-col md:flex-row justify-between items-center shadow-lg gap-4">
         <div>
           <p className="text-sm opacity-90 font-medium">Welcome back</p>
-          <h1 className="text-3xl font-bold font-serif">Kamal Hossain</h1>
+          <h1 className="text-3xl font-bold font-serif">Dr. Imran Hossain</h1>
           <p className="text-sm opacity-80 mt-1">
-            Member since 2024-03-15 · ASH-MEM-2024-0847
+            Member since 2023-09-01 · ASH-EX-2023-010
           </p>
         </div>
         <button className="bg-white text-[#8b4513] px-6 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-gray-100 transition shadow-sm">
