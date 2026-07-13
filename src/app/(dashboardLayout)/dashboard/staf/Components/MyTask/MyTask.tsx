@@ -1,23 +1,6 @@
 "use client";
-import React from 'react';
+import { mytask } from '@/data/mytask';
 import { HiOutlineCheckCircle, HiOutlineDocumentReport, HiOutlineDatabase, HiOutlineLink, HiOutlineFolder } from 'react-icons/hi';
-
-interface Task {
-  id: number;
-  title: string;
-  priority: 'high' | 'medium' | 'low';
-  status: 'in progress' | 'pending';
-  assignedBy: string;
-  due: string;
-}
-
-const tasks: Task[] = [
-  { id: 1, title: 'Process 34 pending membership applications', priority: 'high', status: 'in progress', assignedBy: 'Abdul Karim', due: '2026-07-13' },
-  { id: 2, title: 'Prepare monthly donation reconciliation report', priority: 'high', status: 'pending', assignedBy: 'Fatema Rahman', due: '2026-07-15' },
-  { id: 3, title: 'Update beneficiary database - Savar division', priority: 'medium', status: 'pending', assignedBy: 'Abdul Karim', due: '2026-07-18' },
-  { id: 4, title: 'Coordinate Eid food package logistics', priority: 'high', status: 'in progress', assignedBy: 'National Admin', due: '2026-07-16' },
-  { id: 5, title: 'Archive completed project documents', priority: 'low', status: 'pending', assignedBy: 'System', due: '2026-07-25' },
-];
 
 const getIcon = (id: number) => {
   switch (id) {
@@ -30,7 +13,7 @@ const getIcon = (id: number) => {
 };
 
 const MyTask = ({ activeTab }: { activeTab: string }) => {
-  const filteredTasks = tasks.filter((task) => {
+  const filteredTasks = mytask.filter((task) => {
     if (activeTab === 'All') return true;
     if (activeTab === 'In Progress') return task.status === 'in progress';
     return task.status === 'pending';

@@ -3,8 +3,8 @@ import { UserBadgeBanner } from "./Components/UserBadgeBanner/UserBadgeBanner";
 import { stafstatedata, summaryStats } from "@/data/stats";
 import { StatsCard } from "./Components/StatsCard/StatsCard";
 import { TaskList } from "./Components/TaskList/TaskList";
-import { myTasksData } from "@/data/tasks";
 import { StatsCardFoter } from "./Components/StatsCardFoter/StatsCardFoter";
+import { myTasksData } from "@/data/tasks";
 
 const StafDashboard = () => {
   return (
