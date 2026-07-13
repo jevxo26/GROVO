@@ -1,13 +1,14 @@
 "use client";
 import { DollarSign, Users, User, PieChart } from "lucide-react";
 import { StatCard } from "./components/StatCard";
-import { QuickActions } from "./components/QuickActions/QuickActions";
 import { BadgesSection } from "./components/BadgesSection/BadgesSection";
 import UserWelcomeSection from "../Components/UserWelcomeSection";
 import SupportedCampaigns from "../Components/SupportedCampaigns";
 import { campaigns } from "@/data/campaigns"; // ডেটা ইম্পোর্ট করা হয়েছে
 import { RecentDonations } from "../Components/RecentDonations";
 import { donations } from "@/data/donations";
+import { QuickActions } from "../Components/QuickActions";
+import { actionItems } from "@/data/quickActions";
 
 const myBadges = ["Corporate Partner", "Matching Donor", "Platinum CSR"];
 
@@ -63,7 +64,7 @@ const CorporateDashboard: React.FC = () => {
       </div>
 
       <div>
-        <QuickActions />
+        <QuickActions actions={actionItems} />
       </div>
     </div>
   );

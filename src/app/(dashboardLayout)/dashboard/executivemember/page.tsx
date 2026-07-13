@@ -1,12 +1,13 @@
 "use client";
 import { HandCoins, Flag, Award, Crown } from "lucide-react";
 import { StatCard } from "./components/StatCard";
-import { QuickActions } from "./components/QuickActions/QuickActions";
 import UserWelcomeSection from "../Components/UserWelcomeSection";
 import SupportedCampaigns from "../Components/SupportedCampaigns";
 import { campaigns } from "@/data/campaigns";
 import { RecentDonations } from "../Components/RecentDonations";
 import { donations } from "@/data/donations";
+import { QuickActions } from "../Components/QuickActions";
+import { actions } from "@/data/quickActions";
 
 type Badge = string;
 
@@ -85,7 +86,7 @@ const MemberDashboard: React.FC = () => {
           <SupportedCampaigns title="Supported Campaigns" campaigns={campaigns} />
         </div>
         <div>
-          <QuickActions></QuickActions>
+          <QuickActions actions={actions} />
         </div>
       </section>
     </div>

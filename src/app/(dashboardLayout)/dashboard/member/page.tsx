@@ -2,12 +2,13 @@
 import React from 'react';
 import { HandCoins, Flag, Award, Crown } from "lucide-react";
 import { StatCard } from "./components/StatCard";
-import { QuickActions } from "./components/QuickActions/QuickActions";
 import UserWelcomeSection from "../Components/UserWelcomeSection";
 import { campaigns } from "@/data/campaigns";
 import SupportedCampaigns from '../Components/SupportedCampaigns';
 import { RecentDonations } from '../Components/RecentDonations';
 import { donations } from '@/data/donations';
+import { actions } from '@/data/quickActions';
+import { QuickActions } from '../Components/QuickActions';
 
 // টাইপ ডিফিনিশন
 type Badge = string;
@@ -92,7 +93,7 @@ const MemberDashboard: React.FC = () => {
         </div>
 
         <div>
-          <QuickActions />
+          <QuickActions actions={actions} />
         </div>
       </section>
     </div>
