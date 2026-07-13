@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { AnalyticsController } from "../controllers/analytics.controller";
+import { analyticsController } from "../controllers/analytics.controller";
 
 const router = Router();
 
-router.post("/system-health/log", AnalyticsController.logSystemHealth);
-router.get("/branch/:branchId/stats", AnalyticsController.getBranchPerformance);
+router.post("/system-health/log", analyticsController.logSystemHealth);
+router.get("/branch/:branchId/stats", analyticsController.getBranchPerformance);
 
 export const analyticsRouter = router;
+
