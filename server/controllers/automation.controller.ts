@@ -1,65 +1,53 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { automationService } from "../services/automation.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-export class AutomationController {
-  static async scheduleTask(req: Request, res: Response): Promise<void> {
-    const { taskName, taskType, scheduledAt, payload } = req.body as {
-      taskName: string;
-      taskType: string;
-      scheduledAt: string;
-      payload?: string;
-    };
+const scheduleTask = catchAsync(async (req, res) => {
+  const { taskName, taskType, scheduledAt, payload } = req.body;
 
-    if (!taskName || !taskType || !scheduledAt) {
-      res
-        .status(400)
-        .json({ success: false, error: "Missing core task fields." });
-      return;
-    }
-
-    try {
-      const task = await prisma.autoTask.create({
-        data: {
-          taskName,
-          taskType,
-          scheduledAt: new Date(scheduledAt),
-          status: "PENDING",
-          payload,
-        },
-      });
-      res.status(200).json({ success: true, data: task });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!taskName || !taskType || !scheduledAt) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing core task fields.",
+    );
   }
 
-  static async logExecution(req: Request, res: Response): Promise<void> {
-    const { type, event, action, status, error } = req.body as {
-      type: string;
-      event: string;
-      action: string;
-      status: string;
-      error?: string;
-    };
+  const result = await automationService.scheduleTask({
+    taskName,
+    taskType,
+    scheduledAt: new Date(scheduledAt),
+    status: "PENDING",
+    payload,
+  });
 
-    try {
-      const log = await prisma.automationLog.create({
-        data: {
-          automationType: type,
-          triggerEvent: event,
-          action,
-          status: status || "SUCCESS",
-          errorMessage: error,
-        },
-      });
-      res.status(200).json({ success: true, data: log });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to record automation telemetry.",
-      });
-    }
-  }
-}
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Task scheduled successfully",
+    data: result,
+  });
+});
+
+const logExecution = catchAsync(async (req, res) => {
+  const { type, event, action, status, error } = req.body;
+
+  const result = await automationService.logExecution({
+    automationType: type,
+    triggerEvent: event,
+    action,
+    status: status || "SUCCESS",
+    errorMessage: error,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Automation telemetry recorded successfully",
+    data: result,
+  });
+});
+
+export const automationController = {
+  scheduleTask,
+  logExecution,
+};
