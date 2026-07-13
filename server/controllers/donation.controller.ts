@@ -1,63 +1,36 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { donationService } from "../services/donation.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-interface DonationPayload {
-  donorId: string;
-  amount: string | number;
-  campaignId?: string;
-  paymentMethod: string;
-  transactionId: string;
-}
+const processDonation = catchAsync(async (req, res) => {
+  const { donorId, amount, campaignId, paymentMethod, transactionId } = req.body;
 
-export class DonationController {
-  static async processDonation(req: Request, res: Response): Promise<void> {
-    const { donorId, amount, campaignId, paymentMethod, transactionId } =
-      req.body as DonationPayload;
-
-    if (!donorId || !amount || !paymentMethod || !transactionId) {
-      res
-        .status(400)
-        .json({ success: false, error: "Missing required parameters." });
-      return;
-    }
-
-    try {
-      const parsedAmount =
-        typeof amount === "string" ? parseFloat(amount) : amount;
-      const result = await prisma.$transaction(async (tx) => {
-        const donationNumber = `DN-${Date.now()}`;
-
-        const donation = await tx.donation.create({
-          data: {
-            donationNumber,
-            donorId,
-            amount: parsedAmount,
-            campaignId,
-            donationTypeId: "SYSTEM_DIRECT",
-            categoryId: "GENERAL_FUND",
-            paymentStatus: "COMPLETED",
-          },
-        });
-
-        await tx.payment.create({
-          data: {
-            donationId: donation.id,
-            paymentMethod,
-            amount: parsedAmount,
-            transactionId,
-            paymentStatus: "SUCCESS",
-            paymentGatewayId: "GATEWAY_PRIMARY",
-          },
-        });
-
-        return donation;
-      });
-
-      res.status(200).json({ success: true, data: result });
-    } catch (error: unknown) {
-      const errMsg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: errMsg });
-    }
+  if (!donorId || !amount || !paymentMethod || !transactionId) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required parameters.",
+    );
   }
-}
+
+  const parsedAmount = typeof amount === "string" ? parseFloat(amount) : amount;
+
+  const result = await donationService.processDonation({
+    donorId,
+    amount: parsedAmount,
+    campaignId,
+    paymentMethod,
+    transactionId,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Donation processed successfully",
+    data: result,
+  });
+});
+
+export const donationController = {
+  processDonation,
+};
