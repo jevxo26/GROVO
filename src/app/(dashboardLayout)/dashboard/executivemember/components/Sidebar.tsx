@@ -51,7 +51,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
       {/* Navigation Links */}
       <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
         {sidebarLinks.map((link) => {
-          const isActive = pathname === link.href || (link.href !== "/dashboard/member" && pathname.startsWith(link.href));
+          const isActive = pathname === link.href || (link.href !== "/dashboard/executivemember" && pathname.startsWith(link.href));
           
           return (
             <Link
