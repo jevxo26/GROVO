@@ -1,70 +1,66 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import { DonationPrediction } from "../../generated/prisma/browser";
+import customError from "../error/customError";
+import { aiService } from "../services/ai.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-interface PredictionPayload {
-  donorId?: string;
-  campaignId?: string;
-  predictedAmount: number;
-  confidenceScore: number;
-  algorithm: string;
-}
+const logPrediction = catchAsync(async (req, res) => {
+  const { donorId, campaignId, predictedAmount, confidenceScore, algorithm } = req.body;
 
-export class AIAutomationController {
-  static async logPrediction(req: Request, res: Response): Promise<void> {
-    const { donorId, campaignId, predictedAmount, confidenceScore, algorithm } =
-      req.body as PredictionPayload;
-
-    if (!predictedAmount || !confidenceScore) {
-      res
-        .status(400)
-        .json({ success: false, error: "Missing predictive tracking fields." });
-      return;
-    }
-
-    try {
-      const prediction = await prisma.donationPrediction.create({
-        data: {
-          donorId,
-          campaignId,
-          predictedAmount: parseFloat(predictedAmount.toString()),
-          confidenceScore: parseFloat(confidenceScore.toString()),
-          algorithm,
-          status: "ACTIVE",
-        },
-      });
-
-      res.status(200).json({ success: true, data: prediction });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!predictedAmount || !confidenceScore) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing predictive tracking fields.",
+    );
   }
 
-  static async queueAutomatedTask(req: Request, res: Response): Promise<void> {
-    const { name, type, scheduleTime, payload } = req.body as {
-      name: string;
-      type: string;
-      scheduleTime: string;
-      payload?: string;
-    };
+  const payload = {
+    donorId,
+    campaignId,
+    predictedAmount: parseFloat(predictedAmount.toString()),
+    confidenceScore: parseFloat(confidenceScore.toString()),
+    algorithm,
+    status: "ACTIVE",
+  };
 
-    try {
-      const task = await prisma.autoTask.create({
-        data: {
-          taskName: name,
-          taskType: type,
-          scheduledAt: new Date(scheduleTime),
-          status: "PENDING",
-          payload,
-        },
-      });
-      res.status(200).json({ success: true, data: task });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to queue automatic workflow task.",
-      });
-    }
+  const result = await aiService.logPrediction(payload as DonationPrediction);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Prediction logged successfully",
+    data: result,
+  });
+});
+
+const queueAutomatedTask = catchAsync(async (req, res) => {
+  const { name, type, scheduleTime, payload } = req.body;
+
+  if (!name || !type || !scheduleTime) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required automation task fields.",
+    );
   }
-}
+
+  const taskPayload = {
+    taskName: name,
+    taskType: type,
+    scheduledAt: new Date(scheduleTime),
+    status: "PENDING",
+    payload,
+  };
+
+  const result = await aiService.queueAutomatedTask(taskPayload);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Automated task queued successfully",
+    data: result,
+  });
+});
+
+export const aiController = {
+  logPrediction,
+  queueAutomatedTask,
+};

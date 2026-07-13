@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { AIAutomationController } from "../controllers/ai.controller";
+import { aiController } from "../controllers/ai.controller";
 
 const router = Router();
 
-router.post("/predict/donation", AIAutomationController.logPrediction);
-router.post("/task/queue", AIAutomationController.queueAutomatedTask);
+router.post("/predict/donation", aiController.logPrediction);
+router.post("/task/queue", aiController.queueAutomatedTask);
 
 export const aiRouter = router;
+
