@@ -52,7 +52,7 @@ export default function DashboardOverview() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Trend Chart */}
-        <Card className="lg:col-span-2 shadow-sm border-border bg-card">
+        <Card className="lg:col-span-2 shadow-sm border-border bg-card px-4 py-3">
           <CardHeader>
             <CardTitle className="text-lg font-bold text-foreground">Monthly Fundraising Trends</CardTitle>
           </CardHeader>
@@ -82,7 +82,7 @@ export default function DashboardOverview() {
         </Card>
 
         {/* Category Progress */}
-        <Card className="shadow-sm border-border bg-card">
+        <Card className="shadow-sm border-border bg-card px-4 py-3">
           <CardHeader>
             <CardTitle className="text-lg font-bold text-foreground">Funds by Category</CardTitle>
           </CardHeader>

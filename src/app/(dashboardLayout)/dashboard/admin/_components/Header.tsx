@@ -13,6 +13,11 @@ const getPageTitle = (pathname: string) => {
   if (pathname.includes("/donations")) return "Manage Donations";
   if (pathname.includes("/beneficiaries")) return "Manage Beneficiaries";
   if (pathname.includes("/branches")) return "Manage Branches";
+  if (pathname.includes("/finance")) return "Financial Management";
+  if (pathname.includes("/analytics")) return "Analytics";
+  if (pathname.includes("/events")) return "Events";
+  if (pathname.includes("/gallery")) return "Gallery & Media";
+  if (pathname.includes("/notifications")) return "Notifications";
   return "Dashboard";
 };
 
@@ -30,6 +35,10 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
       </div>
       
       <div className="flex items-center gap-2 md:gap-6">
+        <div className="hidden md:flex items-center gap-2 text-sm font-medium text-muted-foreground mr-2 cursor-pointer">
+          <span className="text-foreground">GB</span>
+          <span>EN</span>
+        </div>
         <ModeToggle />
         <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
           <Bell className="w-5 h-5" />
