@@ -1,58 +1,57 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { securityService } from "../services/security.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-export class SecurityController {
-  static async whitelistIp(req: Request, res: Response): Promise<void> {
-    const { ipAddress, description, addedBy } = req.body as {
-      ipAddress: string;
-      description?: string;
-      addedBy: string;
-    };
+const whitelistIp = catchAsync(async (req, res) => {
+  const { ipAddress, description, addedBy } = req.body;
 
-    if (!ipAddress || !addedBy) {
-      res.status(400).json({
-        success: false,
-        error: "IP address and security anchor author required.",
-      });
-      return;
-    }
-
-    try {
-      const entry = await prisma.iPWhitelist.create({
-        data: { ipAddress, description, addedBy, isActive: true },
-      });
-      res.status(200).json({ success: true, data: entry });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!ipAddress || !addedBy) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "IP address and security anchor author required.",
+    );
   }
 
-  static async flagIncident(req: Request, res: Response): Promise<void> {
-    const { incidentType, severity, description, affectedArea } = req.body as {
-      incidentType: string;
-      severity: string;
-      description: string;
-      affectedArea?: string;
-    };
+  const result = await securityService.whitelistIp({
+    ipAddress,
+    description,
+    addedBy,
+  });
 
-    try {
-      const incident = await prisma.securityIncident.create({
-        data: {
-          incidentType,
-          severity,
-          description,
-          affectedArea,
-          status: "OPEN",
-        },
-      });
-      res.status(200).json({ success: true, data: incident });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to record security incident parameter.",
-      });
-    }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "IP address whitelisted successfully",
+    data: result,
+  });
+});
+
+const flagIncident = catchAsync(async (req, res) => {
+  const { incidentType, severity, description, affectedArea } = req.body;
+
+  if (!incidentType || !severity || !description) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required incident fields.",
+    );
   }
-}
+
+  const result = await securityService.flagIncident({
+    incidentType,
+    severity,
+    description,
+    affectedArea,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Security incident flagged successfully",
+    data: result,
+  });
+});
+
+export const securityController = {
+  whitelistIp,
+  flagIncident,
+};
