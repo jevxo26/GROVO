@@ -1,11 +1,14 @@
 "use client";
-import { HandCoins, Flag, Award, Crown, } from "lucide-react";
+import React from 'react';
+import { HandCoins, Flag, Award, Crown } from "lucide-react";
 import { StatCard } from "./components/StatCard";
 import { RecentDonations } from "./components/RecentDonations/RecentDonations";
-import { SupportedCampaigns } from "./components/SupportedCampaigns/SupportedCampaigns";
 import { QuickActions } from "./components/QuickActions/QuickActions";
 import UserWelcomeSection from "../Components/UserWelcomeSection";
+import { campaigns } from "@/data/campaigns";
+import SupportedCampaigns from '../Components/SupportedCampaigns';
 
+// টাইপ ডিফিনিশন
 type Badge = string;
 
 const MemberDashboard: React.FC = () => {
@@ -18,7 +21,8 @@ const MemberDashboard: React.FC = () => {
 
   return (
     <div className="space-y-8 p-4 md:p-8 bg-[#fcfaf9] dark:bg-[#12100f] min-h-screen transition-colors duration-300">
-      {/* Header Banner - ইমেজের স্টাইল অনুযায়ী */}
+      
+      {/* Header Banner */}
       <UserWelcomeSection
         name="Kamal Hossain"
         memberSince="2024-03-15"
@@ -78,12 +82,16 @@ const MemberDashboard: React.FC = () => {
             </span>
           ))}
         </div>
+
+        {/* Recent Section */}
         <div className="grid grid-cols-1 py-8 md:grid-cols-2 gap-6">
           <RecentDonations />
-          <SupportedCampaigns />
+          {/* এখানে টাইপ এরর হবার কথা নয় যদি SupportedCampaigns-এ ইন্টারফেস সেট করা থাকে */}
+          <SupportedCampaigns title="Supported Campaigns" campaigns={campaigns} />
         </div>
+
         <div>
-          <QuickActions></QuickActions>
+          <QuickActions />
         </div>
       </section>
     </div>

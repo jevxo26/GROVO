@@ -2,17 +2,17 @@
 import { DollarSign, Users, User, PieChart } from "lucide-react";
 import { StatCard } from "./components/StatCard";
 import { RecentDonations } from "./components/RecentDonations/RecentDonations";
-import { SupportedCampaigns } from "./components/SupportedCampaigns/SupportedCampaigns";
 import { QuickActions } from "./components/QuickActions/QuickActions";
 import { BadgesSection } from "./components/BadgesSection/BadgesSection";
 import UserWelcomeSection from "../Components/UserWelcomeSection";
+import SupportedCampaigns from "../Components/SupportedCampaigns";
+import { campaigns } from "@/data/campaigns"; // ডেটা ইম্পোর্ট করা হয়েছে
 
 const myBadges = ["Corporate Partner", "Matching Donor", "Platinum CSR"];
 
-const MemberDashboard: React.FC = () => {
+const CorporateDashboard: React.FC = () => {
   return (
     <div className="space-y-8 p-4 md:p-8 bg-[#fcfaf9] dark:bg-[#12100f] min-h-screen transition-colors duration-300">
-      {/* Header Banner - ইমেজের স্টাইল অনুযায়ী */}
       <UserWelcomeSection
         name="Kamal Hossain"
         memberSince="2024-03-15"
@@ -21,7 +21,7 @@ const MemberDashboard: React.FC = () => {
         bgColor="bg-emerald-800"
         btnTextColor="text-emerald-800"
       />
-      {/* Stats Grid */}
+
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="TOTAL DONATED"
@@ -52,16 +52,20 @@ const MemberDashboard: React.FC = () => {
           iconColor="text-emerald-700"
         />
       </section>
+
       <BadgesSection badges={myBadges} />
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <RecentDonations />
-        <SupportedCampaigns />
+        {/* এখানে campaigns ভেরিয়েবলটি ব্যবহার করা হয়েছে */}
+        <SupportedCampaigns title="Active Campaigns" campaigns={campaigns} />
       </div>
+
       <div>
-        <QuickActions></QuickActions>
+        <QuickActions />
       </div>
     </div>
   );
 };
 
-export default MemberDashboard;
+export default CorporateDashboard;

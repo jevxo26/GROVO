@@ -2,9 +2,10 @@
 import { HandCoins, Flag, Award, Crown } from "lucide-react";
 import { StatCard } from "./components/StatCard";
 import { RecentDonations } from "./components/RecentDonations/RecentDonations";
-import { SupportedCampaigns } from "./components/SupportedCampaigns/SupportedCampaigns";
 import { QuickActions } from "./components/QuickActions/QuickActions";
 import UserWelcomeSection from "../Components/UserWelcomeSection";
+import SupportedCampaigns from "../Components/SupportedCampaigns";
+import { campaigns } from "@/data/campaigns";
 
 type Badge = string;
 
@@ -80,7 +81,7 @@ const MemberDashboard: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 py-8 md:grid-cols-2 gap-6">
           <RecentDonations />
-          <SupportedCampaigns />
+          <SupportedCampaigns title="Supported Campaigns" campaigns={campaigns} />
         </div>
         <div>
           <QuickActions></QuickActions>
