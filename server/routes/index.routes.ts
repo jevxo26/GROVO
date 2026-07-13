@@ -20,6 +20,7 @@ import { aiEngineRouter } from "./ai-engine.routes";
 import { analyticsRouter } from "./analytics.routes";
 import { automationRouter } from "./automation.routes";
 import { donorsRouter } from "./donors.routes";
+import { campaignsRouter } from "./campaigns.routes";
 
 const router = express.Router();
 const v1Router = express.Router();
@@ -31,6 +32,7 @@ v1Router.use("/financial", financialRouter);
 v1Router.use("/beneficiary", beneficiaryRouter);
 v1Router.use("/donation", donationRouter);
 v1Router.use("/donors", donorsRouter);
+v1Router.use("/campaigns", campaignsRouter);
 v1Router.use("/event", eventRouter);
 v1Router.use("/volunteer", volunteerRouter);
 v1Router.use("/volunteer-logistics", volunteerLogisticsRouter);
