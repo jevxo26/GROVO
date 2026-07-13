@@ -32,6 +32,11 @@ const getPageTitle = (pathname: string) => {
   if (pathname === "/dashboard/volunteer/activities") return "My Activities";
   if (pathname === "/dashboard/volunteer/performance") return "Performance Tracking";
 
+  // Staff Routes
+  if (pathname === "/dashboard/staf") return "Staff Dashboard";
+  if (pathname === "/dashboard/staf/mytask") return "My Tasks";
+  if (pathname === "/dashboard/staf/branchinfo") return "Branch Information";
+
   return "Dashboard"; // ডিফল্ট টাইটেল
 };
 
