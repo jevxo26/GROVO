@@ -1,4 +1,3 @@
-// src/components/StatsCard/StatsCard.tsx
 import React from "react";
 
 interface StatsCardProps {
@@ -15,15 +14,17 @@ export const StatsCard: React.FC<StatsCardProps> = ({
   valueColor 
 }) => {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+    <div className="bg-white dark:bg-[#1f1d1c] p-6 rounded-2xl border border-gray-100 dark:border-[#333] shadow-sm transition-colors duration-300">
+      <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
         {title}
       </h3>
-      <p className={`text-3xl font-bold font-serif ${valueColor || "text-black"}`}>
+      <p className={`text-3xl font-bold font-serif ${valueColor || "text-black dark:text-white"}`}>
         {value}
       </p>
       {description && (
-        <p className="text-sm text-gray-600 mt-1">{description}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          {description}
+        </p>
       )}
     </div>
   );
