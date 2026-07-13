@@ -19,3 +19,12 @@ export const stafstatedata: StatItem[] = [
   { title: "PENDING", value: 3, description: "Not started", valueColor: "text-amber-700" },
   { title: "MEMBERS", value: "49K", description: "In branch", valueColor: "text-black" },
 ];
+
+export const summaryStats = [
+  { title: "Members", value: "48.5K" },
+  { title: "Volunteers", value: "3.2K" },
+  { title: "Campaigns", value: 6 },
+  { title: "Monthly Budget", value: "৳ 250K" },
+  { title: "Staff", value: 24 },
+  { title: "Pending Tasks", value: 12, valueColor: "text-teal-600" },
+];
