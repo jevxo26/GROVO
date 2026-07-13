@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { FinancialController } from "../controllers/financial.controller";
+import { financialController } from "../controllers/financial.controller";
 
 const router = Router();
 
-router.post("/funds/transfer", FinancialController.transferCapital);
-router.post("/payments/verify", FinancialController.verifyTransaction);
+router.post("/funds/transfer", financialController.transferCapital);
+router.post("/payments/verify", financialController.verifyTransaction);
 
 export const financialRouter = router;
+
