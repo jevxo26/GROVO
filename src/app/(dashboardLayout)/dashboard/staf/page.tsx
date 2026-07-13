@@ -2,6 +2,8 @@ import React from "react";
 import { UserBadgeBanner } from "./Components/UserBadgeBanner/UserBadgeBanner";
 import { stafstatedata } from "@/data/stats";
 import { StatsCard } from "./Components/StatsCard/StatsCard";
+import { TaskList } from "./Components/TaskList/TaskList";
+import { myTasksData } from "@/data/tasks";
 
 const StafDashboard = () => {
   return (
@@ -22,6 +24,9 @@ const StafDashboard = () => {
           valueColor={stat.valueColor}
         />
       ))}
+      </div>
+      <div>
+        <TaskList title="My Tasks" tasks={myTasksData} />
       </div>
     </div>
   );
