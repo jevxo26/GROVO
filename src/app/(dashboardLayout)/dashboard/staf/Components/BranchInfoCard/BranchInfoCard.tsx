@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2 } from 'lucide-react'; // আইকনের জন্য lucide-react ব্যবহার করা হয়েছে
+import { Building2 } from 'lucide-react';
 
 const BranchInfoCard = () => {
   const stats = [
