@@ -2,11 +2,12 @@
 import React from 'react';
 import { HandCoins, Flag, Award, Crown } from "lucide-react";
 import { StatCard } from "./components/StatCard";
-import { RecentDonations } from "./components/RecentDonations/RecentDonations";
 import { QuickActions } from "./components/QuickActions/QuickActions";
 import UserWelcomeSection from "../Components/UserWelcomeSection";
 import { campaigns } from "@/data/campaigns";
 import SupportedCampaigns from '../Components/SupportedCampaigns';
+import { RecentDonations } from '../Components/RecentDonations';
+import { donations } from '@/data/donations';
 
 // টাইপ ডিফিনিশন
 type Badge = string;
@@ -85,7 +86,7 @@ const MemberDashboard: React.FC = () => {
 
         {/* Recent Section */}
         <div className="grid grid-cols-1 py-8 md:grid-cols-2 gap-6">
-          <RecentDonations />
+          <RecentDonations title="Recent Donations" donations={donations} />
           {/* এখানে টাইপ এরর হবার কথা নয় যদি SupportedCampaigns-এ ইন্টারফেস সেট করা থাকে */}
           <SupportedCampaigns title="Supported Campaigns" campaigns={campaigns} />
         </div>
