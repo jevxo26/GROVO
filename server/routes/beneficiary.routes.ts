@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { BeneficiaryController } from "../controllers/beneficiary.controller";
+import { beneficiaryController } from "../controllers/beneficiary.controller";
 
 const router = Router();
 
-router.post("/register", BeneficiaryController.registerBeneficiary);
-router.post("/assessment", BeneficiaryController.logNeedAssessment);
+router.post("/register", beneficiaryController.registerBeneficiary);
+router.post("/assessment", beneficiaryController.logNeedAssessment);
 
 export const beneficiaryRouter = router;
+
