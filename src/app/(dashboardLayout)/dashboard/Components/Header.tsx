@@ -37,6 +37,16 @@ const getPageTitle = (pathname: string) => {
   if (pathname === "/dashboard/staf/mytask") return "My Tasks";
   if (pathname === "/dashboard/staf/branchinfo") return "Branch Information";
 
+  // Individual Donor Routes
+  if (pathname === "/dashboard/individualdonor") return "Individual Donor Dashboard";
+  if (pathname === "/dashboard/individualdonor/profile") return "My Profile";
+  if (pathname === "/dashboard/individualdonor/wallet") return "My Wallet";
+  if (pathname === "/dashboard/individualdonor/donations") return "My Donations";
+  if (pathname === "/dashboard/individualdonor/campaigns") return "Campaigns";
+  if (pathname === "/dashboard/individualdonor/impact") return "My Impact";
+  if (pathname === "/dashboard/individualdonor/certificates") return "Certificates";
+  if (pathname === "/dashboard/individualdonor/referal") return "Referals";
+
   return "Dashboard"; // ডিফল্ট টাইটেল
 };
 
