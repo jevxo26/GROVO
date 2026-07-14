@@ -1,7 +1,6 @@
-
-
 "use client";
 
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,8 +14,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Pencil, Plus, Search, Trash2 } from "lucide-react";
+import AddBeneficiaryModal from "@/components/shared/modals/addBeneficiaryModal";
+import DeleteBeneficiaryModal from "@/components/shared/modals/deleteBeneficiaryModal";
+import EditBeneficiaryModal from "@/components/shared/modals/EditBeneficiaryModal";
+import { Beneficiary } from "@/type";
 
-const beneficiariesData = [
+const beneficiariesData: Beneficiary[] = [
   {
     id: "1",
     name: "Rokeya Begum",
@@ -98,11 +101,6 @@ const beneficiariesData = [
     registered: "2026-07-08",
   },
 ];
-
-import AddBeneficiaryModal from "@/components/shared/modals/addBeneficiaryModal";
-import DeleteBeneficiaryModal from "@/components/shared/modals/deleteBeneficiaryModal";
-import EditBeneficiaryModal from "@/components/shared/modals/EditBeneficiaryModal";
-import { useState } from "react";
 
 export default function BeneficiariesPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -240,7 +238,6 @@ export default function BeneficiariesPage() {
                   <TableCell className="text-right pr-6">
                     <div className="flex justify-end gap-2 ">
                       <Button
-                        onClick={() => handleEdit(beneficiary)}
                         onClick={() => handleEdit(beneficiary)}
                         variant="ghost"
                         size="icon"

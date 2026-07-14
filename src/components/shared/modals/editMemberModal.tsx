@@ -25,15 +25,27 @@ const memberSchema = z.object({
 
 type MemberFormValues = z.infer<typeof memberSchema>;
 
-interface EditMemberModalProps { isOpen: boolean; onClose: () => void; initialData?: MemberFormValues | null; }
+interface EditMemberModalProps { isOpen: boolean; onClose: () => void; initialData?: any; }
 
 const EditMemberModal = ({ isOpen, onClose, initialData }: EditMemberModalProps) => {
   const { register, handleSubmit, control, formState: { errors }, reset } = useForm<MemberFormValues>({
     resolver: zodResolver(memberSchema),
-    defaultValues: initialData || { fullName: "Kamal Hossain", email: "kamal@email.com", phone: "+880 1712-345678", membershipNumber: "ASH-MEM-2024-0847", joinedDate: "2024-03-15", type: "General Member", district: "Dhaka", status: "active" },
   });
 
-  useEffect(() => { if (initialData) reset(initialData); }, [initialData, reset]);
+  useEffect(() => {
+    if (initialData) {
+      reset({
+        fullName: initialData.name || "",
+        email: initialData.email || `${initialData.name?.toLowerCase().replace(/\s+/g, "") || "member"}@email.com`,
+        phone: initialData.phone || "",
+        membershipNumber: initialData.membership || "",
+        joinedDate: initialData.joined || "",
+        type: initialData.type || "General Member",
+        district: initialData.district || "Dhaka",
+        status: initialData.status || "active",
+      });
+    }
+  }, [initialData, reset]);
 
   const onSubmit = (data: MemberFormValues) => { console.log("Updated Data:", data); onClose(); };
 

@@ -18,8 +18,10 @@ import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
+import EditBranchModal from "@/components/shared/modals/editBranchModal";
+import { Branch } from "@/type";
 
-const branchesData = [
+const branchesData: Branch[] = [
   {
     id: "1",
     name: "ASHRAY National Headquarters",

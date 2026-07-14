@@ -1,10 +1,7 @@
-
 "use client";
 
 import { useState } from "react";
-import { membersData } from "@/data/membersData";
-
-import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,12 +12,94 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Search, Plus, Pencil, Trash2 } from "lucide-react";
-
 import AddMemberModal from "@/components/shared/modals/addMemberModal";
+import EditMemberModal from "@/components/shared/modals/editMemberModal";
 import DeleteMemberModal from "@/components/shared/modals/deleteMemberModal";
 import { Member } from "@/type";
+
+const membersData: Member[] = [
+  {
+    id: "1",
+    name: "Kamal Hossain",
+    phone: "+880 1712-345678",
+    membership: "ASH-MEM-2024-0847",
+    type: "General Member",
+    district: "Dhaka",
+    status: "active",
+    joined: "2024-03-15",
+  },
+  {
+    id: "2",
+    name: "Fatima Rahman",
+    phone: "+880 1812-456789",
+    membership: "ASH-MEM-2024-1156",
+    type: "Individual Donor",
+    district: "Chattogram",
+    status: "active",
+    joined: "2024-06-20",
+  },
+  {
+    id: "3",
+    name: "Rahim Industries Ltd.",
+    phone: "+880 2555-7890",
+    membership: "ASH-MEM-2024-0923",
+    type: "Corporate Donor",
+    district: "Dhaka",
+    status: "active",
+    joined: "2024-04-10",
+  },
+  {
+    id: "4",
+    name: "Nasrin Akhter",
+    phone: "+880 1912-345678",
+    membership: "ASH-MEM-2025-0234",
+    type: "General Member",
+    district: "Rajshahi",
+    status: "active",
+    joined: "2025-02-05",
+  },
+  {
+    id: "5",
+    name: "Dr. Imran Khan",
+    phone: "+880 1612-567890",
+    membership: "ASH-MEM-2025-0456",
+    type: "Individual Donor",
+    district: "Sylhet",
+    status: "pending",
+    joined: "2025-07-01",
+  },
+  {
+    id: "6",
+    name: "Ayesha Siddiqua",
+    phone: "+880 1715-678901",
+    membership: "ASH-MEM-2023-0789",
+    type: "General Member",
+    district: "Khulna",
+    status: "suspended",
+    joined: "2023-11-20",
+  },
+  {
+    id: "7",
+    name: "Square Pharmaceuticals",
+    phone: "+880 2888-1234",
+    membership: "ASH-MEM-2025-0678",
+    type: "Corporate Donor",
+    district: "Dhaka",
+    status: "active",
+    joined: "2025-05-15",
+  },
+  {
+    id: "8",
+    name: "Hasan Mahmud",
+    phone: "+880 1818-789012",
+    membership: "ASH-MEM-2024-1345",
+    type: "General Member",
+    district: "Barishal",
+    status: "active",
+    joined: "2024-08-30",
+  },
+];
 
 export default function MembersPage() {
   const [searchQuery, setSearchQuery] = useState("");
