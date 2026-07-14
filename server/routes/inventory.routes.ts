@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { InventoryController } from "../controllers/inventory.controller";
+import { inventoryController } from "../controllers/inventory.controller";
 
 const router = Router();
 
-router.post("/stock/update", InventoryController.updateStock);
-router.post("/items/distribute", InventoryController.logItemDistribution);
+router.post("/stock/update", inventoryController.updateStock);
+router.post("/items/distribute", inventoryController.logItemDistribution);
 
 export const inventoryRouter = router;
+

@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { SupportController } from "../controllers/support.controller";
+import { supportController } from "../controllers/support.controller";
 
 const router = Router();
 
-router.post("/tickets/open", SupportController.openTicket);
-router.post("/tickets/reply", SupportController.submitReply);
+router.post("/tickets/open", supportController.openTicket);
+router.post("/tickets/reply", supportController.submitReply);
 
 export const supportRouter = router;
+

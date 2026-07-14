@@ -1,69 +1,59 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { supportService } from "../services/support.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-interface TicketPayload {
-  userId: string;
-  subject: string;
-  description: string;
-  category: string;
-  priority?: string;
-}
+const openTicket = catchAsync(async (req, res) => {
+  const { userId, subject, description, category, priority } = req.body;
 
-export class SupportController {
-  static async openTicket(req: Request, res: Response): Promise<void> {
-    const { userId, subject, description, category, priority } =
-      req.body as TicketPayload;
-
-    if (!userId || !subject || !description) {
-      res
-        .status(400)
-        .json({ success: false, error: "Missing core support fields." });
-      return;
-    }
-
-    try {
-      const ticketNumber = `TCK-${Date.now()}`;
-      const ticket = await prisma.supportTicket.create({
-        data: {
-          ticketNumber,
-          userId,
-          subject,
-          description,
-          category,
-          priority: priority || "MEDIUM",
-          status: "OPEN",
-        },
-      });
-      res.status(200).json({ success: true, data: ticket });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!userId || !subject || !description) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing core support fields.",
+    );
   }
 
-  static async submitReply(req: Request, res: Response): Promise<void> {
-    const { ticketId, userId, message, isStaff } = req.body as {
-      ticketId: string;
-      userId: string;
-      message: string;
-      isStaff: boolean;
-    };
+  const result = await supportService.openTicket({
+    userId,
+    subject,
+    description,
+    category,
+    priority,
+  });
 
-    try {
-      const reply = await prisma.ticketReply.create({
-        data: {
-          ticketId,
-          userId,
-          message,
-          isStaff: Boolean(isStaff),
-        },
-      });
-      res.status(200).json({ success: true, data: reply });
-    } catch (error: unknown) {
-      res
-        .status(500)
-        .json({ success: false, error: "Failed to record ticket comment." });
-    }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Support ticket opened successfully",
+    data: result,
+  });
+});
+
+const submitReply = catchAsync(async (req, res) => {
+  const { ticketId, userId, message, isStaff } = req.body;
+
+  if (!ticketId || !userId || !message) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required reply parameters.",
+    );
   }
-}
+
+  const result = await supportService.submitReply({
+    ticketId,
+    userId,
+    message,
+    isStaff: Boolean(isStaff),
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Ticket reply submitted successfully",
+    data: result,
+  });
+});
+
+export const supportController = {
+  openTicket,
+  submitReply,
+};

@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { AutomationController } from "../controllers/automation.controller";
+import { automationController } from "../controllers/automation.controller";
 
 const router = Router();
 
-router.post("/tasks/schedule", AutomationController.scheduleTask);
-router.post("/logs/record", AutomationController.logExecution);
+router.post("/tasks/schedule", automationController.scheduleTask);
+router.post("/logs/record", automationController.logExecution);
 
 export const automationRouter = router;
+

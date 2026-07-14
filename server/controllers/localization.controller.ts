@@ -1,53 +1,56 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { localizationService } from "../services/localization.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-export class LocalizationController {
-  static async updateExchangeRate(req: Request, res: Response): Promise<void> {
-    const { currencyCode, exchangeRate } = req.body as {
-      currencyCode: string;
-      exchangeRate: number;
-    };
+const updateExchangeRate = catchAsync(async (req, res) => {
+  const { currencyCode, exchangeRate } = req.body;
 
-    if (!currencyCode || exchangeRate <= 0) {
-      res
-        .status(400)
-        .json({ success: false, error: "Invalid conversion parameters." });
-      return;
-    }
-
-    try {
-      const entry = await prisma.currency.update({
-        where: { currencyCode },
-        data: { exchangeRate: parseFloat(exchangeRate.toString()) },
-      });
-      res.status(200).json({ success: true, data: entry });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!currencyCode || exchangeRate === undefined || exchangeRate <= 0) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Invalid conversion parameters.",
+    );
   }
 
-  static async setTranslationKey(req: Request, res: Response): Promise<void> {
-    const { languageId, key, value, moduleName } = req.body as {
-      languageId: string;
-      key: string;
-      value: string;
-      moduleName?: string;
-    };
+  const result = await localizationService.updateExchangeRate({
+    currencyCode,
+    exchangeRate,
+  });
 
-    try {
-      const entry = await prisma.translation.upsert({
-        where: { languageId_key: { languageId, key } },
-        update: { value, updatedAt: new Date() },
-        create: { languageId, key, value, module: moduleName },
-      });
-      res.status(200).json({ success: true, data: entry });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to balance localization maps.",
-      });
-    }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Exchange rate updated successfully",
+    data: result,
+  });
+});
+
+const setTranslationKey = catchAsync(async (req, res) => {
+  const { languageId, key, value, moduleName } = req.body;
+
+  if (!languageId || !key || !value) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required translation parameters.",
+    );
   }
-}
+
+  const result = await localizationService.setTranslationKey({
+    languageId,
+    key,
+    value,
+    moduleName,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Translation key set successfully",
+    data: result,
+  });
+});
+
+export const localizationController = {
+  updateExchangeRate,
+  setTranslationKey,
+};

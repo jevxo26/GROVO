@@ -5,7 +5,11 @@ import { useState } from "react";
 import { branchesData } from "@/data/branchesData";
 
 import { Input } from "@/components/ui/input";
+import AddBranchModal from "@/components/shared/modals/addBranchModal";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -14,15 +18,98 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Search, Trash2 } from "lucide-react";
+import { useState } from "react";
+
+import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
 
 import AddBranchModal from "@/components/shared/modals/addBranchModal";
 import EditBranchModal from "@/components/shared/modals/EditBeneficiaryModal";
 // import EditBranchModal from "@/components/shared/modals/editBranchModal";
 import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
 import { Branch } from "@/type";
+const branchesData = [
+  {
+    id: "1",
+    name: "ASHRAY National Headquarters",
+    address: "Plot 12, Road 5, Savar",
+    code: "BR-HQ-001",
+    type: "Head Office",
+    location: "Savar, Dhaka, Dhaka",
+    status: "active",
+    established: "2023-06-01",
+  },
+  {
+    id: "2",
+    name: "ASHRAY Chattogram Division",
+    address: "House 45, Station Road",
+    code: "BR-CTG-002",
+    type: "Division",
+    location: "Pahartali, Chattogram, Chattogram",
+    status: "active",
+    established: "2023-09-15",
+  },
+  {
+    id: "3",
+    name: "ASHRAY Sylhet District",
+    address: "Village: Bade Golapganj, Near Mosque",
+    code: "BR-SYL-003",
+    type: "District",
+    location: "Golapganj, Sylhet, Sylhet",
+    status: "active",
+    established: "2024-01-10",
+  },
+  {
+    id: "4",
+    name: "ASHRAY Rajshahi District",
+    address: "Paba Bazar, Main Road",
+    code: "BR-RAJ-004",
+    type: "District",
+    location: "Paba, Rajshahi, Rajshahi",
+    status: "active",
+    established: "2024-03-20",
+  },
+  {
+    id: "5",
+    name: "ASHRAY Khulna District",
+    address: "Dumuria Upazila Road, Near Bank",
+    code: "BR-KHU-005",
+    type: "District",
+    location: "Dumuria, Khulna, Khulna",
+    status: "active",
+    established: "2024-06-05",
+  },
+  {
+    id: "6",
+    name: "ASHRAY Savar Upazila",
+    address: "Savar Bazar, Holding 78",
+    code: "BR-DHK-006",
+    type: "Upazila",
+    location: "Savar, Dhaka, Dhaka",
+    status: "active",
+    established: "2024-08-12",
+  },
+  {
+    id: "7",
+    name: "ASHRAY Rangpur District",
+    address: "Pirgacha Main Road, Block C",
+    code: "BR-RNG-007",
+    type: "District",
+    location: "Pirgacha, Rangpur, Rangpur",
+    status: "pending",
+    established: "2025-05-01",
+  },
+  {
+    id: "8",
+    name: "ASHRAY Barishal District",
+    address: "Bakerganj Sadar Road",
+    code: "BR-BAR-008",
+    type: "District",
+    location: "Bakerganj, Barishal, Barishal",
+    status: "active",
+    established: "2025-02-18",
+  },
+];
 
 export default function BranchesPage() {
   const [searchQuery, setSearchQuery] = useState("");

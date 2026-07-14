@@ -1,79 +1,167 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { beneficiaryService } from "../services/beneficiary.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-interface BeneficiaryPayload {
-  fullName: string;
-  phone?: string;
-  nationalId?: string;
-  branchId: string;
-  occupation?: string;
-  monthlyIncome?: number;
-}
+const registerBeneficiary = catchAsync(async (req, res) => {
+  const { fullName, phone, nationalId, branchId, occupation, monthlyIncome } = req.body;
 
-export class BeneficiaryController {
-  static async registerBeneficiary(req: Request, res: Response): Promise<void> {
-    const { fullName, phone, nationalId, branchId, occupation, monthlyIncome } =
-      req.body as BeneficiaryPayload;
-
-    if (!fullName || !branchId) {
-      res.status(400).json({
-        success: false,
-        error: "Full name and branch mapping required.",
-      });
-      return;
-    }
-
-    try {
-      const result = await prisma.$transaction(async (tx) => {
-        const beneficiaryCode = `BEN-${Date.now()}`;
-        const beneficiary = await tx.beneficiary.create({
-          data: { beneficiaryCode, fullName, phone, nationalId, branchId },
-        });
-
-        await tx.beneficiaryProfile.create({
-          data: {
-            beneficiaryId: beneficiary.id,
-            occupation: occupation || "Unemployed",
-            monthlyIncome: monthlyIncome
-              ? parseFloat(monthlyIncome.toString())
-              : 0,
-          },
-        });
-        return beneficiary;
-      });
-
-      res.status(200).json({ success: true, data: result });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!fullName || !branchId) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Full name and branch mapping required.",
+    );
   }
 
-  static async logNeedAssessment(req: Request, res: Response): Promise<void> {
-    const { beneficiaryId, type, priority, officerId } = req.body as {
-      beneficiaryId: string;
-      type: string;
-      priority: string;
-      officerId: string;
-    };
+  const result = await beneficiaryService.registerBeneficiary({
+    fullName,
+    phone,
+    nationalId,
+    branchId,
+    occupation,
+    monthlyIncome: monthlyIncome ? parseFloat(monthlyIncome.toString()) : undefined,
+  });
 
-    try {
-      const assessment = await prisma.beneficiaryNeedAssessment.create({
-        data: {
-          beneficiaryId,
-          assessmentType: type,
-          priority,
-          assessedBy: officerId,
-          assessmentDate: new Date(),
-        },
-      });
-      res.status(200).json({ success: true, data: assessment });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to record need assessment parameters.",
-      });
-    }
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Beneficiary registered successfully",
+    data: result,
+  });
+});
+
+const logNeedAssessment = catchAsync(async (req, res) => {
+  const { beneficiaryId, type, priority, officerId, requiredSupport } = req.body;
+
+  if (!beneficiaryId || !type || !priority || !officerId) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing need assessment fields.",
+    );
   }
-}
+
+  const result = await beneficiaryService.logNeedAssessment({
+    beneficiaryId,
+    assessmentType: type,
+    priority,
+    assessedBy: officerId,
+    requiredSupport,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Need assessment recorded successfully",
+    data: result,
+  });
+});
+
+const verifyDistribution = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const adminId = req.headers["x-user-id"] as string || "admin-mock";
+
+  const result = await beneficiaryService.verifyDistribution(id, adminId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Distribution verified successfully",
+    data: result,
+  });
+});
+
+const acknowledgeDistribution = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const { signature, photo, remarks } = req.body;
+
+  const result = await beneficiaryService.acknowledgeDistribution(id, { signature, photo, remarks });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Distribution acknowledged successfully",
+    data: result,
+  });
+});
+
+const createReliefPackage = catchAsync(async (req, res) => {
+  const { packageName, description, estimatedValue } = req.body;
+
+  if (!packageName || estimatedValue === undefined) {
+    throw new customError(httpStatus.BAD_REQUEST, "packageName and estimatedValue are required.");
+  }
+
+  const result = await beneficiaryService.createReliefPackage({
+    packageName,
+    description,
+    estimatedValue: Number(estimatedValue),
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Relief package created successfully",
+    data: result,
+  });
+});
+
+const createDistributionCampaign = catchAsync(async (req, res) => {
+  const { campaignId, title, distributionDate, location } = req.body;
+
+  if (!campaignId || !title || !distributionDate) {
+    throw new customError(httpStatus.BAD_REQUEST, "campaignId, title, and distributionDate are required.");
+  }
+
+  const result = await beneficiaryService.createDistributionCampaign({
+    campaignId,
+    title,
+    distributionDate,
+    location,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Distribution campaign created successfully",
+    data: result,
+  });
+});
+
+const createFollowUpVisit = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const { remarks, nextVisitDate } = req.body;
+  const adminId = req.headers["x-user-id"] as string || "admin-mock";
+
+  const result = await beneficiaryService.createFollowUpVisit(id, {
+    visitedBy: adminId,
+    remarks,
+    nextVisitDate,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Follow up visit recorded successfully",
+    data: result,
+  });
+});
+
+const getBeneficiaryDetail = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await beneficiaryService.getBeneficiaryDetail(id);
+
+  if (!result) {
+    throw new customError(httpStatus.NOT_FOUND, "Beneficiary not found.");
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Beneficiary details retrieved successfully",
+    data: result,
+  });
+});
+
+export const beneficiaryController = {
+  registerBeneficiary,
+  logNeedAssessment,
+  verifyDistribution,
+  acknowledgeDistribution,
+  createReliefPackage,
+  createDistributionCampaign,
+  createFollowUpVisit,
+  getBeneficiaryDetail,
+};

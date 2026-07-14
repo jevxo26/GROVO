@@ -1,66 +1,59 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { inventoryService } from "../services/inventory.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-export class InventoryController {
-  static async updateStock(req: Request, res: Response): Promise<void> {
-    const { branchId, itemName, quantity, unit, location } = req.body as {
-      branchId: string;
-      itemName: string;
-      quantity: number;
-      unit: string;
-      location?: string;
-    };
+const updateStock = catchAsync(async (req, res) => {
+  const { branchId, itemName, quantity, unit, location } = req.body;
 
-    if (!branchId || !itemName || quantity < 0) {
-      res.status(400).json({
-        success: false,
-        error: "Invalid asset criteria or negative counts.",
-      });
-      return;
-    }
-
-    try {
-      const asset = await prisma.branchInventory.create({
-        data: {
-          branchId,
-          itemName,
-          quantity: parseInt(quantity.toString(), 10),
-          unit,
-          location,
-          status: "AVAILABLE",
-        },
-      });
-      res.status(200).json({ success: true, data: asset });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!branchId || !itemName || quantity === undefined || quantity < 0) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Invalid asset criteria or negative counts.",
+    );
   }
 
-  static async logItemDistribution(req: Request, res: Response): Promise<void> {
-    const { recordId, reliefItemId, quantity, remarks } = req.body as {
-      recordId: string;
-      reliefItemId: string;
-      quantity: number;
-      remarks?: string;
-    };
+  const result = await inventoryService.updateStock({
+    branchId,
+    itemName,
+    quantity,
+    unit,
+    location,
+  });
 
-    try {
-      const trackingNode = await prisma.distributionItem.create({
-        data: {
-          distributionRecordId: recordId,
-          reliefItemId,
-          quantity: parseFloat(quantity.toString()),
-          remarks,
-        },
-      });
-      res.status(200).json({ success: true, data: trackingNode });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to balance asset release records.",
-      });
-    }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Stock updated successfully",
+    data: result,
+  });
+});
+
+const logItemDistribution = catchAsync(async (req, res) => {
+  const { recordId, reliefItemId, quantity, remarks } = req.body;
+
+  if (!recordId || !reliefItemId || quantity === undefined) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required distribution parameters.",
+    );
   }
-}
+
+  const result = await inventoryService.logItemDistribution({
+    recordId,
+    reliefItemId,
+    quantity,
+    remarks,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Item distribution logged successfully",
+    data: result,
+  });
+});
+
+export const inventoryController = {
+  updateStock,
+  logItemDistribution,
+};

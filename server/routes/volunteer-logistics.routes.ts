@@ -1,10 +1,15 @@
 import { Router } from "express";
-import { VolunteerLogisticsController } from "../controllers/volunteer-logistics.controller";
+import { volunteerLogisticsController } from "../controllers/volunteer-logistics.controller";
 
 const router = Router();
 
-// Logistics, schedules, and out-of-pocket field costs tracking pipelines
-router.post("/attendance/check-in", VolunteerLogisticsController.logAttendance);
-router.post("/expenses/submit", VolunteerLogisticsController.submitExpense);
+router.post("/schedules/:id/check-in", volunteerLogisticsController.logAttendance);
+router.post("/expenses", volunteerLogisticsController.submitExpense);
+router.post("/expenses/:id/approve", volunteerLogisticsController.approveExpense);
+router.post("/field-activities/:id/reports", volunteerLogisticsController.submitFieldReport);
+
+// Legacy/Helper
+router.post("/attendance/check-in", volunteerLogisticsController.logAttendance);
+router.post("/expenses/submit", volunteerLogisticsController.submitExpense);
 
 export const volunteerLogisticsRouter = router;

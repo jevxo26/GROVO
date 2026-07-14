@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { LocalizationController } from "../controllers/localization.controller";
+import { localizationController } from "../controllers/localization.controller";
 
 const router = Router();
 
-router.post("/currency/rate", LocalizationController.updateExchangeRate);
-router.post("/translation/upsert", LocalizationController.setTranslationKey);
+router.post("/currency/rate", localizationController.updateExchangeRate);
+router.post("/translation/upsert", localizationController.setTranslationKey);
 
 export const localizationRouter = router;
+

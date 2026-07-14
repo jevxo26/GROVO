@@ -6,7 +6,10 @@ import { useState } from "react";
 import { beneficiariesData } from "@/data/beneficiariesData"; 
 
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -15,14 +18,99 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 
 import AddBeneficiaryModal from "@/components/shared/modals/addBeneficiaryModal";
 import DeleteBeneficiaryModal from "@/components/shared/modals/deleteBeneficiaryModal";
 import EditBeneficiaryModal from "@/components/shared/modals/EditBeneficiaryModal";
 import { Beneficiary } from "@/type";
+const beneficiariesData = [
+  {
+    id: "1",
+    name: "Rokeya Begum",
+    phone: "+880 1712-111222",
+    code: "BEN-2026-0147",
+    category: "Flood Victim",
+    location: "Savar, Dhaka",
+    status: "active",
+    registered: "2026-06-20",
+  },
+  {
+    id: "2",
+    name: "Md. Sohag Mia",
+    phone: "+880 1812-333444",
+    code: "BEN-2026-0148",
+    category: "Orphan",
+    location: "Golapganj, Sylhet",
+    status: "active",
+    registered: "2026-06-22",
+  },
+  {
+    id: "3",
+    name: "Ayesha Akhter",
+    phone: "+880 1912-555666",
+    code: "BEN-2026-0149",
+    category: "Medical Need",
+    location: "Pahartali, Chattogram",
+    status: "active",
+    registered: "2026-06-25",
+  },
+  {
+    id: "4",
+    name: "Abdul Karim",
+    phone: "+880 1612-777888",
+    code: "BEN-2026-0150",
+    category: "Winter Relief",
+    location: "Paba, Rajshahi",
+    status: "assisted",
+    registered: "2026-05-15",
+  },
+  {
+    id: "5",
+    name: "Nasrin Sultana",
+    phone: "+880 1718-999000",
+    code: "BEN-2026-0151",
+    category: "Education",
+    location: "Dumuria, Khulna",
+    status: "active",
+    registered: "2026-07-01",
+  },
+  {
+    id: "6",
+    name: "Md. Rafiqul Islam",
+    phone: "+880 1512-111333",
+    code: "BEN-2026-0152",
+    category: "Flood Victim",
+    location: "Baniyachong, Habiganj",
+    status: "active",
+    registered: "2026-07-03",
+  },
+  {
+    id: "7",
+    name: "Shahinur Rahman",
+    phone: "+880 1318-444666",
+    code: "BEN-2026-0153",
+    category: "Food Security",
+    location: "Pirgacha, Rangpur",
+    status: "assisted",
+    registered: "2026-04-10",
+  },
+  {
+    id: "8",
+    name: "Fatema Khatun",
+    phone: "+880 1915-777999",
+    code: "BEN-2026-0154",
+    category: "Medical Need",
+    location: "Bakerganj, Barishal",
+    status: "pending",
+    registered: "2026-07-08",
+  },
+];
+
+import AddBeneficiaryModal from "@/components/shared/modals/addBeneficiaryModal";
+import DeleteBeneficiaryModal from "@/components/shared/modals/deleteBeneficiaryModal";
+import EditBeneficiaryModal from "@/components/shared/modals/EditBeneficiaryModal";
+import { useState } from "react";
 
 export default function BeneficiariesPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,7 +118,7 @@ export default function BeneficiariesPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [beneficiaryToDelete, setBeneficiaryToDelete] = useState<Beneficiary | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedBeneficiary, setSelectedBeneficiary] = useState<Beneficiary | null>(null);
+  const [selectedBeneficiary, setSelectedBeneficiary] = useState(null);
 
   const filteredBeneficiaries = beneficiariesData.filter(
     (beneficiary) =>
@@ -40,7 +128,7 @@ export default function BeneficiariesPage() {
       beneficiary.location.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const handleEdit = (beneficiary: Beneficiary) => {
+  const handleEdit = (beneficiary: any) => {
     setSelectedBeneficiary(beneficiary);
     setIsEditModalOpen(true);
   };
@@ -194,6 +282,7 @@ export default function BeneficiariesPage() {
       />
       <EditBeneficiaryModal
         isOpen={isEditModalOpen} 
+        isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         defaultData={selectedBeneficiary}
         onSave={(updatedData) => {

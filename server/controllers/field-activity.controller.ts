@@ -1,77 +1,69 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import customError from "../error/customError";
+import { fieldActivityService } from "../services/field-activity.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-export class FieldActivityController {
-  static async logActivity(req: Request, res: Response): Promise<void> {
-    const {
-      projectId,
-      activityTitle,
-      activityType,
-      location,
-      description,
-      performedBy,
-      activityDate,
-    } = req.body as {
-      projectId: string;
-      activityTitle: string;
-      activityType: string;
-      location?: string;
-      description?: string;
-      performedBy: string;
-      activityDate: string;
-    };
+const logActivity = catchAsync(async (req, res) => {
+  const {
+    projectId,
+    activityTitle,
+    activityType,
+    location,
+    description,
+    performedBy,
+    activityDate,
+  } = req.body;
 
-    if (!projectId || !activityTitle || !performedBy) {
-      res.status(400).json({
-        success: false,
-        error: "Missing core field activity credentials.",
-      });
-      return;
-    }
-
-    try {
-      const activity = await prisma.fieldActivity.create({
-        data: {
-          projectId,
-          activityTitle,
-          activityType,
-          location,
-          description,
-          performedBy,
-          activityDate: new Date(activityDate),
-        },
-      });
-      res.status(200).json({ success: true, data: activity });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!projectId || !activityTitle || !performedBy) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing core field activity credentials.",
+    );
   }
 
-  static async logVisit(req: Request, res: Response): Promise<void> {
-    const { activityId, visitedBy, visitDate, remarks } = req.body as {
-      activityId: string;
-      visitedBy: string;
-      visitDate: string;
-      remarks?: string;
-    };
+  const result = await fieldActivityService.logActivity({
+    projectId,
+    activityTitle,
+    activityType,
+    location,
+    description,
+    performedBy,
+    activityDate,
+  });
 
-    try {
-      const visit = await prisma.fieldVisit.create({
-        data: {
-          activityId,
-          visitedBy,
-          visitDate: new Date(visitDate),
-          remarks,
-        },
-      });
-      res.status(200).json({ success: true, data: visit });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to record field tracking node.",
-      });
-    }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Field activity logged successfully",
+    data: result,
+  });
+});
+
+const logVisit = catchAsync(async (req, res) => {
+  const { activityId, visitedBy, visitDate, remarks } = req.body;
+
+  if (!activityId || !visitedBy || !visitDate) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required visit parameters.",
+    );
   }
-}
+
+  const result = await fieldActivityService.logVisit({
+    activityId,
+    visitedBy,
+    visitDate,
+    remarks,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Field visit recorded successfully",
+    data: result,
+  });
+});
+
+export const fieldActivityController = {
+  logActivity,
+  logVisit,
+};

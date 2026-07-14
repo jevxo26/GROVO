@@ -1,67 +1,65 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import httpStatus from "http-status";
+import { AIModel, DemandForecast } from "../../generated/prisma/browser";
+import customError from "../error/customError";
+import { aiEngineService } from "../services/ai-engine.service";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
-export class AIEngineController {
-  static async registerModelMetrics(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    const { modelName, modelType, algorithm, accuracy } = req.body as {
-      modelName: string;
-      modelType: string;
-      algorithm: string;
-      accuracy: number;
-    };
+const registerModelMetrics = catchAsync(async (req, res) => {
+  const { modelName, modelType, algorithm, accuracy } = req.body;
 
-    if (!modelName || !modelType || !algorithm) {
-      res.status(400).json({
-        success: false,
-        error: "Missing core model validation metadata.",
-      });
-      return;
-    }
-
-    try {
-      const modelNode = await prisma.aIModel.create({
-        data: {
-          modelName,
-          modelType,
-          algorithm,
-          accuracy: parseFloat(accuracy.toString()) || 0.0,
-          status: "ACTIVE",
-        },
-      });
-      res.status(200).json({ success: true, data: modelNode });
-    } catch (error: unknown) {
-      const msg =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(500).json({ success: false, error: msg });
-    }
+  if (!modelName || !modelType || !algorithm) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing core model validation metadata.",
+    );
   }
 
-  static async recordForecast(req: Request, res: Response): Promise<void> {
-    const { category, forecastPeriod, predictedDemand, region } = req.body as {
-      category: string;
-      forecastPeriod: string;
-      predictedDemand: number;
-      region?: string;
-    };
+  const payload = {
+    modelName,
+    modelType,
+    algorithm,
+    accuracy: parseFloat(accuracy?.toString()) || 0.0,
+    status: "ACTIVE",
+  };
 
-    try {
-      const forecast = await prisma.demandForecast.create({
-        data: {
-          category,
-          forecastPeriod,
-          predictedDemand: parseFloat(predictedDemand.toString()),
-          region,
-        },
-      });
-      res.status(200).json({ success: true, data: forecast });
-    } catch (error: unknown) {
-      res.status(500).json({
-        success: false,
-        error: "Failed to record predictive telemetry.",
-      });
-    }
+  const result = await aiEngineService.registerModelMetrics(payload as AIModel);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "AI model metrics registered successfully",
+    data: result,
+  });
+});
+
+const recordForecast = catchAsync(async (req, res) => {
+  const { category, forecastPeriod, predictedDemand, region } = req.body;
+
+  if (!category || !forecastPeriod || predictedDemand === undefined) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "Missing required forecast parameters.",
+    );
   }
-}
+
+  const payload = {
+    category,
+    forecastPeriod,
+    predictedDemand: parseFloat(predictedDemand.toString()),
+    region,
+  };
+
+  const result = await aiEngineService.recordForecast(payload as DemandForecast);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Predictive telemetry recorded successfully",
+    data: result,
+  });
+});
+
+export const aiEngineController = {
+  registerModelMetrics,
+  recordForecast,
+};
+
