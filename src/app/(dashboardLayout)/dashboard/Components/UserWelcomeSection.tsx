@@ -24,7 +24,7 @@ const UserWelcomeSection: React.FC<UserWelcomeProps> = ({
         <p className="text-sm opacity-90 font-medium">Welcome back</p>
         <h1 className="text-3xl font-bold font-serif">{name}</h1>
         <p className="text-sm opacity-80 mt-1">
-          Member since {memberSince} · {memberId}
+          Member since {memberSince} {memberId}
         </p>
       </div>
       
