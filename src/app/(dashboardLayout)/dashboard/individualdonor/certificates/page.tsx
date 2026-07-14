@@ -1,20 +1,21 @@
 import React from 'react';
-import { Star, ShieldCheck, Award, Trophy } from 'lucide-react';
-import { CertificateCard } from '../../member/components/CertificateCard/CertificateCard';
+import BadgeCard from '../Components/BadgeCard/BadgeCard';
 
-const certsData = [
-  { icon: Star, title: "Monthly Donor Recognition", description: "Recognized for consistent monthly donations throughout the year", date: "2026-07-01" },
-  { icon: ShieldCheck, title: "Education Champion Badge", description: "Awarded for exceptional support to education programs", date: "2026-03-15" },
-  { icon: Award, title: "Emergency Responder Certificate", description: "Contributed significantly to emergency relief campaigns", date: "2026-02-28" },
-  { icon: Trophy, title: "Annual Philanthropy Award", description: "Top donor recognition for the fiscal year 2025", date: "2025-12-31" },
+const badgeData = [
+  { id: 1, icon: "🏅", title: "Monthly Donor Recognition", desc: "Recognized for consistent monthly donations", date: "2026-07-01", color: "border-teal-200 bg-teal-50" },
+  { id: 2, icon: "🏆", title: "Education Champion Badge", desc: "Awarded for exceptional support", date: "2026-03-15", color: "border-red-200 bg-red-50" },
+  { id: 3, icon: "📄", title: "Emergency Responder Certificate", desc: "Contributed significantly to relief", date: "2026-02-28", color: "border-yellow-200 bg-yellow-50" },
+  { id: 4, icon: "⭐", title: "Annual Philanthropy Award", desc: "Top donor recognition for 2025", date: "2025-12-31", color: "border-teal-200 bg-teal-50" },
 ];
 
 const Certificates = () => {
   return (
     <div className="p-4 md:p-8 space-y-4">
-      {certsData.map((cert, index) => (
-        <CertificateCard key={index} {...cert} />
-      ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {badgeData.map((item) => (
+          <BadgeCard key={item.id} {...item} />
+        ))}
+      </div>
     </div>
   );
 };
