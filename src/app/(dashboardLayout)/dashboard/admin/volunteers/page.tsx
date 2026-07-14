@@ -30,6 +30,8 @@ export default function VolunteersPage() {
   );
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedVolunteer, setSelectedVolunteer] =
+  useState<Volunteer | null>(null);
 
   const filteredVolunteers = volunteersData.filter(
     (volunteer) =>
@@ -161,7 +163,7 @@ export default function VolunteersPage() {
                     <div className="flex justify-end gap-2">
                       <Button
                         onClick={() => {
-                          // setSelectedVolunteer(volunteer);
+                          setSelectedVolunteer(volunteer);
                           setIsEditModalOpen(true);
                         }}
                         variant="ghost"
@@ -200,7 +202,7 @@ export default function VolunteersPage() {
         isOpen={isEditModalOpen}
         onClose={() => {
           setIsEditModalOpen(false);
-          // setSelectedVolunteer(null);
+          setSelectedVolunteer(null);
         }}
 
       ></EditVolunteerModal>
