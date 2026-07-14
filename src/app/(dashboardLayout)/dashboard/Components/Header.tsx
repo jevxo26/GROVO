@@ -47,7 +47,7 @@ const getPageTitle = (pathname: string) => {
   if (pathname === "/dashboard/individualdonor/certificates") return "Certificates";
   if (pathname === "/dashboard/individualdonor/referal") return "Referals";
 
-  return "Dashboard"; // ডিফল্ট টাইটেল
+  return "Dashboard";
 };
 
 export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
