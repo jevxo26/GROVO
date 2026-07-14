@@ -1,7 +1,5 @@
-import { AIModel, DemandForecast } from "../../generated/prisma/browser";
+import { AIModel, DemandForecast } from "../../generated/prisma/client";
 import { prisma } from "../lib/prisma";
-
-
 
 const registerModelMetrics = async (payload: AIModel) => {
   return await prisma.aIModel.create({
@@ -27,8 +25,6 @@ const recordForecast = async (payload: DemandForecast) => {
 };
 
 export const aiEngineService = {
-
   registerModelMetrics,
   recordForecast,
 };
-
