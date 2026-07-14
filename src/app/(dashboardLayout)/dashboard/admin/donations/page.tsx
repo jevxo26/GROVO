@@ -1,4 +1,9 @@
+
+
 "use client";
+
+import { useState } from "react";
+import { donationsData } from "@/data/donationsData";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,78 +19,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, Plus, Trash2 } from "lucide-react";
 
-const donationsData = [
-  {
-    id: "1",
-    receipt: "DON-2026-0847",
-    donor: "Kamal Hossain",
-    campaign: "Emergency Flood Relief",
-    amount: 5000,
-    type: "One Time",
-    date: "2026-07-08",
-    status: "completed",
-  },
-  {
-    id: "2",
-    receipt: "DON-2026-0846",
-    donor: "Rahim Industries",
-    campaign: "Education Program",
-    amount: 50000,
-    type: "One Time",
-    date: "2026-07-08",
-    status: "completed",
-  },
-  {
-    id: "3",
-    receipt: "DON-2026-0845",
-    donor: "Fatima Rahman",
-    campaign: "Food Security",
-    amount: 2500,
-    type: "Monthly",
-    date: "2026-07-07",
-    status: "completed",
-  },
-  {
-    id: "4",
-    receipt: "DON-2026-0844",
-    donor: "Anonymous",
-    campaign: "Orphan Support",
-    amount: 15000,
-    type: "One Time",
-    date: "2026-07-07",
-    status: "completed",
-  },
-  {
-    id: "5",
-    receipt: "DON-2026-0843",
-    donor: "Syed Corp Ltd.",
-    campaign: "Emergency Flood Relief",
-    amount: 100000,
-    type: "One Time",
-    date: "2026-07-06",
-    status: "completed",
-  },
-  {
-    id: "6",
-    receipt: "DON-2026-0842",
-    donor: "Nasrin Akhter",
-    campaign: "Medical Camp",
-    amount: 1500,
-    type: "One Time",
-    date: "2026-07-06",
-    status: "completed",
-  },
-  {
-    id: "7",
-    receipt: "DON-2026-0841",
-    donor: "Hasan Mahmud",
-    campaign: "Winter Warmth",
-    amount: 2000,
-    type: "One Time",
-    date: "2026-07-05",
-    status: "pending",
-  },
-];
+import RecordDonationModal from "@/components/shared/modals/recordDonationModal";
+import DeleteDonationModal from "@/components/shared/modals/deleteDonationModal";
+import { Donation } from "@/type";
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("en-BD", {
@@ -98,22 +34,24 @@ const formatCurrency = (amount: number) => {
     .replace("BDT", "৳");
 };
 
-import { useState } from "react";
-import RecordDonationModal from "@/components/shared/modals/recordDonationModal";
-import DeleteDonationModal from "@/components/shared/modals/deleteDonationModal";
-
 export default function DonationsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [donationToDelete, setDonationToDelete] = useState<any>(null);
+  const [donationToDelete, setDonationToDelete] = useState<Donation | null>(null);
 
+  // সার্চিং লজিক
   const filteredDonations = donationsData.filter(
     (donation) =>
       donation.donor.toLowerCase().includes(searchQuery.toLowerCase()) ||
       donation.receipt.toLowerCase().includes(searchQuery.toLowerCase()) ||
       donation.campaign.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  // সামারি কার্ডের জন্য ডায়নামিক ক্যালকুলেশন
+  const totalDonationsCount = donationsData.length;
+  const totalDonationsAmount = donationsData.reduce((sum, item) => sum + item.amount, 0);
+  const pendingDonationsCount = donationsData.filter((d) => d.status === "pending").length;
 
   return (
     <div className="space-y-6">
@@ -125,7 +63,7 @@ export default function DonationsPage() {
               Total Donations
             </h3>
             <div className="text-3xl font-bold text-foreground font-serif">
-              8
+              {totalDonationsCount}
             </div>
           </CardContent>
         </Card>
@@ -135,7 +73,7 @@ export default function DonationsPage() {
               Total Amount
             </h3>
             <div className="text-3xl font-bold text-foreground font-serif">
-              {formatCurrency(177500)}
+              {formatCurrency(totalDonationsAmount)}
             </div>
           </CardContent>
         </Card>
@@ -144,7 +82,9 @@ export default function DonationsPage() {
             <h3 className="text-sm font-semibold text-muted-foreground tracking-wider mb-2">
               Pending
             </h3>
-            <div className="text-3xl font-bold text-teal-600 font-serif">1</div>
+            <div className="text-3xl font-bold text-teal-600 font-serif">
+              {pendingDonationsCount}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -162,7 +102,7 @@ export default function DonationsPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">
-            8 donations
+            {filteredDonations.length} donations
           </span>
           <Button
             onClick={() => setIsModalOpen(true)}
@@ -179,30 +119,14 @@ export default function DonationsPage() {
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow className="hover:bg-transparent border-border">
-                <TableHead className="font-semibold text-foreground">
-                  RECEIPT
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  DONOR
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  CAMPAIGN
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  AMOUNT
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  TYPE
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  DATE
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  STATUS
-                </TableHead>
-                <TableHead className="font-semibold text-foreground text-right pr-6">
-                  ACTIONS
-                </TableHead>
+                <TableHead className="font-semibold text-foreground">RECEIPT</TableHead>
+                <TableHead className="font-semibold text-foreground">DONOR</TableHead>
+                <TableHead className="font-semibold text-foreground">CAMPAIGN</TableHead>
+                <TableHead className="font-semibold text-foreground">AMOUNT</TableHead>
+                <TableHead className="font-semibold text-foreground">TYPE</TableHead>
+                <TableHead className="font-semibold text-foreground">DATE</TableHead>
+                <TableHead className="font-semibold text-foreground">STATUS</TableHead>
+                <TableHead className="font-semibold text-foreground text-right pr-6">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -214,21 +138,13 @@ export default function DonationsPage() {
                   <TableCell className="py-4 font-bold text-foreground">
                     {donation.receipt}
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {donation.donor}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {donation.campaign}
-                  </TableCell>
+                  <TableCell className="text-muted-foreground">{donation.donor}</TableCell>
+                  <TableCell className="text-muted-foreground">{donation.campaign}</TableCell>
                   <TableCell className="font-bold text-foreground">
                     {formatCurrency(donation.amount)}
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {donation.type}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {donation.date}
-                  </TableCell>
+                  <TableCell className="text-muted-foreground">{donation.type}</TableCell>
+                  <TableCell className="text-muted-foreground">{donation.date}</TableCell>
                   <TableCell>
                     <Badge
                       variant="outline"
@@ -242,7 +158,7 @@ export default function DonationsPage() {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right pr-6">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex justify-end gap-2">
                       <Button
                         onClick={() => {
                           setDonationToDelete(donation);
@@ -262,17 +178,20 @@ export default function DonationsPage() {
           </Table>
         </div>
       </div>
+
+      {/* Modals */}
       <RecordDonationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      ></RecordDonationModal>
+      />
+      
       <DeleteDonationModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={() => {
           console.log("Deleting donation:", donationToDelete?.id);
         }}
-      ></DeleteDonationModal>
+      />
     </div>
   );
 }

@@ -1,4 +1,9 @@
+
+
 "use client";
+
+import { useState } from "react";
+import { volunteersData } from "@/data/volunteersData";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,106 +19,16 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 
-const volunteersData = [
-  {
-    id: "1",
-    name: "Dr. Sarah Hossain",
-    district: "Dhaka, Dhaka",
-    code: "VOL-DHK-0124",
-    location: "Savar",
-    members: 87,
-    score: 94,
-    rank: "Gold",
-    status: "active",
-  },
-  {
-    id: "2",
-    name: "Md. Rafiqul Islam",
-    district: "Chattogram, Chattogram",
-    code: "VOL-CTG-0045",
-    location: "Pahartali",
-    members: 65,
-    score: 88,
-    rank: "Gold",
-    status: "active",
-  },
-  {
-    id: "3",
-    name: "Nusrat Jahan",
-    district: "Rajshahi, Rajshahi",
-    code: "VOL-RAJ-0023",
-    location: "Paba",
-    members: 54,
-    score: 82,
-    rank: "Silver",
-    status: "active",
-  },
-  {
-    id: "4",
-    name: "Abdullah Al Mamun",
-    district: "Sylhet, Sylhet",
-    code: "VOL-SYL-0078",
-    location: "Golapganj",
-    members: 43,
-    score: 76,
-    rank: "Silver",
-    status: "active",
-  },
-  {
-    id: "5",
-    name: "Rokeya Begum",
-    district: "Khulna, Khulna",
-    code: "VOL-KHU-0034",
-    location: "Dumuria",
-    members: 38,
-    score: 72,
-    rank: "Bronze",
-    status: "active",
-  },
-  {
-    id: "6",
-    name: "Tanvir Ahmed",
-    district: "Dhaka, Dhaka",
-    code: "VOL-DHK-0201",
-    location: "Dhamrai",
-    members: 0,
-    score: 0,
-    rank: "New",
-    status: "pending",
-  },
-  {
-    id: "7",
-    name: "Sharmin Akhter",
-    district: "Rangpur, Rangpur",
-    code: "VOL-RNG-0012",
-    location: "Pirgacha",
-    members: 28,
-    score: 68,
-    rank: "Bronze",
-    status: "active",
-  },
-  {
-    id: "8",
-    name: "Kabir Hossain",
-    district: "Barishal, Barishal",
-    code: "VOL-BAR-0056",
-    location: "Bakerganj",
-    members: 31,
-    score: 71,
-    rank: "Silver",
-    status: "active",
-  },
-];
-
-import { useState } from "react";
 import DeleteVolunteerModal from "@/components/shared/modals/deleteVolunteerModal";
 import AddVolunteerModal from "@/components/shared/modals/addVolunteerModal";
+import { Volunteer } from "@/type";
 
 export default function VolunteersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [volunteerToDelete, setVolunteerToDelete] = useState<any>(null);
+  const [volunteerToDelete, setVolunteerToDelete] = useState<Volunteer | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   const filteredVolunteers = volunteersData.filter(
     (volunteer) =>
       volunteer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -135,14 +50,14 @@ export default function VolunteersPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div
-          onClick={() => setIsAddModalOpen(true)}
-          className="flex items-center gap-4 w-full sm:w-auto"
-        >
+        <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">
-            8 volunteers
+            {filteredVolunteers.length} volunteers
           </span>
-          <Button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm">
+          <Button 
+            onClick={() => setIsAddModalOpen(true)}
+            className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm"
+          >
             <Plus className="w-4 h-4 mr-2" /> Add Volunteer
           </Button>
         </div>
@@ -154,30 +69,14 @@ export default function VolunteersPage() {
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow className="hover:bg-transparent border-border">
-                <TableHead className="font-semibold text-foreground">
-                  VOLUNTEER
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  CODE
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  LOCATION
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  MEMBERS
-                </TableHead>
-                <TableHead className="font-semibold text-foreground w-[150px]">
-                  SCORE
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  RANK
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  STATUS
-                </TableHead>
-                <TableHead className="font-semibold text-foreground text-right pr-6">
-                  ACTIONS
-                </TableHead>
+                <TableHead className="font-semibold text-foreground">VOLUNTEER</TableHead>
+                <TableHead className="font-semibold text-foreground">CODE</TableHead>
+                <TableHead className="font-semibold text-foreground">LOCATION</TableHead>
+                <TableHead className="font-semibold text-foreground">MEMBERS</TableHead>
+                <TableHead className="font-semibold text-foreground w-[150px]">SCORE</TableHead>
+                <TableHead className="font-semibold text-foreground">RANK</TableHead>
+                <TableHead className="font-semibold text-foreground">STATUS</TableHead>
+                <TableHead className="font-semibold text-foreground text-right pr-6">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -187,22 +86,12 @@ export default function VolunteersPage() {
                   className="hover:bg-muted/50 border-border group transition-colors"
                 >
                   <TableCell className="py-4">
-                    <div className="font-bold text-foreground">
-                      {volunteer.name}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {volunteer.district}
-                    </div>
+                    <div className="font-bold text-foreground">{volunteer.name}</div>
+                    <div className="text-sm text-muted-foreground">{volunteer.district}</div>
                   </TableCell>
-                  <TableCell className="font-medium text-foreground">
-                    {volunteer.code}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {volunteer.location}
-                  </TableCell>
-                  <TableCell className="font-bold text-foreground">
-                    {volunteer.members}
-                  </TableCell>
+                  <TableCell className="font-medium text-foreground">{volunteer.code}</TableCell>
+                  <TableCell className="text-muted-foreground">{volunteer.location}</TableCell>
+                  <TableCell className="font-bold text-foreground">{volunteer.members}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Progress
@@ -241,7 +130,7 @@ export default function VolunteersPage() {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right pr-6">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex justify-end gap-2">
                       <Button
                         variant="ghost"
                         size="icon"
@@ -269,10 +158,11 @@ export default function VolunteersPage() {
         </div>
       </div>
 
+      {/* Modals */}
       <AddVolunteerModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-      ></AddVolunteerModal>
+      />
 
       <DeleteVolunteerModal
         isOpen={isDeleteModalOpen}
@@ -280,7 +170,7 @@ export default function VolunteersPage() {
         onDelete={() => {
           console.log("Deleting volunteer:", volunteerToDelete?.id);
         }}
-      ></DeleteVolunteerModal>
+      />
     </div>
   );
 }

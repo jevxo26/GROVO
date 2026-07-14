@@ -1,5 +1,10 @@
+
 "use client";
 
+import { useState } from "react";
+import { branchesData } from "@/data/branchesData";
+
+import { Input } from "@/components/ui/input";
 import AddBranchModal from "@/components/shared/modals/addBranchModal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +23,11 @@ import { useState } from "react";
 
 import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
 
+import AddBranchModal from "@/components/shared/modals/addBranchModal";
+import EditBranchModal from "@/components/shared/modals/EditBeneficiaryModal";
+// import EditBranchModal from "@/components/shared/modals/editBranchModal";
+import DeleteBranchModal from "@/components/shared/modals/deleteBranchModal";
+import { Branch } from "@/type";
 const branchesData = [
   {
     id: "1",
@@ -104,9 +114,12 @@ const branchesData = [
 export default function BranchesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [branchToDelete, setBranchToDelete] = useState<any>(null);
+  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
+  const [branchToDelete, setBranchToDelete] = useState<Branch | null>(null);
 
+  // সার্চিং ফিল্টার লজিক
   const filteredBranches = branchesData.filter(
     (branch) =>
       branch.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -114,6 +127,24 @@ export default function BranchesPage() {
       branch.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
       branch.type.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  // সামারি সেকশনের জন্য ডায়নামিক ক্যালকুলেশন লজিক
+  const totalBranchesCount = branchesData.length;
+  const activeBranchesCount = branchesData.filter((b) => b.status === "active").length;
+  const pendingBranchesCount = branchesData.filter((b) => b.status === "pending").length;
+  
+  // লোকেশন স্ট্রিং থেকে ইউনিক বিভাগ (Division) সংখ্যা বের করার লজিক
+  const divisionsCoveredCount = new Set(
+    branchesData.map((b) => {
+      const parts = b.location.split(",");
+      return parts[parts.length - 1]?.trim();
+    })
+  ).size;
+
+  const handleEditClick = (branch: Branch) => {
+    setSelectedBranch(branch);
+    setIsEditModalOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -125,7 +156,7 @@ export default function BranchesPage() {
               Total Branches
             </h3>
             <div className="text-2xl md:text-3xl font-bold text-foreground font-serif">
-              8
+              {totalBranchesCount}
             </div>
           </CardContent>
         </Card>
@@ -135,7 +166,7 @@ export default function BranchesPage() {
               Active
             </h3>
             <div className="text-2xl md:text-3xl font-bold text-teal-600 font-serif">
-              7
+              {activeBranchesCount}
             </div>
           </CardContent>
         </Card>
@@ -145,7 +176,7 @@ export default function BranchesPage() {
               Divisions Covered
             </h3>
             <div className="text-2xl md:text-3xl font-bold text-teal-600 font-serif">
-              7
+              {divisionsCoveredCount}
             </div>
           </CardContent>
         </Card>
@@ -155,7 +186,7 @@ export default function BranchesPage() {
               Pending
             </h3>
             <div className="text-2xl md:text-3xl font-bold text-amber-700 font-serif">
-              1
+              {pendingBranchesCount}
             </div>
           </CardContent>
         </Card>
@@ -174,7 +205,7 @@ export default function BranchesPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">
-            8 branches
+            {filteredBranches.length} branches
           </span>
           <Button
             onClick={() => setIsModalOpen(true)}
@@ -191,27 +222,13 @@ export default function BranchesPage() {
           <Table className="min-w-[800px]">
             <TableHeader className="bg-muted/50">
               <TableRow className="hover:bg-transparent border-border">
-                <TableHead className="font-semibold text-foreground">
-                  BRANCH
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  CODE
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  TYPE
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  LOCATION
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  ESTABLISHED
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  STATUS
-                </TableHead>
-                <TableHead className="font-semibold text-foreground text-right pr-6">
-                  ACTIONS
-                </TableHead>
+                <TableHead className="font-semibold text-foreground">BRANCH</TableHead>
+                <TableHead className="font-semibold text-foreground">CODE</TableHead>
+                <TableHead className="font-semibold text-foreground">TYPE</TableHead>
+                <TableHead className="font-semibold text-foreground">LOCATION</TableHead>
+                <TableHead className="font-semibold text-foreground">ESTABLISHED</TableHead>
+                <TableHead className="font-semibold text-foreground">STATUS</TableHead>
+                <TableHead className="font-semibold text-foreground text-right pr-6">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -221,40 +238,29 @@ export default function BranchesPage() {
                   className="hover:bg-muted/50 border-border group transition-colors"
                 >
                   <TableCell className="py-4">
-                    <div className="font-bold text-foreground">
-                      {branch.name}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {branch.address}
-                    </div>
+                    <div className="font-bold text-foreground">{branch.name}</div>
+                    <div className="text-sm text-muted-foreground">{branch.address}</div>
                   </TableCell>
-                  <TableCell className="font-medium text-foreground">
-                    {branch.code}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {branch.type}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {branch.location}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {branch.established}
-                  </TableCell>
+                  <TableCell className="font-medium text-foreground">{branch.code}</TableCell>
+                  <TableCell className="text-muted-foreground">{branch.type}</TableCell>
+                  <TableCell className="text-muted-foreground">{branch.location}</TableCell>
+                  <TableCell className="text-muted-foreground">{branch.established}</TableCell>
                   <TableCell>
                     <Badge
                       variant="outline"
                       className={`
                       capitalize font-medium border-transparent
                       ${branch.status === "active" ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : ""}
-                      ${branch.status === "pending" ? "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400" : ""}
+                      ${branch.status === "pending" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" : ""}
                     `}
                     >
                       {branch.status}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right pr-6">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex justify-end gap-2">
                       <Button
+                        onClick={() => handleEditClick(branch)}
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-muted-foreground hover:text-foreground"
@@ -280,10 +286,22 @@ export default function BranchesPage() {
           </Table>
         </div>
       </div>
+
+      {/* Modals */}
       <AddBranchModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      ></AddBranchModal>
+      />
+
+      <EditBranchModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        defaultData={selectedBranch}
+        onSave={(updatedData) => {
+          console.log("Branch updated:", updatedData);
+          setIsEditModalOpen(false);
+        }}
+      />
 
       <DeleteBranchModal
         isOpen={isDeleteModalOpen}
@@ -291,7 +309,7 @@ export default function BranchesPage() {
         onDelete={() => {
           console.log("Deleting branch:", branchToDelete?.id);
         }}
-      ></DeleteBranchModal>
+      />
     </div>
   );
 }

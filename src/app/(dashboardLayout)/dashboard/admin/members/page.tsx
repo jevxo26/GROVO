@@ -1,4 +1,10 @@
+
 "use client";
+
+import { useState } from "react";
+import { membersData } from "@/data/membersData";
+
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 const membersData = [
   {
@@ -96,6 +104,7 @@ const membersData = [
 
 import AddMemberModal from "@/components/shared/modals/addMemberModal";
 import DeleteMemberModal from "@/components/shared/modals/deleteMemberModal";
+import { Member } from "@/type";
 import EditMemberModal from "@/components/shared/modals/editMemberModal";
 import { useState } from "react";
 
@@ -103,14 +112,18 @@ export default function MembersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMemberOpen, setIsMemberOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedMember, setSelectedMember] = useState(null);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [memberToDelete, setMemberToDelete] = useState<Member | null>(null);
+  
+  const handleEdit = (member: Member) => {
   const [memberToDelete, setMemberToDelete] = useState<any>(null);
 
   const handleEdit = (member: any) => {
     setSelectedMember(member);
     setIsEditModalOpen(true);
   };
+
   const filteredMembers = membersData.filter(
     (member) =>
       member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -118,6 +131,7 @@ export default function MembersPage() {
       member.membership.toLowerCase().includes(searchQuery.toLowerCase()) ||
       member.district.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
   return (
     <div className="space-y-6">
       {/* Top Bar */}
@@ -133,7 +147,7 @@ export default function MembersPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">
-            8 members
+            {filteredMembers.length} members
           </span>
           <Button
             onClick={() => setIsMemberOpen(true)}
@@ -143,33 +157,20 @@ export default function MembersPage() {
           </Button>
         </div>
       </div>
+
       {/* Table */}
       <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow className="hover:bg-transparent border-border">
-                <TableHead className="font-semibold text-foreground">
-                  MEMBER
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  MEMBERSHIP
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  TYPE
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  DISTRICT
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  STATUS
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  JOINED
-                </TableHead>
-                <TableHead className="font-semibold text-foreground text-right pr-6">
-                  ACTIONS
-                </TableHead>
+                <TableHead className="font-semibold text-foreground">MEMBER</TableHead>
+                <TableHead className="font-semibold text-foreground">MEMBERSHIP</TableHead>
+                <TableHead className="font-semibold text-foreground">TYPE</TableHead>
+                <TableHead className="font-semibold text-foreground">DISTRICT</TableHead>
+                <TableHead className="font-semibold text-foreground">STATUS</TableHead>
+                <TableHead className="font-semibold text-foreground">JOINED</TableHead>
+                <TableHead className="font-semibold text-foreground text-right pr-6">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -179,22 +180,12 @@ export default function MembersPage() {
                   className="hover:bg-muted/50 border-border group transition-colors"
                 >
                   <TableCell className="py-4">
-                    <div className="font-bold text-foreground">
-                      {member.name}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {member.phone}
-                    </div>
+                    <div className="font-bold text-foreground">{member.name}</div>
+                    <div className="text-sm text-muted-foreground">{member.phone}</div>
                   </TableCell>
-                  <TableCell className="font-medium text-foreground">
-                    {member.membership}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {member.type}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {member.district}
-                  </TableCell>
+                  <TableCell className="font-medium text-foreground">{member.membership}</TableCell>
+                  <TableCell className="text-muted-foreground">{member.type}</TableCell>
+                  <TableCell className="text-muted-foreground">{member.district}</TableCell>
                   <TableCell>
                     <Badge
                       variant="outline"
@@ -208,11 +199,9 @@ export default function MembersPage() {
                       {member.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {member.joined}
-                  </TableCell>
+                  <TableCell className="text-muted-foreground">{member.joined}</TableCell>
                   <TableCell className="text-right pr-6">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex justify-end gap-2">
                       <Button
                         onClick={() => handleEdit(member)}
                         variant="ghost"
@@ -240,21 +229,25 @@ export default function MembersPage() {
           </Table>
         </div>
       </div>
+
+      {/* Modals */}
       <AddMemberModal
         isOpen={isMemberOpen}
         onClose={() => setIsMemberOpen(false)}
-      ></AddMemberModal>
+      />
       <EditMemberModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         initialData={selectedMember}
-      ></EditMemberModal>
+      />
       <DeleteMemberModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={() => {
           console.log("Deleting member:", memberToDelete?.id);
         }}
+        memberName={memberToDelete?.name}
+      />
       ></DeleteMemberModal>
     </div>
   );

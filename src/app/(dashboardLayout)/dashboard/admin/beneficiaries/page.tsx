@@ -1,5 +1,11 @@
+
+
 "use client";
 
+import { useState } from "react";
+import { beneficiariesData } from "@/data/beneficiariesData"; 
+
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,6 +20,10 @@ import {
 } from "@/components/ui/table";
 import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 
+import AddBeneficiaryModal from "@/components/shared/modals/addBeneficiaryModal";
+import DeleteBeneficiaryModal from "@/components/shared/modals/deleteBeneficiaryModal";
+import EditBeneficiaryModal from "@/components/shared/modals/EditBeneficiaryModal";
+import { Beneficiary } from "@/type";
 const beneficiariesData = [
   {
     id: "1",
@@ -106,7 +116,7 @@ export default function BeneficiariesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isBeneficiaryOpen, setIsBeneficiaryOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [beneficiaryToDelete, setBeneficiaryToDelete] = useState<any>(null);
+  const [beneficiaryToDelete, setBeneficiaryToDelete] = useState<Beneficiary | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedBeneficiary, setSelectedBeneficiary] = useState(null);
 
@@ -133,7 +143,7 @@ export default function BeneficiariesPage() {
               Total
             </h3>
             <div className="text-2xl md:text-3xl font-bold text-foreground font-serif">
-              8
+              {beneficiariesData.length}
             </div>
           </CardContent>
         </Card>
@@ -143,7 +153,7 @@ export default function BeneficiariesPage() {
               Active
             </h3>
             <div className="text-2xl md:text-3xl font-bold text-teal-600 font-serif">
-              5
+              {beneficiariesData.filter(b => b.status === "active").length}
             </div>
           </CardContent>
         </Card>
@@ -153,7 +163,7 @@ export default function BeneficiariesPage() {
               Assisted
             </h3>
             <div className="text-2xl md:text-3xl font-bold text-teal-600 font-serif">
-              2
+              {beneficiariesData.filter(b => b.status === "assisted").length}
             </div>
           </CardContent>
         </Card>
@@ -163,7 +173,7 @@ export default function BeneficiariesPage() {
               Pending
             </h3>
             <div className="text-2xl md:text-3xl font-bold text-amber-700 font-serif">
-              1
+              {beneficiariesData.filter(b => b.status === "pending").length}
             </div>
           </CardContent>
         </Card>
@@ -182,7 +192,7 @@ export default function BeneficiariesPage() {
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <span className="text-sm text-muted-foreground font-medium hidden sm:inline-block">
-            8 beneficiaries
+            {filteredBeneficiaries.length} beneficiaries
           </span>
           <Button
             onClick={() => setIsBeneficiaryOpen(true)}
@@ -199,27 +209,13 @@ export default function BeneficiariesPage() {
           <Table className="min-w-[800px]">
             <TableHeader className="bg-muted/50">
               <TableRow className="hover:bg-transparent border-border">
-                <TableHead className="font-semibold text-foreground">
-                  NAME
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  CODE
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  CATEGORY
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  LOCATION
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  STATUS
-                </TableHead>
-                <TableHead className="font-semibold text-foreground">
-                  REGISTERED
-                </TableHead>
-                <TableHead className="font-semibold text-foreground text-right pr-6">
-                  ACTIONS
-                </TableHead>
+                <TableHead className="font-semibold text-foreground">NAME</TableHead>
+                <TableHead className="font-semibold text-foreground">CODE</TableHead>
+                <TableHead className="font-semibold text-foreground">CATEGORY</TableHead>
+                <TableHead className="font-semibold text-foreground">LOCATION</TableHead>
+                <TableHead className="font-semibold text-foreground">STATUS</TableHead>
+                <TableHead className="font-semibold text-foreground">REGISTERED</TableHead>
+                <TableHead className="font-semibold text-foreground text-right pr-6">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -229,22 +225,12 @@ export default function BeneficiariesPage() {
                   className="hover:bg-muted/50 border-border group transition-colors"
                 >
                   <TableCell className="py-4">
-                    <div className="font-bold text-foreground">
-                      {beneficiary.name}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {beneficiary.phone}
-                    </div>
+                    <div className="font-bold text-foreground">{beneficiary.name}</div>
+                    <div className="text-sm text-muted-foreground">{beneficiary.phone}</div>
                   </TableCell>
-                  <TableCell className="font-medium text-foreground">
-                    {beneficiary.code}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {beneficiary.category}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {beneficiary.location}
-                  </TableCell>
+                  <TableCell className="font-medium text-foreground">{beneficiary.code}</TableCell>
+                  <TableCell className="text-muted-foreground">{beneficiary.category}</TableCell>
+                  <TableCell className="text-muted-foreground">{beneficiary.location}</TableCell>
                   <TableCell>
                     <Badge
                       variant="outline"
@@ -258,11 +244,9 @@ export default function BeneficiariesPage() {
                       {beneficiary.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {beneficiary.registered}
-                  </TableCell>
+                  <TableCell className="text-muted-foreground">{beneficiary.registered}</TableCell>
                   <TableCell className="text-right pr-6">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex justify-end gap-2 ">
                       <Button
                         onClick={() => handleEdit(beneficiary)}
                         variant="ghost"
@@ -290,11 +274,14 @@ export default function BeneficiariesPage() {
           </Table>
         </div>
       </div>
+      
+      {/* Modals */}
       <AddBeneficiaryModal
         isOpen={isBeneficiaryOpen}
         onClose={() => setIsBeneficiaryOpen(false)}
-      ></AddBeneficiaryModal>
+      />
       <EditBeneficiaryModal
+        isOpen={isEditModalOpen} 
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         defaultData={selectedBeneficiary}
@@ -302,14 +289,14 @@ export default function BeneficiariesPage() {
           console.log("Updated:", updatedData);
           setIsEditModalOpen(false);
         }}
-      ></EditBeneficiaryModal>
+      />
       <DeleteBeneficiaryModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={() => {
           console.log("Deleting beneficiary:", beneficiaryToDelete?.id);
         }}
-      ></DeleteBeneficiaryModal>
+      />
     </div>
   );
 }

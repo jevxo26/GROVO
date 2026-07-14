@@ -27,6 +27,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "http-status": "^2.1.0",
+    "jod": "^0.0.0",
     "lucide-react": "^1.24.0",
     "next": "16.2.10",
     "next-themes": "^0.4.6",
