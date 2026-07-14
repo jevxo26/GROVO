@@ -1,7 +1,56 @@
 import express from "express";
 import { userRouter } from "./user.routes";
-const router = express.Router();
+import { securityRouter } from "./security.routes";
+import { governanceRouter } from "./governance.routes";
+import { financialRouter } from "./financial.routes";
+import { beneficiaryRouter } from "./beneficiary.routes";
+import { donationRouter } from "./donation.routes";
+import { eventRouter } from "./event.routes";
+import { eventController } from "../controllers/event.controller";
+import { volunteerRouter } from "./volunteer.routes";
+import { volunteerLogisticsRouter } from "./volunteer-logistics.routes";
+import { fieldActivityRouter } from "./field-activity.routes";
+import { inventoryRouter } from "./inventory.routes";
+import { localizationRouter } from "./localization.routes";
+import { mediaRouter } from "./media.routes";
+import { notificationRouter } from "./notification.routes";
+import { supportRouter } from "./support.routes";
+import { cmsRouter } from "./cms.routes";
+import { aiRouter } from "./ai.routes";
+import { aiEngineRouter } from "./ai-engine.routes";
+import { analyticsRouter } from "./analytics.routes";
+import { automationRouter } from "./automation.routes";
+import { donorsRouter } from "./donors.routes";
+import { campaignsRouter } from "./campaigns.routes";
 
-router.use("/user", userRouter);
+const router = express.Router();
+const v1Router = express.Router();
+
+v1Router.use("/user", userRouter);
+v1Router.use("/security", securityRouter);
+v1Router.use("/governance", governanceRouter);
+v1Router.use("/financial", financialRouter);
+v1Router.use("/beneficiary", beneficiaryRouter);
+v1Router.use("/donation", donationRouter);
+v1Router.use("/donors", donorsRouter);
+v1Router.use("/campaigns", campaignsRouter);
+v1Router.use("/event", eventRouter);
+v1Router.use("/events", eventRouter);
+v1Router.get("/live-donation-feed", eventController.getLiveDonationFeed);
+v1Router.use("/volunteer", volunteerRouter);
+v1Router.use("/volunteer-logistics", volunteerLogisticsRouter);
+v1Router.use("/field-activity", fieldActivityRouter);
+v1Router.use("/inventory", inventoryRouter);
+v1Router.use("/localization", localizationRouter);
+v1Router.use("/media", mediaRouter);
+v1Router.use("/notification", notificationRouter);
+v1Router.use("/support", supportRouter);
+v1Router.use("/cms", cmsRouter);
+v1Router.use("/ai", aiRouter);
+v1Router.use("/ai-engine", aiEngineRouter);
+v1Router.use("/analytics", analyticsRouter);
+v1Router.use("/automation", automationRouter);
+
+router.use("/v1", v1Router);
 
 export const RootRouter = router;

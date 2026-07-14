@@ -16,7 +16,7 @@ export const StatsSection: React.FC = () => {
           </p>
           
           {/* ভ্যালু: ইমেজের স্টাইল অনুযায়ী কালার এবং সাইজ */}
-          <h3 className={cn("text-3xl font-bold font-serif", stat.color || "text-[#2a2a2a]")}>
+          <h3 className={cn("text-3xl font-bold font-serif","text-[#2a2a2a]")}>
             {stat.value}
           </h3>
         </div>
