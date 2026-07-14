@@ -15,6 +15,7 @@ import {
   X,
   UserPlus,
   SquareCheck,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -94,14 +95,28 @@ const sidebarNavigation = {
       icon: BarChart3,
     },
   ],
+  staf: [
+    { name: "Overview", href: "/dashboard/staf", icon: LayoutGrid },
+    {
+      name: "My Tasks",
+      href: "/dashboard/staf/mytask",
+      icon: SquareCheck,
+    },
+    { name: "Branch Info", href: "/dashboard/staf/branchinfo", icon: Building2 },
+  ],
 };
 
 // টাইপ ডিফিনিশন আপডেট করা হয়েছে
-type UserRole = "member" | "corporate" | "executivemember" | "volunteer";
+type UserRole =
+  | "member"
+  | "corporate"
+  | "executivemember"
+  | "volunteer"
+  | "staf";
 
 export function Sidebar({
   onClose,
-  role = "volunteer",
+  role = "staf",
 }: {
   onClose?: () => void;
   role?: UserRole;
@@ -137,13 +152,12 @@ export function Sidebar({
       {/* Navigation Links */}
       <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
         {links.map((link) => {
-          const isRootDashboard =
-            link.href === "/dashboard/member" ||
-            link.href === "/dashboard/corporate" ||
-            link.href === "/dashboard/executivemember" ||
-            link.href === "/dashboard/volunteer";
+          // Check if this is the 'Overview' link for the current role
+          const isOverview = link.name === "Overview";
 
-          const isActive = isRootDashboard
+          // If it's Overview, only active if path exactly matches.
+          // Otherwise, active if path starts with the link's href.
+          const isActive = isOverview
             ? pathname === link.href
             : pathname.startsWith(link.href);
 
