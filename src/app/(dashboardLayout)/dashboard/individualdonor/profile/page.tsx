@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { ProfileBanner } from "../Components/ProfileBanner/ProfileBanner";
 import { SettingsForm } from "../Components/SettingsForm/SettingsForm";
@@ -28,7 +27,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 p-4 md:p-8 bg-[#fcfaf9] dark:bg-[#12100f] min-h-screen transition-colors duration-300">
+    <div className="max-w-7xl mx-auto space-y-8 p-4 md:p-8 bg-background text-foreground min-h-screen transition-colors duration-300">
       {/* প্রোফাইল ব্যানার সেকশন */}
       <ProfileBanner
         name="Kamal Hossain"

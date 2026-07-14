@@ -12,12 +12,12 @@ export const StatsSection = () => {
       {stats.map((stat, index) => (
         <div 
           key={index} 
-          className="bg-white dark:bg-[#1a1716] p-6 rounded-2xl border border-[#efe9e6] dark:border-[#2f2824] shadow-sm transition-colors duration-300"
+          className="bg-white dark:bg-card p-6 rounded-2xl border border-gray-100 dark:border-border shadow-sm transition-colors duration-300"
         >
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+          <p className="text-sm text-gray-500 dark:text-muted-foreground mb-2">
             {stat.title}
           </p>
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 font-serif">
+          <h3 className="text-3xl font-bold text-gray-900 dark:text-foreground font-serif">
             {stat.value}
           </h3>
         </div>

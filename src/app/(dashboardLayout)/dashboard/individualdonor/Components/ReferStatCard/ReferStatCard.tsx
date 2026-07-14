@@ -11,12 +11,12 @@ const ReferStatCard: React.FC<StatCardProps> = ({
   label, 
   value, 
   prefix, 
-  valueColor = "text-stone-900" 
+  valueColor = "text-stone-900 dark:text-stone-100" 
 }) => {
   return (
-    <div className="bg-[#FAF9F6] border border-stone-200/50 rounded-2xl p-6 flex flex-col justify-between shadow-sm min-h-30 w-full">
+    <div className="bg-[#FAF9F6] dark:bg-card border border-stone-200/50 dark:border-border rounded-2xl p-6 flex flex-col justify-between shadow-sm min-h-30 w-full">
       {/* কার্ড লেবেল */}
-      <span className="text-xs font-bold tracking-wider text-[#A0826C] uppercase">
+      <span className="text-xs font-bold tracking-wider text-[#A0826C] dark:text-muted-foreground uppercase">
         {label}
       </span>
       

@@ -12,7 +12,7 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
   monthlyPledge,
 }) => {
   return (
-    <div className="w-full bg-[#00897b] p-8 rounded-2xl text-white shadow-lg">
+    <div className="w-full bg-[#00897b] dark:bg-teal-900 p-8 rounded-2xl text-white shadow-lg transition-colors">
       <p className="text-sm font-medium opacity-90 mb-1">Available Balance</p>
       <h2 className="text-4xl font-bold mb-8">৳ {availableBalance}</h2>
       

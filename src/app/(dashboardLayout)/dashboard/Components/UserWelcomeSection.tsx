@@ -6,8 +6,8 @@ interface UserWelcomeProps {
   memberSince: string;
   memberId: string;
   onDonationClick: () => void;
-  bgColor?: string; // ব্যাকগ্রাউন্ড কালার ক্লাস (যেমন: "bg-[#8b4513]")
-  btnTextColor?: string; // নতুন প্রপ: বাটনের টেক্সট কালারের জন্য
+  bgColor?: string; 
+  btnTextColor?: string; 
 }
 
 const UserWelcomeSection: React.FC<UserWelcomeProps> = ({ 
@@ -15,11 +15,11 @@ const UserWelcomeSection: React.FC<UserWelcomeProps> = ({
   memberSince, 
   memberId, 
   onDonationClick,
-  bgColor = "bg-[#8b4513]", // ডিফল্ট ব্যাকগ্রাউন্ড
-  btnTextColor = "text-[#8b4513]" // ডিফল্ট বাটন টেক্সট কালার
+  bgColor = "bg-[#8b4513]",
+  btnTextColor = "text-[#8b4513]"
 }) => {
   return (
-    <section className={`${bgColor} text-white p-8 rounded-3xl flex flex-col md:flex-row justify-between items-center shadow-lg gap-4`}>
+    <section className={`${bgColor} dark:bg-orange-950 text-white p-8 rounded-3xl flex flex-col md:flex-row justify-between items-center shadow-lg gap-4 transition-colors`}>
       <div>
         <p className="text-sm opacity-90 font-medium">Welcome back</p>
         <h1 className="text-3xl font-bold font-serif">{name}</h1>
@@ -30,8 +30,7 @@ const UserWelcomeSection: React.FC<UserWelcomeProps> = ({
       
       <button 
         onClick={onDonationClick}
-        // এখানে btnTextColor ডাইনামিক্যালি ব্যবহার করা হয়েছে
-        className={`bg-white ${btnTextColor} px-6 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-gray-100 transition shadow-sm`}
+        className={`bg-white dark:bg-slate-900 ${btnTextColor} dark:text-orange-100 px-6 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-slate-800 transition shadow-sm`}
       >
         <Heart className="w-4 h-4 text-red-500" /> Make a Donation
       </button>

@@ -17,11 +17,11 @@ const ReferralCard: React.FC<ReferralCardProps> = ({
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000); // ২ সেকেন্ড পর আবার 'Copy' দেখাবে
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="bg-teal-700 p-6 rounded-2xl text-white w-full max-w-7xl">
+    <div className="bg-teal-700 dark:bg-teal-900 p-6 rounded-2xl text-white w-full max-w-7xl">
       <h2 className="text-xl font-bold mb-2">{title}</h2>
       <p className="text-teal-50 text-sm mb-6">{description}</p>
       
@@ -31,7 +31,7 @@ const ReferralCard: React.FC<ReferralCardProps> = ({
         </div>
         <button 
           onClick={handleCopy}
-          className="bg-white text-teal-700 px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 transition flex items-center justify-center gap-2"
+          className="bg-white dark:bg-teal-100 text-teal-700 dark:text-teal-900 px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 dark:hover:bg-teal-200 transition flex items-center justify-center gap-2"
         >
           {copied ? "Copied!" : "Copy"}
         </button>

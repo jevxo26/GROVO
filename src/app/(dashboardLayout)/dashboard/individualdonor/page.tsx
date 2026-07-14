@@ -10,7 +10,6 @@ import { StatCard } from "../corporate/components/StatCard";
 import { CircleDollarSign, Coins, Flag, CornerUpRight } from 'lucide-react';
 import { donoractions } from "@/data/quickActions";
 
-// টাইপ ডিফিনিশন
 type Badge = string;
 
 const MemberDashboard: React.FC = () => {
@@ -22,7 +21,7 @@ const MemberDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8 p-4 md:p-8 bg-[#fcfaf9] dark:bg-[#12100f] min-h-screen transition-colors duration-300">
+    <div className="space-y-8 p-4 md:p-8 bg-background text-foreground min-h-screen transition-colors duration-300">
       {/* Header Banner */}
       <UserWelcomeSection
         name="Kamal Hossain"
@@ -38,29 +37,29 @@ const MemberDashboard: React.FC = () => {
           title="TOTAL DONATED"
           value="৳ 19,000"
           icon={CircleDollarSign}
-          iconBg="bg-emerald-100"
-          iconColor="text-emerald-700"
+          iconBg="bg-emerald-100 dark:bg-emerald-950"
+          iconColor="text-emerald-700 dark:text-emerald-400"
         />
         <StatCard
           title="Reward Points"
           value="2,450"
           icon={Coins}
-          iconBg="bg-teal-100"
-          iconColor="text-teal-700"
+          iconBg="bg-teal-100 dark:bg-teal-950"
+          iconColor="text-teal-700 dark:text-teal-400"
         />
         <StatCard
           title="Campaigns"
           value="4"
           icon={Flag}
-          iconBg="bg-orange-100"
-          iconColor="text-orange-700"
+          iconBg="bg-orange-100 dark:bg-orange-950"
+          iconColor="text-orange-700 dark:text-orange-400"
         />
         <StatCard
           title="Referrals"
           value="4"
           icon={CornerUpRight}
-          iconBg="bg-emerald-100"
-          iconColor="text-emerald-700"
+          iconBg="bg-emerald-100 dark:bg-emerald-950"
+          iconColor="text-emerald-700 dark:text-emerald-400"
         />
       </section>
 
@@ -73,7 +72,7 @@ const MemberDashboard: React.FC = () => {
           {badges.map((badge: Badge) => (
             <span
               key={badge}
-              className="px-4 py-2 bg-[#d1ede6] text-[#006d5b] rounded-full text-sm font-medium"
+              className="px-4 py-2 bg-[#d1ede6] dark:bg-teal-950 text-[#006d5b] dark:text-teal-400 rounded-full text-sm font-medium"
             >
               {badge}
             </span>
@@ -83,7 +82,6 @@ const MemberDashboard: React.FC = () => {
         {/* Recent Section */}
         <div className="grid grid-cols-1 py-8 md:grid-cols-2 gap-6">
           <RecentDonations title="Recent Donations" donations={donations} />
-          {/* এখানে টাইপ এরর হবার কথা নয় যদি SupportedCampaigns-এ ইন্টারফেস সেট করা থাকে */}
           <SupportedCampaigns
             title="Supported Campaigns"
             campaigns={campaigns}

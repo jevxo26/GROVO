@@ -35,42 +35,47 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ defaultValues, onSav
   });
 
   return (
-    <form onSubmit={handleSubmit(onSave)} className="bg-white dark:bg-[#1a1716] p-8 rounded-2xl border border-[#efe9e6] dark:border-[#2f2824] shadow-sm">
+    <form onSubmit={handleSubmit(onSave)} className="bg-white dark:bg-card p-8 rounded-2xl border border-gray-100 dark:border-border shadow-sm transition-colors duration-300">
       
-      <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-6">Personal Information</h2>
+      <h2 className="text-lg font-bold text-gray-900 dark:text-foreground mb-6">Personal Information</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {(['firstName', 'lastName', 'email', 'phone'] as const).map((field) => (
           <div key={field} className="flex flex-col gap-2">
-            <label className="text-sm text-gray-600 dark:text-gray-400 capitalize">{field.replace(/([A-Z])/g, ' $1')}</label>
+            <label className="text-sm text-gray-600 dark:text-muted-foreground capitalize">
+              {field.replace(/([A-Z])/g, ' $1')}
+            </label>
             <input 
               {...register(field)} 
-              className="p-3 rounded-lg border border-[#efe9e6] dark:border-[#2f2824] bg-transparent focus:outline-none focus:ring-2 focus:ring-[#8b4513]/20"
+              className="p-3 rounded-lg border border-gray-100 dark:border-border bg-transparent dark:text-foreground focus:outline-none focus:ring-2 focus:ring-[#8b4513]/20 dark:focus:ring-orange-500/20"
             />
             {errors[field] && <p className="text-red-500 text-xs">{errors[field]?.message}</p>}
           </div>
         ))}
       </div>
 
-      <hr className="border-[#efe9e6] dark:border-[#2f2824] mb-8" />
+      <hr className="border-gray-100 dark:border-border mb-8" />
 
-      <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-6">Donation Preferences</h2>
+      <h2 className="text-lg font-bold text-gray-900 dark:text-foreground mb-6">Donation Preferences</h2>
       <div className="flex flex-col md:flex-row gap-6 mb-8 items-end">
         <div className="flex flex-col gap-2 w-full md:w-1/2">
-          <label className="text-sm text-gray-600 dark:text-gray-400">Monthly Contribution</label>
-          <input {...register("monthlyContribution")} className="p-3 rounded-lg border border-[#efe9e6] dark:border-[#2f2824] bg-transparent focus:outline-none focus:ring-2 focus:ring-[#8b4513]/20" />
+          <label className="text-sm text-gray-600 dark:text-muted-foreground">Monthly Contribution</label>
+          <input 
+            {...register("monthlyContribution")} 
+            className="p-3 rounded-lg border border-gray-100 dark:border-border bg-transparent dark:text-foreground focus:outline-none focus:ring-2 focus:ring-[#8b4513]/20 dark:focus:ring-orange-500/20" 
+          />
           {errors.monthlyContribution && <p className="text-red-500 text-xs">{errors.monthlyContribution.message}</p>}
         </div>
         
         <div className="flex items-center gap-4 h-13">
           <label className="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" {...register("autoRenew")} className="sr-only peer" />
-            <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-[#8b4513] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+            <div className="w-11 h-6 bg-gray-200 dark:bg-muted rounded-full peer peer-checked:bg-[#8b4513] dark:peer-checked:bg-orange-700 after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
           </label>
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Auto-renew monthly</span>
+          <span className="text-sm font-medium text-gray-700 dark:text-muted-foreground">Auto-renew monthly</span>
         </div>
       </div>
 
-      <button type="submit" className="px-6 py-2.5 bg-[#8b4513] text-white rounded-lg hover:bg-[#6e370f] transition-colors font-medium">
+      <button type="submit" className="px-6 py-2.5 bg-[#8b4513] dark:bg-orange-800 text-white rounded-lg hover:bg-[#6e370f] dark:hover:bg-orange-700 transition-colors font-medium">
         Save Changes
       </button>
     </form>
