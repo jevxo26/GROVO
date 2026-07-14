@@ -38,7 +38,7 @@ const getPageTitle = (pathname: string) => {
   if (pathname === "/dashboard/staf/branchinfo") return "Branch Information";
 
   // Individual Donor Routes
-  if (pathname === "/dashboard/individualdonor") return "Individual Donor Dashboard";
+  if (pathname === "/dashboard/individualdonor") return "Individual Donor";
   if (pathname === "/dashboard/individualdonor/profile") return "My Profile";
   if (pathname === "/dashboard/individualdonor/wallet") return "My Wallet";
   if (pathname === "/dashboard/individualdonor/donations") return "My Donations";
