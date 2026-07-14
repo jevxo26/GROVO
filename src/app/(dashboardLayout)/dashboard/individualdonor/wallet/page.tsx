@@ -1,5 +1,8 @@
+"use client"
 import React from 'react';
 import { BalanceCard } from '../Components/BalanceCard/BalanceCard';
+import { TransactionTable } from '../Components/TransactionTable/TransactionTable';
+import { transactions } from '@/data/transactions';
 
 const WalletPage = () => {
     return (
@@ -9,6 +12,7 @@ const WalletPage = () => {
                 rewardPoints={2450}
                 monthlyPledge={2000}
             />
+            <TransactionTable data={transactions} />
         </div>
     );
 };
