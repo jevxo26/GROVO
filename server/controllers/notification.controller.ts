@@ -99,7 +99,7 @@ const getMyNotifications = catchAsync(async (req, res) => {
 
 const markAsRead = catchAsync(async (req, res) => {
   const userId = (req.headers["x-user-id"] as string) || "usr-default-mock";
-  const id = req.params.id;
+  const id = (Array.isArray(req.params.id) ? req.params.id[0] : req.params.id) as string;
 
   const result = await notificationService.markAsRead(id, userId);
 
@@ -138,7 +138,7 @@ const createEmergencyAlert = catchAsync(async (req, res) => {
 });
 
 const resolveEmergencyAlert = catchAsync(async (req, res) => {
-  const id = req.params.id;
+  const id = (Array.isArray(req.params.id) ? req.params.id[0] : req.params.id) as string;
 
   const result = await notificationService.resolveEmergencyAlert(id);
 
