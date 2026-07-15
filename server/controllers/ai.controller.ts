@@ -60,7 +60,57 @@ const queueAutomatedTask = catchAsync(async (req, res) => {
   });
 });
 
+const chatAssistant = catchAsync(async (req, res) => {
+  const { assistantId, message } = req.body;
+  const userId = (req.headers["x-user-id"] as string) || "usr-default-mock";
+
+  if (!assistantId || !message) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "assistantId and message are required fields.",
+    );
+  }
+
+  const result = await aiService.chatAssistant({
+    assistantId,
+    userId,
+    message,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Response generated",
+    data: result,
+  });
+});
+
+const routeOptimization = catchAsync(async (req, res) => {
+  const { optimizationType, startLocation, endLocation, waypoints } = req.body;
+
+  if (!optimizationType || !startLocation || !endLocation || !waypoints) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "optimizationType, startLocation, endLocation and waypoints are required fields.",
+    );
+  }
+
+  const result = await aiService.routeOptimization({
+    optimizationType,
+    startLocation,
+    endLocation,
+    waypoints,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Optimized route calculated successfully",
+    data: result,
+  });
+});
+
 export const aiController = {
   logPrediction,
   queueAutomatedTask,
+  chatAssistant,
+  routeOptimization,
 };
