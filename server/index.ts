@@ -28,7 +28,7 @@ app
     });
 
     // API routes - make sure this is BEFORE Next.js handler
-    server.use("/api", RootRouter);
+    server.use("/api/v1", RootRouter);
 
     // Next.js handler for all other routes (must be last)
     server.use((req: Request, res: Response) => {
