@@ -1,0 +1,77 @@
+// src/data/donationsData.ts
+import { Donation } from "@/type";
+
+
+
+export const donationsData: Donation[] = [
+  {
+    id: "1",
+    receipt: "DON-2026-0847",
+    donor: "Kamal Hossain",
+    campaign: "Emergency Flood Relief",
+    amount: 5000,
+    type: "One Time",
+    date: "2026-07-08",
+    status: "completed",
+  },
+  {
+    id: "2",
+    receipt: "DON-2026-0846",
+    donor: "Rahim Industries",
+    campaign: "Education Program",
+    amount: 50000,
+    type: "One Time",
+    date: "2026-07-08",
+    status: "completed",
+  },
+  {
+    id: "3",
+    receipt: "DON-2026-0845",
+    donor: "Fatima Rahman",
+    campaign: "Food Security",
+    amount: 2500,
+    type: "Monthly",
+    date: "2026-07-07",
+    status: "completed",
+  },
+  {
+    id: "4",
+    receipt: "DON-2026-0844",
+    donor: "Anonymous",
+    campaign: "Orphan Support",
+    amount: 15000,
+    type: "One Time",
+    date: "2026-07-07",
+    status: "completed",
+  },
+  {
+    id: "5",
+    receipt: "DON-2026-0843",
+    donor: "Syed Corp Ltd.",
+    campaign: "Emergency Flood Relief",
+    amount: 100000,
+    type: "One Time",
+    date: "2026-07-06",
+    status: "completed",
+  },
+  {
+    id: "6",
+    receipt: "DON-2026-0842",
+    donor: "Nasrin Akhter",
+    campaign: "Medical Camp",
+    amount: 1500,
+    type: "One Time",
+    date: "2026-07-06",
+    status: "completed",
+  },
+  {
+    id: "7",
+    receipt: "DON-2026-0841",
+    donor: "Hasan Mahmud",
+    campaign: "Winter Warmth",
+    amount: 2000,
+    type: "One Time",
+    date: "2026-07-05",
+    status: "pending",
+  },
+];

@@ -22,6 +22,9 @@ import { analyticsRouter } from "./analytics.routes";
 import { automationRouter } from "./automation.routes";
 import { donorsRouter } from "./donors.routes";
 import { campaignsRouter } from "./campaigns.routes";
+import { adminRouter } from "./admin.routes";
+import { reportsRouter } from "./reports.routes";
+import { dashboardsRouter } from "./dashboards.routes";
 
 const router = express.Router();
 const v1Router = express.Router();
@@ -44,12 +47,16 @@ v1Router.use("/inventory", inventoryRouter);
 v1Router.use("/localization", localizationRouter);
 v1Router.use("/media", mediaRouter);
 v1Router.use("/notification", notificationRouter);
+v1Router.use("/notifications", notificationRouter);
 v1Router.use("/support", supportRouter);
 v1Router.use("/cms", cmsRouter);
 v1Router.use("/ai", aiRouter);
 v1Router.use("/ai-engine", aiEngineRouter);
 v1Router.use("/analytics", analyticsRouter);
 v1Router.use("/automation", automationRouter);
+v1Router.use("/admin", adminRouter);
+v1Router.use("/reports", reportsRouter);
+v1Router.use("/dashboards", dashboardsRouter);
 
 router.use("/v1", v1Router);
 

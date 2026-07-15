@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -29,27 +28,54 @@ export default function LoginPage() {
     e.preventDefault();
     setPending(true);
 
-    const { error } = await authClient.signIn.email({
-      email,
-      password,
-      rememberMe,
-      callbackURL: "/dashboard",
-    });
+    try {
+      const response = await fetch("/api/v1/user/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    setPending(false);
+      const resData = await response.json();
+      setPending(false);
 
-    if (error) {
+      if (!response.ok || !resData.success) {
+        setToast({
+          message: resData.message || "Invalid credentials. Please try again.",
+          variant: "error",
+        });
+        return;
+      }
+
+      // Store local credentials
+      localStorage.setItem("token", resData.data.token);
+      localStorage.setItem("user", JSON.stringify(resData.data.user));
+
+      setToast({ message: "Welcome back! Redirecting...", variant: "success" });
+
+      // Determine dashboard based on email signature or role
+      const lowerEmail = email.toLowerCase();
+      if (lowerEmail.includes("admin")) {
+        router.push("/dashboard/admin");
+      } else if (lowerEmail.includes("staff") || lowerEmail.includes("staf")) {
+        router.push("/dashboard/staf");
+      } else if (lowerEmail.includes("volunteer")) {
+        router.push("/dashboard/volunteer");
+      } else if (lowerEmail.includes("corporate")) {
+        router.push("/dashboard/corporate");
+      } else if (lowerEmail.includes("executive")) {
+        router.push("/dashboard/executivemember");
+      } else {
+        router.push("/dashboard/member");
+      }
+    } catch (err) {
+      setPending(false);
       setToast({
-        message:
-          error.message ??
-          "Couldn't sign you in. Check your details and try again.",
+        message: "Failed to connect to the server. Please check your connection.",
         variant: "error",
       });
-      return;
     }
-
-    setToast({ message: "Welcome back! Redirecting...", variant: "success" });
-    router.push("/dashboard");
   }
 
   return (

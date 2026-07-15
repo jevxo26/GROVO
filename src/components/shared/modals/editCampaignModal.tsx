@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,9 +16,9 @@ const editCampaignSchema = z.object({
   status: z.string().min(1, "Required"),
   shortDescription: z.string().optional(),
   fullDescription: z.string().optional(),
-  targetAmount: z.string().min(1, "Required"),
-  raisedAmount: z.string().optional(),
-  donorsCount: z.string().optional(),
+  targetAmount: z.any().optional(),
+  raisedAmount: z.any().optional(),
+  donorsCount: z.any().optional(),
   startDate: z.string().min(1, "Required"),
   endDate: z.string().min(1, "Required"),
   thumbnailUrl: z.string().optional(),
@@ -30,15 +30,35 @@ type FormValues = z.infer<typeof editCampaignSchema>;
 interface EditCampaignModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultData: FormValues;
+  defaultData: any;
   onSave: (data: FormValues) => void;
 }
 
 const EditCampaignModal = ({ isOpen, onClose, defaultData, onSave }: EditCampaignModalProps) => {
-  const { register, handleSubmit, control, formState: { errors } } = useForm<FormValues>({
+  const { register, handleSubmit, control, reset, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(editCampaignSchema),
-    defaultValues: defaultData,
   });
+
+  useEffect(() => {
+    if (defaultData) {
+      reset({
+        title: defaultData.name || "",
+        campaignCode: defaultData.code || "",
+        category: defaultData.category || "",
+        campaignType: defaultData.type || "Monthly",
+        status: defaultData.status || "Active",
+        shortDescription: defaultData.shortDescription || "",
+        fullDescription: defaultData.fullDescription || "",
+        targetAmount: defaultData.target ? String(defaultData.target) : "",
+        raisedAmount: defaultData.raised ? String(defaultData.raised) : "",
+        donorsCount: defaultData.donors ? String(defaultData.donors) : "",
+        startDate: defaultData.startDate || "",
+        endDate: defaultData.endDate || "",
+        thumbnailUrl: defaultData.thumbnailUrl || "",
+        bannerUrl: defaultData.bannerUrl || "",
+      });
+    }
+  }, [defaultData, reset]);
 
   return (
     <BaseModal isOpen={isOpen} onClose={onClose} title="Edit Campaign">

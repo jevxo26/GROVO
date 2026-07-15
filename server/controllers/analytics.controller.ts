@@ -43,7 +43,6 @@ const logSystemHealth = catchAsync(async (req, res) => {
 const getBranchPerformance = catchAsync(async (req, res) => {
   const rawBranchId = req.params.branchId;
 
-  // Type guard: extract single string if value is passed as an array
   const targetBranchId = Array.isArray(rawBranchId)
     ? rawBranchId[0]
     : rawBranchId;
@@ -64,7 +63,50 @@ const getBranchPerformance = catchAsync(async (req, res) => {
   });
 });
 
+const generateReport = catchAsync(async (req, res) => {
+  const { reportName, reportType, templateId, parameters } = req.body;
+  const generatedBy = (req.headers["x-user-id"] as string) || "usr-default-mock";
+
+  if (!reportName || !reportType) {
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "reportName and reportType are required fields.",
+    );
+  }
+
+  const result = await analyticsService.generateReport({
+    reportName,
+    reportType,
+    templateId,
+    parameters,
+    generatedBy,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Report generation initiated",
+    data: {
+      id: result.id,
+      status: result.status,
+    },
+  });
+});
+
+const getDashboardMe = catchAsync(async (req, res) => {
+  const userId = (req.headers["x-user-id"] as string) || "usr-default-mock";
+
+  const result = await analyticsService.getDashboardMe(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Dashboard retrieved",
+    data: result,
+  });
+});
+
 export const analyticsController = {
   logSystemHealth,
   getBranchPerformance,
+  generateReport,
+  getDashboardMe,
 };

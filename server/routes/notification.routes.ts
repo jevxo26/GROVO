@@ -5,6 +5,8 @@ const router = Router();
 
 router.post("/queue", notificationController.queueAlert);
 router.get("/user/:userId", notificationController.getActiveAlerts);
+router.get("/my", notificationController.getMyNotifications);
+router.patch("/:id/read", notificationController.markAsRead);
 
 export const notificationRouter = router;
 

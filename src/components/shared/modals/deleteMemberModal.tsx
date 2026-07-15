@@ -7,16 +7,17 @@ interface DeleteMemberModalProps {
   isOpen: boolean;
   onClose: () => void;
   onDelete: () => void;
+  memberName?: string;
 }
 
-const DeleteMemberModal = ({ isOpen, onClose, onDelete }: DeleteMemberModalProps) => {
+const DeleteMemberModal = ({ isOpen, onClose, onDelete, memberName }: DeleteMemberModalProps) => {
   return (
     <BaseModal isOpen={isOpen} onClose={onClose} title="Delete Member" maxWidth="max-w-md">
       <div className="space-y-6">
         {/* Message */}
         <div>
           <p className="text-base text-gray-700 dark:text-gray-200">
-            Are you sure you want to delete this member?
+            Are you sure you want to delete {memberName ? <strong>{memberName}</strong> : "this member"}?
           </p>
           <p className="text-sm text-[#a67c52] dark:text-[#c4a484] mt-1">
             This action cannot be undone.
