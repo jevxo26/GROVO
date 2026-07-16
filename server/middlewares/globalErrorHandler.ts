@@ -10,7 +10,7 @@ const globalErrorHandler = (
   error: CustomError, // Use the custom interface here
   req: Request,
   res: Response,
-  next: NextFunction, // Prefixed with underscore to satisfy the linter
+  _next: NextFunction, // Prefixed with underscore to satisfy the linter
 ) => {
   const isDev = process.env.NODE_ENV === "development";
   const statusCode = error.statusCode || 500;
