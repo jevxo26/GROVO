@@ -32,8 +32,10 @@ const createPage = catchAsync(async (req, res) => {
         status: result.status,
       },
     });
-  } catch (error: any) {
-    throw new customError(httpStatus.BAD_REQUEST, error.message);
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    throw new customError(httpStatus.BAD_REQUEST, message);
   }
 });
 
@@ -64,7 +66,9 @@ const publishImpactStory = catchAsync(async (req, res) => {
 });
 
 const updateSystemSetting = catchAsync(async (req, res) => {
-  const key = (Array.isArray(req.params.key) ? req.params.key[0] : req.params.key) as string;
+  const key = (
+    Array.isArray(req.params.key) ? req.params.key[0] : req.params.key
+  ) as string;
   const { settingValue, description } = req.body;
 
   if (!key || settingValue === undefined) {
