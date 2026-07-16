@@ -22,12 +22,16 @@ import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 import DeleteVolunteerModal from "@/components/shared/modals/deleteVolunteerModal";
 import AddVolunteerModal from "@/components/shared/modals/addVolunteerModal";
 import { Volunteer } from "@/type";
+import EditVolunteerModal from "@/components/shared/modals/editValonderModal";
 
 export default function VolunteersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [volunteerToDelete, setVolunteerToDelete] = useState<Volunteer | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedVolunteer, setSelectedVolunteer] =
+  useState<Volunteer | null>(null);
 
   const filteredVolunteers = volunteersData.filter(
     (volunteer) =>
@@ -132,6 +136,10 @@ export default function VolunteersPage() {
                   <TableCell className="text-right pr-6">
                     <div className="flex justify-end gap-2">
                       <Button
+                        onClick={() => {
+                          setSelectedVolunteer(volunteer);
+                          setIsEditModalOpen(true);
+                        }}
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-muted-foreground hover:text-foreground"
@@ -163,6 +171,13 @@ export default function VolunteersPage() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
       />
+      <EditVolunteerModal
+      isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setSelectedVolunteer(null);
+        }}
+      ></EditVolunteerModal>
 
       <DeleteVolunteerModal
         isOpen={isDeleteModalOpen}
