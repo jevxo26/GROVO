@@ -7,7 +7,7 @@ const globalErrorHandler = (
   next: NextFunction,
 ) => {
   const isDev = process.env.NODE_ENV === "development";
-  let statusCode = error.statusCode || 500;
+  const statusCode = error.statusCode || 500;
 
   res.status(statusCode).json({
     success: error.success,
