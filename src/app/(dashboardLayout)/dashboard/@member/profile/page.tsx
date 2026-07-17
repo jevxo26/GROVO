@@ -1,4 +1,4 @@
-import { Profile } from "../../executivemember/components/Profile/Profile";
+import { Profile } from "../../@executivemember/components/Profile/Profile";
 
 
 const Page = () => {

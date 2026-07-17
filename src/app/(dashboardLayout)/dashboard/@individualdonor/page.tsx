@@ -6,7 +6,7 @@ import SupportedCampaigns from "../Components/SupportedCampaigns";
 import { RecentDonations } from "../Components/RecentDonations";
 import { donations } from "@/data/donations";
 import { QuickActions } from "../Components/QuickActions";
-import { StatCard } from "../corporate/components/StatCard";
+import { StatCard } from "../@corporate/components/StatCard";
 import { CircleDollarSign, Coins, Flag, CornerUpRight } from 'lucide-react';
 import { donoractions } from "@/data/quickActions";
 

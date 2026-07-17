@@ -79,17 +79,16 @@ const Activities: React.FC = () => {
   };
 
   return (
-    <div className="p-6 md:p-10 bg-gray-50 min-h-screen">
-
+    <div className="p-6 md:p-10 bg-background min-h-screen transition-colors duration-300">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
-        <h1>
-          Total activities: <b>8</b> · Total points: <b>445</b>
+        <h1 className="text-foreground text-xl font-semibold">
+          Total activities: <b className="text-primary">8</b> · Total points: <b className="text-primary">445</b>
         </h1>
 
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 bg-[#009688] text-white px-4 py-2 rounded-lg"
+          className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
         >
           <Plus size={18} />
           {showForm ? "Close Form" : "Submit Activity"}
@@ -100,90 +99,58 @@ const Activities: React.FC = () => {
       {showForm && (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-white p-8 rounded-2xl border shadow-sm max-w-4xl mx-auto mb-8"
+          className="bg-card p-8 rounded-[--radius] border border-border shadow-sm max-w-4xl mx-auto mb-8"
         >
-          <h2 className="text-lg font-bold mb-6">
+          <h2 className="text-lg font-bold mb-6 text-card-foreground">
             New Activity Report
           </h2>
 
           <div className="mb-4">
-            <select {...register("type")} className="w-full p-3 border rounded-lg">
+            <select {...register("type")} className="w-full p-3 border border-input bg-card text-card-foreground rounded-lg focus:ring-2 focus:ring-ring outline-none">
               <option value="">Select type...</option>
               {activityTypes.map((type) => (
                 <option key={type}>{type}</option>
               ))}
             </select>
-            <p className="text-red-500 text-xs">{errors.type?.message}</p>
+            <p className="text-destructive text-xs mt-1">{errors.type?.message}</p>
           </div>
 
           <div className="mb-4">
             <textarea
               {...register("description")}
-              className="w-full p-3 border rounded-lg h-24"
+              className="w-full p-3 border border-input bg-card text-card-foreground rounded-lg h-24 focus:ring-2 focus:ring-ring outline-none"
               placeholder="Describe..."
             />
-            <p className="text-red-500 text-xs">{errors.description?.message}</p>
+            <p className="text-destructive text-xs mt-1">{errors.description?.message}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <div>
-              <input
-                {...register("location")}
-                className="w-full p-3 border rounded-lg"
-                placeholder="Location"
-              />
-              <p className="text-red-500 text-xs">{errors.location?.message}</p>
-            </div>
-
-            <div>
-              <input
-                type="date"
-                {...register("date")}
-                className="w-full p-3 border rounded-lg"
-              />
-              <p className="text-red-500 text-xs">{errors.date?.message}</p>
-            </div>
+            <input {...register("location")} className="w-full p-3 border border-input bg-card text-card-foreground rounded-lg" placeholder="Location" />
+            <input type="date" {...register("date")} className="w-full p-3 border border-input bg-card text-card-foreground rounded-lg" />
           </div>
 
-          {/* ✅ Buttons FIXED */}
           <div className="flex gap-4">
-            <button
-              type="submit"
-              className="bg-[#009688] text-white px-6 py-2 rounded-lg"
-            >
-              Submit
-            </button>
-
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="px-6 py-2 border rounded-lg"
-            >
-              Cancel
-            </button>
+            <button type="submit" className="bg-primary text-primary-foreground px-6 py-2 rounded-lg">Submit</button>
+            <button type="button" onClick={handleCancel} className="px-6 py-2 border border-input text-card-foreground rounded-lg hover:bg-muted">Cancel</button>
           </div>
         </form>
       )}
 
       {/* List */}
-      <div className="bg-white rounded-2xl border shadow-sm">
+      <div className="bg-card rounded-[--radius] border border-border shadow-sm">
         {activitiesData.map((act, i) => (
-          <div key={i} className="flex items-center gap-4 p-5 border-b">
-            <div className={act.status === "approved" ? "text-green-600" : "text-orange-600"}>
+          <div key={i} className="flex items-center gap-4 p-5 border-b border-border last:border-0">
+            <div className={act.status === "approved" ? "text-chart-2" : "text-chart-1"}>
               {act.status === "approved" ? <Check /> : <Clock />}
             </div>
 
             <div className="flex-1">
-              <h3>{act.title}</h3>
-              <p className="text-sm text-gray-500">
-                {act.date} · {act.location}
-              </p>
+              <h3 className="text-card-foreground font-medium">{act.title}</h3>
+              <p className="text-sm text-muted-foreground">{act.date} · {act.location}</p>
             </div>
 
             <div>
-              <p className="font-bold text-[#009688]">
-                +{act.points}
-              </p>
+              <p className="font-bold text-primary">+{act.points}</p>
             </div>
           </div>
         ))}
