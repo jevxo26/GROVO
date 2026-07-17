@@ -17,7 +17,6 @@ export type UserRole =
   | "staf" 
   | "individualdonor";
 
-// ২. মেনু কনফিগারেশন এক্সপোর্ট করা
 export const sidebarNavigation = {
   member: [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
