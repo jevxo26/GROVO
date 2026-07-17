@@ -1,4 +1,3 @@
-import { CMSPage, SuccessStory } from "../../generated/prisma/browser";
 import { prisma } from "../lib/prisma";
 
 const createPage = async (payload: {
@@ -12,7 +11,9 @@ const createPage = async (payload: {
   // Slug validation: lowercase, no spaces/special chars except hyphens
   const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
   if (!slugRegex.test(payload.slug)) {
-    throw new Error("Slug must be lowercase alphanumeric characters and hyphens only, and cannot start or end with a hyphen.");
+    throw new Error(
+      "Slug must be lowercase alphanumeric characters and hyphens only, and cannot start or end with a hyphen.",
+    );
   }
 
   // Slug uniqueness check
@@ -58,7 +59,10 @@ const publishImpactStory = async (payload: {
   });
 };
 
-const updateSystemSetting = async (key: string, payload: { settingValue: string; description?: string }) => {
+const updateSystemSetting = async (
+  key: string,
+  payload: { settingValue: string; description?: string },
+) => {
   return await prisma.systemSetting.upsert({
     where: { settingKey: key },
     update: {

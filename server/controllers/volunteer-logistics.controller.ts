@@ -28,7 +28,14 @@ const logAttendance = catchAsync(async (req, res) => {
 });
 
 const submitExpense = catchAsync(async (req, res) => {
-  const { volunteerId, activityId, expenseType, amount, description, receiptUrl } = req.body;
+  const {
+    volunteerId,
+    activityId,
+    expenseType,
+    amount,
+    description,
+    receiptUrl,
+  } = req.body;
 
   if (!volunteerId || !activityId || !expenseType || amount === undefined) {
     throw new customError(
@@ -55,7 +62,7 @@ const submitExpense = catchAsync(async (req, res) => {
 
 const approveExpense = catchAsync(async (req, res) => {
   const id = req.params.id as string;
-  const adminId = req.headers["x-user-id"] as string || "admin-mock";
+  const adminId = (req.headers["x-user-id"] as string) || "admin-mock";
 
   const result = await volunteerLogisticsService.approveExpense(id, adminId);
 
@@ -67,11 +74,14 @@ const approveExpense = catchAsync(async (req, res) => {
 });
 
 const submitFieldReport = catchAsync(async (req, res) => {
-  const activityId = req.params.id as string;
+  // const activityId = req.params.id as string;
   const { volunteerId, activity, description } = req.body;
 
   if (!volunteerId || !activity) {
-    throw new customError(httpStatus.BAD_REQUEST, "volunteerId and activity are required.");
+    throw new customError(
+      httpStatus.BAD_REQUEST,
+      "volunteerId and activity are required.",
+    );
   }
 
   const result = await volunteerLogisticsService.submitFieldReport({

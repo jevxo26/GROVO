@@ -126,3 +126,14 @@ Then, open a Pull Request (PR) on GitHub/GitLab. Request a review from at least 
 ## 📌 Future Updates
 *This documentation is a living document.*
 As we build out more features (AI Assistants, Governance, Relief Distribution, etc.), we will update the **Core Data Models** section. Please ensure you keep this file organized and updated when introducing major structural changes to the frontend.
+
+
+
+
+
+
+
+
+
+
+

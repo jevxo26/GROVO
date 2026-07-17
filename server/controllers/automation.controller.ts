@@ -8,10 +8,7 @@ const scheduleTask = catchAsync(async (req, res) => {
   const { taskName, taskType, scheduledAt, payload } = req.body;
 
   if (!taskName || !taskType || !scheduledAt) {
-    throw new customError(
-      httpStatus.BAD_REQUEST,
-      "Missing core task fields.",
-    );
+    throw new customError(httpStatus.BAD_REQUEST, "Missing core task fields.");
   }
 
   const result = await automationService.scheduleTask({
