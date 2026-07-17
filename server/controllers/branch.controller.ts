@@ -36,7 +36,8 @@ const assignCoordinator = catchAsync(async (req, res) => {
 });
 
 const assignTerritory = catchAsync(async (req, res) => {
-  const { userId, branchId, divisionId, districtId, upazilaId, unionId } = req.body;
+  const { userId, branchId, divisionId, districtId, upazilaId, unionId } =
+    req.body;
   const assignedBy = (req.headers["x-user-id"] as string) || "usr-default-mock";
 
   if (!userId || !branchId) {

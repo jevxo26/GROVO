@@ -4478,3 +4478,4 @@ _No explicit routes found via regex (might be using controllers directly)._
 - **POST** `/performance`
 - **GET** `/available`
 
+---
