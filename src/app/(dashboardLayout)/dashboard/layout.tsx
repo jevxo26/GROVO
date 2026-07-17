@@ -33,7 +33,6 @@ export default function DashboardLayout({
         />
       )}
 
-      {/* Sidebar - এখানে role পাস করা হয়েছে */}
       <div className={`fixed inset-y-0 left-0 z-30 transform transition-transform duration-300 md:relative md:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <Sidebar role={role} onClose={() => setSidebarOpen(false)} />
       </div>
