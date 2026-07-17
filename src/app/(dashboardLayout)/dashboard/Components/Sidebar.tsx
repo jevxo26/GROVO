@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// ১. রোল টাইপ এক্সপোর্ট করা
 export type UserRole = 
   | "member" 
   | "corporate" 
