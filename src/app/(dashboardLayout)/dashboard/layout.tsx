@@ -45,7 +45,6 @@ export default function DashboardLayout({
         
         <main className="flex-1 overflow-y-auto bg-background">
           <div className="mx-auto w-full">
-            {/* রোল অনুযায়ী নির্দিষ্ট স্লট দেখানোর লজিক */}
             {role === "volunteer" && <div>{volunteer}</div>}
             {role === "member" && <div>{member}</div>}
             {role === "staf" && <div>{staf}</div>}
