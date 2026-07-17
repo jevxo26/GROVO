@@ -5,7 +5,6 @@ import { InfoCard } from "./components/InfoCard/InfoCard";
 import { RecentActivities } from "./components/RecentActivities/RecentActivities";
 import { MonthlyPerformance } from "./components/MonthlyPerformance/MonthlyPerformance";
 
-// Recent Activities এর জন্য ফেক ডেটা
 const recentActivitiesData = [
   { title: "Registered 5 new members in Savar Union", date: "2026-07-09", location: "Savar, Dhaka", points: "+50 pts" },
   { title: "Secured 3 new monthly donors for Education Campaign", date: "2026-07-07", location: "Dhamrai, Dhaka", points: "+45 pts" },
