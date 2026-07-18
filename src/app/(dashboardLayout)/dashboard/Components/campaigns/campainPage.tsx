@@ -56,7 +56,7 @@ export default function CampaignsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6">
       {/* Top Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full max-w-md">

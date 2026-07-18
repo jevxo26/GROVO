@@ -112,7 +112,6 @@ export default function BranchesPage() {
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
   const [branchToDelete, setBranchToDelete] = useState<Branch | null>(null);
 
-  // সার্চিং ফিল্টার লজিক
   const filteredBranches = branchesData.filter(
     (branch) =>
       branch.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -121,12 +120,12 @@ export default function BranchesPage() {
       branch.type.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  // সামারি সেকশনের জন্য ডায়নামিক ক্যালকুলেশন লজিক
+  
   const totalBranchesCount = branchesData.length;
   const activeBranchesCount = branchesData.filter((b) => b.status === "active").length;
   const pendingBranchesCount = branchesData.filter((b) => b.status === "pending").length;
 
-  // লোকেশন স্ট্রিং থেকে ইউনিক বিভাগ (Division) সংখ্যা বের করার লজিক
+ 
   const divisionsCoveredCount = new Set(
     branchesData.map((b) => {
       const parts = b.location.split(",");
@@ -140,7 +139,7 @@ export default function BranchesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6">
       {/* Top Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         <Card className="shadow-sm border-border bg-card">

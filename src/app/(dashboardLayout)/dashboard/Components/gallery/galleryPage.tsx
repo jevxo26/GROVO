@@ -26,7 +26,7 @@ export default function GalleryPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6">
       {/* Top Cards */}
       <div className="flex gap-4 overflow-x-auto pb-2">
         {galleries.map((gallery, i) => (

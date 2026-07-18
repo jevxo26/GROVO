@@ -40,7 +40,7 @@ export default function DonationsPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [donationToDelete, setDonationToDelete] = useState<Donation | null>(null);
 
-  // সার্চিং লজিক
+
   const filteredDonations = donationsData.filter(
     (donation) =>
       donation.donor.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -48,13 +48,13 @@ export default function DonationsPage() {
       donation.campaign.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  // সামারি কার্ডের জন্য ডায়নামিক ক্যালকুলেশন
+  
   const totalDonationsCount = donationsData.length;
   const totalDonationsAmount = donationsData.reduce((sum, item) => sum + item.amount, 0);
   const pendingDonationsCount = donationsData.filter((d) => d.status === "pending").length;
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6">
       {/* Top Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="shadow-sm border-border bg-card">

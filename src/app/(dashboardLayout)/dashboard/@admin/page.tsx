@@ -1,12 +1,11 @@
 "use client";
 
-// import { StatCard } from "./_components/StatCard";
+import { StatCard } from "./_components/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, ResponsiveContainer, Tooltip, YAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 import { Users, UserCheck, Flag, HandCoins, HeartHandshake, Building2, PieChart } from "lucide-react";
-import { StatCard } from "../admin/_components/StatCard";
 
 const trendData = [
   { name: 'Jan', raised: 4000, distributed: 2400 },
@@ -39,7 +38,7 @@ const quickLinks = [
 
 export default function DashboardOverview() {
   return (
-    <div className="space-y-6">
+    <div className=" space-y-6">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <StatCard title="MEMBERS" value="48,500" subtext="+847 this month" />

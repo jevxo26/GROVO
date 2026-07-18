@@ -25,7 +25,7 @@ export default function EventsPage() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6">
       {/* Top Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="text-sm text-muted-foreground">{eventsData.length} total events</div>
