@@ -34,7 +34,9 @@ export type UserRole =
   | "executivemember"
   | "volunteer"
   | "staf"
-  | "individualdonor";
+  | "individualdonor"
+  | "admin"
+  | "nationaladmin";
 
 export const sidebarNavigation = {
   member: [

@@ -53,7 +53,7 @@ export default function DashboardLayout({
             {role === "corporate" && <div>{corporate}</div>}
             {role === "executivemember" && <div>{executivemember}</div>}
             {role === "individualdonor" && <div>{individualdonor}</div>}
-            {role === "admin" && <div>{admin}</div>}
+            {role === "admin"        &&            <div>{admin}</div>}
             {role === "nationaladmin" && <div>{nationaladmin}</div>}
           </div>
         </main>
