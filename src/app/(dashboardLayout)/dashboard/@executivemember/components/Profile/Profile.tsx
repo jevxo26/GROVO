@@ -2,7 +2,7 @@
 import { Pencil } from "lucide-react";
 import Image from "next/image";
 import { InfoCard } from "../InfoCard/InfoCard";
-import { MembershipCard } from "../../../member/components/MembershipCard/MembershipCard";
+import { MembershipCard } from "../../../@member/components/MembershipCard/MembershipCard";
 
 interface InfoItem {
   label: string;

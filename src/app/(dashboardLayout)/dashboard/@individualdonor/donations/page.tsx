@@ -1,6 +1,6 @@
 import React from 'react';
-import { StatsSection } from '../../member/components/StatsSection/StatsSection';
-import { DonationTable } from '../../member/components/DonationTable/DonationTable';
+import { StatsSection } from '../../@member/components/StatsSection/StatsSection';
+import { DonationTable } from '../../@member/components/DonationTable/DonationTable';
 
 const Donations = () => {
     return (
