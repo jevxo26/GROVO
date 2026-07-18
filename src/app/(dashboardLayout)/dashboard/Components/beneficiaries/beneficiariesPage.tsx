@@ -124,7 +124,7 @@ export default function BeneficiariesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6">
       {/* Top Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         <Card className="shadow-sm border-border bg-card">

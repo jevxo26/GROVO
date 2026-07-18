@@ -19,7 +19,7 @@ export default function NotificationsPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6">
       {/* Toolbar */}
       <div className="flex gap-2 bg-muted/30 p-1 rounded-xl w-max border border-border">
         {tabs.map((tab, i) => (

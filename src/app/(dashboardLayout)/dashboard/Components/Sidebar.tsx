@@ -2,19 +2,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, Users, Flag, HandCoins, ArrowLeft, Award, 
-  LayoutGrid, Folder, BarChart3, X, UserPlus, SquareCheck, 
-  Building2, Wallet, HeartPulse, CornerUpRight 
+import {
+  LayoutDashboard,
+  Users,
+  Flag,
+  HandCoins,
+  ArrowLeft,
+  Award,
+  LayoutGrid,
+  Folder,
+  BarChart3,
+  X,
+  UserPlus,
+  SquareCheck,
+  Building2,
+  Wallet,
+  HeartPulse,
+  CornerUpRight,
+  UserCheck,
+  HeartHandshake,
+  PieChart,
+  CalendarDays,
+  Image as ImageIcon,
+  Bell,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type UserRole = 
-  | "member" 
-  | "corporate" 
-  | "executivemember" 
-  | "volunteer" 
-  | "staf" 
+export type UserRole =
+  | "member"
+  | "corporate"
+  | "executivemember"
+  | "volunteer"
+  | "staf"
   | "individualdonor";
 
 export const sidebarNavigation = {
@@ -40,7 +59,11 @@ export const sidebarNavigation = {
   ],
   volunteer: [
     { name: "Overview", href: "/dashboard", icon: LayoutGrid },
-    { name: "Register Members", href: "/dashboard/registermember", icon: UserPlus },
+    {
+      name: "Register Members",
+      href: "/dashboard/registermember",
+      icon: UserPlus,
+    },
     { name: "My Activities", href: "/dashboard/activities", icon: SquareCheck },
     { name: "Performance", href: "/dashboard/performance", icon: BarChart3 },
   ],
@@ -59,11 +82,96 @@ export const sidebarNavigation = {
     { name: "Certificates", href: "/dashboard/certificates", icon: Award },
     { name: "Referals", href: "/dashboard/referal", icon: CornerUpRight },
   ],
+  admin: [
+    { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Members", href: "/dashboard/members", icon: Users },
+    {
+      name: "Volunteers",
+      href: "/dashboard/volunteers",
+      icon: UserCheck,
+    },
+    { name: "Campaigns", href: "/dashboard/campaigns", icon: Flag },
+    { name: "Donations", href: "/dashboard/donations", icon: HandCoins },
+    {
+      name: "Beneficiaries",
+      href: "/dashboard/beneficiaries",
+      icon: HeartHandshake,
+    },
+    { name: "Branches", href: "/dashboard/branches", icon: Building2 },
+    { name: "Finance", href: "/dashboard/finance", icon: PieChart },
+    { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+    { name: "Events", href: "/dashboard/events", icon: CalendarDays },
+    { name: "Gallery", href: "/dashboard/gallery", icon: ImageIcon },
+    {
+      name: "Notifications",
+      href: "/dashboard/notifications",
+      icon: Bell,
+    },
+  ],
+
+  nationaladmin: [
+    {
+      name: "Overview",
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    { name: "Members", href: "/dashboard/members", icon: Users },
+    {
+      name: "Volunteers",
+      href: "/dashboard/volunteers",
+      icon: UserCheck,
+    },
+    {
+      name: "Campaigns",
+      href: "/dashboard/campaigns",
+      icon: Flag,
+    },
+    {
+      name: "Donations",
+      href: "/dashboard/donations",
+      icon: HandCoins,
+    },
+    {
+      name: "Beneficiaries",
+      href: "/dashboard/beneficiaries",
+      icon: HeartHandshake,
+    },
+    {
+      name: "Branches",
+      href: "/dashboard/branches",
+      icon: Building2,
+    },
+    {
+      name: "Finance",
+      href: "/dashboard/finance",
+      icon: PieChart,
+    },
+    {
+      name: "Analytics",
+      href: "/dashboard/analytics",
+      icon: BarChart3,
+    },
+    {
+      name: "Events",
+      href: "/dashboard/events",
+      icon: CalendarDays,
+    },
+    {
+      name: "Gallery",
+      href: "/dashboard/gallery",
+      icon: ImageIcon,
+    },
+    {
+      name: "Notifications",
+      href: "/dashboard/notifications",
+      icon: Bell,
+    },
+  ],
 };
 
 export function Sidebar({
   onClose,
-  role = "individualdonor",
+  role = "admin",
 }: {
   onClose?: () => void;
   role?: UserRole;
@@ -98,7 +206,9 @@ export function Sidebar({
       <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
         {links.map((link) => {
           const isOverview = link.name === "Overview";
-          const isActive = isOverview ? pathname === link.href : pathname.startsWith(link.href);
+          const isActive = isOverview
+            ? pathname === link.href
+            : pathname.startsWith(link.href);
 
           return (
             <Link
@@ -109,13 +219,15 @@ export function Sidebar({
                 "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium",
                 isActive
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
               )}
             >
               <link.icon
                 className={cn(
                   "w-5 h-5",
-                  isActive ? "text-sidebar-accent-foreground" : "text-sidebar-foreground/70"
+                  isActive
+                    ? "text-sidebar-accent-foreground"
+                    : "text-sidebar-foreground/70",
                 )}
               />
               {link.name}

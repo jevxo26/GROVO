@@ -49,7 +49,7 @@ export default function AnalyticsPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6">
       {/* Top micro summary cards */}
       <div className="flex gap-4 overflow-x-auto pb-2">
         {summaryCards.map((card, i) => (

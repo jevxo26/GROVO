@@ -11,7 +11,9 @@ export default function DashboardLayout({
   corporate,
   executivemember,
   individualdonor,
-  role = "individualdonor"
+  admin,
+  nationaladmin,
+  role = "admin",
 }: {
   volunteer: ReactNode;
   member: ReactNode;
@@ -19,6 +21,8 @@ export default function DashboardLayout({
   corporate: ReactNode;
   executivemember: ReactNode;
   individualdonor: ReactNode;
+  admin: ReactNode;
+  nationaladmin: ReactNode;
   role?: UserRole;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -49,6 +53,8 @@ export default function DashboardLayout({
             {role === "corporate" && <div>{corporate}</div>}
             {role === "executivemember" && <div>{executivemember}</div>}
             {role === "individualdonor" && <div>{individualdonor}</div>}
+            {role === "admin" && <div>{admin}</div>}
+            {role === "nationaladmin" && <div>{nationaladmin}</div>}
           </div>
         </main>
       </div>
