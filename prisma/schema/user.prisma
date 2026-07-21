@@ -1,92 +1,171 @@
 model User {
-  id                      String                    @id
-  name                    String
-  email                   String
-  emailVerified           Boolean                   @default(false)
-  image                   String?
-  createdAt               DateTime                  @default(now())
-  updatedAt               DateTime                  @updatedAt
-  role                    String?
-  banned                  Boolean?                  @default(false)
-  banReason               String?
-  banExpires              DateTime?
-  sessions                Session[]
-  accounts                Account[]
-  userRoles               UserRole[]
-  employees               Employee[]
-  areaAssignments         AreaAssignment[]
-  accessLogs              AccessLog[]
-  adminPermissions        AdminPermission[]
-  committeeMembers        CommitteeMember[]
-  committeeRoles          CommitteeRole[]
-  volunteerRoles          VolunteerRole[]
-  coordinatorRoles        CoordinatorRole[]
-  userProfile             UserProfile?
-  addresses               UserAddress[]
-  notificationSetting     UserNotificationSetting?
-  security                UserSecurity?
-  devices                 UserDevice[]
-  userSessions            UserSession[]
-  tokens                  UserToken[]
-  otps                    UserOTP[]
-  loginHistories          UserLoginHistory[]
-  membership              Membership?
-  donor                   Donor?
-  volunteer               Volunteer?
-  superAdmin              SuperAdmin?
-  branchManagers          BranchManager[]
-  branchStaff             BranchStaff[]
-  regionalCoordinators    RegionalCoordinator[]
+  id           String    @id @default(cuid())
+  firstName    String
+  lastName     String
+  fullName     String
+  email        String    @unique
+  phone        String    @unique
+  password     String
+  profilePhoto String?
+  dateOfBirth  DateTime?
+  gender       String?
+  bloodGroup   String?
+  nationalId   String?
+  status       String    @default("ACTIVE")
+  isVerified   Boolean   @default(false)
+  lastLogin    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
-  @@unique([email])
-  @@map("user")
+  profile             UserProfile?
+  devices             UserDevice[]
+  sessions            UserSession[]
+  tokens              UserToken[]
+  otps                UserOTP[]
+  loginHistory        UserLoginHistory[]
+  notificationSetting UserNotificationSetting?
+  security            UserSecurity?
+  addresses           UserAddress[]
+  memberships         Membership[]
 }
 
-model Session {
-  id             String   @id
-  expiresAt      DateTime
-  token          String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  ipAddress      String?
-  userAgent      String?
-  userId         String
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  impersonatedBy String?
+model UserProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  fatherName   String?
+  motherName   String?
+  occupation   String?
+  organization String?
+  designation  String?
+  education    String?
+  bio          String?
+  facebook     String?
+  linkedin     String?
+  website      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  @@unique([token])
-  @@index([userId])
-  @@map("session")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Account {
-  id                    String    @id
-  accountId             String
-  providerId            String
-  userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String?
-  password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+model UserDevice {
+  id              String    @id @default(cuid())
+  userId          String
+  deviceId        String    @unique
+  deviceName      String?
+  deviceType      String?
+  operatingSystem String?
+  browser         String?
+  appVersion      String?
+  ipAddress       String?
+  lastLogin       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  @@index([userId])
-  @@map("account")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Verification {
-  id         String   @id
-  identifier String
-  value      String
+model UserSession {
+  id           String    @id @default(cuid())
+  userId       String
+  deviceId     String?
+  accessToken  String    @unique
+  refreshToken String?   @unique
+  expiresAt    DateTime
+  loginTime    DateTime  @default(now())
+  logoutTime   DateTime?
+  status       String    @default("ACTIVE")
+  createdAt    DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  tokenType String // Enum or String: Email Verification, Password Reset, Login Verification, Membership Verification
+  expiresAt DateTime
+  isUsed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserOTP {
+  id         String    @id @default(cuid())
+  userId     String
+  phone      String
+  otp        String
+  purpose    String
   expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  verifiedAt DateTime?
+  status     String    @default("PENDING")
+  createdAt  DateTime  @default(now())
 
-  @@index([identifier])
-  @@map("verification")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserLoginHistory {
+  id         String    @id @default(cuid())
+  userId     String
+  deviceId   String?
+  ipAddress  String?
+  location   String?
+  loginTime  DateTime  @default(now())
+  logoutTime DateTime?
+  status     String    @default("SUCCESS")
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserNotificationSetting {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  pushNotification      Boolean  @default(true)
+  emailNotification     Boolean  @default(true)
+  smsNotification       Boolean  @default(true)
+  campaignNotification  Boolean  @default(true)
+  emergencyNotification Boolean  @default(true)
+  newsletter            Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserSecurity {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  twoFactorEnabled    Boolean  @default(false)
+  securityQuestion    String?
+  securityAnswer      String?
+  failedLoginAttempts Int      @default(0)
+  accountLocked       Boolean  @default(false)
+  lastPasswordChanged DateTime @default(now())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserAddress {
+  id          String   @id @default(cuid())
+  userId      String
+  countryId   String?
+  divisionId  String?
+  districtId  String?
+  upazilaId   String?
+  unionId     String?
+  village     String?
+  postCode    String?
+  addressLine String?
+  latitude    Float?
+  longitude   Float?
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
