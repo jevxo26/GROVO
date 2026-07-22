@@ -127,7 +127,7 @@ model UserProfile {
 model UserDevice {
   id              String    @id @default(cuid())
   userId          String
-  deviceId        String    @unique
+  deviceId        String?    @unique
   deviceName      String?
   deviceType      String?
   operatingSystem String?
