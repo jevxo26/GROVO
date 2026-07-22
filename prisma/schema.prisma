@@ -1,33 +1,126 @@
-model User {
-  id           String    @id @default(cuid())
-  firstName    String
-  lastName     String
-  fullName     String
-  email        String    @unique
-  phone        String    @unique
-  password     String
-  profilePhoto String?
-  dateOfBirth  DateTime?
-  gender       String?
-  bloodGroup   String?
-  nationalId   String?
-  status       String    @default("ACTIVE")
-  isVerified   Boolean   @default(false)
-  lastLogin    DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
 
-  profile             UserProfile?
-  devices             UserDevice[]
-  sessions            UserSession[]
-  tokens              UserToken[]
-  otps                UserOTP[]
-  loginHistory        UserLoginHistory[]
-  notificationSetting UserNotificationSetting?
-  security            UserSecurity?
-  addresses           UserAddress[]
-  memberships         Membership[]
+generator client {
+  provider = "prisma-client"
 }
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+enum bloodGroup {
+  A_Positive
+  A_Negative
+  B_Positive
+  B_Negative
+  AB_Positive
+  AB_Negative
+  O_Positive
+  O_Negative
+}
+enum Role {
+  super_admin
+  national_admin
+  coordinator
+  organization_donor
+  individual_donor
+  executive_member
+  staff
+  volunteer
+  general_member
+}
+
+model User {
+  id            String    @id
+  firstName     String
+  lastName      String?
+  fullName      String
+  email         String
+  phone         String?
+  profilePhoto  String?
+  dateOfBirth   DateTime?
+  gender        Gender?
+  bloodGroup    bloodGroup?
+  nationalId    String?
+  status        Boolean?  @default(false)
+  isVerified    Boolean   @default(false)
+  lastLogin     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          Role      @default(general_member)
+  banned        Boolean?  @default(false)
+  banReason     String?
+  banExpires    DateTime?
+  sessions      Session[]
+  accounts      Account[]
+
+  userProfile   UserProfile?
+  devices       UserDevice[]
+  userSessions  UserSession[]
+  tokens        UserToken[]
+  otps          UserOTP[]
+  loginHistory  UserLoginHistory[]
+  notificationSetting UserNotificationSetting?
+  security      UserSecurity?
+  addresses     UserAddress[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id             String   @id
+  expiresAt      DateTime
+  token          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  impersonatedBy String?
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
 
 model UserProfile {
   id           String   @id @default(cuid())
@@ -48,6 +141,7 @@ model UserProfile {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+
 model UserDevice {
   id              String    @id @default(cuid())
   userId          String
@@ -65,6 +159,13 @@ model UserDevice {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum SessionStatus {
+  ACTIVE
+  EXPIRED
+  LOGGED_OUT
+  REVOKED
+}
+
 model UserSession {
   id           String    @id @default(cuid())
   userId       String
@@ -74,17 +175,24 @@ model UserSession {
   expiresAt    DateTime
   loginTime    DateTime  @default(now())
   logoutTime   DateTime?
-  status       String    @default("ACTIVE")
+  status       SessionStatus    @default(ACTIVE)
   createdAt    DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum tokenType {
+  Email_Verification
+  Password_Reset
+  Login_Verification
+  Membership_Verification
 }
 
 model UserToken {
   id        String   @id @default(cuid())
   userId    String
   token     String   @unique
-  tokenType String // Enum or String: Email Verification, Password Reset, Login Verification, Membership Verification
+  tokenType  tokenType? // Enum or String: Email Verification, Password Reset, Login Verification, Membership Verification
   expiresAt DateTime
   isUsed    Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -92,18 +200,33 @@ model UserToken {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum OTPService {
+  LOGIN
+  REGISTRATION
+  PASSWORD_RESET
+  MEMBERSHIP_VERIFICATION
+  PHONE_VERIFICATION
+}
+
 model UserOTP {
   id         String    @id @default(cuid())
   userId     String
   phone      String
   otp        String
-  purpose    String
+  purpose    OTPService?
   expiresAt  DateTime
   verifiedAt DateTime?
   status     String    @default("PENDING")
   createdAt  DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum LoginStatus {
+  SUCCESS
+  FAILED
+  EXPIRED
+  REVOKED
 }
 
 model UserLoginHistory {
@@ -114,7 +237,7 @@ model UserLoginHistory {
   location   String?
   loginTime  DateTime  @default(now())
   logoutTime DateTime?
-  status     String    @default("SUCCESS")
+  status     LoginStatus    @default(SUCCESS)
   createdAt  DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
