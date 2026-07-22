@@ -46,14 +46,14 @@ export default function DashboardLayout({
         <Header role={role} onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 overflow-y-auto bg-background">
-          <div className="mx-auto w-full">
+          <div className="mx-auto w-full p-5">
             {role === "volunteer" && <div>{volunteer}</div>}
             {role === "member" && <div>{member}</div>}
             {role === "staf" && <div>{staf}</div>}
             {role === "corporate" && <div>{corporate}</div>}
             {role === "executivemember" && <div>{executivemember}</div>}
             {role === "individualdonor" && <div>{individualdonor}</div>}
-            {role === "admin"        &&            <div>{admin}</div>}
+            {role === "admin" && <div>{admin}</div>}
             {role === "nationaladmin" && <div>{nationaladmin}</div>}
           </div>
         </main>
