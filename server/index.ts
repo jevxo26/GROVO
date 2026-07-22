@@ -5,6 +5,7 @@ import express from "express";
 import next from "next";
 import { auth } from "./lib/auth";
 import { RootRouter } from "./routes/index.routes";
+import { roleRoutes } from "./routes/role.routes";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -26,6 +27,9 @@ app
         timestamp: new Date(),
       });
     });
+
+    // Role module routes mounted at /api/v1/roles
+    server.use("/api/v1/roles", roleRoutes); // <-- Added role routes
 
     // API routes - make sure this is BEFORE Next.js handler
     server.use("/api/v1", RootRouter);

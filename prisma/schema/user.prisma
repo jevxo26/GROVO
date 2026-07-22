@@ -1,13 +1,4 @@
 
-generator client {
-  provider = "prisma-client-js"
-  
-}
-
-datasource db {
-  provider = "postgresql"
-}
-
 enum Gender {
   MALE
   FEMALE
@@ -23,23 +14,13 @@ enum bloodGroup {
   O_Positive
   O_Negative
 }
-enum Role {
-  super_admin
-  national_admin
-  coordinator
-  organization_donor
-  individual_donor
-  executive_member
-  staff
-  volunteer
-  general_member
-}
+
 
 model User {
   id            String    @id
-  firstName     String
+  firstName     String?
   lastName      String?
-  fullName      String
+  name          String?
   email         String
   phone         String?
   profilePhoto  String?
@@ -48,11 +29,11 @@ model User {
   bloodGroup    bloodGroup?
   nationalId    String?
   status        Boolean?  @default(false)
-  isVerified    Boolean   @default(false)
+  emailVerified Boolean   @default(false) 
   lastLogin     DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  role          Role      @default(general_member)
+  role          String
   banned        Boolean?  @default(false)
   banReason     String?
   banExpires    DateTime?
@@ -68,6 +49,7 @@ model User {
   notificationSetting UserNotificationSetting?
   security      UserSecurity?
   addresses     UserAddress[]
+  membership    Membership[]
 
   @@unique([email])
   @@map("user")
@@ -146,7 +128,7 @@ model UserProfile {
 model UserDevice {
   id              String    @id @default(cuid())
   userId          String
-  deviceId        String    @unique
+  deviceId        String?    @unique
   deviceName      String?
   deviceType      String?
   operatingSystem String?

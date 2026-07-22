@@ -1,10 +1,8 @@
 import express from "express";
-import { userRouter } from "./user.routes";
-import { membershipRouter } from "./membership.routes";
+import { userRoutes } from "./user.routes";
 
 const router = express.Router();
 
-router.use("/user", userRouter);
-router.use("/membership", membershipRouter);
+router.use("/user", userRoutes);
 
 export const RootRouter = router;
