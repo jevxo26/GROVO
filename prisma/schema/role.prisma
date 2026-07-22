@@ -1,0 +1,20 @@
+enum RoleType {
+  SYSTEM
+  COORDINATOR
+  ORGANIZATION
+  CUSTOM
+}
+
+model RoleModel {
+  id          String   @id @default(cuid())
+  roleName    String   @unique
+  displayName String
+  description String?  @db.Text
+  roleType    RoleType @default(CUSTOM)
+  priority    Int      @default(0)
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("roles")
+}
