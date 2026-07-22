@@ -15,8 +15,8 @@ const prisma = new PrismaClient({
   adapter,
   // Generous timeouts to handle Neon serverless cold starts
   transactionOptions: {
-    maxWait: 10000,  // 10s max wait for transaction to start
-    timeout: 30000,  // 30s max transaction duration
+    maxWait: 10000, // 10s max wait for transaction to start
+    timeout: 30000, // 30s max transaction duration
   },
 });
 
