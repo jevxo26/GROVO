@@ -8,6 +8,7 @@ import { RootRouter } from "./routes/index.routes";
 import { roleRoutes } from "./routes/role.routes";
 import { donorRoutes } from "./routes/donor.routes";
 import { volunteerRoutes } from "./routes/volunteer.routes";
+import { beneficiaryRoutes } from "./routes/beneficiary.routes";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -41,6 +42,9 @@ app
 
     // Volunteer module routes mounted at /api/v1/volunteers
     server.use("/api/v1/volunteers", volunteerRoutes);
+
+    // Beneficiary module routes mounted at /api/v1/beneficiaries
+    server.use("/api/v1/beneficiaries", beneficiaryRoutes);
 
     // Next.js handler for all other routes (must be last)
     server.use((req: Request, res: Response) => {
