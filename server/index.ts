@@ -7,6 +7,7 @@ import { auth } from "./lib/auth";
 import { RootRouter } from "./routes/index.routes";
 import { roleRoutes } from "./routes/role.routes";
 import { donorRoutes } from "./routes/donor.routes";
+import { volunteerRoutes } from "./routes/volunteer.routes";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -37,6 +38,9 @@ app
 
     // API routes - make sure this is BEFORE Next.js handler
     server.use("/api/v1", RootRouter);
+
+    // Volunteer module routes mounted at /api/v1/volunteers
+    server.use("/api/v1/volunteers", volunteerRoutes);
 
     // Next.js handler for all other routes (must be last)
     server.use((req: Request, res: Response) => {

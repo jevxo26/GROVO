@@ -1,0 +1,439 @@
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum SkillLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum PriorityLevel {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+enum FieldActivityType {
+  FOOD_DISTRIBUTION
+  MEDICAL_CAMP
+  EDUCATION_PROGRAM
+  RELIEF_DISTRIBUTION
+  TREE_PLANTATION
+  BLOOD_DONATION
+  AWARENESS_CAMPAIGN
+}
+
+enum VolunteerRewardType {
+  APPRECIATION
+  GIFT
+  BONUS
+  RECOGNITION
+  EXCELLENCE_AWARD
+}
+
+// ==========================================
+// MODELS (21 ENTITIES)
+// ==========================================
+
+// 1. Volunteer
+model Volunteer {
+  id            String        @id @default(cuid())
+  userId        String
+  volunteerCode String        @unique
+  branchId      String?
+  membershipId  String?
+  joiningDate   DateTime      @default(now())
+  experience    String?
+  status        GeneralStatus @default(ACTIVE)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // RELATIONS (Commented out for initial independent testing)
+  // profile             VolunteerProfile?
+  // skills              VolunteerSkill[]
+  // availabilities      VolunteerAvailability[]
+  // assignments         VolunteerAssignment[]
+  // attendances         VolunteerAttendance[]
+  // performances        VolunteerPerformance[]
+  // rewards             VolunteerReward[]
+  // certificates        VolunteerCertificate[]
+  // expenses            VolunteerExpense[]
+  // documents           VolunteerDocument[]
+  // activityLogs        VolunteerActivityLog[]
+
+  @@map("volunteers")
+}
+
+// 2. VolunteerProfile
+model VolunteerProfile {
+  id               String   @id @default(cuid())
+  volunteerId      String   @unique
+  profession       String?
+  organization     String?
+  skills           String?
+  languages        String?
+  emergencyContact String
+  bloodGroup       String?
+  availability     String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // RELATIONS
+  // volunteer        Volunteer @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_profiles")
+}
+
+// 3. VolunteerSkill
+model VolunteerSkill {
+  id              String     @id @default(cuid())
+  volunteerId     String
+  skillName       String
+  skillLevel      SkillLevel @default(INTERMEDIATE)
+  experienceYears Int        @default(0)
+  verifiedBy      String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  // RELATIONS
+  // volunteer       Volunteer  @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_skills")
+}
+
+// 4. VolunteerAvailability
+model VolunteerAvailability {
+  id            String   @id @default(cuid())
+  volunteerId   String
+  availableDays String
+  availableFrom String
+  availableTo   String
+  isAvailable   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // RELATIONS
+  // volunteer     Volunteer @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_availabilities")
+}
+
+// 5. VolunteerAssignment
+model VolunteerAssignment {
+  id           String        @id @default(cuid())
+  volunteerId  String
+  campaignId   String?
+  projectId    String?
+  assignedBy   String
+  assignedRole String
+  assignedDate DateTime      @default(now())
+  status       GeneralStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  // RELATIONS
+  // volunteer    Volunteer           @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+  // schedules    VolunteerSchedule[]
+  // tasks        VolunteerTask[]
+
+  @@map("volunteer_assignments")
+}
+
+// 6. VolunteerSchedule
+model VolunteerSchedule {
+  id           String        @id @default(cuid())
+  volunteerId  String
+  assignmentId String
+  scheduleDate DateTime
+  startTime    String
+  endTime      String
+  location     String
+  status       GeneralStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  // RELATIONS
+  // assignment   VolunteerAssignment   @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  // attendances  VolunteerAttendance[]
+
+  @@map("volunteer_schedules")
+}
+
+// 7. VolunteerAttendance
+model VolunteerAttendance {
+  id               String           @id @default(cuid())
+  volunteerId      String
+  scheduleId       String
+  checkInTime      DateTime?
+  checkOutTime     DateTime?
+  attendanceStatus AttendanceStatus @default(PRESENT)
+  remarks          String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  // RELATIONS
+  // volunteer        Volunteer         @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+  // schedule         VolunteerSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_attendances")
+}
+
+// 8. VolunteerTask
+model VolunteerTask {
+  id           String        @id @default(cuid())
+  assignmentId String
+  title        String
+  description  String?
+  priority     PriorityLevel @default(MEDIUM)
+  dueDate      DateTime
+  completedAt  DateTime?
+  status       GeneralStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  // RELATIONS
+  // assignment   VolunteerAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_tasks")
+}
+
+// 9. FieldActivity
+model FieldActivity {
+  id            String            @id @default(cuid())
+  projectId     String
+  activityTitle String
+  activityType  FieldActivityType
+  location      String
+  description   String?
+  performedBy   String
+  activityDate  DateTime          @default(now())
+  status        GeneralStatus     @default(ACTIVE)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  // RELATIONS
+  // visits       FieldVisit[]
+  // reports      ActivityReport[]
+  // expenses     VolunteerExpense[]
+
+  @@map("field_activities")
+}
+
+// 10. FieldVisit
+model FieldVisit {
+  id         String   @id @default(cuid())
+  activityId String
+  visitedBy  String
+  divisionId String?
+  districtId String?
+  upazilaId  String?
+  unionId    String?
+  visitDate  DateTime @default(now())
+  remarks    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // RELATIONS
+  // activity   FieldActivity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+
+  @@map("field_visits")
+}
+
+// 11. ActivityReport
+model ActivityReport {
+  id                 String   @id @default(cuid())
+  activityId         String
+  reportTitle        String
+  summary            String
+  beneficiariesCount Int      @default(0)
+  totalExpense       Float    @default(0.0)
+  reportFile         String?
+  submittedBy        String
+  approvedBy         String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // RELATIONS
+  // activity           FieldActivity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+
+  @@map("activity_reports")
+}
+
+// 12. BeneficiaryVerification
+model BeneficiaryVerification {
+  id                 String        @id @default(cuid())
+  beneficiaryId      String
+  verifiedBy         String
+  verificationMethod String
+  verificationStatus GeneralStatus @default(PENDING)
+  remarks            String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  @@map("beneficiary_verifications")
+}
+
+// 13. VolunteerPerformance
+model VolunteerPerformance {
+  id                   String   @id @default(cuid())
+  volunteerId          String
+  totalAssignments     Int      @default(0)
+  completedAssignments Int      @default(0)
+  attendanceRate       Float    @default(0.0)
+  performanceScore     Float    @default(0.0)
+  rating               Float    @default(0.0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // RELATIONS
+  // volunteer            Volunteer @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_performances")
+}
+
+// 14. VolunteerReward
+model VolunteerReward {
+  id          String              @id @default(cuid())
+  volunteerId String
+  rewardType  VolunteerRewardType @default(APPRECIATION)
+  title       String
+  description String?
+  rewardDate  DateTime            @default(now())
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  // RELATIONS
+  // volunteer   Volunteer           @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_rewards")
+}
+
+// 15. VolunteerCertificate
+model VolunteerCertificate {
+  id                String   @id @default(cuid())
+  volunteerId       String
+  certificateType   String
+  certificateNumber String   @unique
+  issueDate         DateTime @default(now())
+  certificateUrl    String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // RELATIONS
+  // volunteer         Volunteer @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_certificates")
+}
+
+// 16. VolunteerExpense
+model VolunteerExpense {
+  id          String        @id @default(cuid())
+  volunteerId String
+  activityId  String
+  expenseType String
+  amount      Float
+  description String?
+  receiptUrl  String?
+  status      GeneralStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // RELATIONS
+  // volunteer   Volunteer     @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+  // activity    FieldActivity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  // reimbursement VolunteerReimbursement?
+
+  @@map("volunteer_expenses")
+}
+
+// 17. VolunteerReimbursement
+model VolunteerReimbursement {
+  id             String        @id @default(cuid())
+  expenseId      String        @unique
+  approvedAmount Float
+  approvedBy     String
+  paymentMethod  String
+  paymentStatus  GeneralStatus @default(PENDING)
+  paidAt         DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // RELATIONS
+  // expense        VolunteerExpense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_reimbursements")
+}
+
+// 18. VolunteerAnnouncement
+model VolunteerAnnouncement {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  targetGroup String?
+  startDate   DateTime
+  endDate     DateTime
+  publishedBy String
+  status      GeneralStatus @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("volunteer_announcements")
+}
+
+// 19. VolunteerTraining
+model VolunteerTraining {
+  id                   String        @id @default(cuid())
+  trainingTitle        String
+  description          String?
+  trainer              String
+  trainingDate         DateTime
+  location             String
+  certificateAvailable Boolean       @default(false)
+  status               GeneralStatus @default(PENDING)
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  @@map("volunteer_trainings")
+}
+
+// 20. VolunteerDocument
+model VolunteerDocument {
+  id                 String        @id @default(cuid())
+  volunteerId        String
+  documentType       String
+  documentName       String
+  fileUrl            String
+  verificationStatus GeneralStatus @default(PENDING)
+  uploadedAt         DateTime      @default(now())
+  createdAt          DateTime      @default(now())
+
+  // RELATIONS
+  // volunteer          Volunteer     @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_documents")
+}
+
+// 21. VolunteerActivityLog
+model VolunteerActivityLog {
+  id          String   @id @default(cuid())
+  volunteerId String
+  activity    String
+  description String?
+  performedBy String
+  createdAt   DateTime @default(now())
+
+  // RELATIONS
+  // volunteer   Volunteer @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_activity_logs")
+}
