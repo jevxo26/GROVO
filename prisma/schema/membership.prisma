@@ -91,6 +91,7 @@ enum VerificationMethod {
   MANUAL
   BIOMETRIC
   DOCUMENT
+  MANUAL_VERIFICATION  // <-- Add this value
 }
 
 enum VerificationStatus {
