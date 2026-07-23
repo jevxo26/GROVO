@@ -1,9 +1,11 @@
 import { toNodeHandler } from "better-auth/node";
+import cookieParsher from "cookie-parser";
 import cors from "cors";
 import type { Request, Response } from "express";
 import express from "express";
 import next from "next";
 import { auth } from "./lib/auth";
+import globalErrorHandler from "./middlewares/globalErrorHandler";
 import { RootRouter } from "./routes/index.routes";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -15,6 +17,7 @@ app
   .prepare()
   .then(async () => {
     const server = express();
+    server.use(cookieParsher());
     server.use(cors());
     server.all("/api/auth/{*any}", toNodeHandler(auth));
     server.use(express.json());
@@ -38,6 +41,7 @@ app
     server.listen(port, () => {
       console.log(`> Server is running on: http://localhost:${port}`);
     });
+    server.use(globalErrorHandler);
   })
   .catch((err) => {
     console.error("Error starting server", err);

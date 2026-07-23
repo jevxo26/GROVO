@@ -1,75 +1,53 @@
-enum MembershipType {
-  INDIVIDUAL
-  CORPORATE
-  LIFETIME
-  ANNUAL
-  MONTHLY
-  HONORARY
-}
-
-enum MembershipStatus {
-  PENDING
-  APPROVED
-  REJECTED
-  ACTIVE
-  EXPIRED
-  SUSPENDED
-  REACTIVATED
-}
 
 
+// ==========================================
+// 11. Membership
+// ==========================================
 model Membership {
-  id                  String    @id @default(cuid())
-  userId              String    
-  membershipNumber    String    @unique
-  membershipType      MembershipType @default(MONTHLY)
+  id                  String           @id @default(cuid())
+  userId              String
+  membershipNumber    String           @unique
+  membershipType      MembershipType   @default(GENERAL_MEMBER)
   organizationRole    String?
   joiningDate         DateTime
   expiryDate          DateTime?
   monthlyContribution Float?
-  status              MembershipStatus    @default(PENDING)
+  status              MembershipStatus @default(PENDING)
   approvedBy          String?
   approvedAt          DateTime?
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   cards         MembershipCard[]
   verifications MembershipVerification[]
   renewals      MembershipRenewal[]
   activities    MembershipActivity[]
 }
 
-enum CardType {
-  PHYSICAL
-  DIGITAL
-  BOTH
-}
-
-enum CardStatus {
-  ACTIVE
-  INACTIVE
-  BLOCKED
-  EXPIRED
-  PENDING
-}
+// ==========================================
+// 12. MembershipCard
+// ==========================================
 model MembershipCard {
-  id           String    @id @default(cuid())
+  id           String     @id @default(cuid())
   membershipId String
-  cardNumber   String    @unique
-  cardType     CardType @default(DIGITAL)
+  cardNumber   String     @unique
+  cardType     CardType   @default(DIGITAL)
   issueDate    DateTime
   expiryDate   DateTime?
-  cardStatus   CardStatus    @default(ACTIVE)
+  cardStatus   CardStatus @default(ACTIVE)
   profilePhoto String?
   signature    String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   membership Membership         @relation(fields: [membershipId], references: [id], onDelete: Cascade)
   qrCodes    MembershipQRCode[]
 }
 
+// ==========================================
+// 13. MembershipQRCode
+// ==========================================
 model MembershipQRCode {
   id               String    @id @default(cuid())
   membershipCardId String
@@ -84,83 +62,51 @@ model MembershipQRCode {
   membershipCard MembershipCard @relation(fields: [membershipCardId], references: [id], onDelete: Cascade)
 }
 
-enum VerificationMethod {
-  EMAIL
-  PHONE
-  QR_CODE
-  MANUAL
-  BIOMETRIC
-  DOCUMENT
-}
-
-enum VerificationStatus {
-  PENDING
-  APPROVED
-  REJECTED
-  EXPIRED
-  FAILED
-}
-
+// ==========================================
+// 14. MembershipVerification
+// ==========================================
 model MembershipVerification {
-  id                 String    @id @default(cuid())
+  id                 String              @id @default(cuid())
   membershipId       String
-  verificationMethod  VerificationMethod?
+  verificationMethod VerificationMethod?
   verifiedBy         String?
-  verificationStatus  VerificationStatus @default(PENDING)
+  verificationStatus VerificationStatus  @default(PENDING)
   verificationDate   DateTime?
   remarks            String?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
 
   membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
 }
 
-enum PaymentStatus {
-  PENDING
-  PAID
-  FAILED
-  REFUNDED
-  PARTIAL
-}
-
-
+// ==========================================
+// 15. MembershipRenewal
+// ==========================================
 model MembershipRenewal {
-  id             String    @id @default(cuid())
+  id             String        @id @default(cuid())
   membershipId   String
   renewalDate    DateTime
   renewalAmount  Float?
   paymentStatus  PaymentStatus @default(PENDING)
   nextExpiryDate DateTime?
   processedBy    String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 
   membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
 }
 
-enum MembershipActivityType {
-  REGISTRATION
-  MEMBERSHIP_APPROVED
-  MEMBERSHIP_REJECTED
-  CARD_GENERATED
-  QR_GENERATED
-  QR_VERIFIED
-  MEMBERSHIP_RENEWED
-  MEMBERSHIP_SUSPENDED
-  MEMBERSHIP_EXPIRED
-  MEMBERSHIP_REACTIVATED
-  MEMBERSHIP_UPDATED
-  MEMBERSHIP_CANCELLED
-}
-
+// ==========================================
+// 16. MembershipActivity
+// ==========================================
 model MembershipActivity {
-  id           String   @id @default(cuid())
+  id           String                  @id @default(cuid())
   membershipId String
-  activityType MembershipActivityType? 
+  activityType MembershipActivityType?
   description  String?
   performedBy  String?
   ipAddress    String?
-  createdAt    DateTime @default(now())
+  createdAt    DateTime                @default(now())
 
   membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
 }
