@@ -1,5 +1,5 @@
 import status from "http-status";
-import { CardStatus, CardType, MembershipActivityType, MembershipStatus, MembershipType } from "../../../generated/prisma/enums";
+import { CardStatus, CardType, MembershipActivityType, MembershipStatus, MembershipType, PaymentStatus, VerificationMethod, VerificationStatus } from "../../../generated/prisma/enums";
 import customError from "../../error/customError";
 import { prisma } from "../../lib/prisma";
 
@@ -82,13 +82,14 @@ const updateMembershipStatus = async (
   adminId: string,
   payload: {
     status: MembershipStatus;
+    remarks?: string
   }
 ) => {
   if (!membershipId) {
     throw new customError(status.BAD_REQUEST, "Membership ID is required.");
   }
 
-  const { status: newStatus } = payload;
+  const { status: newStatus, remarks } = payload;
 
   if (newStatus !== MembershipStatus.APPROVED && newStatus !== MembershipStatus.ACTIVE && newStatus !== MembershipStatus.REJECTED) {
     throw new customError(status.BAD_REQUEST, "Invalid status. Can only approve or reject.");
@@ -213,7 +214,196 @@ const updateMembershipStatus = async (
   return result;
 };
 
+const verifyQrCode = async (qrCode: string, scannedBy: string) => {
+  if (!qrCode) {
+    throw new customError(status.BAD_REQUEST, "QR Code is required.");
+  }
+
+  const qrRecord = await prisma.membershipQRCode.findFirst({
+    where: { qrCode },
+    include: {
+      membershipCard: {
+        include: {
+          membership: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!qrRecord) {
+    throw new customError(status.NOT_FOUND, "Invalid or unrecognized QR Code.");
+  }
+
+  const card = qrRecord.membershipCard;
+  const membership = card.membership;
+
+  // Validate Card Status and Expiry
+  if (card.cardStatus !== CardStatus.ACTIVE) {
+    throw new customError(status.BAD_REQUEST, "Membership card is not active.");
+  }
+
+  if (card.expiryDate && new Date(card.expiryDate) < new Date()) {
+    throw new customError(status.BAD_REQUEST, "Membership card has expired.");
+  }
+
+  // Validate Membership Status
+  if (
+    membership.status !== MembershipStatus.ACTIVE &&
+    membership.status !== MembershipStatus.APPROVED
+  ) {
+    throw new customError(status.BAD_REQUEST, "Associated membership is not active.");
+  }
+
+  const result = await prisma.$transaction(async (tx) => {
+    // 1. Update QR Code scan count and last scanned timestamp
+    const updatedQr = await tx.membershipQRCode.update({
+      where: { id: qrRecord.id },
+      data: {
+        scanCount: { increment: 1 },
+        lastScannedAt: new Date(),
+      },
+    });
+
+    // 2. Create MembershipVerification record
+    await tx.membershipVerification.create({
+      data: {
+        membershipId: membership.id,
+        verificationMethod: "QR_CODE" as VerificationMethod,
+        verifiedBy: scannedBy,
+        verificationStatus: "APPROVED" as VerificationStatus,
+        verificationDate: new Date(),
+        remarks: "QR Code scan successful.",
+      },
+    });
+
+    // 3. Create MembershipActivity log
+    await tx.membershipActivity.create({
+      data: {
+        membershipId: membership.id,
+        activityType: "QR_VERIFIED" as MembershipActivityType,
+        description: `QR code verified successfully by staff/admin. (Scan count: ${updatedQr.scanCount})`,
+        performedBy: scannedBy,
+      },
+    });
+
+    return {
+      qrCode: updatedQr,
+      card,
+      membership,
+      user: membership.user,
+    };
+  });
+
+  return result;
+};
+
+const renewMembership = async (
+  membershipId: string,
+  processedBy: string,
+  payload: {
+    renewalAmount?: number;
+    paymentStatus?: PaymentStatus;
+    expiryDate?: string | Date;
+  }
+) => {
+  if (!membershipId) {
+    throw new customError(status.BAD_REQUEST, "Membership ID is required.");
+  }
+
+  const membership = await prisma.membership.findUnique({
+    where: { id: membershipId },
+    include: { cards: true },
+  });
+
+  if (!membership) {
+    throw new customError(status.NOT_FOUND, "Membership not found.");
+  }
+
+  if (
+    membership.status === MembershipStatus.PENDING ||
+    membership.status === MembershipStatus.REJECTED
+  ) {
+    throw new customError(
+      status.BAD_REQUEST,
+      "Cannot renew a pending or rejected membership application."
+    );
+  }
+
+  // Determine next expiry date: use provided expiryDate, or calculate 1-year extension
+  const nextExpiryDate = payload.expiryDate
+    ? new Date(payload.expiryDate)
+    : (() => {
+        const baseDate =
+          membership.expiryDate && new Date(membership.expiryDate) > new Date()
+            ? new Date(membership.expiryDate)
+            : new Date();
+        const date = new Date(baseDate);
+        date.setFullYear(date.getFullYear() + 1);
+        return date;
+      })();
+
+  const result = await prisma.$transaction(async (tx) => {
+    // 1. Update membership status and expiry date
+    const updatedMembership = await tx.membership.update({
+      where: { id: membershipId },
+      data: {
+        expiryDate: nextExpiryDate,
+        status: MembershipStatus.ACTIVE, // activate if expired/suspended
+      },
+    });
+
+    // 2. Update active/expired cards expiry date
+    await tx.membershipCard.updateMany({
+      where: {
+        membershipId,
+        cardStatus: {
+          in: [CardStatus.ACTIVE, CardStatus.EXPIRED, CardStatus.PENDING],
+        },
+      },
+      data: {
+        expiryDate: nextExpiryDate,
+        cardStatus: CardStatus.ACTIVE,
+      },
+    });
+
+    // 3. Create MembershipRenewal record
+    const renewal = await tx.membershipRenewal.create({
+      data: {
+        membershipId,
+        renewalDate: new Date(),
+        renewalAmount: payload.renewalAmount || null,
+        paymentStatus: payload.paymentStatus || PaymentStatus.PAID,
+        nextExpiryDate,
+        processedBy,
+      },
+    });
+
+    // 4. Create MembershipActivity log
+    await tx.membershipActivity.create({
+      data: {
+        membershipId,
+        activityType: "MEMBERSHIP_RENEWED" as MembershipActivityType,
+        description: `Membership renewed successfully. New expiry date: ${nextExpiryDate.toDateString()}`,
+        performedBy: processedBy,
+      },
+    });
+
+    return {
+      membership: updatedMembership,
+      renewal,
+    };
+  });
+
+  return result;
+};
+
 export const membershipServices = {
   applyMembership,
   updateMembershipStatus,
+  verifyQrCode,
+  renewMembership
 };

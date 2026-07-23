@@ -10,8 +10,18 @@ router.post(
 );
 
 router.patch(
-  "/:id",
+  "/status/:id",
   membershipController.updateMembershipStatus
+);
+
+router.post(
+  "/verify-qr",
+  membershipController.verifyQrCode
+);
+
+router.post(
+  "/renew/:id",
+  membershipController.renewMembership
 );
 
 export const membershipRoutes = router;

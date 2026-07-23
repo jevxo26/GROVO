@@ -36,7 +36,43 @@ const updateMembershipStatus = catchAsync(async (req, res) => {
   });
 });
 
+const verifyQrCode = catchAsync(async (req, res) => {
+  const { qrCode } = req.body;
+  const scannedBy = req.user?.userId || "cmrxhbxkj0000o8v6sfu1lj3f";
+
+  const result = await membershipServices.verifyQrCode(
+    qrCode as string,
+    scannedBy as string
+  );
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Membership QR code verified successfully",
+    data: result,
+  });
+});
+
+const renewMembership = catchAsync(async (req, res) => {
+  const payload = req.body;
+  const processedBy = req.user?.userId || "cmrxhbxkj0000o8v6sfu1lj3f";
+  const { id: membershipId } = req.params;
+
+  const result = await membershipServices.renewMembership(
+    membershipId as string,
+    processedBy as string,
+    payload
+  );
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Membership renewed successfully",
+    data: result,
+  });
+});
+
 export const membershipController = {
   applyMembership,
   updateMembershipStatus,
+  verifyQrCode,
+  renewMembership,
 };
