@@ -4,6 +4,11 @@ import { membershipController } from "../controllers/memberShip/membership.contr
 
 const router = express.Router();
 
+router.get(
+  "/",
+  membershipController.getAllMemberships
+);
+
 router.post(
   "/",  
   membershipController.applyMembership
@@ -22,6 +27,11 @@ router.post(
 router.post(
   "/renew/:id",
   membershipController.renewMembership
+);
+
+router.get(
+  "/activities/:id",
+  membershipController.getMembershipActivities
 );
 
 export const membershipRoutes = router;

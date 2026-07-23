@@ -1,0 +1,66 @@
+enum CampaignType {
+  MONTHLY_DONATION
+  EMERGENCY_RELIEF
+  MEDICAL_SUPPORT
+  EDUCATION_SUPPORT
+  FOOD_DISTRIBUTION
+  WINTER_CAMPAIGN
+  ORPHAN_SUPPORT
+  MOSQUE_PROJECT
+  SHELTER_PROJECT
+  CUSTOM_CAMPAIGN
+}
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+enum MediaTypes {
+  IMAGE
+  VIDEO
+  PDF
+  DOCUMENT
+}
+
+enum EmergencyType {
+  FLOOD
+  FIRE
+  MEDICAL
+  CYCLONE
+  EARTHQUAKE
+  WINTER
+  FOOD_CRISIS
+}
+
+enum EmergencyPriority {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum ProjectStatus {
+  PLANNED
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum ExpenseStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PAID
+}
+
+enum VolunteerCompletionStatus {
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  WITHDRAWN
+}

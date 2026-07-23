@@ -1,0 +1,131 @@
+// ==========================================
+// Campaign Module Models
+// ==========================================
+
+model Campaign {
+  id               String         @id @default(cuid())
+  campaignCode     String         @unique
+  title            String
+  slug             String         @unique
+  categoryId       String
+  description      String         @db.Text
+  shortDescription String?
+  campaignType     CampaignType
+  targetAmount     Float
+  raisedAmount     Float          @default(0)
+  startDate        DateTime
+  endDate          DateTime?
+  thumbnail        String?
+  banner           String?
+  status           CampaignStatus @default(DRAFT)
+  createdBy        String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  category         CampaignCategory    @relation(fields: [categoryId], references: [id])
+  creator          User?               @relation("CampaignCreator", fields: [createdBy], references: [id])
+  goals            CampaignGoal[]
+  milestones       CampaignMilestone[]
+  media            CampaignMedia[]
+  donations        CampaignDonation[]
+  emergencyDetails EmergencyCampaign?
+  projects         Project[]
+  fundAllocations  FundAllocation[]
+
+  @@map("campaign")
+}
+
+model CampaignCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  icon        String?
+  description String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaigns Campaign[]
+
+  @@map("campaign_category")
+}
+
+
+model CampaignGoal {
+  id                 String   @id @default(cuid())
+  campaignId         String
+  goalTitle          String
+  targetAmount       Float
+  currentAmount      Float    @default(0)
+  progressPercentage Float    @default(0)
+  status             String   @default("ACTIVE")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@map("campaign_goal")
+}
+
+model CampaignMilestone {
+  id           String    @id @default(cuid())
+  campaignId   String
+  title        String
+  description  String?
+  targetAmount Float
+  achievedAt   DateTime?
+  status       String    @default("PENDING")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@map("campaign_milestone")
+}
+
+model CampaignMedia {
+  id         String     @id @default(cuid())
+  campaignId String
+  mediaType  MediaTypes
+  title      String
+  fileUrl    String
+  thumbnail  String?
+  uploadedBy String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@map("campaign_media")
+}
+
+model CampaignDonation {
+  id            String        @id @default(cuid())
+  campaignId    String
+  donationId    String?
+  donorId       String?
+  amount        Float
+  paymentStatus PaymentStatus @default(PENDING)
+  createdAt     DateTime      @default(now())
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  donor    User?    @relation("CampaignDonations", fields: [donorId], references: [id])
+
+  @@map("campaign_donation")
+}
+
+model EmergencyCampaign {
+  id            String            @id @default(cuid())
+  campaignId    String            @unique
+  emergencyType EmergencyType
+  priority      EmergencyPriority @default(HIGH)
+  affectedArea  String
+  requiredAmount Float
+  currentAmount Float             @default(0)
+  status        String            @default("ACTIVE")
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@map("emergency_campaign")
+}

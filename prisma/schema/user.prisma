@@ -33,6 +33,11 @@ model User {
   addresses           UserAddress[]
   membership          Membership[]
 
+  createdCampaigns   Campaign[]         @relation("CampaignCreator")
+  campaignDonations  CampaignDonation[] @relation("CampaignDonations")
+  managedProjects    Project[]          @relation("ProjectManager")
+  projectVolunteers  ProjectVolunteer[] @relation("ProjectVolunteers")
+
   @@map("user")
 }
 

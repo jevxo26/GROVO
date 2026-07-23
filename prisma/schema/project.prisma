@@ -1,0 +1,207 @@
+// ==========================================
+// Project Module Models
+// ==========================================
+
+model ProjectCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  projects Project[]
+
+  @@map("project_category")
+}
+
+model Project {
+  id               String        @id @default(cuid())
+  projectCode      String        @unique
+  campaignId       String?
+  categoryId       String?
+  projectName      String
+  description      String        @db.Text
+  branchId         String?
+  startDate        DateTime
+  endDate          DateTime?
+  projectManagerId String?
+  status           ProjectStatus @default(PLANNED)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  campaign        Campaign?            @relation(fields: [campaignId], references: [id])
+  category        ProjectCategory?     @relation(fields: [categoryId], references: [id])
+  projectManager  User?                @relation("ProjectManager", fields: [projectManagerId], references: [id])
+  budget          ProjectBudget?
+  expenses        ProjectExpense[]
+  beneficiaries   ProjectBeneficiary[]
+  volunteers      ProjectVolunteer[]
+  gallery         ProjectGallery[]
+  updates         ProjectUpdate[]
+  timeline        ProjectTimeline[]
+  fundAllocations FundAllocation[]
+  reports         ProjectReport[]
+
+  @@map("project")
+}
+
+model ProjectBudget {
+  id              String   @id @default(cuid())
+  projectId       String   @unique
+  estimatedBudget Float
+  approvedBudget  Float    @default(0)
+  allocatedBudget Float    @default(0)
+  remainingBudget Float    @default(0)
+  approvedBy      String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_budget")
+}
+
+model ProjectExpense {
+  id              String        @id @default(cuid())
+  projectId       String
+  expenseCategory String
+  description     String
+  amount          Float
+  expenseDate     DateTime
+  approvedBy      String?
+  status          ExpenseStatus @default(PENDING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  attachments ExpenseAttachment[]
+
+  @@map("project_expense")
+}
+
+model ExpenseAttachment {
+  id         String   @id @default(cuid())
+  expenseId  String
+  fileName   String
+  fileUrl    String
+  fileType   String
+  uploadedBy String?
+  createdAt  DateTime @default(now())
+
+  expense ProjectExpense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+
+  @@map("expense_attachment")
+}
+
+model ProjectBeneficiary {
+  id              String   @id @default(cuid())
+  projectId       String
+  beneficiaryName String
+  phone           String?
+  address         String?
+  districtId      String?
+  beneficiaryType String?
+  assistanceType  String?
+  status          String   @default("ACTIVE")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_beneficiary")
+}
+
+model ProjectVolunteer {
+  id               String                    @id @default(cuid())
+  projectId        String
+  volunteerId      String
+  assignedRole     String?
+  assignedDate     DateTime                  @default(now())
+  completionStatus VolunteerCompletionStatus @default(ASSIGNED)
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  volunteer User    @relation("ProjectVolunteers", fields: [volunteerId], references: [id])
+
+  @@map("project_volunteer")
+}
+
+model ProjectGallery {
+  id         String     @id @default(cuid())
+  projectId  String
+  title      String
+  mediaType  MediaTypes
+  fileUrl    String
+  uploadedBy String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_gallery")
+}
+
+model ProjectUpdate {
+  id                 String   @id @default(cuid())
+  projectId          String
+  title              String
+  description        String   @db.Text
+  progressPercentage Float
+  publishedBy        String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_update")
+}
+
+model ProjectTimeline {
+  id          String   @id @default(cuid())
+  projectId   String
+  event       String
+  description String?
+  eventDate   DateTime
+  createdBy   String?
+  createdAt   DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_timeline")
+}
+
+model FundAllocation {
+  id              String   @id @default(cuid())
+  campaignId      String
+  projectId       String
+  allocatedAmount Float
+  allocationDate  DateTime @default(now())
+  approvedBy      String?
+  remarks         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+  project  Project  @relation(fields: [projectId], references: [id])
+
+  @@map("fund_allocation")
+}
+
+model ProjectReport {
+  id                 String    @id @default(cuid())
+  projectId          String
+  reportTitle        String
+  summary            String    @db.Text
+  beneficiariesCount Int       @default(0)
+  totalExpense       Float     @default(0)
+  reportFile         String?
+  publishedBy        String?
+  publishedAt        DateTime?
+  createdAt          DateTime  @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_report")
+}

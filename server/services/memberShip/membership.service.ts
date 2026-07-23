@@ -401,9 +401,48 @@ const renewMembership = async (
   return result;
 };
 
+const getMembershipActivities = async (membershipId: string) => {
+  if (!membershipId) {
+    throw new customError(status.BAD_REQUEST, "Membership ID is required.");
+  }
+
+  const activities = await prisma.membershipActivity.findMany({
+    where: { membershipId },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return activities;
+};
+
+const getAllMemberships = async () => {
+  const memberships = await prisma.membership.findMany({
+    include: {
+      user: {
+        include: {
+          userProfile: true,
+          addresses: true,
+        },
+      },
+      cards: {
+        include: {
+          qrCodes: true,
+        },
+      },
+      verifications: true,
+      renewals: true,
+      activities: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return memberships;
+};
+
 export const membershipServices = {
   applyMembership,
   updateMembershipStatus,
   verifyQrCode,
-  renewMembership
+  renewMembership,
+  getMembershipActivities,
+  getAllMemberships,
 };

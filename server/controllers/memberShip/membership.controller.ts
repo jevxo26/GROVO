@@ -70,9 +70,35 @@ const renewMembership = catchAsync(async (req, res) => {
   });
 });
 
+const getMembershipActivities = catchAsync(async (req, res) => {
+  const { id: membershipId } = req.params;
+
+  const result = await membershipServices.getMembershipActivities(
+    membershipId as string
+  );
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Membership activities retrieved successfully",
+    data: result,
+  });
+});
+
+const getAllMemberships = catchAsync(async (req, res) => {
+  const result = await membershipServices.getAllMemberships();
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "All memberships retrieved successfully",
+    data: result,
+  });
+});
+
 export const membershipController = {
   applyMembership,
   updateMembershipStatus,
   verifyQrCode,
   renewMembership,
+  getMembershipActivities,
+  getAllMemberships,
 };
