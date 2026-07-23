@@ -1,0 +1,395 @@
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum ReliefVerificationMethod {
+  QR_CODE
+  BARCODE
+  OTP
+  NATIONAL_ID
+  MANUAL_VERIFICATION
+}
+
+// ==========================================
+// MODELS (21 ENTITIES)
+// ==========================================
+
+// 1. Beneficiary
+model Beneficiary {
+  id              String        @id @default(cuid())
+  beneficiaryCode String        @unique
+  fullName        String
+  phone           String?
+  nationalId      String?       @unique
+  dateOfBirth     DateTime?
+  gender          Gender        @default(MALE)
+  branchId        String?
+  divisionId      String?
+  districtId      String?
+  upazilaId       String?
+  unionId         String?
+  address         String?
+  status          GeneralStatus @default(ACTIVE)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // RELATIONS (Commented out for initial independent testing)
+  // profile             BeneficiaryProfile?
+  // familyMembers       FamilyMember[]
+  // documents           BeneficiaryDocument[]
+  // verifications       ReliefBeneficiaryVerification[]
+  // needAssessments     BeneficiaryNeedAssessment[]
+  // qrCode              BeneficiaryQRCode?
+  // caseHistories       CaseHistory[]
+  // followUpVisits      FollowUpVisit[]
+  // feedbacks           BeneficiaryFeedback[]
+  // activityLogs        BeneficiaryActivityLog[]
+  // distributionRecords DistributionRecord[]
+
+  @@map("beneficiaries")
+}
+
+// 2. BeneficiaryProfile
+model BeneficiaryProfile {
+  id              String   @id @default(cuid())
+  beneficiaryId   String   @unique
+  occupation      String?
+  monthlyIncome   Float?   @default(0.0)
+  familySize      Int      @default(1)
+  houseType       String?
+  education       String?
+  healthCondition String?
+  specialNeeds    String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // RELATIONS
+  // beneficiary     Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("beneficiary_profiles")
+}
+
+// 3. FamilyMember
+model FamilyMember {
+  id            String   @id @default(cuid())
+  beneficiaryId String
+  name          String
+  relationship  String
+  age           Int?
+  occupation    String?
+  monthlyIncome Float?   @default(0.0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // RELATIONS
+  // beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("family_members")
+}
+
+// 4. BeneficiaryCategory
+model BeneficiaryCategory {
+  id            String        @id @default(cuid())
+  categoryName  String        @unique
+  description   String?
+  priorityLevel PriorityLevel @default(MEDIUM)
+  status        GeneralStatus @default(ACTIVE)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("beneficiary_categories")
+}
+
+// 5. BeneficiaryDocument
+model BeneficiaryDocument {
+  id                 String        @id @default(cuid())
+  beneficiaryId      String
+  documentType       String
+  documentNumber     String?
+  fileUrl            String
+  verificationStatus GeneralStatus @default(PENDING)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  // RELATIONS
+  // beneficiary        Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("beneficiary_documents")
+}
+
+// 6. ReliefBeneficiaryVerification
+model ReliefBeneficiaryVerification {
+  id                 String                   @id @default(cuid())
+  beneficiaryId      String
+  verifiedBy         String
+  verificationMethod ReliefVerificationMethod @default(MANUAL_VERIFICATION)
+  verificationDate   DateTime                 @default(now())
+  status             GeneralStatus            @default(PENDING)
+  remarks            String?
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+
+  // RELATIONS
+  // beneficiary        Beneficiary              @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("relief_beneficiary_verifications")
+}
+
+// 7. BeneficiaryNeedAssessment
+model BeneficiaryNeedAssessment {
+  id              String        @id @default(cuid())
+  beneficiaryId   String
+  assessmentType  String
+  requiredSupport String
+  priority        PriorityLevel @default(MEDIUM)
+  assessedBy      String
+  assessmentDate  DateTime      @default(now())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // RELATIONS
+  // beneficiary     Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("beneficiary_need_assessments")
+}
+
+// 8. ReliefPackage
+model ReliefPackage {
+  id             String        @id @default(cuid())
+  packageName    String
+  description    String?
+  estimatedValue Float         @default(0.0)
+  status         GeneralStatus @default(ACTIVE)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // RELATIONS
+  // items          ReliefItem[]
+  // distributions  DistributionRecord[]
+
+  @@map("relief_packages")
+}
+
+// 9. ReliefItem
+model ReliefItem {
+  id             String   @id @default(cuid())
+  packageId      String
+  itemName       String
+  quantity       Float
+  unit           String
+  estimatedPrice Float    @default(0.0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // RELATIONS
+  // package        ReliefPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  @@map("relief_items")
+}
+
+// 10. DistributionCampaign
+model DistributionCampaign {
+  id               String        @id @default(cuid())
+  campaignId       String?
+  title            String
+  distributionDate DateTime
+  location         String
+  status           GeneralStatus @default(PENDING)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // RELATIONS
+  // schedules      DistributionSchedule[]
+  // distributions  DistributionRecord[]
+
+  @@map("distribution_campaigns")
+}
+
+// 11. DistributionSchedule
+model DistributionSchedule {
+  id                     String        @id @default(cuid())
+  distributionCampaignId String
+  branchId               String?
+  distributionCenterId   String?
+  scheduleDate           DateTime
+  startTime              String
+  endTime                String
+  status                 GeneralStatus @default(PENDING)
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+
+  // RELATIONS
+  // campaign               DistributionCampaign @relation(fields: [distributionCampaignId], references: [id], onDelete: Cascade)
+
+  @@map("distribution_schedules")
+}
+
+// 12. DistributionCenter
+model DistributionCenter {
+  id         String        @id @default(cuid())
+  centerName String
+  branchId   String?
+  address    String
+  latitude   Float?
+  longitude  Float?
+  capacity   Int           @default(100)
+  status     GeneralStatus @default(ACTIVE)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@map("distribution_centers")
+}
+
+// 13. DistributionRecord
+model DistributionRecord {
+  id                     String        @id @default(cuid())
+  beneficiaryId          String
+  distributionCampaignId String
+  packageId              String
+  distributedBy          String
+  receivedAt             DateTime      @default(now())
+  status                 GeneralStatus @default(ACTIVE)
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+
+  // RELATIONS
+  // beneficiary            Beneficiary          @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  // campaign               DistributionCampaign @relation(fields: [distributionCampaignId], references: [id], onDelete: Cascade)
+  // package                ReliefPackage        @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  // items                  DistributionItem[]
+  // verifications          DistributionVerification[]
+  // acknowledgement        Acknowledgement?
+
+  @@map("distribution_records")
+}
+
+// 14. DistributionItem
+model DistributionItem {
+  id                   String   @id @default(cuid())
+  distributionRecordId String
+  reliefItemId         String
+  quantity             Float
+  remarks              String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // RELATIONS
+  // record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
+
+  @@map("distribution_items")
+}
+
+// 15. BeneficiaryQRCode
+model BeneficiaryQRCode {
+  id              String   @id @default(cuid())
+  beneficiaryId   String   @unique
+  qrCode          String
+  barcode         String?
+  verificationUrl String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // RELATIONS
+  // beneficiary     Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("beneficiary_qr_codes")
+}
+
+// 16. DistributionVerification
+model DistributionVerification {
+  id                   String                   @id @default(cuid())
+  distributionRecordId String
+  verificationMethod   ReliefVerificationMethod @default(QR_CODE)
+  verifiedBy           String
+  verificationTime     DateTime                 @default(now())
+  status               GeneralStatus            @default(ACTIVE)
+  createdAt            DateTime                 @default(now())
+  updatedAt            DateTime                 @updatedAt
+
+  // RELATIONS
+  // record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
+
+  @@map("distribution_verifications")
+}
+
+// 17. Acknowledgement
+model Acknowledgement {
+  id                   String   @id @default(cuid())
+  distributionRecordId String   @unique
+  signature            String?
+  photo                String?
+  remarks              String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // RELATIONS
+  // record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
+
+  @@map("acknowledgements")
+}
+
+// 18. BeneficiaryFeedback
+model BeneficiaryFeedback {
+  id                   String   @id @default(cuid())
+  beneficiaryId        String
+  distributionRecordId String?
+  rating               Int      @default(5)
+  feedback             String
+  submittedAt          DateTime @default(now())
+  createdAt            DateTime @default(now())
+
+  // RELATIONS
+  // beneficiary          Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("beneficiary_feedbacks")
+}
+
+// 19. FollowUpVisit
+model FollowUpVisit {
+  id            String        @id @default(cuid())
+  beneficiaryId String
+  visitedBy     String
+  visitDate     DateTime      @default(now())
+  remarks       String?
+  nextVisitDate DateTime?
+  status        GeneralStatus @default(PENDING)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // RELATIONS
+  // beneficiary   Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("follow_up_visits")
+}
+
+// 20. CaseHistory
+model CaseHistory {
+  id              String        @id @default(cuid())
+  beneficiaryId   String
+  caseType        String
+  description     String
+  assignedOfficer String
+  status          GeneralStatus @default(ACTIVE)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // RELATIONS
+  // beneficiary     Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("case_histories")
+}
+
+// 21. BeneficiaryActivityLog
+model BeneficiaryActivityLog {
+  id            String   @id @default(cuid())
+  beneficiaryId String
+  activity      String
+  description   String?
+  performedBy   String
+  createdAt     DateTime @default(now())
+
+  // RELATIONS
+  // beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@map("beneficiary_activity_logs")
+}
