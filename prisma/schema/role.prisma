@@ -1,0 +1,175 @@
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum RoleType {
+  SYSTEM
+  COORDINATOR
+  ORGANIZATION
+  CUSTOM
+}
+
+enum GeneralStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  SUSPENDED
+}
+
+// ==========================================
+// MODELS (WITHOUT RELATIONS)
+// ==========================================
+
+model Role {
+  id          String   @id @default(cuid())
+  roleName    String   @unique
+  displayName String
+  description String?  @db.Text
+  roleType    RoleType @default(CUSTOM)
+  priority    Int      @default(0)
+  status      GeneralStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("roles")
+}
+
+model Permission {
+  id             String   @id @default(cuid())
+  permissionName String   @unique
+  module         String
+  description    String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           String   @id @default(cuid())
+  roleId       String
+  permissionId String
+  canView      Boolean  @default(false)
+  canCreate    Boolean  @default(false)
+  canUpdate    Boolean  @default(false)
+  canDelete    Boolean  @default(false)
+  canApprove   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("role_permissions")
+}
+
+model UserRole {
+  id           String   @id @default(cuid())
+  userId       String
+  roleId       String
+  assignedBy   String?
+  assignedDate DateTime @default(now())
+  status       GeneralStatus @default(ACTIVE)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("user_roles")
+}
+
+model CoordinatorRole {
+  id               String   @id @default(cuid())
+  coordinatorId    String
+  roleId           String
+  organizationLevel String?
+  divisionId       String?
+  districtId       String?
+  upazilaId        String?
+  unionId          String?
+  assignedDate     DateTime @default(now())
+  status           GeneralStatus @default(ACTIVE)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("coordinator_roles")
+}
+
+model VolunteerRole {
+  id             String   @id @default(cuid())
+  volunteerId    String
+  roleId         String
+  assignedArea   String?
+  responsibility String?  @db.Text
+  startDate      DateTime
+  endDate        DateTime?
+  status         GeneralStatus @default(ACTIVE)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("volunteer_roles")
+}
+
+model StaffRole {
+  id          String   @id @default(cuid())
+  staffId     String
+  roleId      String
+  department  String?
+  designation String?
+  joiningDate DateTime
+  status      GeneralStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("staff_roles")
+}
+
+model CommitteeRole {
+  id          String   @id @default(cuid())
+  committeeId String
+  memberId    String
+  role        String
+  startDate   DateTime
+  endDate     DateTime?
+  status      GeneralStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("committee_roles")
+}
+
+model AdminPermission {
+  id         String   @id @default(cuid())
+  adminId    String
+  module     String
+  canView    Boolean  @default(false)
+  canCreate  Boolean  @default(false)
+  canUpdate  Boolean  @default(false)
+  canDelete  Boolean  @default(false)
+  canApprove Boolean  @default(false)
+  canExport  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("admin_permissions")
+}
+
+model RoleHierarchy {
+  id            String   @id @default(cuid())
+  parentRoleId  String
+  childRoleId   String
+  hierarchyLevel Int     @default(1)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("role_hierarchies")
+}
+
+model AccessLog {
+  id        String   @id @default(cuid())
+  userId    String
+  roleId    String?
+  module    String
+  action    String
+  ipAddress String?
+  device    String?
+  browser   String?
+  createdAt DateTime @default(now())
+
+  @@map("access_logs")
+}

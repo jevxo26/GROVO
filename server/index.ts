@@ -7,6 +7,9 @@ import next from "next";
 import { auth } from "./lib/auth";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import { RootRouter } from "./routes/index.routes";
+import { roleRoutes } from "./routes/role.routes";
+import { donorRoutes } from "./routes/donor.routes";
+import { volunteerRoutes } from "./routes/volunteer.routes";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -30,8 +33,17 @@ app
       });
     });
 
+    // Role module routes mounted at /api/v1/roles
+    server.use("/api/v1/roles", roleRoutes); // <-- Added role routes
+
+    // Donor module routes mounted at /api/v1/donors
+    server.use("/api/v1/donors", donorRoutes); // <-- Placed perfectly here
+
     // API routes - make sure this is BEFORE Next.js handler
     server.use("/api/v1", RootRouter);
+
+    // Volunteer module routes mounted at /api/v1/volunteers
+    server.use("/api/v1/volunteers", volunteerRoutes);
 
     // Next.js handler for all other routes (must be last)
     server.use((req: Request, res: Response) => {

@@ -1,0 +1,350 @@
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum DonorType {
+  INDIVIDUAL
+  CORPORATE
+  LIFETIME
+  ANONYMOUS
+}
+
+enum BillingCycle {
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+
+enum TransactionType {
+  DONATION
+  MEMBERSHIP_FEE
+  REFUND
+  REWARD
+  ADJUSTMENT
+}
+
+enum CertificateType {
+  DONATION_CERTIFICATE
+  APPRECIATION_CERTIFICATE
+  CSR_CERTIFICATE
+  VOLUNTEER_RECOGNITION
+}
+
+enum ActivityType {
+  REGISTERED
+  SUBSCRIPTION_STARTED
+  DONATION_COMPLETED
+  MEMBERSHIP_RENEWED
+  BADGE_EARNED
+  CERTIFICATE_ISSUED
+}
+
+// ==========================================
+// MODELS (17 ENTITIES)
+// ==========================================
+
+// 1. Donor
+model Donor {
+  id               String        @id @default(cuid())
+  userId           String
+  donorCode        String        @unique
+  donorType        DonorType     @default(INDIVIDUAL)
+  membershipId     String?
+  registrationDate DateTime      @default(now())
+  status           GeneralStatus @default(ACTIVE)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // RELATIONS (Commented out for initial independent testing)
+  // user                User                  @relation(fields: [userId], references: [id])
+  // individualDonor     IndividualDonor?
+  // corporateDonor      CorporateDonor?
+  // subscriptions       DonorSubscription[]
+  // commitments         DonationCommitment[]
+  // wallet              DonorWallet?
+  // certificates        DonorCertificate[]
+  // badges              DonorBadge[]
+  // activities          DonorActivity[]
+  // preference          DonorPreference?
+
+  @@map("donors")
+}
+
+// 2. IndividualDonor
+model IndividualDonor {
+  id                 String        @id @default(cuid())
+  donorId            String        @unique
+  profession         String?
+  organization       String?
+  monthlyCommitment  Float?        @default(0.0)
+  preferredCampaign  String?
+  status             GeneralStatus @default(ACTIVE)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  // RELATIONS
+  // donor              Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("individual_donors")
+}
+
+// 3. CorporateDonor
+model CorporateDonor {
+  id                    String        @id @default(cuid())
+  donorId               String        @unique
+  companyName           String
+  companyRegistrationNo String?
+  tradeLicense          String?
+  contactPerson         String
+  designation           String?
+  website               String?
+  logo                  String?
+  monthlyCommitment     Float?        @default(0.0)
+  status                GeneralStatus @default(ACTIVE)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  // RELATIONS
+  // donor                 Donor               @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  // donorOrganization     DonorOrganization?
+
+  @@map("corporate_donors")
+}
+
+// 4. DonorOrganization
+model DonorOrganization {
+  id               String   @id @default(cuid())
+  corporateDonorId String   @unique
+  industry         String?
+  companySize      String?
+  employeeCount    Int?
+  address          String?
+  city             String?
+  country          String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // RELATIONS
+  // corporateDonor   CorporateDonor @relation(fields: [corporateDonorId], references: [id], onDelete: Cascade)
+
+  @@map("donor_organizations")
+}
+
+// 5. DonorSubscription
+model DonorSubscription {
+  id               String        @id @default(cuid())
+  donorId          String
+  subscriptionType String
+  amount           Float
+  billingCycle     BillingCycle  @default(MONTHLY)
+  startDate        DateTime
+  nextBillingDate  DateTime
+  endDate          DateTime?
+  autoRenew        Boolean       @default(true)
+  status           GeneralStatus @default(ACTIVE)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // RELATIONS
+  // donor            Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("donor_subscriptions")
+}
+
+// 6. DonationCommitment
+model DonationCommitment {
+  id              String        @id @default(cuid())
+  donorId         String
+  campaignId      String
+  pledgedAmount   Float
+  paidAmount      Float         @default(0.0)
+  remainingAmount Float
+  dueDate         DateTime
+  status          GeneralStatus @default(PENDING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // RELATIONS
+  // donor           Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("donation_commitments")
+}
+
+// 7. DonorWallet
+model DonorWallet {
+  id           String        @id @default(cuid())
+  donorId      String        @unique
+  balance      Float         @default(0.0)
+  totalDonated Float         @default(0.0)
+  rewardPoints Int           @default(0)
+  status       GeneralStatus @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  // RELATIONS
+  // donor        Donor              @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  // transactions DonorTransaction[]
+
+  @@map("donor_wallets")
+}
+
+// 8. DonorTransaction
+model DonorTransaction {
+  id              String          @id @default(cuid())
+  walletId        String
+  transactionType TransactionType
+  amount          Float
+  referenceNo     String          @unique
+  description     String?
+  status          GeneralStatus   @default(ACTIVE)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // RELATIONS
+  // wallet          DonorWallet     @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@map("donor_transactions")
+}
+
+// 9. DonorCertificate
+model DonorCertificate {
+  id                String          @id @default(cuid())
+  donorId           String
+  certificateType   CertificateType
+  certificateNumber String          @unique
+  issueDate         DateTime        @default(now())
+  downloadUrl       String
+  status            GeneralStatus   @default(ACTIVE)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  // RELATIONS
+  // donor             Donor           @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("donor_certificates")
+}
+
+// 10. DonorBadge
+model DonorBadge {
+  id         String   @id @default(cuid())
+  donorId    String
+  badgeName  String
+  badgeLevel String
+  earnedAt   DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  // RELATIONS
+  // donor      Donor    @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("donor_badges")
+}
+
+// 11. MembershipFee
+model MembershipFee {
+  id             String        @id @default(cuid())
+  membershipType String
+  minimumAmount  Float
+  maximumAmount  Float
+  billingCycle   BillingCycle  @default(YEARLY)
+  status         GeneralStatus @default(ACTIVE)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@map("membership_fees")
+}
+
+// 12. MembershipPayment
+model MembershipPayment {
+  id            String        @id @default(cuid())
+  membershipId  String
+  paymentMethod String
+  amount        Float
+  transactionId String        @unique
+  paymentStatus GeneralStatus @default(ACTIVE)
+  paidAt        DateTime      @default(now())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("membership_payments")
+}
+
+// 13. MembershipHistory
+model MembershipHistory {
+  id           String   @id @default(cuid())
+  membershipId String
+  oldType      String?
+  newType      String
+  changedBy    String
+  reason       String?
+  createdAt    DateTime @default(now())
+
+  @@map("membership_histories")
+}
+
+// 14. Referral
+model Referral {
+  id             String        @id @default(cuid())
+  referrerId     String
+  referredUserId String
+  referralCode   String
+  status         GeneralStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // RELATIONS
+  // rewards        ReferralReward[]
+
+  @@map("referrals")
+}
+
+// 15. ReferralReward
+model ReferralReward {
+  id          String        @id @default(cuid())
+  referralId  String
+  rewardType  String
+  rewardValue Float
+  status      GeneralStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // RELATIONS
+  // referral    Referral      @relation(fields: [referralId], references: [id], onDelete: Cascade)
+
+  @@map("referral_rewards")
+}
+
+// 16. DonorActivity
+model DonorActivity {
+  id           String       @id @default(cuid())
+  donorId      String
+  activityType ActivityType
+  description  String
+  performedAt  DateTime     @default(now())
+  createdAt    DateTime     @default(now())
+
+  // RELATIONS
+  // donor        Donor        @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("donor_activities")
+}
+
+// 17. DonorPreference
+model DonorPreference {
+  id                String   @id @default(cuid())
+  donorId           String   @unique
+  preferredCategory String?
+  preferredCampaign String?
+  anonymousDonation Boolean  @default(false)
+  emailNotification Boolean  @default(true)
+  smsNotification   Boolean  @default(true)
+  pushNotification  Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // RELATIONS
+  // donor             Donor    @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("donor_preferences")
+}
