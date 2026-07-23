@@ -16,95 +16,51 @@ enum bloodGroup {
 }
 
 
+// ==========================================
+// 1. User
+// ==========================================
 model User {
-  id            String    @id
+  id            String      @id @default(cuid())
   firstName     String?
   lastName      String?
-  name          String?
-  email         String
+  fullName      String?
+  email         String      @unique
   phone         String?
+  password      String?
   profilePhoto  String?
   dateOfBirth   DateTime?
   gender        Gender?
-  bloodGroup    bloodGroup?
+  bloodGroup    BloodGroup?
   nationalId    String?
-  status        Boolean?  @default(false)
-  emailVerified Boolean   @default(false) 
+  status        UserStatus  @default(PENDING)
+  isVerified    Boolean     @default(false)
   lastLogin     DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  role          String
-  banned        Boolean?  @default(false)
-  banReason     String?
-  banExpires    DateTime?
-  sessions      Session[]
-  accounts      Account[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  role          UserRole    @default(GENERAL_MEMBER)
 
-  userProfile   UserProfile?
-  devices       UserDevice[]
-  userSessions  UserSession[]
-  tokens        UserToken[]
-  otps          UserOTP[]
-  loginHistory  UserLoginHistory[]
+  userProfile         UserProfile?
+  devices             UserDevice[]
+  userSessions        UserSession[]
+  tokens              UserToken[]
+  otps                UserOTP[]
+  loginHistory        UserLoginHistory[]
   notificationSetting UserNotificationSetting?
-  security      UserSecurity?
-  addresses     UserAddress[]
-  membership    Membership[]
+  security            UserSecurity?
+  addresses           UserAddress[]
+  membership          Membership[]
 
-  @@unique([email])
+  createdCampaigns   Campaign[]         @relation("CampaignCreator")
+  campaignDonations  CampaignDonation[] @relation("CampaignDonations")
+  managedProjects    Project[]          @relation("ProjectManager")
+  projectVolunteers  ProjectVolunteer[] @relation("ProjectVolunteers")
+
   @@map("user")
 }
 
-model Session {
-  id             String   @id
-  expiresAt      DateTime
-  token          String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  ipAddress      String?
-  userAgent      String?
-  userId         String
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  impersonatedBy String?
-
-  @@unique([token])
-  @@index([userId])
-  @@map("session")
-}
-
-model Account {
-  id                    String    @id
-  accountId             String
-  providerId            String
-  userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String?
-  password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-
-  @@index([userId])
-  @@map("account")
-}
-
-model Verification {
-  id         String   @id
-  identifier String
-  value      String
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@index([identifier])
-  @@map("verification")
-}
-
-
+// ==========================================
+// 2. UserProfile
+// ==========================================
 model UserProfile {
   id           String   @id @default(cuid())
   userId       String   @unique
@@ -124,11 +80,13 @@ model UserProfile {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-
+// ==========================================
+// 3. UserDevice
+// ==========================================
 model UserDevice {
   id              String    @id @default(cuid())
   userId          String
-  deviceId        String?    @unique
+  deviceId        String?   @unique
   deviceName      String?
   deviceType      String?
   operatingSystem String?
@@ -142,90 +100,76 @@ model UserDevice {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum SessionStatus {
-  ACTIVE
-  EXPIRED
-  LOGGED_OUT
-  REVOKED
-}
-
+// ==========================================
+// 4. UserSession
+// ==========================================
 model UserSession {
-  id           String    @id @default(cuid())
+  id           String        @id @default(cuid())
   userId       String
   deviceId     String?
-  accessToken  String    @unique
-  refreshToken String?   @unique
+  accessToken  String        @unique
+  refreshToken String?       @unique
   expiresAt    DateTime
-  loginTime    DateTime  @default(now())
+  loginTime    DateTime      @default(now())
   logoutTime   DateTime?
-  status       SessionStatus    @default(ACTIVE)
-  createdAt    DateTime  @default(now())
+  status       SessionStatus @default(ACTIVE)
+  createdAt    DateTime      @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum tokenType {
-  Email_Verification
-  Password_Reset
-  Login_Verification
-  Membership_Verification
-}
-
+// ==========================================
+// 5. UserToken
+// ==========================================
 model UserToken {
-  id        String   @id @default(cuid())
+  id        String         @id @default(cuid())
   userId    String
-  token     String   @unique
-  tokenType  tokenType? // Enum or String: Email Verification, Password Reset, Login Verification, Membership Verification
+  token     String         @unique
+  tokenType UserTokenType?
   expiresAt DateTime
-  isUsed    Boolean  @default(false)
-  createdAt DateTime @default(now())
+  isUsed    Boolean        @default(false)
+  createdAt DateTime       @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum OTPService {
-  LOGIN
-  REGISTRATION
-  PASSWORD_RESET
-  MEMBERSHIP_VERIFICATION
-  PHONE_VERIFICATION
-}
-
+// ==========================================
+// 6. UserOTP
+// ==========================================
 model UserOTP {
-  id         String    @id @default(cuid())
+  id         String      @id @default(cuid())
   userId     String
   phone      String
   otp        String
-  purpose    OTPService?
+  purpose    OTPPurpose?
   expiresAt  DateTime
   verifiedAt DateTime?
-  status     String    @default("PENDING")
-  createdAt  DateTime  @default(now())
+  status     OTPStatus   @default(PENDING)
+  createdAt  DateTime    @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum LoginStatus {
-  SUCCESS
-  FAILED
-  EXPIRED
-  REVOKED
-}
-
+// ==========================================
+// 7. UserLoginHistory
+// ==========================================
 model UserLoginHistory {
-  id         String    @id @default(cuid())
+  id         String      @id @default(cuid())
   userId     String
   deviceId   String?
   ipAddress  String?
   location   String?
-  loginTime  DateTime  @default(now())
+  loginTime  DateTime    @default(now())
   logoutTime DateTime?
-  status     LoginStatus    @default(SUCCESS)
-  createdAt  DateTime  @default(now())
+  status     LoginStatus @default(SUCCESS)
+  createdAt  DateTime    @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// ==========================================
+// 8. UserNotificationSetting
+// ==========================================
 model UserNotificationSetting {
   id                    String   @id @default(cuid())
   userId                String   @unique
@@ -241,21 +185,27 @@ model UserNotificationSetting {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// ==========================================
+// 9. UserSecurity
+// ==========================================
 model UserSecurity {
-  id                  String   @id @default(cuid())
-  userId              String   @unique
-  twoFactorEnabled    Boolean  @default(false)
+  id                  String    @id @default(cuid())
+  userId              String    @unique
+  twoFactorEnabled    Boolean   @default(false)
   securityQuestion    String?
   securityAnswer      String?
-  failedLoginAttempts Int      @default(0)
-  accountLocked       Boolean  @default(false)
-  lastPasswordChanged DateTime @default(now())
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  failedLoginAttempts Int       @default(0)
+  accountLocked       Boolean   @default(false)
+  lastPasswordChanged DateTime? @default(now())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// ==========================================
+// 10. UserAddress
+// ==========================================
 model UserAddress {
   id          String   @id @default(cuid())
   userId      String
