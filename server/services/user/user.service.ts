@@ -1,19 +1,17 @@
 import bcrypt from "bcryptjs";
 import status from "http-status";
-import customError from "../error/customError";
-import { prisma } from "../lib/prisma";
-import { tokenUtils } from "../utils/token";
+import customError from "../../error/customError";
+import { prisma } from "../../lib/prisma";
+import { tokenUtils } from "../../utils/token";
 
 // Create a new user along with userProfile, userSecurity, and userNotificationSetting
 const createUser = async (payload: any) => {
   const { email, password, dateOfBirth, ...usersData } = payload;
 
-  // Validate required fields
   if (!email || !password) {
     throw new customError(status.BAD_REQUEST, "Email and password required");
   }
 
-  // Check if user already exists
   const existingUser = await prisma.user.findUnique({
     where: { email },
   });
@@ -22,19 +20,15 @@ const createUser = async (payload: any) => {
     throw new customError(status.CONFLICT, "Email already exists");
   }
 
-  // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Create user and related records in transaction
   const newUser = await prisma.$transaction(async (tx) => {
-    // Create user with all data
     const user = await tx.user.create({
       data: {
         email,
         password: hashedPassword,
-        // Handle dateOfBirth if provided
         ...(dateOfBirth && { dateOfBirth: new Date(dateOfBirth) }),
-        // Spread the rest of the data
         ...usersData,
       },
     });
@@ -225,8 +219,44 @@ const getUserProfile = async (userId: string) => {
   return user;
 };
 
+const updateUserInfo = async (payload: any, userId: string) => {
+  if (!userId) {
+    throw new Error("User Id is required!");
+  }
+  const result = await prisma.userProfile.update({
+    where: { userId },
+    data: payload,
+  });
+  return result;
+};
+
+const updateUserNotificationSetting = async (payload: any, userId: string) => {
+  if (!userId) {
+    throw new customError(status.BAD_REQUEST, "User ID is required!");
+  }
+  const result = await prisma.userNotificationSetting.update({
+    where: { userId },
+    data: payload,
+  });
+  return result;
+};
+
+const updateUserSecurity = async (payload: any, userId: string) => {
+  if (!userId) {
+    throw new customError(status.BAD_REQUEST, "User ID is required!");
+  }
+  const result = await prisma.userSecurity.update({
+    where: { userId },
+    data: payload,
+  });
+  return result;
+};
+
 export const userServices = {
   createUser,
   login,
   getUserProfile,
+  updateUserInfo,
+  updateUserNotificationSetting,
+  updateUserSecurity,
 };
