@@ -9,6 +9,7 @@ import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
 import { expenseAttachmentRoutes } from "./expenseAttachment.routes";
 import { membershipRoutes } from "./membership.routes";
 import { projectRoutes } from "./project.routes";
+import { projectBeneficiaryRoutes } from "./projectBeneficiary.routes";
 import { projectBudgetRoutes } from "./projectBudget.routes";
 import { projectCategoryRoutes } from "./projectCategory.routes";
 import { projectExpenseRoutes } from "./projectExpense.routes";
@@ -30,5 +31,6 @@ router.use("/projects", projectRoutes);
 router.use("/project-budgets", projectBudgetRoutes);
 router.use("/project-expenses", projectExpenseRoutes);
 router.use("/expense-attachments", expenseAttachmentRoutes);
+router.use("/project-beneficiaries", projectBeneficiaryRoutes);
 
 export const RootRouter = router;
