@@ -7,6 +7,7 @@ import { campaignMediaRoutes } from "./campaignMedia.routes";
 import { campaignMilestoneRoutes } from "./campaignMilestone.routes";
 import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
 import { expenseAttachmentRoutes } from "./expenseAttachment.routes";
+import { fundAllocationRoutes } from "./fundAllocation.routes";
 import { membershipRoutes } from "./membership.routes";
 import { projectRoutes } from "./project.routes";
 import { projectBeneficiaryRoutes } from "./projectBeneficiary.routes";
@@ -40,5 +41,6 @@ router.use("/project-volunteers", projectVolunteerRoutes);
 router.use("/project-gallery", projectGalleryRoutes);
 router.use("/project-updates", projectUpdateRoutes);
 router.use("/project-timelines", projectTimelineRoutes);
+router.use("/fund-allocations", fundAllocationRoutes);
 
 export const RootRouter = router;
