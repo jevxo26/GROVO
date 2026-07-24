@@ -10,6 +10,7 @@ import { membershipRoutes } from "./membership.routes";
 import { projectRoutes } from "./project.routes";
 import { projectBudgetRoutes } from "./projectBudget.routes";
 import { projectCategoryRoutes } from "./projectCategory.routes";
+import { projectExpenseRoutes } from "./projectExpense.routes";
 import { userRoutes } from "./user.routes";
 
 const router = express.Router();
@@ -26,5 +27,6 @@ router.use("/emergency-campaigns", emergencyCampaignRoutes);
 router.use("/project-categories", projectCategoryRoutes);
 router.use("/projects", projectRoutes);
 router.use("/project-budgets", projectBudgetRoutes);
+router.use("/project-expenses", projectExpenseRoutes);
 
 export const RootRouter = router;
