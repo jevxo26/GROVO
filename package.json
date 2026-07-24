@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --watch server --watch tsconfig.server.json --ext ts --exec \"tsx --tsconfig tsconfig.server.json\" server/index.ts",
+    "postinstall": "prisma generate --schema=prisma/schema",
     "build": " npx prisma generate && next build && tsc --project tsconfig.server.json",
     "start": "next start",
     "lint": "eslint",

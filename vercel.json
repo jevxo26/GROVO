@@ -1,0 +1,4 @@
+{
+  "buildCommand": "prisma generate --schema=prisma/schema && next build && tsc --project tsconfig.server.json",
+  "installCommand": "npm install"
+}
