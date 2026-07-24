@@ -14,6 +14,7 @@ import { projectBudgetRoutes } from "./projectBudget.routes";
 import { projectCategoryRoutes } from "./projectCategory.routes";
 import { projectExpenseRoutes } from "./projectExpense.routes";
 import { projectGalleryRoutes } from "./projectGallery.routes";
+import { projectUpdateRoutes } from "./projectUpdate.routes";
 import { projectVolunteerRoutes } from "./projectVolunteer.routes";
 import { userRoutes } from "./user.routes";
 
@@ -36,5 +37,6 @@ router.use("/expense-attachments", expenseAttachmentRoutes);
 router.use("/project-beneficiaries", projectBeneficiaryRoutes);
 router.use("/project-volunteers", projectVolunteerRoutes);
 router.use("/project-gallery", projectGalleryRoutes);
+router.use("/project-updates", projectUpdateRoutes);
 
 export const RootRouter = router;
