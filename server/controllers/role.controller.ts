@@ -1,7 +1,7 @@
 import status from "http-status";
-import { sendResponse } from "../utils/sendResponse";
 import { roleServices } from "../services/role.service";
 import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
 // ==================== ROLE CONTROLLERS ====================
 const createRole = catchAsync(async (req, res) => {
