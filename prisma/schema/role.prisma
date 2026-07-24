@@ -60,7 +60,7 @@ model RolePermission {
   @@map("role_permissions")
 }
 
-model UserRole {
+model UserRoleAssignment {
   id           String   @id @default(cuid())
   userId       String
   roleId       String
@@ -71,7 +71,7 @@ model UserRole {
   updatedAt    DateTime @updatedAt
 
   @@map("user_roles")
-}
+} 
 
 model CoordinatorRole {
   id               String   @id @default(cuid())
