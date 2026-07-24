@@ -5,6 +5,7 @@ import { campaignDonationRoutes } from "./campaignDonation.routes";
 import { campaignGoalRoutes } from "./campaignGoal.routes";
 import { campaignMediaRoutes } from "./campaignMedia.routes";
 import { campaignMilestoneRoutes } from "./campaignMilestone.routes";
+import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
 import { membershipRoutes } from "./membership.routes";
 import { userRoutes } from "./user.routes";
 
@@ -18,5 +19,6 @@ router.use("/campaign-goals", campaignGoalRoutes);
 router.use("/campaign-milestones", campaignMilestoneRoutes);
 router.use("/campaign-media", campaignMediaRoutes);
 router.use("/campaign-donations", campaignDonationRoutes);
+router.use("/emergency-campaigns", emergencyCampaignRoutes);
 
 export const RootRouter = router;
