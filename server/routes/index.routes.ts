@@ -6,6 +6,7 @@ import { campaignGoalRoutes } from "./campaignGoal.routes";
 import { campaignMediaRoutes } from "./campaignMedia.routes";
 import { campaignMilestoneRoutes } from "./campaignMilestone.routes";
 import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
+import { expenseAttachmentRoutes } from "./expenseAttachment.routes";
 import { membershipRoutes } from "./membership.routes";
 import { projectRoutes } from "./project.routes";
 import { projectBudgetRoutes } from "./projectBudget.routes";
@@ -28,5 +29,6 @@ router.use("/project-categories", projectCategoryRoutes);
 router.use("/projects", projectRoutes);
 router.use("/project-budgets", projectBudgetRoutes);
 router.use("/project-expenses", projectExpenseRoutes);
+router.use("/expense-attachments", expenseAttachmentRoutes);
 
 export const RootRouter = router;
