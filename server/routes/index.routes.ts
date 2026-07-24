@@ -7,6 +7,7 @@ import { campaignMediaRoutes } from "./campaignMedia.routes";
 import { campaignMilestoneRoutes } from "./campaignMilestone.routes";
 import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
 import { membershipRoutes } from "./membership.routes";
+import { projectCategoryRoutes } from "./projectCategory.routes";
 import { userRoutes } from "./user.routes";
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.use("/campaign-milestones", campaignMilestoneRoutes);
 router.use("/campaign-media", campaignMediaRoutes);
 router.use("/campaign-donations", campaignDonationRoutes);
 router.use("/emergency-campaigns", emergencyCampaignRoutes);
+router.use("/project-categories", projectCategoryRoutes);
 
 export const RootRouter = router;
