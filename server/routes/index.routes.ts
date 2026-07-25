@@ -16,6 +16,7 @@ import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
 import { expenseAttachmentRoutes } from "./expenseAttachment.routes";
 import { fundRoutes } from "./fund.routes";
 import { fundAllocationRoutes } from "./fundAllocation.routes";
+import { fundTransferRoutes } from "./fundTransfer.routes";
 import { invoiceRoutes } from "./invoice.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
@@ -72,5 +73,6 @@ router.use("/refunds", refundRoutes);
 router.use("/donation-receipts", donationReceiptRoutes);
 router.use("/invoices", invoiceRoutes);
 router.use("/funds", fundRoutes);
+router.use("/fund-transfers", fundTransferRoutes);
 
 export const RootRouter = router;
