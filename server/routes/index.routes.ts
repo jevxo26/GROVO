@@ -35,6 +35,7 @@ import { projectTimelineRoutes } from "./projectTimeline.routes";
 import { projectUpdateRoutes } from "./projectUpdate.routes";
 import { projectVolunteerRoutes } from "./projectVolunteer.routes";
 import { refundRoutes } from "./refund.routes";
+import { settlementRoutes } from "./settlement.routes";
 import { userRoutes } from "./user.routes";
 
 const router = express.Router();
@@ -76,5 +77,6 @@ router.use("/invoices", invoiceRoutes);
 router.use("/funds", fundRoutes);
 router.use("/fund-transfers", fundTransferRoutes);
 router.use("/fund-allocation-history", fundAllocationHistoryRoutes);
+router.use("/settlements", settlementRoutes);
 
 export const RootRouter = router;
