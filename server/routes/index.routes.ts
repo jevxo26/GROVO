@@ -9,6 +9,7 @@ import { masterDonationRoutes } from "./donation.routes";
 import { donationCategoryRoutes } from "./donationCategory.routes";
 import { donationInstallmentRoutes } from "./donationInstallment.routes";
 import { donationItemRoutes } from "./donationItem.routes";
+import { donationReceiptRoutes } from "./donationReceipt.routes";
 import { donationScheduleRoutes } from "./donationSchedule.routes";
 import { donationTypeRoutes } from "./donationType.routes";
 import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
@@ -66,5 +67,6 @@ router.use("/payment-gateways", paymentGatewayRoutes);
 router.use("/payment-transactions", paymentTransactionRoutes);
 router.use("/payment-webhooks", paymentWebhookRoutes);
 router.use("/refunds", refundRoutes);
+router.use("/donation-receipts", donationReceiptRoutes);
 
 export const RootRouter = router;
