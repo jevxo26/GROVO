@@ -8,6 +8,7 @@ import { campaignMilestoneRoutes } from "./campaignMilestone.routes";
 import { masterDonationRoutes } from "./donation.routes";
 import { donationCategoryRoutes } from "./donationCategory.routes";
 import { donationItemRoutes } from "./donationItem.routes";
+import { donationScheduleRoutes } from "./donationSchedule.routes";
 import { donationTypeRoutes } from "./donationType.routes";
 import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
 import { expenseAttachmentRoutes } from "./expenseAttachment.routes";
@@ -52,5 +53,6 @@ router.use("/donation-categories", donationCategoryRoutes);
 router.use("/donation-types", donationTypeRoutes);
 router.use("/donations", masterDonationRoutes);
 router.use("/donation-items", donationItemRoutes);
+router.use("/donation-schedules", donationScheduleRoutes);
 
 export const RootRouter = router;
