@@ -23,6 +23,7 @@ import { invoiceRoutes } from "./invoice.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
+import { paymentLogRoutes } from "./paymentLog.routes";
 import { paymentTransactionRoutes } from "./paymentTransaction.routes";
 import { paymentWebhookRoutes } from "./paymentWebhook.routes";
 import { payoutRoutes } from "./payout.routes";
@@ -82,5 +83,6 @@ router.use("/fund-allocation-history", fundAllocationHistoryRoutes);
 router.use("/settlements", settlementRoutes);
 router.use("/payouts", payoutRoutes);
 router.use("/financial-reports", financialReportRoutes);
+router.use("/payment-logs", paymentLogRoutes);
 
 export const RootRouter = router;
