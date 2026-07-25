@@ -51,6 +51,15 @@ model User {
   managedProjects    Project[]          @relation("ProjectManager")
   projectVolunteers  ProjectVolunteer[] @relation("ProjectVolunteers")
 
+  masterDonations           Donation[]              @relation("UserMasterDonations")
+  donationSchedules         DonationSchedule[]      @relation("UserDonationSchedules")
+  approvedFundTransfers     FundTransfer[]          @relation("FundTransferApprover")
+  allocatedFunds            FundAllocationHistory[] @relation("FundAllocator")
+  processedRefunds          Refund[]                @relation("RefundProcessor")
+  invoices                  Invoice[]               @relation("UserInvoices")
+  approvedPayouts           Payout[]                @relation("PayoutApprover")
+  generatedFinancialReports FinancialReport[]       @relation("ReportGenerator")
+
   @@map("user")
 }
 

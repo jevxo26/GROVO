@@ -1,0 +1,169 @@
+// ==========================================
+// Donation Module Models
+// ==========================================
+
+model DonationCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  icon        String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  donations Donation[]
+
+  @@map("donation_category")
+}
+
+model DonationType {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  donations Donation[]
+  schedules DonationSchedule[]
+
+  @@map("donation_type")
+}
+
+model Donation {
+  id             String        @id @default(cuid())
+  donationNumber String        @unique
+  donorId        String?
+  campaignId     String?
+  projectId      String?
+  donationTypeId String?
+  categoryId     String?
+  amount         Float
+  currency       String        @default("BDT")
+  isAnonymous    Boolean       @default(false)
+  message        String?
+  paymentStatus  PaymentStatus @default(PENDING)
+  status         String        @default("ACTIVE")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  donor        User?             @relation("UserMasterDonations", fields: [donorId], references: [id])
+  campaign     Campaign?         @relation("CampaignMasterDonations", fields: [campaignId], references: [id])
+  project      Project?          @relation("ProjectMasterDonations", fields: [projectId], references: [id])
+  donationType DonationType?     @relation(fields: [donationTypeId], references: [id])
+  category     DonationCategory? @relation(fields: [categoryId], references: [id])
+
+  items    DonationItem[]
+  payments Payment[]
+  receipt  DonationReceipt?
+  invoices Invoice[]
+
+  @@map("donation")
+}
+
+model DonationItem {
+  id         String   @id @default(cuid())
+  donationId String
+  fundId     String
+  amount     Float
+  remarks    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  donation Donation @relation(fields: [donationId], references: [id], onDelete: Cascade)
+  fund     Fund     @relation(fields: [fundId], references: [id])
+
+  @@map("donation_item")
+}
+
+model DonationSchedule {
+  id             String            @id @default(cuid())
+  donorId        String
+  donationTypeId String
+  amount         Float
+  frequency      ScheduleFrequency @default(MONTHLY)
+  startDate      DateTime
+  nextPaymentDate DateTime?
+  endDate        DateTime?
+  autoRenew      Boolean           @default(true)
+  status         String            @default("ACTIVE")
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  donor        User                 @relation("UserDonationSchedules", fields: [donorId], references: [id])
+  donationType DonationType         @relation(fields: [donationTypeId], references: [id])
+  installments DonationInstallment[]
+
+  @@map("donation_schedule")
+}
+
+model DonationInstallment {
+  id            String        @id @default(cuid())
+  scheduleId    String
+  installmentNo Int
+  amount        Float
+  dueDate       DateTime
+  paidDate      DateTime?
+  paymentStatus PaymentStatus @default(PENDING)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  schedule DonationSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+
+  @@map("donation_installment")
+}
+
+model Fund {
+  id             String   @id @default(cuid())
+  fundName       String   @unique
+  fundCode       String   @unique
+  description    String?
+  currentBalance Float    @default(0)
+  status         String   @default("ACTIVE")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  donationItems     DonationItem[]
+  outgoingTransfers FundTransfer[]          @relation("FromFundRelation")
+  incomingTransfers FundTransfer[]          @relation("ToFundRelation")
+  allocations       FundAllocationHistory[]
+
+  @@map("fund")
+}
+
+model FundTransfer {
+  id         String   @id @default(cuid())
+  fromFundId String
+  toFundId   String
+  amount     Float
+  reason     String
+  approvedBy String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  fromFund   Fund  @relation("FromFundRelation", fields: [fromFundId], references: [id])
+  toFund     Fund  @relation("ToFundRelation", fields: [toFundId], references: [id])
+  approver   User? @relation("FundTransferApprover", fields: [approvedBy], references: [id])
+
+  @@map("fund_transfer")
+}
+
+model FundAllocationHistory {
+  id              String   @id @default(cuid())
+  fundId          String
+  projectId       String?
+  campaignId      String?
+  allocatedAmount Float
+  allocatedBy     String?
+  allocationDate  DateTime @default(now())
+  remarks         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  fund     Fund      @relation(fields: [fundId], references: [id])
+  project  Project?  @relation(fields: [projectId], references: [id])
+  campaign Campaign? @relation(fields: [campaignId], references: [id])
+  allocator User?    @relation("FundAllocator", fields: [allocatedBy], references: [id])
+
+  @@map("fund_allocation_history")
+}
