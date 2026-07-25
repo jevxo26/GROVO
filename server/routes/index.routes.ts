@@ -24,6 +24,7 @@ import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
 import { paymentTransactionRoutes } from "./paymentTransaction.routes";
 import { paymentWebhookRoutes } from "./paymentWebhook.routes";
+import { payoutRoutes } from "./payout.routes";
 import { projectRoutes } from "./project.routes";
 import { projectBeneficiaryRoutes } from "./projectBeneficiary.routes";
 import { projectBudgetRoutes } from "./projectBudget.routes";
@@ -78,5 +79,6 @@ router.use("/funds", fundRoutes);
 router.use("/fund-transfers", fundTransferRoutes);
 router.use("/fund-allocation-history", fundAllocationHistoryRoutes);
 router.use("/settlements", settlementRoutes);
+router.use("/payouts", payoutRoutes);
 
 export const RootRouter = router;
