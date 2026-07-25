@@ -73,7 +73,7 @@ const assignRolePermission = async (payload: any) => {
 
 // ==================== USER ROLE SERVICES ====================
 const assignUserRole = async (payload: any) => {
-  return await prisma.userRole.create({
+  return await prisma.userRoleAssignment.create({
     data: {
       userId: payload.userId,
       roleId: payload.roleId,
