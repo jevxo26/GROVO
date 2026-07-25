@@ -29,6 +29,7 @@ import { projectReportRoutes } from "./projectReport.routes";
 import { projectTimelineRoutes } from "./projectTimeline.routes";
 import { projectUpdateRoutes } from "./projectUpdate.routes";
 import { projectVolunteerRoutes } from "./projectVolunteer.routes";
+import { refundRoutes } from "./refund.routes";
 import { userRoutes } from "./user.routes";
 
 const router = express.Router();
@@ -64,5 +65,6 @@ router.use("/payments", paymentRoutes);
 router.use("/payment-gateways", paymentGatewayRoutes);
 router.use("/payment-transactions", paymentTransactionRoutes);
 router.use("/payment-webhooks", paymentWebhookRoutes);
+router.use("/refunds", refundRoutes);
 
 export const RootRouter = router;
