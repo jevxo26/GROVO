@@ -43,6 +43,10 @@ model Project {
   fundAllocations FundAllocation[]
   reports         ProjectReport[]
 
+  masterDonations         Donation[]              @relation("ProjectMasterDonations")
+  fundAllocationHistories FundAllocationHistory[]
+  payouts                 Payout[]                @relation("ProjectPayouts")
+
   @@map("project")
 }
 
