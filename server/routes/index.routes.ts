@@ -14,6 +14,7 @@ import { donationScheduleRoutes } from "./donationSchedule.routes";
 import { donationTypeRoutes } from "./donationType.routes";
 import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
 import { expenseAttachmentRoutes } from "./expenseAttachment.routes";
+import { financialReportRoutes } from "./financialReport.routes";
 import { fundRoutes } from "./fund.routes";
 import { fundAllocationRoutes } from "./fundAllocation.routes";
 import { fundAllocationHistoryRoutes } from "./fundAllocationHistory.routes";
@@ -80,5 +81,6 @@ router.use("/fund-transfers", fundTransferRoutes);
 router.use("/fund-allocation-history", fundAllocationHistoryRoutes);
 router.use("/settlements", settlementRoutes);
 router.use("/payouts", payoutRoutes);
+router.use("/financial-reports", financialReportRoutes);
 
 export const RootRouter = router;
