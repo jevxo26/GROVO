@@ -15,6 +15,7 @@ import { donationTypeRoutes } from "./donationType.routes";
 import { emergencyCampaignRoutes } from "./emergencyCampaign.routes";
 import { expenseAttachmentRoutes } from "./expenseAttachment.routes";
 import { fundAllocationRoutes } from "./fundAllocation.routes";
+import { invoiceRoutes } from "./invoice.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -68,5 +69,6 @@ router.use("/payment-transactions", paymentTransactionRoutes);
 router.use("/payment-webhooks", paymentWebhookRoutes);
 router.use("/refunds", refundRoutes);
 router.use("/donation-receipts", donationReceiptRoutes);
+router.use("/invoices", invoiceRoutes);
 
 export const RootRouter = router;
