@@ -1,0 +1,186 @@
+// ==========================================
+// Payment Module Models
+// ==========================================
+
+model Payment {
+  id               String        @id @default(cuid())
+  donationId       String
+  paymentMethod    String
+  paymentGatewayId String?
+  amount           Float
+  currency         String        @default("BDT")
+  transactionId    String?       @unique
+  paymentStatus    PaymentStatus @default(PENDING)
+  paidAt           DateTime?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  donation       Donation            @relation(fields: [donationId], references: [id], onDelete: Cascade)
+  paymentGateway PaymentGateway?     @relation(fields: [paymentGatewayId], references: [id])
+  transactions   PaymentTransaction[]
+  webhooks       PaymentWebhook[]
+  refunds        Refund[]
+  paymentLogs    PaymentLog[]
+
+  @@map("payment")
+}
+
+model PaymentGateway {
+  id          String             @id @default(cuid())
+  gatewayName String             @unique
+  merchantId  String?
+  apiKey      String?
+  secretKey   String?
+  environment GatewayEnvironment @default(SANDBOX)
+  status      String             @default("ACTIVE")
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  payments    Payment[]
+  settlements Settlement[]
+
+  @@map("payment_gateway")
+}
+
+model PaymentTransaction {
+  id                   String            @id @default(cuid())
+  paymentId            String
+  gatewayTransactionId String?
+  gatewayResponse      String?           @db.Text
+  amount               Float
+  status               TransactionStatus @default(PENDING)
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@map("payment_transaction")
+}
+
+model PaymentWebhook {
+  id                 String   @id @default(cuid())
+  paymentId          String?
+  gateway            String
+  payload            String   @db.Text
+  verificationStatus String   @default("PENDING")
+  receivedAt         DateTime @default(now())
+  createdAt          DateTime @default(now())
+
+  payment Payment? @relation(fields: [paymentId], references: [id])
+
+  @@map("payment_webhook")
+}
+
+model Refund {
+  id           String       @id @default(cuid())
+  paymentId    String
+  refundAmount Float
+  refundReason String
+  refundStatus RefundStatus @default(PENDING)
+  processedBy  String?
+  processedAt  DateTime?
+  createdAt    DateTime     @default(now())
+
+  payment   Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  processor User?   @relation("RefundProcessor", fields: [processedBy], references: [id])
+
+  @@map("refund")
+}
+
+model DonationReceipt {
+  id            String   @id @default(cuid())
+  donationId    String   @unique
+  receiptNumber String   @unique
+  receiptUrl    String?
+  issuedAt      DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  donation Donation @relation(fields: [donationId], references: [id], onDelete: Cascade)
+
+  @@map("donation_receipt")
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique
+  donationId    String?
+  donorId       String?
+  amount        Float
+  tax           Float         @default(0)
+  totalAmount   Float
+  invoiceUrl    String?
+  status        InvoiceStatus @default(UNPAID)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  donation Donation? @relation(fields: [donationId], references: [id])
+  donor    User?     @relation("UserInvoices", fields: [donorId], references: [id])
+
+  @@map("invoice")
+}
+
+model Settlement {
+  id               String           @id @default(cuid())
+  paymentGatewayId String
+  totalCollected   Float
+  processingFee    Float
+  netAmount        Float
+  settlementDate   DateTime
+  status           SettlementStatus @default(PENDING)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  paymentGateway PaymentGateway @relation(fields: [paymentGatewayId], references: [id])
+
+  @@map("settlement")
+}
+
+model Payout {
+  id            String        @id @default(cuid())
+  branchId      String?
+  projectId     String?
+  amount        Float
+  paymentMethod String
+  approvedBy    String?
+  paymentStatus PaymentStatus @default(PENDING)
+  paidAt        DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  project  Project? @relation("ProjectPayouts", fields: [projectId], references: [id])
+  approver User?    @relation("PayoutApprover", fields: [approvedBy], references: [id])
+
+  @@map("payout")
+}
+
+model FinancialReport {
+  id            String   @id @default(cuid())
+  reportType    String
+  startDate     DateTime
+  endDate       DateTime
+  totalDonation Float
+  totalExpense  Float
+  netBalance    Float
+  generatedBy   String?
+  createdAt     DateTime @default(now())
+
+  generator User? @relation("ReportGenerator", fields: [generatedBy], references: [id])
+
+  @@map("financial_report")
+}
+
+model PaymentLog {
+  id        String   @id @default(cuid())
+  paymentId String?
+  event     String
+  request   String?  @db.Text
+  response  String?  @db.Text
+  ipAddress String?
+  status    String
+  createdAt DateTime @default(now())
+
+  payment Payment? @relation(fields: [paymentId], references: [id])
+
+  @@map("payment_log")
+}

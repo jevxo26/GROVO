@@ -32,6 +32,9 @@ model Campaign {
   projects         Project[]
   fundAllocations  FundAllocation[]
 
+  masterDonations         Donation[]              @relation("CampaignMasterDonations")
+  fundAllocationHistories FundAllocationHistory[]
+
   @@map("campaign")
 }
 
