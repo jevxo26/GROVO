@@ -20,6 +20,8 @@ import { fundAllocationRoutes } from "./fundAllocation.routes";
 import { fundAllocationHistoryRoutes } from "./fundAllocationHistory.routes";
 import { fundTransferRoutes } from "./fundTransfer.routes";
 import { invoiceRoutes } from "./invoice.routes";
+import { organizationRoutes } from "./organization.routes";
+import { organizationProfileRoutes } from "./organizationProfile.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -84,5 +86,7 @@ router.use("/settlements", settlementRoutes);
 router.use("/payouts", payoutRoutes);
 router.use("/financial-reports", financialReportRoutes);
 router.use("/payment-logs", paymentLogRoutes);
+router.use("/organizations", organizationRoutes);
+router.use("/organization-profiles", organizationProfileRoutes);
 
 export const RootRouter = router;
