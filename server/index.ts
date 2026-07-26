@@ -11,6 +11,7 @@ import { roleRoutes } from "./routes/role.routes";
 import { donorRoutes } from "./routes/donor.routes";
 import { volunteerRoutes } from "./routes/volunteer.routes";
 import { beneficiaryRoutes } from "./routes/beneficiary.routes";
+import { EventsMediaRoutes } from "./routes/events_media.routes";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -48,6 +49,8 @@ app
 
     // Beneficiary module routes mounted at /api/v1/beneficiaries
     server.use("/api/v1/beneficiaries", beneficiaryRoutes);
+
+    server.use("/api/v1/events-media", EventsMediaRoutes);
 
     // Next.js handler for all other routes (must be last)
     server.use((req: Request, res: Response) => {
