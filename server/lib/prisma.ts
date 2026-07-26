@@ -1,9 +1,9 @@
+import { PrismaClient } from './../../generated/prisma/client';
 import { neonConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import ws from "ws";
 
 import "dotenv/config";
-import { PrismaClient } from "../../generated/prisma/client";
 
 // Required for WebSocket connections in Node.js environments
 neonConfig.webSocketConstructor = ws;
