@@ -1,8 +1,8 @@
 import express from "express";
-import { UserRole } from "../../generated/prisma/enums";
 
 import { userController } from "../controllers/user/user.controller";
 import { checkAuth } from "../middlewares/checkAuth";
+import { UserRole } from "../../generated/prisma";
 
 const router = express.Router();
 
@@ -15,8 +15,10 @@ router.get(
 );
 router.patch("/", userController.updateUserInfo);
 
-router.patch("/updateNotificationSettings", userController.updateUserNotificationSetting)
-router.patch("/updateSecurity", userController.updateUserSecurity)
-
+router.patch(
+  "/updateNotificationSettings",
+  userController.updateUserNotificationSetting,
+);
+router.patch("/updateSecurity", userController.updateUserSecurity);
 
 export const userRoutes = router;

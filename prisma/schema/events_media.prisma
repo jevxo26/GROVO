@@ -1,0 +1,378 @@
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum EventType {
+  FOUNDATION_PROGRAM
+  BLOOD_DONATION
+  FOOD_DISTRIBUTION
+  TREE_PLANTATION
+  MEDICAL_CAMP
+  AWARENESS_CAMPAIGN
+  VOLUNTEER_MEETUP
+  FUNDRAISING_EVENT
+  TRAINING_PROGRAM
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  PDF
+}
+
+// ==========================================
+// 1. EVENT CORE MODELS
+// ==========================================
+
+model Event {
+  id                   String     @id @default(uuid())
+  eventCode            String     @unique
+  title                String
+  slug                 String     @unique
+  categoryId           String
+  description          String     @db.Text
+  banner               String?
+  thumbnail            String?
+  eventType            EventType
+  branchId             String
+  venue                String
+  startDate            DateTime
+  endDate              DateTime
+  registrationRequired Boolean    @default(false)
+  maxParticipants      Int?
+  status               String     @default("UPCOMING")
+  createdBy            String
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+
+  // RELATIONS (UNCOMMENT LATER AFTER TESTING SCALAR DATA):
+  // category      EventCategory       @relation(fields: [categoryId], references: [id])
+  // registrations EventRegistration[]
+  // attendances   EventAttendance[]
+  // speakers      EventSpeaker[]
+  // volunteers    EventVolunteer[]
+  // schedules     EventSchedule[]
+  // galleries     EventGallery[]
+
+  @@map("events")
+}
+
+model EventCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  icon        String?
+  description String?  @db.Text
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // RELATIONS:
+  // events Event[]
+
+  @@map("event_categories")
+}
+
+model EventRegistration {
+  id                 String   @id @default(uuid())
+  eventId            String
+  userId             String
+  registrationNumber String   @unique
+  registrationDate   DateTime @default(now())
+  status             String   @default("CONFIRMED")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // RELATIONS:
+  // event Event @relation(fields: [eventId], references: [id])
+
+  @@map("event_registrations")
+}
+
+model EventAttendance {
+  id               String    @id @default(uuid())
+  eventId          String
+  userId           String
+  checkInTime      DateTime  @default(now())
+  checkOutTime     DateTime?
+  attendanceStatus String    @default("PRESENT")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // RELATIONS:
+  // event Event @relation(fields: [eventId], references: [id])
+
+  @@map("event_attendances")
+}
+
+model EventSpeaker {
+  id           String   @id @default(uuid())
+  eventId      String
+  name         String
+  designation  String
+  organization String
+  photo        String?
+  bio          String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // RELATIONS:
+  // event Event @relation(fields: [eventId], references: [id])
+  // sessions EventSession[]
+
+  @@map("event_speakers")
+}
+
+model EventVolunteer {
+  id          String   @id @default(uuid())
+  eventId     String
+  volunteerId String
+  role        String
+  assignedBy  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // RELATIONS:
+  // event Event @relation(fields: [eventId], references: [id])
+
+  @@map("event_volunteers")
+}
+
+model EventSchedule {
+  id          String   @id @default(uuid())
+  eventId     String
+  title       String
+  startTime   DateTime
+  endTime     DateTime
+  location    String?
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // RELATIONS:
+  // event Event @relation(fields: [eventId], references: [id])
+  // sessions EventSession[]
+
+  @@map("event_schedules")
+}
+
+model EventSession {
+  id           String   @id @default(uuid())
+  scheduleId   String
+  sessionTitle String
+  speakerId    String?
+  duration     Int
+  description  String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // RELATIONS:
+  // schedule EventSchedule @relation(fields: [scheduleId], references: [id])
+  // speaker EventSpeaker? @relation(fields: [speakerId], references: [id])
+
+  @@map("event_sessions")
+}
+
+model EventGallery {
+  id        String   @id @default(uuid())
+  eventId   String
+  albumId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // RELATIONS:
+  // event Event @relation(fields: [eventId], references: [id])
+  // album Album @relation(fields: [albumId], references: [id])
+
+  @@map("event_galleries")
+}
+
+// ==========================================
+// 2. MEDIA & GALLERY MODELS
+// ==========================================
+
+model Media {
+  id          String    @id @default(uuid())
+  title       String
+  mediaType   MediaType
+  fileUrl     String
+  thumbnail   String?
+  uploadedBy  String
+  status      String    @default("ACTIVE")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // RELATIONS:
+  // albumMedia AlbumMedia[]
+  // storyMedia StoryMedia[]
+  // activityLogs MediaActivityLog[]
+
+  @@map("media")
+}
+
+model MediaCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("media_categories")
+}
+
+model Album {
+  id          String   @id @default(uuid())
+  title       String
+  description String?  @db.Text
+  coverPhoto  String?
+  branchId    String
+  status      String   @default("PUBLISHED")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // RELATIONS:
+  // albumMedia AlbumMedia[]
+  // eventGalleries EventGallery[]
+
+  @@map("albums")
+}
+
+model AlbumMedia {
+  id        String   @id @default(uuid())
+  albumId   String
+  mediaId   String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // RELATIONS:
+  // album Album @relation(fields: [albumId], references: [id])
+  // media Media @relation(fields: [mediaId], references: [id])
+
+  @@map("album_media")
+}
+
+model MediaActivityLog {
+  id          String   @id @default(uuid())
+  mediaId     String
+  activity    String
+  description String?  @db.Text
+  performedBy String
+  createdAt   DateTime @default(now())
+
+  // RELATIONS:
+  // media Media @relation(fields: [mediaId], references: [id])
+
+  @@map("media_activity_logs")
+}
+
+// ==========================================
+// 3. PUBLIC ENGAGEMENT & CONTENT MODELS
+// ==========================================
+
+model LiveDonationFeed {
+  id            String   @id @default(uuid())
+  donorId       String?
+  donorName     String
+  amount        Float
+  campaignId    String
+  message       String?
+  isAnonymous   Boolean  @default(false)
+  displayStatus String   @default("VISIBLE")
+  createdAt     DateTime @default(now())
+
+  @@map("live_donation_feeds")
+}
+
+model SuccessStory {
+  id            String    @id @default(uuid())
+  title         String
+  slug          String    @unique
+  beneficiaryId String
+  campaignId    String?
+  summary       String    @db.Text
+  content       String    @db.Text
+  publishedBy   String
+  publishedAt   DateTime?
+  status        String    @default("DRAFT")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // RELATIONS:
+  // storyMedia StoryMedia[]
+
+  @@map("success_stories")
+}
+
+model StoryMedia {
+  id        String   @id @default(uuid())
+  storyId   String
+  mediaId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // RELATIONS:
+  // story SuccessStory @relation(fields: [storyId], references: [id])
+  // media Media @relation(fields: [mediaId], references: [id])
+
+  @@map("story_media")
+}
+
+model Testimonial {
+  id        String   @id @default(uuid())
+  userId    String?
+  title     String
+  message   String   @db.Text
+  rating    Int      @default(5)
+  photo     String?
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+model PressRelease {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  content     String    @db.Text
+  attachment  String?
+  publishedBy String
+  publishedAt DateTime?
+  status      String    @default("DRAFT")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("press_releases")
+}
+
+model News {
+  id            String    @id @default(uuid())
+  title         String
+  slug          String    @unique
+  summary       String    @db.Text
+  content       String    @db.Text
+  featuredImage String?
+  publishedBy   String
+  publishedAt   DateTime?
+  status        String    @default("DRAFT")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("news")
+}
+
+model Newsletter {
+  id        String    @id @default(uuid())
+  title     String
+  subject   String
+  content   String    @db.Text
+  sentBy    String?
+  sentAt    DateTime?
+  status    String    @default("DRAFT")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("newsletters")
+}
