@@ -1,0 +1,338 @@
+// ==========================================
+// 1. DASHBOARD & KPI MODELS (Entities 1 - 4)
+// ==========================================
+
+model Dashboard {
+  id            String   @id @default(uuid())
+  userId        String
+  dashboardName String
+  isDefault     Boolean  @default(false)
+  status        String   @default("ACTIVE")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // RELATIONS (UNCOMMENT LATER AFTER SCALAR TESTING):
+  // widgets DashboardWidget[]
+  // layouts DashboardLayout[]
+
+  @@map("dashboards")
+}
+
+model DashboardWidget {
+  id            String   @id @default(uuid())
+  dashboardId   String
+  widgetName    String
+  widgetType    String
+  position      Int      @default(0)
+  configuration String?  @db.Text
+  status        String   @default("ACTIVE")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // RELATIONS:
+  // dashboard Dashboard @relation(fields: [dashboardId], references: [id])
+
+  @@map("dashboard_widgets")
+}
+
+model DashboardLayout {
+  id          String   @id @default(uuid())
+  dashboardId String
+  layoutType  String
+  columns     Int      @default(12)
+  rows        Int      @default(6)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // RELATIONS:
+  // dashboard Dashboard @relation(fields: [dashboardId], references: [id])
+
+  @@map("dashboard_layouts")
+}
+
+model KPI {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  description  String?  @db.Text
+  targetValue  Float
+  currentValue Float    @default(0)
+  unit         String
+  status       String   @default("ACTIVE")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("kpis")
+}
+
+// ==========================================
+// 2. ANALYTICS MODELS (Entities 5 - 14)
+// ==========================================
+
+model AnalyticsSnapshot {
+  id                 String   @id @default(uuid())
+  snapshotDate       DateTime @default(now())
+  totalUsers         Int      @default(0)
+  totalMembers       Int      @default(0)
+  totalDonors        Int      @default(0)
+  totalVolunteers    Int      @default(0)
+  totalCampaigns     Int      @default(0)
+  totalProjects      Int      @default(0)
+  totalDonations     Float    @default(0)
+  totalBeneficiaries Int      @default(0)
+  createdAt          DateTime @default(now())
+
+  @@map("analytics_snapshots")
+}
+
+model DonationAnalytics {
+  id              String   @id @default(uuid())
+  date            DateTime @default(now())
+  totalDonation   Float    @default(0)
+  averageDonation Float    @default(0)
+  highestDonation Float    @default(0)
+  lowestDonation  Float    @default(0)
+  currency        String   @default("BDT")
+  createdAt       DateTime @default(now())
+
+  @@map("donation_analytics")
+}
+
+model CampaignAnalytics {
+  id             String   @id @default(uuid())
+  campaignId     String
+  targetAmount   Float
+  raisedAmount   Float    @default(0)
+  donorCount     Int      @default(0)
+  completionRate Float    @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("campaign_analytics")
+}
+
+model ProjectAnalytics {
+  id               String   @id @default(uuid())
+  projectId        String
+  budget           Float
+  expense          Float    @default(0)
+  remainingBudget  Float
+  beneficiaryCount Int      @default(0)
+  completionRate   Float    @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("project_analytics")
+}
+
+model VolunteerAnalytics {
+  id               String   @id @default(uuid())
+  volunteerId      String
+  completedTasks   Int      @default(0)
+  attendanceRate   Float    @default(0)
+  performanceScore Float    @default(0)
+  hoursServed      Float    @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("volunteer_analytics")
+}
+
+model BeneficiaryAnalytics {
+  id                  String   @id @default(uuid())
+  beneficiaryCategory String
+  totalBeneficiaries  Int      @default(0)
+  totalSupportValue   Float    @default(0)
+  activeCases         Int      @default(0)
+  closedCases         Int      @default(0)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("beneficiary_analytics")
+}
+
+model BranchAnalytics {
+  id                 String   @id @default(uuid())
+  branchId           String
+  memberCount        Int      @default(0)
+  donationAmount     Float    @default(0)
+  campaignCount      Int      @default(0)
+  projectCount       Int      @default(0)
+  beneficiaryCount   Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("branch_analytics")
+}
+
+model FinancialAnalytics {
+  id              String   @id @default(uuid())
+  reportDate      DateTime @default(now())
+  income          Float    @default(0)
+  expense         Float    @default(0)
+  netBalance      Float    @default(0)
+  pendingPayments Float    @default(0)
+  refundAmount    Float    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("financial_analytics")
+}
+
+model MembershipAnalytics {
+  id                 String   @id @default(uuid())
+  membershipType     String
+  totalMembers       Int      @default(0)
+  newMembers         Int      @default(0)
+  renewals           Int      @default(0)
+  expiredMemberships Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("membership_analytics")
+}
+
+model UserActivityAnalytics {
+  id          String    @id @default(uuid())
+  userId      String
+  loginCount  Int       @default(0)
+  activeDays  Int       @default(0)
+  lastActive  DateTime?
+  deviceCount Int       @default(1)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("user_activity_analytics")
+}
+
+// ==========================================
+// 3. REPORTING MODELS (Entities 15 - 18)
+// ==========================================
+
+model Report {
+  id          String   @id @default(uuid())
+  reportName  String
+  reportType  String
+  generatedBy String
+  startDate   DateTime
+  endDate     DateTime
+  fileUrl     String?
+  status      String   @default("GENERATED")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // RELATIONS:
+  // exports ReportExport[]
+
+  @@map("reports")
+}
+
+model ReportTemplate {
+  id            String   @id @default(uuid())
+  templateName  String
+  reportType    String
+  configuration String?  @db.Text
+  status        String   @default("ACTIVE")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // RELATIONS:
+  // scheduledReports ScheduledReport[]
+
+  @@map("report_templates")
+}
+
+model ScheduledReport {
+  id               String   @id @default(uuid())
+  reportTemplateId String
+  frequency        String
+  recipient        String
+  nextRun          DateTime
+  status           String   @default("ACTIVE")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // RELATIONS:
+  // template ReportTemplate @relation(fields: [reportTemplateId], references: [id])
+
+  @@map("scheduled_reports")
+}
+
+model ReportExport {
+  id          String   @id @default(uuid())
+  reportId    String
+  exportType  String
+  fileUrl     String
+  generatedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  // RELATIONS:
+  // report Report @relation(fields: [reportId], references: [id])
+
+  @@map("report_exports")
+}
+
+// ==========================================
+// 4. AUDIT, LOGS & METRICS (Entities 19 - 23)
+// ==========================================
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String
+  module    String
+  action    String
+  oldValue  String?  @db.Text
+  newValue  String?  @db.Text
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model SystemLog {
+  id         String   @id @default(uuid())
+  logLevel   String
+  module     String
+  message    String   @db.Text
+  stackTrace String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  @@map("system_logs")
+}
+
+model ErrorLog {
+  id         String   @id @default(uuid())
+  errorCode  String
+  message    String   @db.Text
+  module     String
+  userId     String?
+  stackTrace String?  @db.Text
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("error_logs")
+}
+
+model VisitorAnalytics {
+  id                     String   @id @default(uuid())
+  date                   DateTime @default(now())
+  totalVisitors          Int      @default(0)
+  uniqueVisitors         Int      @default(0)
+  pageViews              Int      @default(0)
+  bounceRate             Float    @default(0)
+  averageSessionDuration Float    @default(0)
+  createdAt              DateTime @default(now())
+
+  @@map("visitor_analytics")
+}
+
+model PerformanceMetric {
+  id          String   @id @default(uuid())
+  metricName  String
+  metricValue Float
+  unit        String
+  recordedAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@map("performance_metrics")
+}
