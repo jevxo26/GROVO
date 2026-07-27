@@ -25,6 +25,7 @@ import { organizationProfileRoutes } from "./organizationProfile.routes";
 import { organizationHierarchyRoutes } from "./organizationHierarchy.routes";
 import { regionalCoordinatorRoutes } from "./regionalCoordinator.routes";
 import { territoryAssignmentRoutes } from "./territoryAssignment.routes";
+import { operationalZoneRoutes } from "./operationalZone.routes";
 import { branchRoutes } from "./branch.routes";
 import { branchTypeRoutes } from "./branchType.routes";
 import { branchSettingRoutes } from "./branchSetting.routes";
@@ -144,5 +145,6 @@ router.use("/branch-transfers", branchTransferRoutes);
 router.use("/organization-hierarchies", organizationHierarchyRoutes);
 router.use("/regional-coordinators", regionalCoordinatorRoutes);
 router.use("/territory-assignments", territoryAssignmentRoutes);
+router.use("/operational-zones", operationalZoneRoutes);
 
 export const RootRouter = router;
