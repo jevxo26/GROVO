@@ -46,6 +46,7 @@ import { branchMeetingRoutes } from "./branchMeeting.routes";
 import { branchAnnouncementRoutes } from "./branchAnnouncement.routes";
 import { branchDocumentRoutes } from "./branchDocument.routes";
 import { branchAuditRoutes } from "./branchAudit.routes";
+import { branchTransferRoutes } from "./branchTransfer.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -136,5 +137,6 @@ router.use("/branch-meetings", branchMeetingRoutes);
 router.use("/branch-announcements", branchAnnouncementRoutes);
 router.use("/branch-documents", branchDocumentRoutes);
 router.use("/branch-audits", branchAuditRoutes);
+router.use("/branch-transfers", branchTransferRoutes);
 
 export const RootRouter = router;
