@@ -30,6 +30,8 @@ import { branchStaffRoutes } from "./branchStaff.routes";
 import { regionRoutes } from "./region.routes";
 import { divisionRoutes } from "./division.routes";
 import { districtRoutes } from "./district.routes";
+import { upazilaRoutes } from "./upazila.routes";
+import { unionRoutes } from "./union.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -104,5 +106,7 @@ router.use("/branch-staff", branchStaffRoutes);
 router.use("/regions", regionRoutes);
 router.use("/divisions", divisionRoutes);
 router.use("/districts", districtRoutes);
+router.use("/upazilas", upazilaRoutes);
+router.use("/unions", unionRoutes);
 
 export const RootRouter = router;
