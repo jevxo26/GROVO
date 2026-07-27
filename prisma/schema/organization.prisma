@@ -1,0 +1,55 @@
+model Organization {
+  id                 String   @id @default(cuid())
+  organizationName   String
+  shortName          String?
+  registrationNumber String?  @unique
+  taxNumber          String?  @unique
+  foundationDate     DateTime?
+  logo               String?
+  website            String?
+  email              String?
+  phone              String?
+  status             String   @default("ACTIVE")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  profile      OrganizationProfile?
+  branches     Branch[]
+  activityLogs OrganizationActivityLog[]
+
+  @@map("organization")
+}
+
+model OrganizationProfile {
+  id                String   @id @default(cuid())
+  organizationId    String   @unique
+  mission           String?  @db.Text
+  vision            String?  @db.Text
+  history           String?  @db.Text
+  chairmanName      String?
+  executiveDirector String?
+  headOfficeAddress String?  @db.Text
+  facebook          String?
+  youtube           String?
+  linkedin          String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("organization_profile")
+}
+
+model OrganizationActivityLog {
+  id             String   @id @default(cuid())
+  organizationId String
+  activity       String
+  performedBy    String?
+  remarks        String?  @db.Text
+  createdAt      DateTime @default(now())
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  performer      User?        @relation("OrgActivityPerformer", fields: [performedBy], references: [id])
+
+  @@map("organization_activity_log")
+}

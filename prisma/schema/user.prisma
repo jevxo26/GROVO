@@ -60,6 +60,19 @@ model User {
   approvedPayouts           Payout[]                @relation("PayoutApprover")
   generatedFinancialReports FinancialReport[]       @relation("ReportGenerator")
 
+  // Multi-Branch, Regional Management & Hierarchy Relations
+  managedBranches           Branch[]                @relation("BranchManagerUser")
+  branchManagers            BranchManager[]         @relation("BranchManagerHistory")
+  branchStaffs              BranchStaff[]           @relation("BranchStaffHistory")
+  branchExpenses            BranchExpense[]         @relation("BranchExpenseApprover")
+  branchAnnouncements       BranchAnnouncement[]    @relation("BranchAnnouncementPublisher")
+  branchDocuments           BranchDocument[]        @relation("BranchDocumentUploader")
+  branchTransfers           BranchTransfer[]        @relation("BranchTransferApprover")
+  regionalCoordinators      RegionalCoordinator[]   @relation("RegionalCoordinatorHistory")
+  zoneAssignments           ZoneAssignment[]        @relation("ZoneManager")
+  branchActivityLogs        BranchActivityLog[]     @relation("BranchActivityPerformer")
+  organizationActivityLogs  OrganizationActivityLog[] @relation("OrgActivityPerformer")
+
   @@map("user")
 }
 

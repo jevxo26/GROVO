@@ -1,6 +1,7 @@
 import { ModeToggle } from "@/components/ui/modeToggle";
 
 export default function Home() {
+
   return (
     <div className="justify-center items-center p-20">
       <h1>
