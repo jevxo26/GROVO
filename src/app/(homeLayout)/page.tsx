@@ -1,4 +1,5 @@
 import { ModeToggle } from "@/components/ui/modeToggle";
+import ReduxTest from "@/redux/ReduxTest";
 
 export default function Home() {
 
@@ -18,6 +19,7 @@ export default function Home() {
         dashboardLayout(This is very important).
       </h1>
       <ModeToggle />
+      <ReduxTest></ReduxTest>
     </div>
   );
 }
