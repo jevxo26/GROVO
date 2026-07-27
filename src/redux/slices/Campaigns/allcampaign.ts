@@ -10,7 +10,7 @@ export const fetchCampaigns = createAsyncThunk<CampaignResponse>(
         "http://localhost:3000/api/v1/campaigns"
       );
 
-      console.log(res.data.data.data);
+      console.log(res.data);
 
       return res.data;
     } catch (error: any) {
