@@ -41,6 +41,7 @@ import { branchBudgetRoutes } from "./branchBudget.routes";
 import { branchExpenseRoutes } from "./branchExpense.routes";
 import { branchFundRoutes } from "./branchFund.routes";
 import { branchInventoryRoutes } from "./branchInventory.routes";
+import { branchVehicleRoutes } from "./branchVehicle.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -126,5 +127,6 @@ router.use("/branch-budgets", branchBudgetRoutes);
 router.use("/branch-expenses", branchExpenseRoutes);
 router.use("/branch-funds", branchFundRoutes);
 router.use("/branch-inventories", branchInventoryRoutes);
+router.use("/branch-vehicles", branchVehicleRoutes);
 
 export const RootRouter = router;
