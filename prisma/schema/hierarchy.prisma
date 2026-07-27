@@ -1,0 +1,71 @@
+model OrganizationHierarchy {
+  id             String   @id @default(cuid())
+  parentBranchId String
+  childBranchId  String
+  hierarchyLevel Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  parentBranch   Branch   @relation("ParentBranch", fields: [parentBranchId], references: [id])
+  childBranch    Branch   @relation("ChildBranch", fields: [childBranchId], references: [id])
+
+  @@map("organization_hierarchy")
+}
+
+model RegionalCoordinator {
+  id          String   @id @default(cuid())
+  userId      String
+  regionId    String
+  designation String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation("RegionalCoordinatorHistory", fields: [userId], references: [id], onDelete: Cascade)
+  region      Region   @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  territoryAssignments TerritoryAssignment[]
+
+  @@map("regional_coordinator")
+}
+
+model TerritoryAssignment {
+  id            String              @id @default(cuid())
+  coordinatorId String
+  branchId      String
+  assignedDate  DateTime            @default(now())
+  status        String              @default("ACTIVE")
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  coordinator   RegionalCoordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
+  branch        Branch              @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  @@map("territory_assignment")
+}
+
+model OperationalZone {
+  id              String   @id @default(cuid())
+  zoneName        String   @unique
+  description     String?  @db.Text
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  zoneAssignments ZoneAssignment[]
+
+  @@map("operational_zone")
+}
+
+model ZoneAssignment {
+  id        String          @id @default(cuid())
+  zoneId    String
+  branchId  String
+  managerId String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  zone      OperationalZone @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  branch    Branch          @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  manager   User            @relation("ZoneManager", fields: [managerId], references: [id], onDelete: Cascade)
+
+  @@map("zone_assignment")
+}

@@ -77,7 +77,7 @@ const getOrganizationById = async (id: string) => {
   const organization = await prisma.organization.findUnique({
     where: { id },
     include: {
-      profiles: true,
+      profile: true,
       _count: {
         select: {
           branches: true,
@@ -124,7 +124,7 @@ const getAllOrganizations = async (query?: {
       take: limit,
       orderBy: { createdAt: "desc" },
       include: {
-        profiles: true,
+        profile: true,
       },
     }),
     prisma.organization.count({ where }),
