@@ -33,6 +33,7 @@ import { districtRoutes } from "./district.routes";
 import { upazilaRoutes } from "./upazila.routes";
 import { unionRoutes } from "./union.routes";
 import { wardRoutes } from "./ward.routes";
+import { areaCoverageRoutes } from "./areaCoverage.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -110,5 +111,6 @@ router.use("/districts", districtRoutes);
 router.use("/upazilas", upazilaRoutes);
 router.use("/unions", unionRoutes);
 router.use("/wards", wardRoutes);
+router.use("/area-coverages", areaCoverageRoutes);
 
 export const RootRouter = router;
