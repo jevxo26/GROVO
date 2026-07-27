@@ -37,6 +37,7 @@ import { areaCoverageRoutes } from "./areaCoverage.routes";
 import { branchCoverageRoutes } from "./branchCoverage.routes";
 import { branchTargetRoutes } from "./branchTarget.routes";
 import { branchPerformanceRoutes } from "./branchPerformance.routes";
+import { branchBudgetRoutes } from "./branchBudget.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -118,5 +119,6 @@ router.use("/area-coverages", areaCoverageRoutes);
 router.use("/branch-coverages", branchCoverageRoutes);
 router.use("/branch-targets", branchTargetRoutes);
 router.use("/branch-performances", branchPerformanceRoutes);
+router.use("/branch-budgets", branchBudgetRoutes);
 
 export const RootRouter = router;
