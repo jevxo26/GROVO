@@ -23,6 +23,7 @@ import { invoiceRoutes } from "./invoice.routes";
 import { organizationRoutes } from "./organization.routes";
 import { organizationProfileRoutes } from "./organizationProfile.routes";
 import { organizationHierarchyRoutes } from "./organizationHierarchy.routes";
+import { regionalCoordinatorRoutes } from "./regionalCoordinator.routes";
 import { branchRoutes } from "./branch.routes";
 import { branchTypeRoutes } from "./branchType.routes";
 import { branchSettingRoutes } from "./branchSetting.routes";
@@ -140,5 +141,6 @@ router.use("/branch-documents", branchDocumentRoutes);
 router.use("/branch-audits", branchAuditRoutes);
 router.use("/branch-transfers", branchTransferRoutes);
 router.use("/organization-hierarchies", organizationHierarchyRoutes);
+router.use("/regional-coordinators", regionalCoordinatorRoutes);
 
 export const RootRouter = router;
