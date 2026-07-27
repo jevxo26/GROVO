@@ -8,7 +8,7 @@ import { UserRole } from "./Sidebar";
 
 export function Header({
   onMenuClick,
-  role = "admin",
+  role = "divisioncoordinator",
 }: {
   onMenuClick?: () => void;
   role?: UserRole;
