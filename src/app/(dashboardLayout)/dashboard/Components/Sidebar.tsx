@@ -219,7 +219,7 @@ export const sidebarNavigation = {
     },
     {
       name: "Field Activities",
-      href: "/dashboard/activities",
+      href: "/dashboard/fieldActivities",
       icon: MapPin,
     },
     {
