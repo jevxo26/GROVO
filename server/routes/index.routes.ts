@@ -28,6 +28,7 @@ import { branchSettingRoutes } from "./branchSetting.routes";
 import { branchManagerRoutes } from "./branchManager.routes";
 import { branchStaffRoutes } from "./branchStaff.routes";
 import { regionRoutes } from "./region.routes";
+import { divisionRoutes } from "./division.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -100,5 +101,6 @@ router.use("/branch-settings", branchSettingRoutes);
 router.use("/branch-managers", branchManagerRoutes);
 router.use("/branch-staff", branchStaffRoutes);
 router.use("/regions", regionRoutes);
+router.use("/divisions", divisionRoutes);
 
 export const RootRouter = router;
