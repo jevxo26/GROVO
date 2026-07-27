@@ -12,6 +12,7 @@ import { donorRoutes } from "./routes/donor.routes";
 import { volunteerRoutes } from "./routes/volunteer.routes";
 import { beneficiaryRoutes } from "./routes/beneficiary.routes";
 import { EventsMediaRoutes } from "./routes/events_media.routes";
+import { AnalyticsReportsRoutes } from "./routes/analytics_reports.routes";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -46,6 +47,9 @@ app
 
     // Volunteer module routes mounted at /api/v1/volunteers
     server.use("/api/v1/volunteers", volunteerRoutes);
+
+    // Analytics, Reports & Dashboard module routes mounted at /api/v1/analytics-reports
+    server.use("/api/v1/analytics-reports", AnalyticsReportsRoutes);
 
     // Beneficiary module routes mounted at /api/v1/beneficiaries
     server.use("/api/v1/beneficiaries", beneficiaryRoutes);
