@@ -24,6 +24,7 @@ import { organizationRoutes } from "./organization.routes";
 import { organizationProfileRoutes } from "./organizationProfile.routes";
 import { organizationHierarchyRoutes } from "./organizationHierarchy.routes";
 import { regionalCoordinatorRoutes } from "./regionalCoordinator.routes";
+import { territoryAssignmentRoutes } from "./territoryAssignment.routes";
 import { branchRoutes } from "./branch.routes";
 import { branchTypeRoutes } from "./branchType.routes";
 import { branchSettingRoutes } from "./branchSetting.routes";
@@ -142,5 +143,6 @@ router.use("/branch-audits", branchAuditRoutes);
 router.use("/branch-transfers", branchTransferRoutes);
 router.use("/organization-hierarchies", organizationHierarchyRoutes);
 router.use("/regional-coordinators", regionalCoordinatorRoutes);
+router.use("/territory-assignments", territoryAssignmentRoutes);
 
 export const RootRouter = router;
