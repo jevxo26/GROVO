@@ -32,6 +32,7 @@ import { divisionRoutes } from "./division.routes";
 import { districtRoutes } from "./district.routes";
 import { upazilaRoutes } from "./upazila.routes";
 import { unionRoutes } from "./union.routes";
+import { wardRoutes } from "./ward.routes";
 import { membershipRoutes } from "./membership.routes";
 import { paymentRoutes } from "./payment.routes";
 import { paymentGatewayRoutes } from "./paymentGateway.routes";
@@ -108,5 +109,6 @@ router.use("/divisions", divisionRoutes);
 router.use("/districts", districtRoutes);
 router.use("/upazilas", upazilaRoutes);
 router.use("/unions", unionRoutes);
+router.use("/wards", wardRoutes);
 
 export const RootRouter = router;
