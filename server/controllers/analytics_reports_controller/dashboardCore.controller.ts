@@ -1,71 +1,231 @@
-import { Request, Response } from "express";
-import { DashboardCoreService } from "../../services/analytics_reports_service/dashboardCore.service";
+import status from "http-status";
+import { dashboardCoreService } from "../../services/analytics_reports_service/dashboardCore.service";
+import catchAsync from "../../utils/catchAsync";
+import { sendResponse } from "../../utils/sendResponse";
 
-const createDashboard = async (req: Request, res: Response) => {
-  try {
-    const result = await DashboardCoreService.createDashboard(req.body);
-    res
-      .status(201)
-      .json({ success: true, message: "Dashboard created", data: result });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+// ==================== 1. DASHBOARD CONTROLLERS ====================
+const createDashboard = catchAsync(async (req, res) => {
+  const result = await dashboardCoreService.createDashboard(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "Dashboard created successfully",
+    data: result,
+  });
+});
 
-const createDashboardWidget = async (req: Request, res: Response) => {
-  try {
-    const result = await DashboardCoreService.createDashboardWidget(req.body);
-    res.status(201).json({
-      success: true,
-      message: "Dashboard widget created",
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+const getAllDashboards = catchAsync(async (req, res) => {
+  const result = await dashboardCoreService.getAllDashboards(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboards retrieved successfully",
+    data: result,
+  });
+});
 
-const createDashboardLayout = async (req: Request, res: Response) => {
-  try {
-    const result = await DashboardCoreService.createDashboardLayout(req.body);
-    res.status(201).json({
-      success: true,
-      message: "Dashboard layout configured",
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+const getDashboardById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.getDashboardById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard retrieved successfully",
+    data: result,
+  });
+});
 
-const createKPI = async (req: Request, res: Response) => {
-  try {
-    const result = await DashboardCoreService.createKPI(req.body);
-    res
-      .status(201)
-      .json({ success: true, message: "KPI created", data: result });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+const updateDashboard = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.updateDashboard(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard updated successfully",
+    data: result,
+  });
+});
 
-const getKPIs = async (req: Request, res: Response) => {
-  try {
-    const result = await DashboardCoreService.getKPIs();
-    res.status(200).json({
-      success: true,
-      message: "KPIs fetched successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+const deleteDashboard = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.deleteDashboard(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard deleted successfully",
+    data: result,
+  });
+});
 
-export const DashboardCoreController = {
+
+// ==================== 2. DASHBOARD WIDGET CONTROLLERS ====================
+const createDashboardWidget = catchAsync(async (req, res) => {
+  const result = await dashboardCoreService.createDashboardWidget(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "Dashboard widget created successfully",
+    data: result,
+  });
+});
+
+const getAllDashboardWidgets = catchAsync(async (req, res) => {
+  const result = await dashboardCoreService.getAllDashboardWidgets(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard widgets retrieved successfully",
+    data: result,
+  });
+});
+
+const getDashboardWidgetById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.getDashboardWidgetById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard widget retrieved successfully",
+    data: result,
+  });
+});
+
+const updateDashboardWidget = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.updateDashboardWidget(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard widget updated successfully",
+    data: result,
+  });
+});
+
+const deleteDashboardWidget = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.deleteDashboardWidget(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard widget deleted successfully",
+    data: result,
+  });
+});
+
+
+// ==================== 3. DASHBOARD LAYOUT CONTROLLERS ====================
+const createDashboardLayout = catchAsync(async (req, res) => {
+  const result = await dashboardCoreService.createDashboardLayout(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "Dashboard layout created successfully",
+    data: result,
+  });
+});
+
+const getAllDashboardLayouts = catchAsync(async (req, res) => {
+  const result = await dashboardCoreService.getAllDashboardLayouts(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard layouts retrieved successfully",
+    data: result,
+  });
+});
+
+const getDashboardLayoutById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.getDashboardLayoutById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard layout retrieved successfully",
+    data: result,
+  });
+});
+
+const updateDashboardLayout = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.updateDashboardLayout(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard layout updated successfully",
+    data: result,
+  });
+});
+
+const deleteDashboardLayout = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.deleteDashboardLayout(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Dashboard layout deleted successfully",
+    data: result,
+  });
+});
+
+
+// ==================== 4. KPI CONTROLLERS ====================
+const createKPI = catchAsync(async (req, res) => {
+  const result = await dashboardCoreService.createKPI(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "KPI created successfully",
+    data: result,
+  });
+});
+
+const getAllKPIs = catchAsync(async (req, res) => {
+  const result = await dashboardCoreService.getAllKPIs(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "KPIs retrieved successfully",
+    data: result,
+  });
+});
+
+const getKPIById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.getKPIById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "KPI retrieved successfully",
+    data: result,
+  });
+});
+
+const updateKPI = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.updateKPI(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "KPI updated successfully",
+    data: result,
+  });
+});
+
+const deleteKPI = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await dashboardCoreService.deleteKPI(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "KPI deleted successfully",
+    data: result,
+  });
+});
+
+
+export const dashboardCoreController = {
+  // Dashboard
   createDashboard,
+  getAllDashboards,
+  getDashboardById,
+  updateDashboard,
+  deleteDashboard,
+  // DashboardWidget
   createDashboardWidget,
+  getAllDashboardWidgets,
+  getDashboardWidgetById,
+  updateDashboardWidget,
+  deleteDashboardWidget,
+  // DashboardLayout
   createDashboardLayout,
+  getAllDashboardLayouts,
+  getDashboardLayoutById,
+  updateDashboardLayout,
+  deleteDashboardLayout,
+  // KPI
   createKPI,
-  getKPIs,
+  getAllKPIs,
+  getKPIById,
+  updateKPI,
+  deleteKPI,
 };

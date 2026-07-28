@@ -1,83 +1,276 @@
-import { Request, Response } from "express";
-import { MediaGalleryService } from "../../services/events_media_service/mediaGallery.service";
+import status from "http-status";
+import { mediaGalleryService } from "../../services/events_media_service/mediaGallery.service";
+import catchAsync from "../../utils/catchAsync";
+import { sendResponse } from "../../utils/sendResponse";
 
-const createMediaCategory = async (req: Request, res: Response) => {
-  try {
-    const result = await MediaGalleryService.createMediaCategory(req.body);
-    res
-      .status(201)
-      .json({ success: true, message: "Media category created", data: result });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+// ==================== 11. MEDIA CATEGORY CONTROLLERS ====================
+const createMediaCategory = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.createMediaCategory(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "Media category created successfully",
+    data: result,
+  });
+});
 
-const uploadMedia = async (req: Request, res: Response) => {
-  try {
-    const result = await MediaGalleryService.uploadMedia(req.body);
-    res.status(201).json({
-      success: true,
-      message: "Media uploaded successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+const getAllMediaCategories = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.getAllMediaCategories();
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media categories retrieved successfully",
+    data: result,
+  });
+});
 
-const getAllMedia = async (req: Request, res: Response) => {
-  try {
-    const result = await MediaGalleryService.getAllMedia(req.query);
-    res.status(200).json({
-      success: true,
-      message: "Media retrieved successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+const getMediaCategoryById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.getMediaCategoryById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media category retrieved successfully",
+    data: result,
+  });
+});
 
-const createAlbum = async (req: Request, res: Response) => {
-  try {
-    const result = await MediaGalleryService.createAlbum(req.body);
-    res.status(201).json({
-      success: true,
-      message: "Album created successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+const updateMediaCategory = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.updateMediaCategory(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media category updated successfully",
+    data: result,
+  });
+});
 
-const attachMediaToAlbum = async (req: Request, res: Response) => {
-  try {
-    const result = await MediaGalleryService.attachMediaToAlbum(req.body);
-    res
-      .status(201)
-      .json({ success: true, message: "Media linked to album", data: result });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+const deleteMediaCategory = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.deleteMediaCategory(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media category deleted successfully",
+    data: result,
+  });
+});
 
-const linkAlbumToEvent = async (req: Request, res: Response) => {
-  try {
-    const result = await MediaGalleryService.linkAlbumToEvent(req.body);
-    res
-      .status(201)
-      .json({ success: true, message: "Album linked to event", data: result });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
 
-export const MediaGalleryController = {
+// ==================== 10. MEDIA CONTROLLERS ====================
+const createMedia = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.createMedia(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "Media uploaded successfully",
+    data: result,
+  });
+});
+
+const getAllMedia = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.getAllMedia(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media assets retrieved successfully",
+    data: result,
+  });
+});
+
+const getMediaById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.getMediaById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media asset retrieved successfully",
+    data: result,
+  });
+});
+
+const updateMedia = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.updateMedia(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media asset updated successfully",
+    data: result,
+  });
+});
+
+const deleteMedia = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.deleteMedia(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media asset deleted successfully",
+    data: result,
+  });
+});
+
+
+// ==================== 12. ALBUM CONTROLLERS ====================
+const createAlbum = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.createAlbum(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "Album created successfully",
+    data: result,
+  });
+});
+
+const getAllAlbums = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.getAllAlbums(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Albums retrieved successfully",
+    data: result,
+  });
+});
+
+const getAlbumById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.getAlbumById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Album retrieved successfully",
+    data: result,
+  });
+});
+
+const updateAlbum = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.updateAlbum(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Album updated successfully",
+    data: result,
+  });
+});
+
+const deleteAlbum = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.deleteAlbum(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Album deleted successfully",
+    data: result,
+  });
+});
+
+
+// ==================== 13. ALBUM MEDIA CONTROLLERS ====================
+const createAlbumMedia = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.createAlbumMedia(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "Media attached to album successfully",
+    data: result,
+  });
+});
+
+const getAllAlbumMedia = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.getAllAlbumMedia(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Album media links retrieved successfully",
+    data: result,
+  });
+});
+
+const getAlbumMediaById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.getAlbumMediaById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Album media link retrieved successfully",
+    data: result,
+  });
+});
+
+const updateAlbumMedia = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.updateAlbumMedia(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Album media link updated successfully",
+    data: result,
+  });
+});
+
+const deleteAlbumMedia = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.deleteAlbumMedia(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Album media link deleted successfully",
+    data: result,
+  });
+});
+
+
+// ==================== 21. MEDIA ACTIVITY LOG CONTROLLERS ====================
+const createMediaActivityLog = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.createMediaActivityLog(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    message: "Media activity log created successfully",
+    data: result,
+  });
+});
+
+const getAllMediaActivityLogs = catchAsync(async (req, res) => {
+  const result = await mediaGalleryService.getAllMediaActivityLogs(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media activity logs retrieved successfully",
+    data: result,
+  });
+});
+
+const getMediaActivityLogById = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.getMediaActivityLogById(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media activity log retrieved successfully",
+    data: result,
+  });
+});
+
+const deleteMediaActivityLog = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await mediaGalleryService.deleteMediaActivityLog(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Media activity log deleted successfully",
+    data: result,
+  });
+});
+
+
+export const mediaGalleryController = {
+  // MediaCategory
   createMediaCategory,
-  uploadMedia,
+  getAllMediaCategories,
+  getMediaCategoryById,
+  updateMediaCategory,
+  deleteMediaCategory,
+  // Media
+  createMedia,
   getAllMedia,
+  getMediaById,
+  updateMedia,
+  deleteMedia,
+  // Album
   createAlbum,
-  attachMediaToAlbum,
-  linkAlbumToEvent,
+  getAllAlbums,
+  getAlbumById,
+  updateAlbum,
+  deleteAlbum,
+  // AlbumMedia
+  createAlbumMedia,
+  getAllAlbumMedia,
+  getAlbumMediaById,
+  updateAlbumMedia,
+  deleteAlbumMedia,
+  // MediaActivityLog
+  createMediaActivityLog,
+  getAllMediaActivityLogs,
+  getMediaActivityLogById,
+  deleteMediaActivityLog,
 };
