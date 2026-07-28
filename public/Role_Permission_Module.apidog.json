@@ -1,0 +1,4924 @@
+{
+  "apidogProject": "1.0.0",
+  "$schema": {
+    "app": "apidog",
+    "type": "project",
+    "version": "1.2.0"
+  },
+  "info": {
+    "name": "Grovo - Role & Permission Module (Part 2) API Collection",
+    "description": "Complete API Testing collection for all 11 entities in the Role & Permission Module.",
+    "mockRule": {
+      "rules": [],
+      "enableSystemRule": true
+    }
+  },
+  "projectSetting": {
+    "id": "1339286",
+    "auth": {},
+    "securityScheme": {},
+    "gateway": [],
+    "language": "en-US",
+    "apiStatuses": [
+      "developing",
+      "testing",
+      "released",
+      "deprecated"
+    ],
+    "mockSettings": {},
+    "preProcessors": [],
+    "postProcessors": [],
+    "advancedSettings": {
+      "allowAutomationWriteAutomationCreatedSprintBranch": true,
+      "enableJsonc": false,
+      "enableBigint": false,
+      "responseValidate": true,
+      "enableTestScenarioSetting": false,
+      "enableYAPICompatScript": false,
+      "isDefaultUrlEncoding": 3,
+      "publishedDocUrlRules": {
+        "defaultRule": "SLUGIFY_WITH_RESOURCE_KEY",
+        "resourceKeyStandard": "NEW"
+      },
+      "folderShareExpandModeSettings": {
+        "expandId": [],
+        "mode": "AUTO"
+      }
+    },
+    "initialDisabledMockIds": [],
+    "servers": [
+      {
+        "id": "local_v1",
+        "name": "Local Server (/api/v1)",
+        "url": "http://localhost:3000/api/v1",
+        "moduleId": 1377681
+      },
+      {
+        "id": "local_root",
+        "name": "Local Root (http://localhost:3000)",
+        "url": "http://localhost:3000",
+        "moduleId": 1377681
+      }
+    ],
+    "cloudMock": {
+      "enable": false,
+      "security": "free",
+      "tokenKey": "apidogToken",
+      "isCreatedAutomaticallyByDefaultConfigFromAdmin": true
+    }
+  },
+  "apiCollection": [
+    {
+      "name": "Role & Permission Module (Part 2)",
+      "id": 99001122,
+      "auth": {},
+      "securityScheme": {},
+      "parentId": 0,
+      "serverId": "local_v1",
+      "description": "Complete testing collection for Part 2: Role & Permission Module entities and CRUD APIs.",
+      "identityPattern": {
+        "httpApi": {
+          "type": "inherit",
+          "bodyType": "",
+          "fields": []
+        }
+      },
+      "shareSettings": {},
+      "visibility": "SHARED",
+      "moduleId": 1377681,
+      "preProcessors": [],
+      "postProcessors": [],
+      "inheritPostProcessors": {},
+      "inheritPreProcessors": {},
+      "items": [
+        {
+          "name": "1. Role",
+          "id": 60000000,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 1. Role",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create Role",
+              "api": {
+                "id": "60000002",
+                "method": "post",
+                "path": "/role/roles",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000001",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create Role operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789role\",\n    \"roleName\": \"SUPER_ADMIN\",\n    \"displayName\": \"Super Admin\",\n    \"description\": \"Full system administrative control across all foundation modules\",\n    \"roleType\": \"SYSTEM\",\n    \"priority\": 1,\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000001"
+                  }
+                ],
+                "description": "REST testing endpoint for Create Role",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"roleName\": \"SUPER_ADMIN\",\n  \"displayName\": \"Super Admin\",\n  \"description\": \"Full system administrative control across all foundation modules\",\n  \"roleType\": \"SYSTEM\",\n  \"priority\": 1,\n  \"status\": \"ACTIVE\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All Roles",
+              "api": {
+                "id": "60000004",
+                "method": "get",
+                "path": "/role/roles",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000003",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All Roles operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789role\",\n      \"roleName\": \"SUPER_ADMIN\",\n      \"displayName\": \"Super Admin\",\n      \"description\": \"Full system administrative control across all foundation modules\",\n      \"roleType\": \"SYSTEM\",\n      \"priority\": 1,\n      \"status\": \"ACTIVE\",\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000003"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All Roles",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get Role By ID",
+              "api": {
+                "id": "60000006",
+                "method": "get",
+                "path": "/role/roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789role"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000005",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get Role By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789role\",\n    \"roleName\": \"SUPER_ADMIN\",\n    \"displayName\": \"Super Admin\",\n    \"description\": \"Full system administrative control across all foundation modules\",\n    \"roleType\": \"SYSTEM\",\n    \"priority\": 1,\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000005"
+                  }
+                ],
+                "description": "REST testing endpoint for Get Role By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update Role",
+              "api": {
+                "id": "60000008",
+                "method": "patch",
+                "path": "/role/roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789role"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000007",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update Role operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789role\",\n    \"roleName\": \"SUPER_ADMIN\",\n    \"displayName\": \"Executive Super Admin\",\n    \"description\": \"Updated administrative control description\",\n    \"roleType\": \"SYSTEM\",\n    \"priority\": 2,\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000007"
+                  }
+                ],
+                "description": "REST testing endpoint for Update Role",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"displayName\": \"Executive Super Admin\",\n  \"description\": \"Updated administrative control description\",\n  \"priority\": 2,\n  \"status\": \"ACTIVE\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete Role",
+              "api": {
+                "id": "60000010",
+                "method": "delete",
+                "path": "/role/roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789role"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000009",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete Role operation successful\",\n  \"data\": {\n    \"message\": \"Role deleted successfully\"\n  }\n}",
+                    "responseId": "60000009"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete Role",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "2. Permission",
+          "id": 60000011,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 2. Permission",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create Permission",
+              "api": {
+                "id": "60000013",
+                "method": "post",
+                "path": "/role/permissions",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000012",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create Permission operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789perm\",\n    \"permissionName\": \"MANAGE_ROLES\",\n    \"module\": \"RoleManagement\",\n    \"description\": \"Allows viewing, creating, updating, and deleting system roles\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000012"
+                  }
+                ],
+                "description": "REST testing endpoint for Create Permission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"permissionName\": \"MANAGE_ROLES\",\n  \"module\": \"RoleManagement\",\n  \"description\": \"Allows viewing, creating, updating, and deleting system roles\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All Permissions",
+              "api": {
+                "id": "60000015",
+                "method": "get",
+                "path": "/role/permissions",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000014",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All Permissions operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789perm\",\n      \"permissionName\": \"MANAGE_ROLES\",\n      \"module\": \"RoleManagement\",\n      \"description\": \"Allows viewing, creating, updating, and deleting system roles\",\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000014"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All Permissions",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get Permission By ID",
+              "api": {
+                "id": "60000017",
+                "method": "get",
+                "path": "/role/permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789perm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000016",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get Permission By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789perm\",\n    \"permissionName\": \"MANAGE_ROLES\",\n    \"module\": \"RoleManagement\",\n    \"description\": \"Allows viewing, creating, updating, and deleting system roles\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000016"
+                  }
+                ],
+                "description": "REST testing endpoint for Get Permission By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update Permission",
+              "api": {
+                "id": "60000019",
+                "method": "patch",
+                "path": "/role/permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789perm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000018",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update Permission operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789perm\",\n    \"permissionName\": \"MANAGE_ROLES\",\n    \"module\": \"RoleManagement\",\n    \"description\": \"Allows full management of system roles and permissions\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000018"
+                  }
+                ],
+                "description": "REST testing endpoint for Update Permission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"description\": \"Allows full management of system roles and permissions\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete Permission",
+              "api": {
+                "id": "60000021",
+                "method": "delete",
+                "path": "/role/permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789perm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000020",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete Permission operation successful\",\n  \"data\": {\n    \"message\": \"Permission deleted successfully\"\n  }\n}",
+                    "responseId": "60000020"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete Permission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "3. RolePermission",
+          "id": 60000022,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 3. RolePermission",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create RolePermission",
+              "api": {
+                "id": "60000024",
+                "method": "post",
+                "path": "/role/role-permissions",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000023",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create RolePermission operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789roleperm\",\n    \"roleId\": \"clx123456789role\",\n    \"permissionId\": \"clx123456789perm\",\n    \"canView\": true,\n    \"canCreate\": true,\n    \"canUpdate\": true,\n    \"canDelete\": false,\n    \"canApprove\": true,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000023"
+                  }
+                ],
+                "description": "REST testing endpoint for Create RolePermission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"roleId\": \"clx123456789role\",\n  \"permissionId\": \"clx123456789perm\",\n  \"canView\": true,\n  \"canCreate\": true,\n  \"canUpdate\": true,\n  \"canDelete\": false,\n  \"canApprove\": true\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All RolePermissions",
+              "api": {
+                "id": "60000026",
+                "method": "get",
+                "path": "/role/role-permissions",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000025",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All RolePermissions operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789roleperm\",\n      \"roleId\": \"clx123456789role\",\n      \"permissionId\": \"clx123456789perm\",\n      \"canView\": true,\n      \"canCreate\": true,\n      \"canUpdate\": true,\n      \"canDelete\": false,\n      \"canApprove\": true,\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000025"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All RolePermissions",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get RolePermission By ID",
+              "api": {
+                "id": "60000028",
+                "method": "get",
+                "path": "/role/role-permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789roleperm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000027",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get RolePermission By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789roleperm\",\n    \"roleId\": \"clx123456789role\",\n    \"permissionId\": \"clx123456789perm\",\n    \"canView\": true,\n    \"canCreate\": true,\n    \"canUpdate\": true,\n    \"canDelete\": false,\n    \"canApprove\": true,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000027"
+                  }
+                ],
+                "description": "REST testing endpoint for Get RolePermission By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update RolePermission",
+              "api": {
+                "id": "60000030",
+                "method": "patch",
+                "path": "/role/role-permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789roleperm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000029",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update RolePermission operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789roleperm\",\n    \"roleId\": \"clx123456789role\",\n    \"permissionId\": \"clx123456789perm\",\n    \"canView\": true,\n    \"canCreate\": true,\n    \"canUpdate\": true,\n    \"canDelete\": true,\n    \"canApprove\": true,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000029"
+                  }
+                ],
+                "description": "REST testing endpoint for Update RolePermission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"canDelete\": true\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete RolePermission",
+              "api": {
+                "id": "60000032",
+                "method": "delete",
+                "path": "/role/role-permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789roleperm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000031",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete RolePermission operation successful\",\n  \"data\": {\n    \"message\": \"RolePermission deleted successfully\"\n  }\n}",
+                    "responseId": "60000031"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete RolePermission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "4. UserRole",
+          "id": 60000033,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 4. UserRole",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create UserRole",
+              "api": {
+                "id": "60000035",
+                "method": "post",
+                "path": "/role/user-roles",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000034",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create UserRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789userrole\",\n    \"userId\": \"usr_1784382432590\",\n    \"roleId\": \"clx123456789role\",\n    \"assignedBy\": \"admin_001\",\n    \"assignedDate\": \"2026-07-29T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000034"
+                  }
+                ],
+                "description": "REST testing endpoint for Create UserRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"userId\": \"usr_1784382432590\",\n  \"roleId\": \"clx123456789role\",\n  \"assignedBy\": \"admin_001\",\n  \"assignedDate\": \"2026-07-29T00:00:00.000Z\",\n  \"status\": \"ACTIVE\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All UserRoles",
+              "api": {
+                "id": "60000037",
+                "method": "get",
+                "path": "/role/user-roles",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000036",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All UserRoles operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789userrole\",\n      \"userId\": \"usr_1784382432590\",\n      \"roleId\": \"clx123456789role\",\n      \"assignedBy\": \"admin_001\",\n      \"assignedDate\": \"2026-07-29T00:00:00.000Z\",\n      \"status\": \"ACTIVE\",\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000036"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All UserRoles",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get UserRole By ID",
+              "api": {
+                "id": "60000039",
+                "method": "get",
+                "path": "/role/user-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789userrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000038",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get UserRole By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789userrole\",\n    \"userId\": \"usr_1784382432590\",\n    \"roleId\": \"clx123456789role\",\n    \"assignedBy\": \"admin_001\",\n    \"assignedDate\": \"2026-07-29T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000038"
+                  }
+                ],
+                "description": "REST testing endpoint for Get UserRole By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update UserRole",
+              "api": {
+                "id": "60000041",
+                "method": "patch",
+                "path": "/role/user-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789userrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000040",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update UserRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789userrole\",\n    \"userId\": \"usr_1784382432590\",\n    \"roleId\": \"clx123456789role\",\n    \"assignedBy\": \"admin_001\",\n    \"assignedDate\": \"2026-07-29T00:00:00.000Z\",\n    \"status\": \"INACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000040"
+                  }
+                ],
+                "description": "REST testing endpoint for Update UserRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"status\": \"INACTIVE\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete UserRole",
+              "api": {
+                "id": "60000043",
+                "method": "delete",
+                "path": "/role/user-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789userrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000042",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete UserRole operation successful\",\n  \"data\": {\n    \"message\": \"UserRole deleted successfully\"\n  }\n}",
+                    "responseId": "60000042"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete UserRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "5. StaffRole",
+          "id": 60000044,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 5. StaffRole",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create StaffRole",
+              "api": {
+                "id": "60000046",
+                "method": "post",
+                "path": "/role/staff-roles",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000045",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create StaffRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789staffrole\",\n    \"staffId\": \"stf_100200300\",\n    \"roleId\": \"clx123456789role\",\n    \"department\": \"IT & Systems\",\n    \"designation\": \"Lead Administrator\",\n    \"joiningDate\": \"2026-01-01T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000045"
+                  }
+                ],
+                "description": "REST testing endpoint for Create StaffRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"staffId\": \"stf_100200300\",\n  \"roleId\": \"clx123456789role\",\n  \"department\": \"IT & Systems\",\n  \"designation\": \"Lead Administrator\",\n  \"joiningDate\": \"2026-01-01T00:00:00.000Z\",\n  \"status\": \"ACTIVE\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All StaffRoles",
+              "api": {
+                "id": "60000048",
+                "method": "get",
+                "path": "/role/staff-roles",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000047",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All StaffRoles operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789staffrole\",\n      \"staffId\": \"stf_100200300\",\n      \"roleId\": \"clx123456789role\",\n      \"department\": \"IT & Systems\",\n      \"designation\": \"Lead Administrator\",\n      \"joiningDate\": \"2026-01-01T00:00:00.000Z\",\n      \"status\": \"ACTIVE\",\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000047"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All StaffRoles",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get StaffRole By ID",
+              "api": {
+                "id": "60000050",
+                "method": "get",
+                "path": "/role/staff-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789staffrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000049",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get StaffRole By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789staffrole\",\n    \"staffId\": \"stf_100200300\",\n    \"roleId\": \"clx123456789role\",\n    \"department\": \"IT & Systems\",\n    \"designation\": \"Lead Administrator\",\n    \"joiningDate\": \"2026-01-01T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000049"
+                  }
+                ],
+                "description": "REST testing endpoint for Get StaffRole By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update StaffRole",
+              "api": {
+                "id": "60000052",
+                "method": "patch",
+                "path": "/role/staff-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789staffrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000051",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update StaffRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789staffrole\",\n    \"staffId\": \"stf_100200300\",\n    \"roleId\": \"clx123456789role\",\n    \"department\": \"Executive Board\",\n    \"designation\": \"Head of Technology\",\n    \"joiningDate\": \"2026-01-01T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000051"
+                  }
+                ],
+                "description": "REST testing endpoint for Update StaffRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"department\": \"Executive Board\",\n  \"designation\": \"Head of Technology\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete StaffRole",
+              "api": {
+                "id": "60000054",
+                "method": "delete",
+                "path": "/role/staff-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789staffrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000053",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete StaffRole operation successful\",\n  \"data\": {\n    \"message\": \"StaffRole deleted successfully\"\n  }\n}",
+                    "responseId": "60000053"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete StaffRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "6. VolunteerRole",
+          "id": 60000055,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 6. VolunteerRole",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create VolunteerRole",
+              "api": {
+                "id": "60000057",
+                "method": "post",
+                "path": "/role/volunteer-roles",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000056",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create VolunteerRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789volrole\",\n    \"volunteerId\": \"vol_99887766\",\n    \"roleId\": \"clx123456789role\",\n    \"assignedArea\": \"Dhaka Central Zone\",\n    \"responsibility\": \"Field Relief Operation Coordinator\",\n    \"startDate\": \"2026-01-01T00:00:00.000Z\",\n    \"endDate\": null,\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000056"
+                  }
+                ],
+                "description": "REST testing endpoint for Create VolunteerRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"volunteerId\": \"vol_99887766\",\n  \"roleId\": \"clx123456789role\",\n  \"assignedArea\": \"Dhaka Central Zone\",\n  \"responsibility\": \"Field Relief Operation Coordinator\",\n  \"startDate\": \"2026-01-01T00:00:00.000Z\",\n  \"endDate\": null,\n  \"status\": \"ACTIVE\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All VolunteerRoles",
+              "api": {
+                "id": "60000059",
+                "method": "get",
+                "path": "/role/volunteer-roles",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000058",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All VolunteerRoles operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789volrole\",\n      \"volunteerId\": \"vol_99887766\",\n      \"roleId\": \"clx123456789role\",\n      \"assignedArea\": \"Dhaka Central Zone\",\n      \"responsibility\": \"Field Relief Operation Coordinator\",\n      \"startDate\": \"2026-01-01T00:00:00.000Z\",\n      \"endDate\": null,\n      \"status\": \"ACTIVE\",\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000058"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All VolunteerRoles",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get VolunteerRole By ID",
+              "api": {
+                "id": "60000061",
+                "method": "get",
+                "path": "/role/volunteer-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789volrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000060",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get VolunteerRole By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789volrole\",\n    \"volunteerId\": \"vol_99887766\",\n    \"roleId\": \"clx123456789role\",\n    \"assignedArea\": \"Dhaka Central Zone\",\n    \"responsibility\": \"Field Relief Operation Coordinator\",\n    \"startDate\": \"2026-01-01T00:00:00.000Z\",\n    \"endDate\": null,\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000060"
+                  }
+                ],
+                "description": "REST testing endpoint for Get VolunteerRole By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update VolunteerRole",
+              "api": {
+                "id": "60000063",
+                "method": "patch",
+                "path": "/role/volunteer-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789volrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000062",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update VolunteerRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789volrole\",\n    \"volunteerId\": \"vol_99887766\",\n    \"roleId\": \"clx123456789role\",\n    \"assignedArea\": \"Dhaka Metropolitan Area\",\n    \"responsibility\": \"Regional Logistics Lead\",\n    \"startDate\": \"2026-01-01T00:00:00.000Z\",\n    \"endDate\": null,\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000062"
+                  }
+                ],
+                "description": "REST testing endpoint for Update VolunteerRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"assignedArea\": \"Dhaka Metropolitan Area\",\n  \"responsibility\": \"Regional Logistics Lead\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete VolunteerRole",
+              "api": {
+                "id": "60000065",
+                "method": "delete",
+                "path": "/role/volunteer-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789volrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000064",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete VolunteerRole operation successful\",\n  \"data\": {\n    \"message\": \"VolunteerRole deleted successfully\"\n  }\n}",
+                    "responseId": "60000064"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete VolunteerRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "7. CoordinatorRole",
+          "id": 60000066,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 7. CoordinatorRole",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create CoordinatorRole",
+              "api": {
+                "id": "60000068",
+                "method": "post",
+                "path": "/role/coordinator-roles",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000067",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create CoordinatorRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789coordrole\",\n    \"coordinatorId\": \"crd_55443322\",\n    \"roleId\": \"clx123456789role\",\n    \"organizationLevel\": \"Division\",\n    \"divisionId\": \"div_dhaka_01\",\n    \"districtId\": null,\n    \"upazilaId\": null,\n    \"unionId\": null,\n    \"assignedDate\": \"2026-01-01T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000067"
+                  }
+                ],
+                "description": "REST testing endpoint for Create CoordinatorRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"coordinatorId\": \"crd_55443322\",\n  \"roleId\": \"clx123456789role\",\n  \"organizationLevel\": \"Division\",\n  \"divisionId\": \"div_dhaka_01\",\n  \"districtId\": null,\n  \"upazilaId\": null,\n  \"unionId\": null,\n  \"assignedDate\": \"2026-01-01T00:00:00.000Z\",\n  \"status\": \"ACTIVE\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All CoordinatorRoles",
+              "api": {
+                "id": "60000070",
+                "method": "get",
+                "path": "/role/coordinator-roles",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000069",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All CoordinatorRoles operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789coordrole\",\n      \"coordinatorId\": \"crd_55443322\",\n      \"roleId\": \"clx123456789role\",\n      \"organizationLevel\": \"Division\",\n      \"divisionId\": \"div_dhaka_01\",\n      \"districtId\": null,\n      \"upazilaId\": null,\n      \"unionId\": null,\n      \"assignedDate\": \"2026-01-01T00:00:00.000Z\",\n      \"status\": \"ACTIVE\",\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000069"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All CoordinatorRoles",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get CoordinatorRole By ID",
+              "api": {
+                "id": "60000072",
+                "method": "get",
+                "path": "/role/coordinator-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789coordrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000071",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get CoordinatorRole By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789coordrole\",\n    \"coordinatorId\": \"crd_55443322\",\n    \"roleId\": \"clx123456789role\",\n    \"organizationLevel\": \"Division\",\n    \"divisionId\": \"div_dhaka_01\",\n    \"districtId\": null,\n    \"upazilaId\": null,\n    \"unionId\": null,\n    \"assignedDate\": \"2026-01-01T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000071"
+                  }
+                ],
+                "description": "REST testing endpoint for Get CoordinatorRole By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update CoordinatorRole",
+              "api": {
+                "id": "60000074",
+                "method": "patch",
+                "path": "/role/coordinator-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789coordrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000073",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update CoordinatorRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789coordrole\",\n    \"coordinatorId\": \"crd_55443322\",\n    \"roleId\": \"clx123456789role\",\n    \"organizationLevel\": \"District\",\n    \"divisionId\": \"div_dhaka_01\",\n    \"districtId\": \"dst_dhaka_central\",\n    \"upazilaId\": null,\n    \"unionId\": null,\n    \"assignedDate\": \"2026-01-01T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000073"
+                  }
+                ],
+                "description": "REST testing endpoint for Update CoordinatorRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"organizationLevel\": \"District\",\n  \"districtId\": \"dst_dhaka_central\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete CoordinatorRole",
+              "api": {
+                "id": "60000076",
+                "method": "delete",
+                "path": "/role/coordinator-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789coordrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000075",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete CoordinatorRole operation successful\",\n  \"data\": {\n    \"message\": \"CoordinatorRole deleted successfully\"\n  }\n}",
+                    "responseId": "60000075"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete CoordinatorRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "8. CommitteeRole",
+          "id": 60000077,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 8. CommitteeRole",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create CommitteeRole",
+              "api": {
+                "id": "60000079",
+                "method": "post",
+                "path": "/role/committee-roles",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000078",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create CommitteeRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789commrole\",\n    \"committeeId\": \"cmt_11223344\",\n    \"memberId\": \"mem_77889900\",\n    \"role\": \"Chairman\",\n    \"startDate\": \"2026-01-01T00:00:00.000Z\",\n    \"endDate\": \"2027-12-31T23:59:59.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000078"
+                  }
+                ],
+                "description": "REST testing endpoint for Create CommitteeRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"committeeId\": \"cmt_11223344\",\n  \"memberId\": \"mem_77889900\",\n  \"role\": \"Chairman\",\n  \"startDate\": \"2026-01-01T00:00:00.000Z\",\n  \"endDate\": \"2027-12-31T23:59:59.000Z\",\n  \"status\": \"ACTIVE\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All CommitteeRoles",
+              "api": {
+                "id": "60000081",
+                "method": "get",
+                "path": "/role/committee-roles",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000080",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All CommitteeRoles operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789commrole\",\n      \"committeeId\": \"cmt_11223344\",\n      \"memberId\": \"mem_77889900\",\n      \"role\": \"Chairman\",\n      \"startDate\": \"2026-01-01T00:00:00.000Z\",\n      \"endDate\": \"2027-12-31T23:59:59.000Z\",\n      \"status\": \"ACTIVE\",\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000080"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All CommitteeRoles",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get CommitteeRole By ID",
+              "api": {
+                "id": "60000083",
+                "method": "get",
+                "path": "/role/committee-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789commrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000082",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get CommitteeRole By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789commrole\",\n    \"committeeId\": \"cmt_11223344\",\n    \"memberId\": \"mem_77889900\",\n    \"role\": \"Chairman\",\n    \"startDate\": \"2026-01-01T00:00:00.000Z\",\n    \"endDate\": \"2027-12-31T23:59:59.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000082"
+                  }
+                ],
+                "description": "REST testing endpoint for Get CommitteeRole By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update CommitteeRole",
+              "api": {
+                "id": "60000085",
+                "method": "patch",
+                "path": "/role/committee-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789commrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000084",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update CommitteeRole operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789commrole\",\n    \"committeeId\": \"cmt_11223344\",\n    \"memberId\": \"mem_77889900\",\n    \"role\": \"Executive Member\",\n    \"startDate\": \"2026-01-01T00:00:00.000Z\",\n    \"endDate\": \"2027-12-31T23:59:59.000Z\",\n    \"status\": \"ACTIVE\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000084"
+                  }
+                ],
+                "description": "REST testing endpoint for Update CommitteeRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"role\": \"Executive Member\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete CommitteeRole",
+              "api": {
+                "id": "60000087",
+                "method": "delete",
+                "path": "/role/committee-roles/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789commrole"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000086",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete CommitteeRole operation successful\",\n  \"data\": {\n    \"message\": \"CommitteeRole deleted successfully\"\n  }\n}",
+                    "responseId": "60000086"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete CommitteeRole",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "9. AdminPermission",
+          "id": 60000088,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 9. AdminPermission",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create AdminPermission",
+              "api": {
+                "id": "60000090",
+                "method": "post",
+                "path": "/role/admin-permissions",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000089",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create AdminPermission operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789adminperm\",\n    \"adminId\": \"adm_44332211\",\n    \"module\": \"FinanceManagement\",\n    \"canView\": true,\n    \"canCreate\": true,\n    \"canUpdate\": true,\n    \"canDelete\": true,\n    \"canApprove\": true,\n    \"canExport\": true,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000089"
+                  }
+                ],
+                "description": "REST testing endpoint for Create AdminPermission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"adminId\": \"adm_44332211\",\n  \"module\": \"FinanceManagement\",\n  \"canView\": true,\n  \"canCreate\": true,\n  \"canUpdate\": true,\n  \"canDelete\": true,\n  \"canApprove\": true,\n  \"canExport\": true\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All AdminPermissions",
+              "api": {
+                "id": "60000092",
+                "method": "get",
+                "path": "/role/admin-permissions",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000091",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All AdminPermissions operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789adminperm\",\n      \"adminId\": \"adm_44332211\",\n      \"module\": \"FinanceManagement\",\n      \"canView\": true,\n      \"canCreate\": true,\n      \"canUpdate\": true,\n      \"canDelete\": true,\n      \"canApprove\": true,\n      \"canExport\": true,\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000091"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All AdminPermissions",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get AdminPermission By ID",
+              "api": {
+                "id": "60000094",
+                "method": "get",
+                "path": "/role/admin-permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789adminperm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000093",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get AdminPermission By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789adminperm\",\n    \"adminId\": \"adm_44332211\",\n    \"module\": \"FinanceManagement\",\n    \"canView\": true,\n    \"canCreate\": true,\n    \"canUpdate\": true,\n    \"canDelete\": true,\n    \"canApprove\": true,\n    \"canExport\": true,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000093"
+                  }
+                ],
+                "description": "REST testing endpoint for Get AdminPermission By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update AdminPermission",
+              "api": {
+                "id": "60000096",
+                "method": "patch",
+                "path": "/role/admin-permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789adminperm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000095",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update AdminPermission operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789adminperm\",\n    \"adminId\": \"adm_44332211\",\n    \"module\": \"FinanceManagement\",\n    \"canView\": true,\n    \"canCreate\": true,\n    \"canUpdate\": true,\n    \"canDelete\": false,\n    \"canApprove\": true,\n    \"canExport\": true,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000095"
+                  }
+                ],
+                "description": "REST testing endpoint for Update AdminPermission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"canDelete\": false\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete AdminPermission",
+              "api": {
+                "id": "60000098",
+                "method": "delete",
+                "path": "/role/admin-permissions/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789adminperm"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000097",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete AdminPermission operation successful\",\n  \"data\": {\n    \"message\": \"AdminPermission deleted successfully\"\n  }\n}",
+                    "responseId": "60000097"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete AdminPermission",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "10. RoleHierarchy",
+          "id": 60000099,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 10. RoleHierarchy",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create RoleHierarchy",
+              "api": {
+                "id": "60000101",
+                "method": "post",
+                "path": "/role/hierarchies",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000100",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create RoleHierarchy operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789hierarchy\",\n    \"parentRoleId\": \"clx123456789role_parent\",\n    \"childRoleId\": \"clx123456789role_child\",\n    \"hierarchyLevel\": 1,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000100"
+                  }
+                ],
+                "description": "REST testing endpoint for Create RoleHierarchy",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"parentRoleId\": \"clx123456789role_parent\",\n  \"childRoleId\": \"clx123456789role_child\",\n  \"hierarchyLevel\": 1\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All RoleHierarchys",
+              "api": {
+                "id": "60000103",
+                "method": "get",
+                "path": "/role/hierarchies",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000102",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All RoleHierarchys operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789hierarchy\",\n      \"parentRoleId\": \"clx123456789role_parent\",\n      \"childRoleId\": \"clx123456789role_child\",\n      \"hierarchyLevel\": 1,\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n      \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000102"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All RoleHierarchys",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get RoleHierarchy By ID",
+              "api": {
+                "id": "60000105",
+                "method": "get",
+                "path": "/role/hierarchies/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789hierarchy"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000104",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get RoleHierarchy By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789hierarchy\",\n    \"parentRoleId\": \"clx123456789role_parent\",\n    \"childRoleId\": \"clx123456789role_child\",\n    \"hierarchyLevel\": 1,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000104"
+                  }
+                ],
+                "description": "REST testing endpoint for Get RoleHierarchy By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update RoleHierarchy",
+              "api": {
+                "id": "60000107",
+                "method": "patch",
+                "path": "/role/hierarchies/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789hierarchy"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000106",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Update RoleHierarchy operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789hierarchy\",\n    \"parentRoleId\": \"clx123456789role_parent\",\n    \"childRoleId\": \"clx123456789role_child\",\n    \"hierarchyLevel\": 2,\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\",\n    \"updatedAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000106"
+                  }
+                ],
+                "description": "REST testing endpoint for Update RoleHierarchy",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"hierarchyLevel\": 2\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Delete RoleHierarchy",
+              "api": {
+                "id": "60000109",
+                "method": "delete",
+                "path": "/role/hierarchies/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789hierarchy"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000108",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete RoleHierarchy operation successful\",\n  \"data\": {\n    \"message\": \"RoleHierarchy deleted successfully\"\n  }\n}",
+                    "responseId": "60000108"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete RoleHierarchy",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "11. AccessLog",
+          "id": 60000110,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 99001122,
+          "serverId": "local_v1",
+          "description": "Testing API endpoints for 11. AccessLog",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1377681,
+          "preProcessors": [],
+          "postProcessors": [],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Create AccessLog",
+              "api": {
+                "id": "60000112",
+                "method": "post",
+                "path": "/role/access-logs",
+                "parameters": {},
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000111",
+                    "code": 201,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 201,\n  \"message\": \"Create AccessLog operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789accesslog\",\n    \"userId\": \"usr_1784382432590\",\n    \"roleId\": \"clx123456789role\",\n    \"module\": \"RoleManagement\",\n    \"action\": \"ASSIGN_ROLE\",\n    \"ipAddress\": \"127.0.0.1\",\n    \"device\": \"Windows Desktop\",\n    \"browser\": \"Chrome 126.0\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000111"
+                  }
+                ],
+                "description": "REST testing endpoint for Create AccessLog",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {},
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n  \"userId\": \"usr_1784382432590\",\n  \"roleId\": \"clx123456789role\",\n  \"module\": \"RoleManagement\",\n  \"action\": \"ASSIGN_ROLE\",\n  \"ipAddress\": \"127.0.0.1\",\n  \"device\": \"Windows Desktop\",\n  \"browser\": \"Chrome 126.0\"\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                }
+              }
+            },
+            {
+              "name": "Get All AccessLogs",
+              "api": {
+                "id": "60000114",
+                "method": "get",
+                "path": "/role/access-logs",
+                "parameters": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "type": "string",
+                      "description": "Page number",
+                      "example": "1"
+                    },
+                    {
+                      "name": "limit",
+                      "type": "string",
+                      "description": "Items per page",
+                      "example": "10"
+                    },
+                    {
+                      "name": "search",
+                      "type": "string",
+                      "description": "Search query",
+                      "example": ""
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000113",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get All AccessLogs operation successful\",\n  \"data\": [\n    {\n      \"id\": \"clx123456789accesslog\",\n      \"userId\": \"usr_1784382432590\",\n      \"roleId\": \"clx123456789role\",\n      \"module\": \"RoleManagement\",\n      \"action\": \"ASSIGN_ROLE\",\n      \"ipAddress\": \"127.0.0.1\",\n      \"device\": \"Windows Desktop\",\n      \"browser\": \"Chrome 126.0\",\n      \"createdAt\": \"2026-07-29T00:00:00.000Z\"\n    }\n  ]\n}",
+                    "responseId": "60000113"
+                  }
+                ],
+                "description": "REST testing endpoint for Get All AccessLogs",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get AccessLog By ID",
+              "api": {
+                "id": "60000116",
+                "method": "get",
+                "path": "/role/access-logs/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789accesslog"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000115",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Get AccessLog By ID operation successful\",\n  \"data\": {\n    \"id\": \"clx123456789accesslog\",\n    \"userId\": \"usr_1784382432590\",\n    \"roleId\": \"clx123456789role\",\n    \"module\": \"RoleManagement\",\n    \"action\": \"ASSIGN_ROLE\",\n    \"ipAddress\": \"127.0.0.1\",\n    \"device\": \"Windows Desktop\",\n    \"browser\": \"Chrome 126.0\",\n    \"createdAt\": \"2026-07-29T00:00:00.000Z\"\n  }\n}",
+                    "responseId": "60000115"
+                  }
+                ],
+                "description": "REST testing endpoint for Get AccessLog By ID",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Delete AccessLog",
+              "api": {
+                "id": "60000118",
+                "method": "delete",
+                "path": "/role/access-logs/:id",
+                "parameters": {
+                  "path": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "description": "Unique identifier (cuid)",
+                      "required": true,
+                      "example": "clx123456789accesslog"
+                    }
+                  ]
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "60000117",
+                    "code": 200,
+                    "name": "Success",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success Example",
+                    "data": "{\n  \"statusCode\": 200,\n  \"message\": \"Delete AccessLog operation successful\",\n  \"data\": {\n    \"message\": \"AccessLog deleted successfully\"\n  }\n}",
+                    "responseId": "60000117"
+                  }
+                ],
+                "description": "REST testing endpoint for Delete AccessLog",
+                "tags": [
+                  "Role & Permission Module"
+                ],
+                "status": "released",
+                "serverId": "local_v1",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 10,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1377681,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "socketCollection": [],
+  "docCollection": [],
+  "webSocketCollection": [],
+  "socketIOCollection": [],
+  "mcpClientCollection": [],
+  "responseCollection": [],
+  "schemaCollection": [],
+  "securitySchemeCollection": [],
+  "oasComponentCollection": [],
+  "requestCollection": [],
+  "environments": [
+    {
+      "id": "env_local",
+      "name": "Local Environment",
+      "baseUrl": "http://localhost:3000/api/v1",
+      "parameters": []
+    }
+  ],
+  "commonScripts": [],
+  "globalVariables": [],
+  "commonParameters": [],
+  "customFunctions": [],
+  "projectTestCaseCategories": [],
+  "projectTestCaseTags": [],
+  "projectAssociations": [],
+  "moduleSettings": []
+}
