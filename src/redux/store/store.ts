@@ -3,6 +3,7 @@ import { counterSlice } from "../slices/counterSlice";
 import campaignSlice from "../slices/Campaigns/campaignSlice";
 import campaignstateSlice from "../slices/Campaigns/campaignstateSlice";
 import campaigndetailsSlice from "../slices/Campaigns/campaigndetailsSlice";
+import campaignCategorySlice from './../slices/campaigns-category/campaignCategorySlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     campaigns: campaignSlice,
     campaignstate: campaignstateSlice,
     campaigndetails: campaigndetailsSlice,
+    campaignCategory: campaignCategorySlice,
   },
 });
 
