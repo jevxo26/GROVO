@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { CampaignResponse } from "@/type/campaign";
+import { CampaignResponse } from "@/type/campaigns/campaign";
 
-export const fetchCampaigns = createAsyncThunk<CampaignResponse>(
+export const fetchallCampaigns = createAsyncThunk<CampaignResponse>(
   "campaigns/fetchCampaigns",
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get<CampaignResponse>(
-        "http://localhost:3000/api/v1/campaigns"
-      );
+  `${process.env.NEXT_PUBLIC_API_URL}/campaigns`
+);
 
       console.log(res.data);
 
