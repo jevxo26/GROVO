@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { counterSlice } from "../slices/counterSlice";
 import campaignSlice from "../slices/Campaigns/campaignSlice";
+import campaignstateSlice from "../slices/Campaigns/campaignstateSlice";
+import campaigndetailsSlice from "../slices/Campaigns/campaigndetailsSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterSlice.reducer,
     campaigns: campaignSlice,
+    campaignstate: campaignstateSlice,
+    campaigndetails: campaigndetailsSlice,
   },
 });
 
