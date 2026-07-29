@@ -1,4 +1,5 @@
 import Footer from "@/components/ui/footer/footer";
+import Contact from "../(homeLayout)/contact/page";
 import { ModeToggle } from "@/components/ui/modeToggle";
 
 export default function Home() {
@@ -23,6 +24,9 @@ export default function Home() {
 
       
     </div>
+    {/* Temorary Render Contact Page */}
+    <Contact/>
+    
     <footer>
       <Footer/>
     </footer>
