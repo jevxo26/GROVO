@@ -19,7 +19,7 @@ const defaultTestimonials: Testimonial[] = [
     id: "1",
     quote:
       "ASHRAY has completely changed how I approach charity. I can see exactly where every taka goes, receive monthly impact reports, and know that my donations are creating real change in communities that need it most.",
-    name: "Mohammad Ali",
+    name: "Md Antor Mia",
     role: "Monthly Donor since 2024",
     avatarLetter: "M",
     rating: 5,
