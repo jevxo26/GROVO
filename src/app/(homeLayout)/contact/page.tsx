@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, Send } from 'lucide-react';
 
 const ContactPage = () => {
     return (
-        <div className="min-h-screen bg-white dark:bg-[#051108] pb-12 transition-colors duration-300">
+        <div className="min-h-screen mt-2 bg-white dark:bg-[#051108] pb-12 transition-colors duration-300">
             {/* Top Section */}
             <div className="w-full bg-[#F5F2EB] dark:bg-[#0f1d12] border-b border-slate-200/80 dark:border-gray-800 py-12 mb-12">
                 <div className="max-w-[91.666667%] mx-auto py-20 px-6">
