@@ -1,5 +1,3 @@
-import Footer from "@/components/ui/footer/footer";
-
 const HomeLayout = ({
   children,
 }: Readonly<{
@@ -7,7 +5,6 @@ const HomeLayout = ({
 }>) => {
   return <>
   {children}
-  <Footer/>
   </>
 };
 
