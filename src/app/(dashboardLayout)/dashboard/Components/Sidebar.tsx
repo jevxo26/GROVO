@@ -45,6 +45,7 @@ export type UserRole =
   | "divisioncoordinator"
   | "districtcoordinator"
   | "upazilacoordinator"
+  | "unioncoordinator"
   | "nationaladmin";
 
 export const sidebarNavigation = {
@@ -303,6 +304,68 @@ export const sidebarNavigation = {
     },
   ],
   upazilacoordinator: [
+    {
+      name: "Overview",
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      name: "Members",
+      href: "/dashboard/members",
+      icon: Users,
+    },
+    {
+      name: "Volunteers",
+      href: "/dashboard/volunteers",
+      icon: UserCheck,
+    },
+    {
+      name: "Donors",
+      href: "/dashboard/donors",
+      icon: HandCoins,
+    },
+    {
+      name: "Campaigns",
+      href: "/dashboard/campaigns",
+      icon: Flag,
+    },
+    {
+      name: "Projects",
+      href: "/dashboard/projects",
+      icon: Folder,
+    },
+    {
+      name: "Beneficiaries",
+      href: "/dashboard/beneficiaries",
+      icon: UserCheck,
+    },
+    {
+      name: "Distribution",
+      href: "/dashboard/distribution",
+      icon: Truck, 
+    },
+    {
+      name: "Field Activities",
+      href: "/dashboard/fieldActivities",
+      icon: MapPin,
+    },
+    {
+      name: "Analytics",
+      href: "/dashboard/analytics",
+      icon: BarChart3,
+    },
+    {
+      name: "Branch Settings",
+      href: "/dashboard/settings",
+      icon: Settings, 
+    },
+    {
+      name: "Announcements",
+      href: "/dashboard/announcements",
+      icon: Megaphone,
+    },
+  ],
+  unioncoordinator: [
     {
       name: "Overview",
       href: "/dashboard",
