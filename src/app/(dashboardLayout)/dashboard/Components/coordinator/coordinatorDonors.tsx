@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, Eye } from "lucide-react";
+import { Search } from "lucide-react";
 
 export default function CoordinatorDonors() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -71,7 +71,6 @@ export default function CoordinatorDonors() {
                 <th className="py-3.5 px-6">Amount</th>
                 <th className="py-3.5 px-6">Type</th>
                 <th className="py-3.5 px-6">Date</th>
-                <th className="py-3.5 px-6 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
@@ -91,16 +90,11 @@ export default function CoordinatorDonors() {
                     </span>
                   </td>
                   <td className="py-4 px-6 text-slate-500 text-xs">{donor.date}</td>
-                  <td className="py-4 px-6 text-right">
-                    <button className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors ml-auto" title="View Details">
-                      <Eye className="w-3.5 h-3.5" />
-                    </button>
-                  </td>
                 </tr>
               ))}
               {filteredDonors.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="text-center py-8 text-slate-400 text-sm">No donors found.</td>
+                  <td colSpan={6} className="text-center py-8 text-slate-400 text-sm">No donors found.</td>
                 </tr>
               )}
             </tbody>
