@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { counterSlice } from "../slices/counterSlice";
 import campaignSlice from "../slices/Campaigns/campaignSlice";
+import beneficiarySlice from "@/redux/slices/project-beneficiaries/beneficiarySlice";
+import volunteerSlice from "@/redux/slices/project-volunteers/volunteerSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterSlice.reducer,
     campaigns: campaignSlice,
+    beneficiaries: beneficiarySlice,
+    projectVolunteers: volunteerSlice,
   },
 });
 

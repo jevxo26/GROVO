@@ -10,7 +10,7 @@ export const fetchallCampaigns = createAsyncThunk<CampaignResponse>(
   `${process.env.NEXT_PUBLIC_API_URL}/campaigns`
 );
 
-      console.log(res.data);
+      // console.log(res.data);
 
       return res.data;
     } catch (error: any) {
