@@ -14,6 +14,7 @@ export default function Home() {
       <LiveDonationFeed />
       <TrustSection />
       <TestimonialsSection />
+      <WaysToGiveSection />
     </div>
   );
 }
