@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
-import { Plus, Calendar, Clock, MapPin, Pencil, Send, BookOpen, Star, CalendarDays } from "lucide-react";
+import React, { useState } from "react";
+import { Plus, Calendar, Clock, MapPin, Pencil, Send, BookOpen, Star, CalendarDays, X } from "lucide-react";
 
 export default function CoordinatorAnnouncements() {
+  const [showForm, setShowForm] = useState(false);
+
   const announcementsData = [
     {
       title: "Emergency flood relief meeting",
@@ -50,11 +52,62 @@ export default function CoordinatorAnnouncements() {
         <h3 className="font-bold text-slate-900 dark:text-white text-base">
           Upcoming Events & Announcements
         </h3>
-        <button className="flex items-center gap-2 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold transition-colors shadow-sm">
-          <Plus className="w-4 h-4" />
-          New Announcement
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="flex items-center gap-2 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold transition-colors shadow-sm"
+        >
+          {showForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+          {showForm ? "Close Form" : "New Announcement"}
         </button>
       </div>
+
+      {/* Toggleable Create Announcement Form */}
+      {showForm && (
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-4 transition-all">
+          <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+            Create Announcement
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input
+              type="text"
+              placeholder="Title"
+              className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm focus:outline-none focus:border-emerald-600"
+            />
+            <input
+              type="date"
+              className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm focus:outline-none focus:border-emerald-600 text-slate-500"
+            />
+            <input
+              type="time"
+              className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm focus:outline-none focus:border-emerald-600 text-slate-500"
+            />
+            <input
+              type="text"
+              placeholder="Location"
+              className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm focus:outline-none focus:border-emerald-600"
+            />
+            <select className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm focus:outline-none focus:border-emerald-600 text-slate-500">
+              <option>Event</option>
+              <option>Announcement</option>
+            </select>
+            <select className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm focus:outline-none focus:border-emerald-600 text-slate-500">
+              <option>Medium Priority</option>
+              <option>High Priority</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-3 pt-2">
+            <button className="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold transition-colors shadow-sm">
+              Publish
+            </button>
+            <button
+              onClick={() => setShowForm(false)}
+              className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Announcements List */}
       <div className="space-y-3">

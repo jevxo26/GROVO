@@ -93,23 +93,25 @@ export default function CoordinatorCampaigns() {
               </span>
             </div>
 
+            {/* Progress Bar & Percentage in same row */}
             <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-400">Target: {camp.target}</span>
-                <span className="text-slate-700 dark:text-slate-300">
+              <div className="flex items-center gap-3">
+                <div className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                  <div
+                    className="bg-lime-600 h-full rounded-full transition-all duration-500"
+                    style={{ width: `${camp.progress}%` }}
+                  ></div>
+                </div>
+                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 w-10 text-right">
                   {camp.progress}%
                 </span>
               </div>
-              <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                <div
-                  className="bg-emerald-600 h-full rounded-full transition-all duration-500"
-                  style={{ width: `${camp.progress}%` }}
-                ></div>
-              </div>
             </div>
 
+            {/* Target & Donors below progress bar */}
             <div className="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800">
-              <span>{camp.donors} donors</span>
+              <span className="font-medium text-slate-500 dark:text-slate-400">Target: {camp.target}</span>
+              <span className="font-medium text-slate-600 dark:text-slate-300">{camp.donors} donors</span>
             </div>
           </div>
         ))}

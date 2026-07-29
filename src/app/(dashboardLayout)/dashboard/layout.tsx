@@ -14,7 +14,10 @@ export default function DashboardLayout({
   admin,
   nationaladmin,
   divisioncoordinator,
-  role = "divisioncoordinator",
+  districtcoordinator,
+  upazilacoordinator,
+  unioncoordinator,
+  role = "unioncoordinator",
 }: {
   volunteer: ReactNode;
   member: ReactNode;
@@ -25,6 +28,9 @@ export default function DashboardLayout({
   admin: ReactNode;
   nationaladmin: ReactNode;
   divisioncoordinator: ReactNode;
+  districtcoordinator: ReactNode;
+  upazilacoordinator: ReactNode;
+  unioncoordinator: ReactNode;
   role?: UserRole;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -58,8 +64,11 @@ export default function DashboardLayout({
             {role === "admin" && <div>{admin}</div>}
             {role === "nationaladmin" && <div>{nationaladmin}</div>}
             {role === "divisioncoordinator" && <div>{divisioncoordinator}</div>}
+            {role === "districtcoordinator" && <div>{districtcoordinator}</div>}
+            {role === "upazilacoordinator" && <div>{upazilacoordinator}</div>}
+            {role === "unioncoordinator" && <div>{unioncoordinator}</div>}
           </div>
-        </main>
+        </main> 
       </div>
     </div>
   );

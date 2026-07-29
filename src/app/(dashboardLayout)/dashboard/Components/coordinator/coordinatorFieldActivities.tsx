@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Check, Eye, MapPin } from "lucide-react";
 
 export default function CoordinatorFieldActivities() {
@@ -85,14 +85,15 @@ export default function CoordinatorFieldActivities() {
               <span>{act.date}</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 py-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl px-4 text-center">
-              <div>
-                <div className="text-[10px] uppercase font-bold text-slate-400">Families</div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white">{act.families}</div>
+            {/* Separate Cards for Families & Expenses */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl text-center border border-slate-100 dark:border-slate-800">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Families</div>
+                <div className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">{act.families}</div>
               </div>
-              <div>
-                <div className="text-[10px] uppercase font-bold text-slate-400">Expenses</div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white">{act.expenses}</div>
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl text-center border border-slate-100 dark:border-slate-800">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Expenses</div>
+                <div className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">{act.expenses}</div>
               </div>
             </div>
 

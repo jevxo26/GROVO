@@ -43,6 +43,9 @@ export type UserRole =
   | "individualdonor"
   | "admin"
   | "divisioncoordinator"
+  | "districtcoordinator"
+  | "upazilacoordinator"
+  | "unioncoordinator"
   | "nationaladmin";
 
 export const sidebarNavigation = {
@@ -215,7 +218,7 @@ export const sidebarNavigation = {
     {
       name: "Distribution",
       href: "/dashboard/distribution",
-      icon: Truck,
+      icon: Truck, 
     },
     {
       name: "Field Activities",
@@ -238,11 +241,197 @@ export const sidebarNavigation = {
       icon: Megaphone,
     },
   ],
+  districtcoordinator: [
+    {
+      name: "Overview",
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      name: "Members",
+      href: "/dashboard/members",
+      icon: Users,
+    },
+    {
+      name: "Volunteers",
+      href: "/dashboard/volunteers",
+      icon: UserCheck,
+    },
+    {
+      name: "Donors",
+      href: "/dashboard/donors",
+      icon: HandCoins,
+    },
+    {
+      name: "Campaigns",
+      href: "/dashboard/campaigns",
+      icon: Flag,
+    },
+    {
+      name: "Projects",
+      href: "/dashboard/projects",
+      icon: Folder,
+    },
+    {
+      name: "Beneficiaries",
+      href: "/dashboard/beneficiaries",
+      icon: UserCheck,
+    },
+    {
+      name: "Distribution",
+      href: "/dashboard/distribution",
+      icon: Truck, 
+    },
+    {
+      name: "Field Activities",
+      href: "/dashboard/fieldActivities",
+      icon: MapPin,
+    },
+    {
+      name: "Analytics",
+      href: "/dashboard/analytics",
+      icon: BarChart3,
+    },
+    {
+      name: "Branch Settings",
+      href: "/dashboard/settings",
+      icon: Settings, 
+    },
+    {
+      name: "Announcements",
+      href: "/dashboard/announcements",
+      icon: Megaphone,
+    },
+  ],
+  upazilacoordinator: [
+    {
+      name: "Overview",
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      name: "Members",
+      href: "/dashboard/members",
+      icon: Users,
+    },
+    {
+      name: "Volunteers",
+      href: "/dashboard/volunteers",
+      icon: UserCheck,
+    },
+    {
+      name: "Donors",
+      href: "/dashboard/donors",
+      icon: HandCoins,
+    },
+    {
+      name: "Campaigns",
+      href: "/dashboard/campaigns",
+      icon: Flag,
+    },
+    {
+      name: "Projects",
+      href: "/dashboard/projects",
+      icon: Folder,
+    },
+    {
+      name: "Beneficiaries",
+      href: "/dashboard/beneficiaries",
+      icon: UserCheck,
+    },
+    {
+      name: "Distribution",
+      href: "/dashboard/distribution",
+      icon: Truck, 
+    },
+    {
+      name: "Field Activities",
+      href: "/dashboard/fieldActivities",
+      icon: MapPin,
+    },
+    {
+      name: "Analytics",
+      href: "/dashboard/analytics",
+      icon: BarChart3,
+    },
+    {
+      name: "Branch Settings",
+      href: "/dashboard/settings",
+      icon: Settings, 
+    },
+    {
+      name: "Announcements",
+      href: "/dashboard/announcements",
+      icon: Megaphone,
+    },
+  ],
+  unioncoordinator: [
+    {
+      name: "Overview",
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      name: "Members",
+      href: "/dashboard/members",
+      icon: Users,
+    },
+    {
+      name: "Volunteers",
+      href: "/dashboard/volunteers",
+      icon: UserCheck,
+    },
+    {
+      name: "Donors",
+      href: "/dashboard/donors",
+      icon: HandCoins,
+    },
+    {
+      name: "Campaigns",
+      href: "/dashboard/campaigns",
+      icon: Flag,
+    },
+    {
+      name: "Projects",
+      href: "/dashboard/projects",
+      icon: Folder,
+    },
+    {
+      name: "Beneficiaries",
+      href: "/dashboard/beneficiaries",
+      icon: UserCheck,
+    },
+    {
+      name: "Distribution",
+      href: "/dashboard/distribution",
+      icon: Truck, 
+    },
+    {
+      name: "Field Activities",
+      href: "/dashboard/fieldActivities",
+      icon: MapPin,
+    },
+    {
+      name: "Analytics",
+      href: "/dashboard/analytics",
+      icon: BarChart3,
+    },
+    {
+      name: "Branch Settings",
+      href: "/dashboard/settings",
+      icon: Settings, 
+    },
+    {
+      name: "Announcements",
+      href: "/dashboard/announcements",
+      icon: Megaphone,
+    },
+  ],
 };
 
 export function Sidebar({
   onClose,
-  role = "divisioncoordinator",
+  role = "upazilacoordinator",
 }: {
   onClose?: () => void;
   role?: UserRole;
