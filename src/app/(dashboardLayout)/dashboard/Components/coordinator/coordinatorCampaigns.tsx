@@ -98,7 +98,7 @@ export default function CoordinatorCampaigns() {
               <div className="flex items-center gap-3">
                 <div className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
                   <div
-                    className="bg-emerald-600 h-full rounded-full transition-all duration-500"
+                    className="bg-lime-600 h-full rounded-full transition-all duration-500"
                     style={{ width: `${camp.progress}%` }}
                   ></div>
                 </div>

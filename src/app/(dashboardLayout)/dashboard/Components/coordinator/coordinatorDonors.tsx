@@ -37,7 +37,7 @@ export default function CoordinatorDonors() {
         </div>
         <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
           <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Monthly Collection</div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white">৳ 18.5L</div>
+          <div className="text-2xl font-bold text-lime-600 dark:text-white">৳ 18.5L</div>
         </div>
         <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
           <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Recent Total</div>
