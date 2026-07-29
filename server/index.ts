@@ -12,6 +12,7 @@ import { donorRoutes } from "./routes/donor.routes";
 import { volunteerRoutes } from "./routes/volunteer.routes";
 import { beneficiaryRoutes } from "./routes/beneficiary.routes";
 import { EventsMediaRoutes } from "./routes/events_media.routes";
+import { AnalyticsReportsRoutes } from "./routes/analytics_reports.routes";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -36,21 +37,24 @@ app
     });
 
     // Role module routes mounted at /api/v1/roles
-    server.use("/api/v1/roles", roleRoutes); // <-- Added role routes
+    server.use("/api/v1", roleRoutes); // <-- Added role routes
 
     // Donor module routes mounted at /api/v1/donors
-    server.use("/api/v1/donors", donorRoutes); // <-- Placed perfectly here
+    server.use("/api/v1", donorRoutes); // <-- Placed perfectly here
 
     // API routes - make sure this is BEFORE Next.js handler
     server.use("/api/v1", RootRouter);
 
     // Volunteer module routes mounted at /api/v1/volunteers
-    server.use("/api/v1/volunteers", volunteerRoutes);
+    server.use("/api/v1", volunteerRoutes);
+
+    // Analytics, Reports & Dashboard module routes mounted at /api/v1/analytics-reports
+    server.use("/api/v1", AnalyticsReportsRoutes);
 
     // Beneficiary module routes mounted at /api/v1/beneficiaries
-    server.use("/api/v1/beneficiaries", beneficiaryRoutes);
+    server.use("/api/v1", beneficiaryRoutes);
 
-    server.use("/api/v1/events-media", EventsMediaRoutes);
+    server.use("/api/v1", EventsMediaRoutes);
 
     // Next.js handler for all other routes (must be last)
     server.use((req: Request, res: Response) => {

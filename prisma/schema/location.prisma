@@ -1,0 +1,126 @@
+model Region {
+  id                  String   @id @default(cuid())
+  name                String   @unique
+  description         String?  @db.Text
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  divisions           Division[]
+  regionalCoordinators RegionalCoordinator[]
+
+  @@map("region")
+}
+
+model Division {
+  id            String   @id @default(cuid())
+  regionId      String
+  name          String   @unique
+  code          String?  @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  region        Region   @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  districts     District[]
+  branches      Branch[]
+  areaCoverages AreaCoverage[]
+
+  @@map("division")
+}
+
+model District {
+  id            String   @id @default(cuid())
+  divisionId    String
+  name          String
+  code          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  division      Division @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+  upazilas      Upazila[]
+  branches      Branch[]
+  areaCoverages AreaCoverage[]
+
+  @@map("district")
+}
+
+model Upazila {
+  id            String   @id @default(cuid())
+  districtId    String
+  name          String
+  code          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  district      District @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  unions        Union[]
+  branches      Branch[]
+  areaCoverages AreaCoverage[]
+
+  @@map("upazila")
+}
+
+model Union {
+  id            String   @id @default(cuid())
+  upazilaId     String
+  name          String
+  code          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  upazila       Upazila  @relation(fields: [upazilaId], references: [id], onDelete: Cascade)
+  wards         Ward[]
+  branches      Branch[]
+  areaCoverages AreaCoverage[]
+
+  @@map("union")
+}
+
+model Ward {
+  id            String   @id @default(cuid())
+  unionId       String
+  name          String
+  wardNumber    String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  union         Union    @relation(fields: [unionId], references: [id], onDelete: Cascade)
+  areaCoverages AreaCoverage[]
+
+  @@map("ward")
+}
+
+model AreaCoverage {
+  id           String   @id @default(cuid())
+  branchId     String
+  divisionId   String?
+  districtId   String?
+  upazilaId    String?
+  unionId      String?
+  wardId       String?
+  coverageType String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  branch       Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  division     Division? @relation(fields: [divisionId], references: [id])
+  district     District? @relation(fields: [districtId], references: [id])
+  upazila      Upazila?  @relation(fields: [upazilaId], references: [id])
+  union        Union?    @relation(fields: [unionId], references: [id])
+  ward         Ward?     @relation(fields: [wardId], references: [id])
+
+  @@map("area_coverage")
+}
+
+model BranchCoverage {
+  id             String   @id @default(cuid())
+  branchId       String
+  coverageArea   Float?
+  population     Int?
+  householdCount Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  branch         Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  @@map("branch_coverage")
+}
