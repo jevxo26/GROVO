@@ -1,3 +1,4 @@
+import Footer from "@/components/ui/footer/footer";
 import { HeadingText } from "@/components/common/headingText/headingText";
 import { ModeToggle } from "@/components/ui/modeToggle";
 import ReduxTest from "@/redux/ReduxTest";
@@ -17,5 +18,6 @@ export default function Home() {
       <ModeToggle />
       <ReduxTest></ReduxTest>
     </div>
+
   );
 }

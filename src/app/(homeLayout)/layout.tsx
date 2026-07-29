@@ -3,7 +3,9 @@ const HomeLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <>{children}</>;
+  return <>
+  {children}
+  </>
 };
 
 export default HomeLayout;
