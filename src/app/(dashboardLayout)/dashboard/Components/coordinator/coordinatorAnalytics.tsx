@@ -111,7 +111,7 @@ export default function CoordinatorAnalytics() {
                 </div>
                 <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
                   <div
-                    className="bg-lime-600 h-full rounded-full transition-all duration-500"
+                    className="bg-green-600 h-full rounded-full transition-all duration-500"
                     style={{ width: `${vol.score}%` }}
                   ></div>
                 </div>

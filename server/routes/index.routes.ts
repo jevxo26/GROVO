@@ -71,11 +71,23 @@ import { projectUpdateRoutes } from "./projectUpdate.routes";
 import { projectVolunteerRoutes } from "./projectVolunteer.routes";
 import { refundRoutes } from "./refund.routes";
 import { settlementRoutes } from "./settlement.routes";
+import { roleRoutes } from "./role.routes";
 import { userRoutes } from "./user.routes";
+import { donorRoutes } from "./donor.routes";
+import { volunteerRoutes } from "./volunteer.routes";
+import { beneficiaryRoutes } from "./beneficiary.routes";
+import { eventsMediaRoutes } from "./events_media.routes";
+import { analyticsReportsRoutes } from "./analytics_reports.routes";
 
 const router = express.Router();
 
+router.use("/role", roleRoutes);
 router.use("/user", userRoutes);
+router.use("/donors", donorRoutes);
+router.use("/volunteers", volunteerRoutes);
+router.use("/beneficiaries", beneficiaryRoutes);
+router.use("/events-media", eventsMediaRoutes);
+router.use("/analytics-reports", analyticsReportsRoutes);
 router.use("/user/memberships", membershipRoutes);
 router.use("/campaigns", campaignRoutes);
 router.use("/campaign-categories", campaignCategoryRoutes);

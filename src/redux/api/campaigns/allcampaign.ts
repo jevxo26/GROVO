@@ -15,10 +15,10 @@ export const fetchallCampaigns = createAsyncThunk<CampaignResponse>(
       return res.data;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data || "Error fetching campaigns"
+        error.response?.data || "Error fetching campaigns",
       );
     }
-  }
+  },
 );
 
 // done

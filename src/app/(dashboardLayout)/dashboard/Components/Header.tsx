@@ -8,8 +8,8 @@ import { UserRole } from "./Sidebar";
 
 export function Header({
   onMenuClick,
-  role = "divisioncoordinator",
-}: {
+  role = "unioncoordinator",
+}: { 
   onMenuClick?: () => void;
   role?: UserRole;
 }) {
@@ -118,7 +118,7 @@ export function Header({
         <h2 className="text-xl md:text-2xl font-bold font-sans text-foreground truncate max-w-50 sm:max-w-full">
           {title}
         </h2>
-      </div>
+      </div>  
 
       <div className="flex items-center gap-2 md:gap-4">
         <ModeToggle />
