@@ -4,6 +4,7 @@ import CoordinatorAnalytics from '../../Components/coordinator/coordinatorAnalyt
 const page = () => {
   return (
     <CoordinatorAnalytics/>
+    // <CoordinatorAnalytics/>
   )
 }
 
