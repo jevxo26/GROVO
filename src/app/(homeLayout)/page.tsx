@@ -1,7 +1,10 @@
+import Footer from "@/components/ui/footer/footer";
 import { ModeToggle } from "@/components/ui/modeToggle";
 
 export default function Home() {
   return (
+    <>
+    
     <div className="justify-center items-center p-20">
       <h1>
         Hi Developer Make sure you to add all the components with the help of
@@ -17,6 +20,12 @@ export default function Home() {
         dashboardLayout(This is very important).
       </h1>
       <ModeToggle />
+
+      
     </div>
+    <footer>
+      <Footer/>
+    </footer>
+    </>
   );
 }
