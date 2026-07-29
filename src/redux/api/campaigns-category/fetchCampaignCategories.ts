@@ -15,7 +15,7 @@ export const fetchCampaignCategories = createAsyncThunk<
       const res = await axios.get<CampaignCategoryResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/campaign-categories`
       );
-      console.log(res);
+      // console.log(res);
       // 🔥 IMPORTANT
       return res.data.data; // শুধু array return
     } catch (error: any) {

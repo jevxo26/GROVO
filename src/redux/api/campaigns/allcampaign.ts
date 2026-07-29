@@ -9,7 +9,6 @@ export const fetchallCampaigns = createAsyncThunk<CampaignResponse>(
       const res = await axios.get<CampaignResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/campaigns`,
       );
-
       return res.data;
     } catch (error: any) {
       return rejectWithValue(

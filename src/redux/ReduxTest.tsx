@@ -59,9 +59,9 @@ export default function ReduxTest() {
     console.log("🚀 CALLING API...");
 
     store.dispatch(fetchCampaignCategories()).then((res: any) => {
-      console.log("✅ RESPONSE 👉", res);
-      console.log("📦 PAYLOAD 👉", res.payload);
-      console.log("🧠 STATE 👉", store.getState());
+      // console.log("✅ RESPONSE 👉", res);
+      // console.log("📦 PAYLOAD 👉", res.payload);
+      // console.log("🧠 STATE 👉", store.getState());
     });
   }, []);
 

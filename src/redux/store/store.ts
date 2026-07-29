@@ -4,6 +4,7 @@ import campaignSlice from "../slices/Campaigns/campaignSlice";
 import campaignstateSlice from "../slices/Campaigns/campaignstateSlice";
 import campaigndetailsSlice from "../slices/Campaigns/campaigndetailsSlice";
 import campaignCategorySlice from './../slices/campaigns-category/campaignCategorySlice';
+import campaignCategorySliceByid from "../slices/campaigns-category/campaignCategorySliceByid";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     campaignstate: campaignstateSlice,
     campaigndetails: campaigndetailsSlice,
     campaignCategory: campaignCategorySlice,
+    campaignCategoryByid: campaignCategorySliceByid,
   },
 });
 
