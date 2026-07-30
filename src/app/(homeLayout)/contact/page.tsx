@@ -14,7 +14,7 @@ const ContactPage = () => {
                     <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
                         Get in <span className="text-green-600">Touch</span>
                     </h1>
-                    <p className="text-slate-600 dark:text-gray-400 text-base max-w-2xl">
+                    <p className="text-slate-600 dark:text-gray-400 text-lg md:text-xl max-w-2xl">
                         Have questions about donations, volunteering, or partnerships? We are here to help.
                     </p>
                 </div>
