@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nodemon --watch server --watch tsconfig.server.json --ext ts --exec \"tsx --tsconfig tsconfig.server.json\" server/index.ts",
+    "dev": "nodemon --watch server --watch tsconfig.server.json --ignore .next --ext ts --exec \"tsx --tsconfig tsconfig.server.json\" server/index.ts",
     "build": " npx prisma generate && next build && tsc --project tsconfig.server.json",
     "start": "next start",
     "lint": "eslint",
@@ -30,6 +30,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "framer-motion": "^12.43.0",
     "http-status": "^2.1.0",
     "jod": "^0.0.0",
     "jsonwebtoken": "^9.0.3",
