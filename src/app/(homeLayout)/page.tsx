@@ -1,21 +1,21 @@
-import { HeadingText } from "@/components/common/headingText/headingText";
-import { ModeToggle } from "@/components/ui/modeToggle";
-import ReduxTest from "@/redux/ReduxTest";
+import ImpactSection from "@/components/ui/ImpactSection";
+import Banner from "./../../components/ui/Banner";
+import ActiveCampaignsSection from "@/components/ui/ActiveCampaignsSection";
+import LiveDonationFeed from "../../components/LiveDonationFeed";
+import TrustSection from "../../components/ui/TrustSection";
+import TestimonialsSection from "@/components/ui/TestimonialsSection";
+import WaysToGiveSection from "@/components/ui/WaysToGiveSection";
 
 export default function Home() {
   return (
-    <div className="justify-center items-center p-20">
-      <section className="py-12">
-        <HeadingText
-          badge="📊 OUR IMPACT IN NUMBERS"
-          title="Making a Difference,"
-          highlight="One Life at a Time"
-          description="Every number represents a story of hope, a life touched, and a community transformed."
-        />
-      </section>
-
-      <ModeToggle />
-      <ReduxTest></ReduxTest>
+    <div>
+      <Banner />
+      <ImpactSection />
+      <ActiveCampaignsSection />
+      <LiveDonationFeed />
+      <TrustSection />
+      <TestimonialsSection />
+      <WaysToGiveSection />
     </div>
   );
 }
