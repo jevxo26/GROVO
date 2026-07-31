@@ -167,7 +167,7 @@ export const checkAuth = (...authRoles: string[]) => {
             req.user = {
               userId: session.user.id,
               email: session.user.email,
-              role: session.user.role,
+             
             };
             req.session = session;
 
