@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Clock, Users, ArrowRight } from 'lucide-react';
 
 export interface CampaignProps {
@@ -18,6 +19,7 @@ export interface CampaignProps {
 
 export default function CampaignCard({ campaign }: { campaign: CampaignProps }) {
   const {
+    id,
     image,
     category,
     isUrgent,
@@ -30,15 +32,18 @@ export default function CampaignCard({ campaign }: { campaign: CampaignProps }) 
     helpedCount,
   } = campaign;
 
+  // dynamic details URL
+  const detailsUrl = `/campaigns/${id}`;
+
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
+    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full group">
       {/* Top Banner with Image and Overlay Info */}
-      <div className="relative h-56 w-full bg-gray-200">
+      <Link href={detailsUrl} className="relative h-56 w-full bg-gray-200 block overflow-hidden">
         <Image
           src={image}
           alt={title}
           fill
-          className="object-cover"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
 
         {/* Top Badges */}
@@ -66,15 +71,17 @@ export default function CampaignCard({ campaign }: { campaign: CampaignProps }) 
             <p className="text-base font-extrabold text-gray-900 font-serif">{goal}</p>
           </div>
         </div>
-      </div>
+      </Link>
 
       {/* Card Content Body */}
       <div className="p-5 flex flex-col grow justify-between">
         <div>
           {/* Title & Description */}
-          <h3 className="text-lg font-bold text-gray-900 mb-1.5 line-clamp-1 font-serif">
-            {title}
-          </h3>
+          <Link href={detailsUrl}>
+            <h3 className="text-lg font-bold text-gray-900 mb-1.5 line-clamp-1 font-serif hover:text-[#136139] transition-colors">
+              {title}
+            </h3>
+          </Link>
           <p className="text-xs text-gray-500 mb-5 line-clamp-2 leading-relaxed">
             {description}
           </p>
@@ -127,11 +134,14 @@ export default function CampaignCard({ campaign }: { campaign: CampaignProps }) 
           </div>
         </div>
 
-        {/* Action Button */}
-        <button className="w-full bg-[#136139] hover:bg-[#0e482a] text-white font-medium py-3 px-4 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors duration-200">
+        {/* Action Button - Linked to Details Page */}
+        <Link
+          href={detailsUrl}
+          className="w-full bg-[#136139] hover:bg-[#0e482a] text-white font-medium py-3 px-4 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors duration-200"
+        >
           Support This Campaign
           <ArrowRight className="w-4 h-4" />
-        </button>
+        </Link>
       </div>
     </div>
   );
