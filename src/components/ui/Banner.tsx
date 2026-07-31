@@ -1,7 +1,8 @@
-import React from 'react';
-import { ShieldCheck, QrCode, FileText, CheckCircle, Heart, ArrowRight, Mouse } from 'lucide-react';
+import { ArrowRight, CheckCircle, FileText, Heart, Mouse, QrCode, ShieldCheck } from 'lucide-react';
 
 const Banner = () => {
+
+  
   return (
     <div className="relative min-h-screen w-full flex flex-col justify-between p-6 md:p-16 text-white bg-cover bg-center overflow-hidden"
       style={{

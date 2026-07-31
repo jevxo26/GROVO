@@ -4,6 +4,7 @@ import { projectBeneficiaryController } from "../controllers/project/projectBene
 const router = express.Router();
 
 router.post("/", projectBeneficiaryController.createProjectBeneficiary);
+router.get("/", projectBeneficiaryController.getAllProjectBeneficiaries);
 router.get("/project/:projectId", projectBeneficiaryController.getBeneficiariesByProjectId);
 router.get("/:id", projectBeneficiaryController.getProjectBeneficiaryById);
 router.patch("/:id", projectBeneficiaryController.updateProjectBeneficiary);

@@ -177,10 +177,17 @@ const deleteProjectBeneficiary = async (id: string) => {
   return { message: "Project beneficiary deleted successfully." };
 };
 
+const getAllProjectBeneficiaries = async () => {
+  return await prisma.projectBeneficiary.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+};
+
 export const projectBeneficiaryService = {
   createProjectBeneficiary,
   getBeneficiariesByProjectId,
   getProjectBeneficiaryById,
   updateProjectBeneficiary,
   deleteProjectBeneficiary,
+  getAllProjectBeneficiaries,
 };

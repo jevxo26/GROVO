@@ -33,7 +33,7 @@ model User {
   lastLogin     DateTime?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  role          UserRole    @default(GENERAL_MEMBER)
+ 
 
   userProfile         UserProfile?
   devices             UserDevice[]
