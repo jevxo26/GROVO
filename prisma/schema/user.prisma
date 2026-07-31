@@ -31,6 +31,7 @@ model User {
   status        UserStatus  @default(PENDING)
   isVerified    Boolean     @default(false)
   lastLogin     DateTime?
+  role          UserRole    @default(GENERAL_MEMBER)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
  
