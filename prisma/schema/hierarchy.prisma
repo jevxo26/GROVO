@@ -24,6 +24,7 @@ model RegionalCoordinator {
   user        User     @relation("RegionalCoordinatorHistory", fields: [userId], references: [id], onDelete: Cascade)
   region      Region   @relation(fields: [regionId], references: [id], onDelete: Cascade)
   territoryAssignments TerritoryAssignment[]
+  coordinatorRoles CoordinatorRole[]
 
   @@map("regional_coordinator")
 }

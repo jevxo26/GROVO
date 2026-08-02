@@ -46,14 +46,13 @@ model Event {
   createdAt            DateTime   @default(now())
   updatedAt            DateTime   @updatedAt
 
-  // RELATIONS (UNCOMMENT LATER AFTER TESTING SCALAR DATA):
-  // category      EventCategory       @relation(fields: [categoryId], references: [id])
-  // registrations EventRegistration[]
-  // attendances   EventAttendance[]
-  // speakers      EventSpeaker[]
-  // volunteers    EventVolunteer[]
-  // schedules     EventSchedule[]
-  // galleries     EventGallery[]
+  category      EventCategory       @relation(fields: [categoryId], references: [id])
+  registrations EventRegistration[]
+  attendances   EventAttendance[]
+  speakers      EventSpeaker[]
+  volunteers    EventVolunteer[]
+  schedules     EventSchedule[]
+  galleries     EventGallery[]
 
   @@map("events")
 }
@@ -68,7 +67,7 @@ model EventCategory {
   updatedAt   DateTime @updatedAt
 
   // RELATIONS:
-  // events Event[]
+  events Event[]
 
   @@map("event_categories")
 }
@@ -84,7 +83,7 @@ model EventRegistration {
   updatedAt          DateTime @updatedAt
 
   // RELATIONS:
-  // event Event @relation(fields: [eventId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
 
   @@map("event_registrations")
 }
@@ -100,7 +99,7 @@ model EventAttendance {
   updatedAt        DateTime  @updatedAt
 
   // RELATIONS:
-  // event Event @relation(fields: [eventId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
 
   @@map("event_attendances")
 }
@@ -117,8 +116,8 @@ model EventSpeaker {
   updatedAt    DateTime @updatedAt
 
   // RELATIONS:
-  // event Event @relation(fields: [eventId], references: [id])
-  // sessions EventSession[]
+  event Event @relation(fields: [eventId], references: [id])
+  sessions EventSession[]
 
   @@map("event_speakers")
 }
@@ -133,7 +132,7 @@ model EventVolunteer {
   updatedAt   DateTime @updatedAt
 
   // RELATIONS:
-  // event Event @relation(fields: [eventId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
 
   @@map("event_volunteers")
 }
@@ -150,8 +149,8 @@ model EventSchedule {
   updatedAt   DateTime @updatedAt
 
   // RELATIONS:
-  // event Event @relation(fields: [eventId], references: [id])
-  // sessions EventSession[]
+  event Event @relation(fields: [eventId], references: [id])
+  sessions EventSession[]
 
   @@map("event_schedules")
 }
@@ -167,8 +166,8 @@ model EventSession {
   updatedAt    DateTime @updatedAt
 
   // RELATIONS:
-  // schedule EventSchedule @relation(fields: [scheduleId], references: [id])
-  // speaker EventSpeaker? @relation(fields: [speakerId], references: [id])
+  schedule EventSchedule @relation(fields: [scheduleId], references: [id])
+  speaker EventSpeaker? @relation(fields: [speakerId], references: [id])
 
   @@map("event_sessions")
 }
@@ -181,8 +180,8 @@ model EventGallery {
   updatedAt DateTime @updatedAt
 
   // RELATIONS:
-  // event Event @relation(fields: [eventId], references: [id])
-  // album Album @relation(fields: [albumId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+  album Album @relation(fields: [albumId], references: [id])
 
   @@map("event_galleries")
 }
@@ -203,9 +202,9 @@ model Media {
   updatedAt   DateTime  @updatedAt
 
   // RELATIONS:
-  // albumMedia AlbumMedia[]
-  // storyMedia StoryMedia[]
-  // activityLogs MediaActivityLog[]
+  albumMedia AlbumMedia[]
+  storyMedia StoryMedia[]
+  activityLogs MediaActivityLog[]
 
   @@map("media")
 }
@@ -231,8 +230,8 @@ model Album {
   updatedAt   DateTime @updatedAt
 
   // RELATIONS:
-  // albumMedia AlbumMedia[]
-  // eventGalleries EventGallery[]
+  albumMedia AlbumMedia[]
+  eventGalleries EventGallery[]
 
   @@map("albums")
 }
@@ -246,8 +245,8 @@ model AlbumMedia {
   updatedAt DateTime @updatedAt
 
   // RELATIONS:
-  // album Album @relation(fields: [albumId], references: [id])
-  // media Media @relation(fields: [mediaId], references: [id])
+  album Album @relation(fields: [albumId], references: [id])
+  media Media @relation(fields: [mediaId], references: [id])
 
   @@map("album_media")
 }
@@ -261,7 +260,7 @@ model MediaActivityLog {
   createdAt   DateTime @default(now())
 
   // RELATIONS:
-  // media Media @relation(fields: [mediaId], references: [id])
+  media Media @relation(fields: [mediaId], references: [id])
 
   @@map("media_activity_logs")
 }
@@ -299,7 +298,7 @@ model SuccessStory {
   updatedAt     DateTime  @updatedAt
 
   // RELATIONS:
-  // storyMedia StoryMedia[]
+  storyMedia StoryMedia[]
 
   @@map("success_stories")
 }
@@ -312,8 +311,8 @@ model StoryMedia {
   updatedAt DateTime @updatedAt
 
   // RELATIONS:
-  // story SuccessStory @relation(fields: [storyId], references: [id])
-  // media Media @relation(fields: [mediaId], references: [id])
+  story SuccessStory @relation(fields: [storyId], references: [id])
+  media Media @relation(fields: [mediaId], references: [id])
 
   @@map("story_media")
 }

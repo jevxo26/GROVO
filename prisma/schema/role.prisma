@@ -31,6 +31,15 @@ model Role {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  rolePermissions  RolePermission[]
+  userRoles        UserRoleAssignment[]
+  coordinatorRoles CoordinatorRole[]
+  volunteerRoles   VolunteerRole[]
+  staffRoles       StaffRole[]
+  accessLogs       AccessLog[]
+  parentHierarchies RoleHierarchy[] @relation("ParentRole")
+  childHierarchies  RoleHierarchy[] @relation("ChildRole")
+
   @@map("roles")
 }
 
@@ -41,6 +50,8 @@ model Permission {
   description    String?  @db.Text
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+
+  rolePermissions RolePermission[]
 
   @@map("permissions")
 }
@@ -57,6 +68,9 @@ model RolePermission {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
   @@map("role_permissions")
 }
 
@@ -69,6 +83,9 @@ model UserRoleAssignment {
   status       GeneralStatus @default(ACTIVE)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role         Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@map("user_roles")
 } 
@@ -87,6 +104,9 @@ model CoordinatorRole {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
+  coordinator      RegionalCoordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
+  role             Role                @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
   @@map("coordinator_roles")
 }
 
@@ -102,6 +122,9 @@ model VolunteerRole {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
+  volunteer      Volunteer @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+  role           Role      @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
   @@map("volunteer_roles")
 }
 
@@ -115,6 +138,9 @@ model StaffRole {
   status      GeneralStatus @default(ACTIVE)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  staff       BranchStaff @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  role        Role        @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@map("staff_roles")
 }
@@ -146,6 +172,8 @@ model AdminPermission {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
+  admin      User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
   @@map("admin_permissions")
 }
 
@@ -156,6 +184,9 @@ model RoleHierarchy {
   hierarchyLevel Int     @default(1)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  parentRole    Role     @relation("ParentRole", fields: [parentRoleId], references: [id], onDelete: Cascade)
+  childRole     Role     @relation("ChildRole", fields: [childRoleId], references: [id], onDelete: Cascade)
 
   @@map("role_hierarchies")
 }
@@ -170,6 +201,9 @@ model AccessLog {
   device    String?
   browser   String?
   createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role?    @relation(fields: [roleId], references: [id])
 
   @@map("access_logs")
 }

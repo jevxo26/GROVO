@@ -48,18 +48,8 @@ const sampleCampaignsFallback: CampaignProps[] = [
 ];
 
 export default function ActiveCampaignsSection() {
-  // RTK Query hook for Campaign Categories
-  const { data: categories = [], isLoading: categoriesLoading, isError, error } = useGetCampaignCategoriesQuery();
-
-  // Log state data to console for developer verification
-  console.log("=== ActiveCampaignsSection: RTK Query Data ===");
-  console.log("RTK Query Categories state data:", categories);
-  if (isError) {
-    console.error("RTK Query Categories Error:", error);
-  }
-
-  // Display fetched database campaigns, or fall back to mock sample data if none exist yet
-  const displayCampaigns = categories.length > 0 ? categories.slice(0, 3) : sampleCampaignsFallback;
+  // allCampaigns থেকে প্রথম ৩টি ডাটা নেওয়া হচ্ছে
+  const displayCampaigns = allCampaigns.slice(0, 3);
 
   return (
     <section className="bg-[#FAF9F6] py-16 px-4 sm:px-6 lg:px-8">
@@ -88,52 +78,11 @@ export default function ActiveCampaignsSection() {
           </a>
         </div>
 
-        {/* Cards Grid */}
+        {/* Cards Grid - 3 items */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayCampaigns.map((campaign) => (
             <CampaignCard key={campaign.id} campaign={campaign} />
           ))}
-        </div>
-
-        {/* Real-time Redux Verification Panel */}
-        <div className="mt-12 p-6 bg-white border border-gray-100 rounded-2xl shadow-sm">
-          <h4 className="text-xs font-bold tracking-wider text-gray-400 uppercase mb-4">
-            Developer Console: RTK Query Fetch Verification
-          </h4>
-          <div className="space-y-4">
-            <div className="p-3 bg-gray-50 rounded-xl flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-[#136139]" />
-                <span className="font-semibold text-gray-700">Campaigns (RTK Query)</span>
-              </div>
-              <span className="text-gray-500 font-bold">
-                {categoriesLoading ? (
-                  <span className="flex items-center gap-1">
-                    <RefreshCw className="w-3.5 h-3.5 text-[#136139] animate-spin" />
-                    Loading...
-                  </span>
-                ) : isError ? (
-                  <span className="text-red-500">Error loading campaigns</span>
-                ) : (
-                  `${categories.length} loaded`
-                )}
-              </span>
-            </div>
-
-            {/* List the loaded categories */}
-            {!categoriesLoading && !isError && categories.length > 0 && (
-              <div className="p-3 bg-[#EAF5EF] text-[#136139] rounded-xl text-xs space-y-1">
-                <p className="font-bold border-b border-[#136139]/10 pb-1 mb-1">Fetched Campaigns:</p>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((cat) => (
-                    <span key={cat.id} className="bg-white/80 px-2 py-0.5 rounded font-medium shadow-sm">
-                      {cat.title}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </section>

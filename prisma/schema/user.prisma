@@ -47,6 +47,11 @@ model User {
   addresses           UserAddress[]
   membership          Membership[]
 
+  donors              Donor[]
+  roleAssignments     UserRoleAssignment[]
+  adminPermissions    AdminPermission[]
+  accessLogs          AccessLog[]
+
   createdCampaigns   Campaign[]         @relation("CampaignCreator")
   campaignDonations  CampaignDonation[] @relation("CampaignDonations")
   managedProjects    Project[]          @relation("ProjectManager")

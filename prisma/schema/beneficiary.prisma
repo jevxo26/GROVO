@@ -33,18 +33,17 @@ model Beneficiary {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  // RELATIONS (Commented out for initial independent testing)
-  // profile             BeneficiaryProfile?
-  // familyMembers       FamilyMember[]
-  // documents           BeneficiaryDocument[]
-  // verifications       ReliefBeneficiaryVerification[]
-  // needAssessments     BeneficiaryNeedAssessment[]
-  // qrCode              BeneficiaryQRCode?
-  // caseHistories       CaseHistory[]
-  // followUpVisits      FollowUpVisit[]
-  // feedbacks           BeneficiaryFeedback[]
-  // activityLogs        BeneficiaryActivityLog[]
-  // distributionRecords DistributionRecord[]
+  profile             BeneficiaryProfile?
+  familyMembers       FamilyMember[]
+  documents           BeneficiaryDocument[]
+  verifications       ReliefBeneficiaryVerification[]
+  needAssessments     BeneficiaryNeedAssessment[]
+  qrCode              BeneficiaryQRCode?
+  caseHistories       CaseHistory[]
+  followUpVisits      FollowUpVisit[]
+  feedbacks           BeneficiaryFeedback[]
+  activityLogs        BeneficiaryActivityLog[]
+  distributionRecords DistributionRecord[]
 
   @@map("beneficiaries")
 }
@@ -64,7 +63,7 @@ model BeneficiaryProfile {
   updatedAt       DateTime @updatedAt
 
   // RELATIONS
-  // beneficiary     Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary     Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("beneficiary_profiles")
 }
@@ -82,7 +81,7 @@ model FamilyMember {
   updatedAt     DateTime @updatedAt
 
   // RELATIONS
-  // beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("family_members")
 }
@@ -112,7 +111,7 @@ model BeneficiaryDocument {
   updatedAt          DateTime      @updatedAt
 
   // RELATIONS
-  // beneficiary        Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary        Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("beneficiary_documents")
 }
@@ -130,7 +129,7 @@ model ReliefBeneficiaryVerification {
   updatedAt          DateTime                 @updatedAt
 
   // RELATIONS
-  // beneficiary        Beneficiary              @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary        Beneficiary              @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("relief_beneficiary_verifications")
 }
@@ -148,7 +147,7 @@ model BeneficiaryNeedAssessment {
   updatedAt       DateTime      @updatedAt
 
   // RELATIONS
-  // beneficiary     Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary     Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("beneficiary_need_assessments")
 }
@@ -164,8 +163,8 @@ model ReliefPackage {
   updatedAt      DateTime      @updatedAt
 
   // RELATIONS
-  // items          ReliefItem[]
-  // distributions  DistributionRecord[]
+  items          ReliefItem[]
+  distributions  DistributionRecord[]
 
   @@map("relief_packages")
 }
@@ -182,7 +181,7 @@ model ReliefItem {
   updatedAt      DateTime @updatedAt
 
   // RELATIONS
-  // package        ReliefPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  package        ReliefPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
 
   @@map("relief_items")
 }
@@ -199,8 +198,8 @@ model DistributionCampaign {
   updatedAt        DateTime      @updatedAt
 
   // RELATIONS
-  // schedules      DistributionSchedule[]
-  // distributions  DistributionRecord[]
+  schedules      DistributionSchedule[]
+  distributions  DistributionRecord[]
 
   @@map("distribution_campaigns")
 }
@@ -219,7 +218,7 @@ model DistributionSchedule {
   updatedAt              DateTime      @updatedAt
 
   // RELATIONS
-  // campaign               DistributionCampaign @relation(fields: [distributionCampaignId], references: [id], onDelete: Cascade)
+  campaign               DistributionCampaign @relation(fields: [distributionCampaignId], references: [id], onDelete: Cascade)
 
   @@map("distribution_schedules")
 }
@@ -253,12 +252,12 @@ model DistributionRecord {
   updatedAt              DateTime      @updatedAt
 
   // RELATIONS
-  // beneficiary            Beneficiary          @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
-  // campaign               DistributionCampaign @relation(fields: [distributionCampaignId], references: [id], onDelete: Cascade)
-  // package                ReliefPackage        @relation(fields: [packageId], references: [id], onDelete: Cascade)
-  // items                  DistributionItem[]
-  // verifications          DistributionVerification[]
-  // acknowledgement        Acknowledgement?
+  beneficiary            Beneficiary          @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  campaign               DistributionCampaign @relation(fields: [distributionCampaignId], references: [id], onDelete: Cascade)
+  package                ReliefPackage        @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  items                  DistributionItem[]
+  verifications          DistributionVerification[]
+  acknowledgement        Acknowledgement?
 
   @@map("distribution_records")
 }
@@ -274,7 +273,7 @@ model DistributionItem {
   updatedAt            DateTime @updatedAt
 
   // RELATIONS
-  // record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
+  record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
 
   @@map("distribution_items")
 }
@@ -290,7 +289,7 @@ model BeneficiaryQRCode {
   updatedAt       DateTime @updatedAt
 
   // RELATIONS
-  // beneficiary     Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary     Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("beneficiary_qr_codes")
 }
@@ -307,7 +306,7 @@ model DistributionVerification {
   updatedAt            DateTime                 @updatedAt
 
   // RELATIONS
-  // record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
+  record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
 
   @@map("distribution_verifications")
 }
@@ -323,7 +322,7 @@ model Acknowledgement {
   updatedAt            DateTime @updatedAt
 
   // RELATIONS
-  // record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
+  record               DistributionRecord @relation(fields: [distributionRecordId], references: [id], onDelete: Cascade)
 
   @@map("acknowledgements")
 }
@@ -339,7 +338,7 @@ model BeneficiaryFeedback {
   createdAt            DateTime @default(now())
 
   // RELATIONS
-  // beneficiary          Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary          Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("beneficiary_feedbacks")
 }
@@ -357,7 +356,7 @@ model FollowUpVisit {
   updatedAt     DateTime      @updatedAt
 
   // RELATIONS
-  // beneficiary   Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary   Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("follow_up_visits")
 }
@@ -374,7 +373,7 @@ model CaseHistory {
   updatedAt       DateTime      @updatedAt
 
   // RELATIONS
-  // beneficiary     Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary     Beneficiary   @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("case_histories")
 }
@@ -389,7 +388,7 @@ model BeneficiaryActivityLog {
   createdAt     DateTime @default(now())
 
   // RELATIONS
-  // beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
 
   @@map("beneficiary_activity_logs")
 }

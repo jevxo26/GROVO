@@ -170,6 +170,9 @@ const apiReducers = apiSlices.reduce((acc, api) => {
   return acc;
 }, {} as Record<string, any>);
 
+import { campaignCategoriesApi } from "../api/campaignCategoriesApi";
+import { counterSlice } from "../slices/counterSlice";
+
 export const store = configureStore({
   reducer: {
     counter: counterSlice.reducer,

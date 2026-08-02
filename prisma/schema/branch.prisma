@@ -112,6 +112,7 @@ model BranchStaff {
 
   branch      Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
   user        User      @relation("BranchStaffHistory", fields: [userId], references: [id], onDelete: Cascade)
+  staffRoles  StaffRole[]
 
   @@map("branch_staff")
 }
