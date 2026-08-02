@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "../slices/counterSlice";
+
 import { campaignCategoriesApi } from "../api/campaignCategoriesApi";
+import { counterSlice } from "../slices/counterSlice";
 
 export const store = configureStore({
   reducer: {

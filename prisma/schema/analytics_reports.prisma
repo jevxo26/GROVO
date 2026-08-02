@@ -11,9 +11,8 @@ model Dashboard {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  // RELATIONS (UNCOMMENT LATER AFTER SCALAR TESTING):
-  // widgets DashboardWidget[]
-  // layouts DashboardLayout[]
+  widgets DashboardWidget[]
+  layouts DashboardLayout[]
 
   @@map("dashboards")
 }
@@ -30,7 +29,7 @@ model DashboardWidget {
   updatedAt     DateTime @updatedAt
 
   // RELATIONS:
-  // dashboard Dashboard @relation(fields: [dashboardId], references: [id])
+  dashboard Dashboard @relation(fields: [dashboardId], references: [id])
 
   @@map("dashboard_widgets")
 }
@@ -45,7 +44,7 @@ model DashboardLayout {
   updatedAt   DateTime @updatedAt
 
   // RELATIONS:
-  // dashboard Dashboard @relation(fields: [dashboardId], references: [id])
+  dashboard Dashboard @relation(fields: [dashboardId], references: [id])
 
   @@map("dashboard_layouts")
 }
@@ -221,7 +220,7 @@ model Report {
   updatedAt   DateTime @updatedAt
 
   // RELATIONS:
-  // exports ReportExport[]
+  exports ReportExport[]
 
   @@map("reports")
 }
@@ -236,7 +235,7 @@ model ReportTemplate {
   updatedAt     DateTime @updatedAt
 
   // RELATIONS:
-  // scheduledReports ScheduledReport[]
+  scheduledReports ScheduledReport[]
 
   @@map("report_templates")
 }
@@ -252,7 +251,7 @@ model ScheduledReport {
   updatedAt        DateTime @updatedAt
 
   // RELATIONS:
-  // template ReportTemplate @relation(fields: [reportTemplateId], references: [id])
+  template ReportTemplate @relation(fields: [reportTemplateId], references: [id])
 
   @@map("scheduled_reports")
 }
@@ -266,7 +265,7 @@ model ReportExport {
   createdAt   DateTime @default(now())
 
   // RELATIONS:
-  // report Report @relation(fields: [reportId], references: [id])
+  report Report @relation(fields: [reportId], references: [id])
 
   @@map("report_exports")
 }
