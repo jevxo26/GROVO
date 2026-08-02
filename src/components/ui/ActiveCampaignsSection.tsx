@@ -48,7 +48,9 @@ const sampleCampaignsFallback: CampaignProps[] = [
 ];
 
 export default function ActiveCampaignsSection() {
-  // allCampaigns থেকে প্রথম ৩টি ডাটা নেওয়া হচ্ছে
+  const { data, isLoading } = useGetCampaignCategoriesQuery();
+  const allCampaigns: CampaignProps[] = data?.length ? data : sampleCampaignsFallback;
+  // allCampaigns থেকে প্রথম ৩টি ডাটা নেওয়া হচ্ছে
   const displayCampaigns = allCampaigns.slice(0, 3);
 
   return (
