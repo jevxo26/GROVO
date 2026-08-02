@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ArrowRight, Layers, RefreshCw } from "lucide-react";
-import { useGetCampaignCategoriesQuery } from "../../redux/api/campaignCategoriesApi";
+import { useGetCampaignCategoriesQuery } from "../../redux/api/campaignSlice";
 import CampaignCard, { CampaignProps } from "../shared/CampaignCard";
 
 const sampleCampaignsFallback: CampaignProps[] = [
