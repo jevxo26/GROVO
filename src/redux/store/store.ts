@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "../slices/counterSlice";
 
 import {
   analyticsReportsApi,
@@ -28,7 +27,6 @@ import {
   campaignGoalApi,
   campaignMediaApi,
   campaignMilestoneApi,
-  campaignCategoriesApi,
   districtApi,
   divisionApi,
   donationCategoryApi,
@@ -81,6 +79,7 @@ import {
   volunteerApi,
   wardApi,
   zoneAssignmentApi,
+  campaignCategoriesApi,
 } from "../slices";
 
 const apiSlices = [
@@ -170,7 +169,6 @@ const apiReducers = apiSlices.reduce((acc, api) => {
   return acc;
 }, {} as Record<string, any>);
 
-import { campaignCategoriesApi } from "../api/campaignCategoriesApi";
 import { counterSlice } from "../slices/counterSlice";
 
 export const store = configureStore({

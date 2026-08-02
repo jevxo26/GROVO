@@ -1,9 +1,9 @@
-import { ActiveCampaignsHeader } from "@/components/ui/ActiveCampaignsHeader";
+import { ActiveCampaignsHeader } from "@/components/CampaignsPage/ActiveCampaignsHeader";
 import React from "react";
-import CampaignsSection from './../../../components/ui/CampaignsSection';
+import CampaignsSection from '../../../components/CampaignsPage/CampaignsSection';
 
 const Campaigns = () => {
-  return <div>
+  return <div className="py-10">
     <ActiveCampaignsHeader />
     <CampaignsSection />
   </div>;
