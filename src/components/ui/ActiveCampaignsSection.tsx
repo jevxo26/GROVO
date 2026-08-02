@@ -1,8 +1,51 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import { allCampaigns } from "../../data/landingpage/campaignsData"; // আপনার ডাটা ফাইলের সঠিক path দিন
-import CampaignCard from "../shared/CampaignCard";
+import React from "react";
+import { ArrowRight, Layers, RefreshCw } from "lucide-react";
+import { useGetCampaignCategoriesQuery } from "../../redux/api/campaignSlice";
+import CampaignCard, { CampaignProps } from "../shared/CampaignCard";
+
+const sampleCampaignsFallback: CampaignProps[] = [
+  {
+    id: "sample-1",
+    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800",
+    category: "EMERGENCY RELIEF",
+    isUrgent: true,
+    raised: "BDT 343K",
+    goal: "BDT 500K",
+    title: "Emergency Flood Relief – Sylhet Division",
+    description: "Immediate aid for flood-affected families in Sylhet.",
+    percentage: 69,
+    daysLeft: 17,
+    helpedCount: "12,500",
+  },
+  {
+    id: "sample-2",
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800",
+    category: "EDUCATION",
+    isUrgent: false,
+    raised: "BDT 219K",
+    goal: "BDT 350K",
+    title: "Education for Every Child – Rural Schools Program",
+    description: "Building schools and providing education for rural children.",
+    percentage: 62,
+    daysLeft: 155,
+    helpedCount: "8,500",
+  },
+  {
+    id: "sample-3",
+    image: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=800",
+    category: "MEDICAL",
+    isUrgent: false,
+    raised: "BDT 156K",
+    goal: "BDT 200K",
+    title: "Free Medical Camp – Rural Health Access",
+    description: "Free mobile medical camps in remote villages.",
+    percentage: 78,
+    daysLeft: 124,
+    helpedCount: "6,200",
+  },
+];
 
 export default function ActiveCampaignsSection() {
   // allCampaigns থেকে প্রথম ৩টি ডাটা নেওয়া হচ্ছে
