@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Info } from 'lucide-react';
 
 export const AboutHero = ({ fadeInUp }: { fadeInUp: any }) => (
-  <motion.section className="px-6 py-16 md:py-24 max-w-6xl mx-auto">
+  <motion.section className="px-6 py-16 mt-10 md:py-24 max-w-6xl mx-auto">
 
     {/* Badge */}
     <motion.div

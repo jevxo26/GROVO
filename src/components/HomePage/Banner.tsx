@@ -10,7 +10,7 @@ import {
 
 const Banner = () => {
   return (
-    <div className="relative min-h-screen w-full flex flex-col justify-between p-6 md:p-16 text-white bg-cover bg-center overflow-hidden">
+    <div className="mt-10 relative min-h-screen w-full flex flex-col justify-between p-6 md:p-16 text-white bg-cover bg-center overflow-hidden">
 
       {/* Background Image */}
       <div

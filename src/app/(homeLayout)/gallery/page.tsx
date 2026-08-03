@@ -6,9 +6,8 @@ const GalleryPage = () => {
   return (
     <div
       className="
-        min-h-screen 
-        bg-white text-gray-900 
-        dark:bg-gray-900 dark:text-gray-100 
+        min-h-screen
+        bg-background text-foreground
         transition-colors duration-300
       "
     >
