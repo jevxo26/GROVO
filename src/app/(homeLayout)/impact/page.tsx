@@ -26,16 +26,16 @@ const staggerContainer = {
 
 export default function ImpactPage() {
   return (
-    <div className="
-    py-10
-      min-h-screen 
-      bg-[#FAF9F5] text-gray-800 
-      dark:bg-[#0B0F0C] dark:text-gray-200
-      font-sans 
-      transition-colors duration-300
-      overflow-hidden
-    ">
-      
+    <div
+      className="
+        py-10
+        min-h-screen 
+        bg-[#FAF9F5] text-gray-800
+        dark:bg-[#0B0F0C] dark:text-gray-100
+        font-sans 
+        transition-colors duration-300
+      "
+    >
       {/* Hero Section */}
       <motion.div
         initial="hidden"
@@ -46,16 +46,22 @@ export default function ImpactPage() {
       </motion.div>
 
       {/* Allocation */}
-      <ImpactAllocation fadeInUp={fadeInUp} />
+      <div className="mt-16">
+        <ImpactAllocation fadeInUp={fadeInUp} />
+      </div>
 
       {/* Reports */}
-      <ImpactReports fadeInUp={fadeInUp} />
+      <div className="mt-16">
+        <ImpactReports fadeInUp={fadeInUp} />
+      </div>
 
       {/* Gallery */}
-      <ImpactGallery
-        fadeInUp={fadeInUp}
-        staggerContainer={staggerContainer}
-      />
+      <div className="mt-16">
+        <ImpactGallery
+          fadeInUp={fadeInUp}
+          staggerContainer={staggerContainer}
+        />
+      </div>
     </div>
   );
 }
