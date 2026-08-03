@@ -61,7 +61,7 @@ const VolunteerPage = () => {
               </div>
             </div>
 
-            <div className="rounded-3xl overflow-hidden shadow-xl border border-border relative h-72 sm:h-96 lg:h-[400px]">
+            <div className="rounded-3xl overflow-hidden shadow-xl border border-border relative h-72 sm:h-96 lg:h-100">
               <Image
                 src={volunteerImg}
                 alt="Volunteers"
