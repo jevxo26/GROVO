@@ -18,7 +18,7 @@ import {
 
 const VolunteerPage = () => {
   return (
-    <div className="min-h-screen w-full bg-background text-foreground transition-colors duration-300">
+    <div className="min-h-screen mt-10 w-full bg-background text-foreground transition-colors duration-300">
 
       {/* Hero Section */}
       <div className="w-full mt-4 py-12 md:py-20 mb-16 bg-muted/40 transition-colors duration-300">
