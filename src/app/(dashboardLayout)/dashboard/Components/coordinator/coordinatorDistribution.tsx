@@ -60,29 +60,29 @@ export default function CoordinatorDistribution() {
   ];
 
   return (
-    <div className="space-y-6 pb-12 font-sans text-slate-800 dark:text-slate-100">
-      <div className="text-sm text-slate-500 dark:text-slate-400">
-        Home <span className="mx-1">›</span> Distribution
+    <div className="space-y-6 pb-12 font-sans text-foreground">
+      <div className="text-sm text-muted-foreground flex items-center gap-1">
+        <span>Home</span> <span>›</span> <span className="text-foreground font-medium">Distribution</span>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 bg-white dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm w-fit">
+      <div className="flex gap-2 bg-card text-card-foreground p-1.5 rounded-2xl border border-border shadow-sm w-fit">
         <button
           onClick={() => setActiveTab("Schedule")}
-          className={`px-5 py-2 rounded-xl text-xs font-semibold transition-all ${
+          className={`px-5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === "Schedule"
-              ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-sm"
-              : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           Schedule
         </button>
         <button
           onClick={() => setActiveTab("Verification")}
-          className={`px-5 py-2 rounded-xl text-xs font-semibold transition-all ${
+          className={`px-5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === "Verification"
-              ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-sm"
-              : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           Verification
@@ -91,11 +91,11 @@ export default function CoordinatorDistribution() {
 
       {/* Tables based on active tab */}
       {activeTab === "Schedule" ? (
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div className="bg-card text-card-foreground rounded-2xl border border-border shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 dark:border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50/50 dark:bg-slate-800/50">
+                <tr className="border-b border-border text-[11px] font-bold text-muted-foreground uppercase tracking-wider bg-accent/50">
                   <th className="py-3.5 px-6">Campaign</th>
                   <th className="py-3.5 px-6">Location</th>
                   <th className="py-3.5 px-6">Date</th>
@@ -104,19 +104,19 @@ export default function CoordinatorDistribution() {
                   <th className="py-3.5 px-6">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+              <tbody className="divide-y divide-border text-sm">
                 {scheduleData.map((item, index) => (
-                  <tr key={index} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/50 transition-colors">
-                    <td className="py-4 px-6 font-semibold text-slate-900 dark:text-white">{item.campaign}</td>
-                    <td className="py-4 px-6 text-slate-600 dark:text-slate-300">{item.location}</td>
-                    <td className="py-4 px-6 text-slate-500 text-xs">{item.date}</td>
-                    <td className="py-4 px-6 text-slate-600 dark:text-slate-300 text-xs max-w-xs">{item.items}</td>
-                    <td className="py-4 px-6 text-slate-600 dark:text-slate-300 font-semibold">{item.families}</td>
+                  <tr key={index} className="hover:bg-accent/40 transition-colors">
+                    <td className="py-4 px-6 font-semibold text-foreground">{item.campaign}</td>
+                    <td className="py-4 px-6 text-muted-foreground">{item.location}</td>
+                    <td className="py-4 px-6 text-muted-foreground text-xs">{item.date}</td>
+                    <td className="py-4 px-6 text-muted-foreground text-xs max-w-xs">{item.items}</td>
+                    <td className="py-4 px-6 text-foreground font-semibold">{item.families}</td>
                     <td className="py-4 px-6">
-                      <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                      <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
                         item.status === "in progress" 
-                          ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400" 
-                          : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                          ? "bg-primary/15 text-primary border-primary/20" 
+                          : "bg-accent text-accent-foreground border-border"
                       }`}>
                         {item.status}
                       </span>
@@ -128,11 +128,11 @@ export default function CoordinatorDistribution() {
           </div>
         </div>
       ) : (
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div className="bg-card text-card-foreground rounded-2xl border border-border shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 dark:border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50/50 dark:bg-slate-800/50">
+                <tr className="border-b border-border text-[11px] font-bold text-muted-foreground uppercase tracking-wider bg-accent/50">
                   <th className="py-3.5 px-6">Campaign</th>
                   <th className="py-3.5 px-6">Location</th>
                   <th className="py-3.5 px-6">Date</th>
@@ -141,16 +141,16 @@ export default function CoordinatorDistribution() {
                   <th className="py-3.5 px-6">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+              <tbody className="divide-y divide-border text-sm">
                 {verificationData.map((item, index) => (
-                  <tr key={index} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/50 transition-colors">
-                    <td className="py-4 px-6 font-semibold text-slate-900 dark:text-white">{item.campaign}</td>
-                    <td className="py-4 px-6 text-slate-600 dark:text-slate-300">{item.location}</td>
-                    <td className="py-4 px-6 text-slate-500 text-xs">{item.date}</td>
-                    <td className="py-4 px-6 text-slate-600 dark:text-slate-300">{item.verifiedBy}</td>
-                    <td className="py-4 px-6 text-slate-600 dark:text-slate-300 font-semibold">{item.beneficiaries}</td>
+                  <tr key={index} className="hover:bg-accent/40 transition-colors">
+                    <td className="py-4 px-6 font-semibold text-foreground">{item.campaign}</td>
+                    <td className="py-4 px-6 text-muted-foreground">{item.location}</td>
+                    <td className="py-4 px-6 text-muted-foreground text-xs">{item.date}</td>
+                    <td className="py-4 px-6 text-muted-foreground">{item.verifiedBy}</td>
+                    <td className="py-4 px-6 text-foreground font-semibold">{item.beneficiaries}</td>
                     <td className="py-4 px-6">
-                      <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
+                      <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/15 text-primary border border-primary/20">
                         {item.status}
                       </span>
                     </td>
