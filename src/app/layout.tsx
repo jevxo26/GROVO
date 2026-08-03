@@ -6,7 +6,7 @@ import { ReduxProvider } from "@/components/providers/reduxProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/ui/footer/footer";
+import Footer from "@/components/shared/Footer";
 import Header from "@/components/shared/Header";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -47,7 +47,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >

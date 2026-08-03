@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import { HandHeart, Users, UserCheck, Smile, LucideIcon } from 'lucide-react';
+import React, { useEffect, useRef, useState } from "react";
+import { HandHeart, Users, UserCheck, Smile, LucideIcon } from "lucide-react";
 
 interface StatItem {
   id: number;
@@ -17,39 +17,39 @@ const statsData: StatItem[] = [
   {
     id: 1,
     icon: HandHeart,
-    prefix: 'BDT ',
+    prefix: "BDT ",
     targetNumber: 1.3,
     decimals: 1,
-    suffix: 'Cr',
-    label: 'Total Donations Raised',
+    suffix: "Cr",
+    label: "Total Donations Raised",
   },
   {
     id: 2,
     icon: Users,
     targetNumber: 49,
     decimals: 0,
-    suffix: 'K+',
-    label: 'Active Donors',
+    suffix: "K+",
+    label: "Active Donors",
   },
   {
     id: 3,
     icon: UserCheck,
     targetNumber: 3,
     decimals: 0,
-    suffix: 'K+',
-    label: 'Active Volunteers',
+    suffix: "K+",
+    label: "Active Volunteers",
   },
   {
     id: 4,
     icon: Smile,
     targetNumber: 1.6,
     decimals: 1,
-    suffix: 'L+',
-    label: 'Lives Impacted',
+    suffix: "L+",
+    label: "Lives Impacted",
   },
 ];
 
-// কাউন্ট-আপ এনিমেশনের জন্য কাস্টম কম্পোনেন্ট
+// Counter
 function AnimatedCounter({
   target,
   decimals = 0,
@@ -70,18 +70,16 @@ function AnimatedCounter({
           setHasAnimated(true);
 
           let startTime: number | null = null;
+
           const animate = (currentTime: number) => {
             if (!startTime) startTime = currentTime;
-            const progress = Math.min((currentTime - startTime) / duration, 1);
-            
-            // Ease-out effect
-            const easeOutProgress = 1 - Math.pow(1 - progress, 3);
-            
-            setCount(easeOutProgress * target);
 
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            }
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+
+            setCount(easeOut * target);
+
+            if (progress < 1) requestAnimationFrame(animate);
           };
 
           requestAnimationFrame(animate);
@@ -90,10 +88,7 @@ function AnimatedCounter({
       { threshold: 0.3 }
     );
 
-    if (countRef.current) {
-      observer.observe(countRef.current);
-    }
-
+    if (countRef.current) observer.observe(countRef.current);
     return () => observer.disconnect();
   }, [target, duration, hasAnimated]);
 
@@ -102,48 +97,53 @@ function AnimatedCounter({
 
 export default function ImpactSection() {
   return (
-    <section className="bg-[#FAF9F6] py-16 px-4 sm:px-6 lg:px-8">
+    <section className="bg-background py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto text-center">
+        
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#136139] bg-[#EAF5EF] px-3 py-1 rounded-md mb-4">
-          <span className="w-2 h-2 rounded-full bg-[#136139]" />
+        <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-md mb-4">
+          <span className="w-2 h-2 rounded-full bg-primary" />
           OUR IMPACT IN NUMBERS
         </div>
 
         {/* Heading */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 font-serif">
-          Making a Difference,{' '}
-          <span className="text-[#136139]">One Life at a Time</span>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 font-serif">
+          Making a Difference,{" "}
+          <span className="text-primary">One Life at a Time</span>
         </h2>
 
         {/* Subtitle */}
-        <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto mb-12 leading-relaxed">
+        <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto mb-12 leading-relaxed">
           Every number represents a story of hope, a life touched, and a community transformed.
         </p>
 
-        {/* Cards Grid */}
+        {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {statsData.map((item) => {
             const Icon = item.icon;
+
             return (
               <div
                 key={item.id}
-                className="bg-white/60 backdrop-blur-sm border border-gray-100 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition-shadow duration-200"
+                className="bg-card/60 backdrop-blur-sm border border-border rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                {/* Icon Container */}
-                <div className="w-12 h-12 rounded-full bg-[#EAF5EF] flex items-center justify-center text-[#136139] mb-6">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6">
                   <Icon className="w-6 h-6" />
                 </div>
 
-                {/* Number/Value with Count Up Animation */}
-                <h3 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2 tracking-tight font-serif">
+                {/* Number */}
+                <h3 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-2 tracking-tight font-serif">
                   {item.prefix}
-                  <AnimatedCounter target={item.targetNumber} decimals={item.decimals} />
+                  <AnimatedCounter
+                    target={item.targetNumber}
+                    decimals={item.decimals}
+                  />
                   {item.suffix}
                 </h3>
 
                 {/* Label */}
-                <p className="text-gray-500 text-sm font-medium">
+                <p className="text-muted-foreground text-sm font-medium">
                   {item.label}
                 </p>
               </div>

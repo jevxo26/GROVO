@@ -1,10 +1,10 @@
-import ActiveCampaignsSection from "@/components/ui/ActiveCampaignsSection";
-import ImpactSection from "@/components/ui/ImpactSection";
-import TestimonialsSection from "@/components/ui/TestimonialsSection";
-import WaysToGiveSection from "@/components/ui/WaysToGiveSection";
-import LiveDonationFeed from "../../components/LiveDonationFeed";
-import TrustSection from "../../components/ui/TrustSection";
-import Banner from "./../../components/ui/Banner";
+import ActiveCampaignsSection from "@/components/HomePage/ActiveCampaignsSection";
+import ImpactSection from "@/components/HomePage/ImpactSection";
+import TestimonialsSection from "@/components/HomePage/TestimonialsSection";
+import WaysToGiveSection from "@/components/HomePage/WaysToGiveSection";
+import LiveDonationFeed from "../../components/HomePage/LiveDonationFeed";
+import TrustSection from "../../components/HomePage/TrustSection";
+import Banner from "../../components/HomePage/Banner";
 
 export default function Home() {
 

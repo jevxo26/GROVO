@@ -48,11 +48,15 @@ export const campaignCategoriesApi = createApi({
           const end = new Date(campaign.endDate).getTime();
           const now = new Date().getTime();
           const diff = end - now;
-          const daysLeft = diff > 0 ? Math.ceil(diff / (1000 * 60 * 60 * 24)) : 0;
+          const daysLeft =
+            diff > 0 ? Math.ceil(diff / (1000 * 60 * 60 * 24)) : 0;
 
           return {
             id: campaign.id,
-            image: campaign.thumbnail || campaign.banner || "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800",
+            image:
+              campaign.thumbnail ||
+              campaign.banner ||
+              "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800",
             category: campaign.category?.name || "HUMANITARIAN",
             isUrgent: campaign.campaignType === "EMERGENCY",
             raised: `BDT ${Math.round(campaign.raisedAmount / 1000)}K`,
@@ -61,10 +65,14 @@ export const campaignCategoriesApi = createApi({
             description: campaign.shortDescription || campaign.description,
             percentage:
               campaign.targetAmount > 0
-                ? Math.round((campaign.raisedAmount / campaign.targetAmount) * 100)
+                ? Math.round(
+                    (campaign.raisedAmount / campaign.targetAmount) * 100,
+                  )
                 : 0,
             daysLeft,
-            helpedCount: campaign._count?.donations ? String(campaign._count.donations) : "0",
+            helpedCount: campaign._count?.donations
+              ? String(campaign._count.donations)
+              : "0",
           };
         });
       },
@@ -97,7 +105,10 @@ export const campaignCategoriesApi = createApi({
       transformResponse: (response: SingleCampaignResponse) => response.data,
       invalidatesTags: [{ type: "Campaign", id: "LIST" }],
     }),
-    updateCampaign: builder.mutation<CampaignProps, { id: string; data: Partial<CampaignProps> }>({
+    updateCampaign: builder.mutation<
+      CampaignProps,
+      { id: string; data: Partial<CampaignProps> }
+    >({
       query: ({ id, data }) => ({
         url: `/campaigns/${id}`,
         method: "PATCH",
