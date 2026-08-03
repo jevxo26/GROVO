@@ -10,7 +10,7 @@ export default function CoordinatorAnalytics() {
     { title: "AVG DONATION", value: "৳ 860", subtitle: "Per donor monthly", icon: HandCoins },
     { title: "CAMPAIGN SUCCESS", value: "75%", subtitle: "Target achieved", icon: Flag },
   ];
-
+ 
   const monthlyData = [
     { month: "Jan", height: "60%" },
     { month: "Feb", height: "65%" },
@@ -36,8 +36,8 @@ export default function CoordinatorAnalytics() {
   ];
 
   return (
-    <div className="space-y-6 pb-12 font-sans text-slate-800 dark:text-slate-100">
-      <div className="text-sm text-slate-500 dark:text-slate-400">
+    <div className="space-y-6 pb-12 font-sans text-foreground">
+      <div className="text-sm text-muted-foreground">
         Home <span className="mx-1">›</span> Analytics
       </div>
 
@@ -46,31 +46,34 @@ export default function CoordinatorAnalytics() {
         {statsCards.map((card, index) => {
           const Icon = card.icon;
           return (
-            <div key={index} className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm relative overflow-hidden">
+            <div 
+              key={index} 
+              className="bg-card text-card-foreground p-5 rounded-2xl border border-border shadow-sm relative overflow-hidden"
+            >
               <div className="flex justify-between items-start mb-2">
-                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{card.title}</div>
-                <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                <div className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">{card.title}</div>
+                <div className="p-2 rounded-xl bg-accent text-accent-foreground">
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white mb-1">{card.value}</div>
-              <div className="text-xs text-slate-400">{card.subtitle}</div>
+              <div className="text-2xl font-bold text-foreground mb-1">{card.value}</div>
+              <div className="text-xs text-muted-foreground">{card.subtitle}</div>
             </div>
           );
         })}
       </div>
 
       {/* Monthly Member Registration Chart */}
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
-        <h3 className="font-bold text-slate-900 dark:text-white text-base">Monthly Member Registration</h3>
-        <div className="h-48 flex items-end justify-between gap-2 pt-6 px-4 border-b border-slate-100 dark:border-slate-800">
+      <div className="bg-card text-card-foreground p-6 rounded-2xl border border-border shadow-sm space-y-6">
+        <h3 className="font-bold text-foreground text-base">Monthly Member Registration</h3>
+        <div className="h-48 flex items-end justify-between gap-2 pt-6 px-4 border-b border-border">
           {monthlyData.map((item, index) => (
             <div key={index} className="flex-1 flex flex-col items-center gap-2 h-full justify-end">
               <div
-                className="w-full max-w-[40px] bg-lime-600 rounded-t-lg transition-all duration-500 hover:bg-lime-500"
+                className="w-full max-w-[40px] bg-primary rounded-t-lg transition-all duration-500 hover:opacity-90"
                 style={{ height: item.height }}
               ></div>
-              <span className="text-xs font-semibold text-slate-400 pb-2">{item.month}</span>
+              <span className="text-xs font-semibold text-muted-foreground pb-2">{item.month}</span>
             </div>
           ))}
         </div>
@@ -79,18 +82,18 @@ export default function CoordinatorAnalytics() {
       {/* Bottom Two Sections: Campaign Progress & Volunteer Performance */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Campaign Progress */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-4">
-          <h3 className="font-bold text-slate-900 dark:text-white text-base">Campaign Progress</h3>
+        <div className="bg-card text-card-foreground p-5 rounded-2xl border border-border shadow-sm space-y-4">
+          <h3 className="font-bold text-foreground text-base">Campaign Progress</h3>
           <div className="space-y-4 pt-2">
             {campaignProgress.map((camp, index) => (
               <div key={index} className="space-y-1.5">
                 <div className="flex justify-between text-xs font-semibold">
-                  <span className="text-slate-700 dark:text-slate-300">{camp.title}</span>
-                  <span className="text-slate-500">{camp.progress}%</span>
+                  <span className="text-foreground">{camp.title}</span>
+                  <span className="text-muted-foreground">{camp.progress}%</span>
                 </div>
-                <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-accent rounded-full h-2 overflow-hidden">
                   <div
-                    className="bg-lime-600 h-full rounded-full transition-all duration-500"
+                    className="bg-primary h-full rounded-full transition-all duration-500"
                     style={{ width: `${camp.progress}%` }}
                   ></div>
                 </div>
@@ -100,18 +103,18 @@ export default function CoordinatorAnalytics() {
         </div>
 
         {/* Volunteer Performance */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-4">
-          <h3 className="font-bold text-slate-900 dark:text-white text-base">Volunteer Performance</h3>
+        <div className="bg-card text-card-foreground p-5 rounded-2xl border border-border shadow-sm space-y-4">
+          <h3 className="font-bold text-foreground text-base">Volunteer Performance</h3>
           <div className="space-y-4 pt-2">
             {volunteerPerformance.map((vol, index) => (
               <div key={index} className="space-y-1.5">
                 <div className="flex justify-between text-xs font-semibold">
-                  <span className="text-slate-700 dark:text-slate-300">{vol.name}</span>
-                  <span className="text-slate-500">{vol.score} / 100</span>
+                  <span className="text-foreground">{vol.name}</span>
+                  <span className="text-muted-foreground">{vol.score} / 100</span>
                 </div>
-                <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-accent rounded-full h-2 overflow-hidden">
                   <div
-                    className="bg-green-600 h-full rounded-full transition-all duration-500"
+                    className="bg-primary h-full rounded-full transition-all duration-500"
                     style={{ width: `${vol.score}%` }}
                   ></div>
                 </div>
