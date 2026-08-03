@@ -2,9 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import {
   analyticsReportsApi,
+  counterSlice,
   areaCoverageApi,
   beneficiaryApi,
   branchAnnouncementApi,
+  branchApi,
   branchAuditApi,
   branchBudgetApi,
   branchCoverageApi,
@@ -16,12 +18,12 @@ import {
   branchMeetingApi,
   branchPerformanceApi,
   branchSettingApi,
-  branchApi,
   branchStaffApi,
   branchTargetApi,
   branchTransferApi,
   branchTypeApi,
   branchVehicleApi,
+  campaignCategoriesApi,
   campaignCategoryApi,
   campaignDonationApi,
   campaignGoalApi,
@@ -29,41 +31,41 @@ import {
   campaignMilestoneApi,
   districtApi,
   divisionApi,
+  donationApi,
   donationCategoryApi,
   donationInstallmentApi,
   donationItemApi,
   donationReceiptApi,
   donationScheduleApi,
-  donationApi,
   donationTypeApi,
   donorApi,
   emergencyCampaignApi,
   eventsMediaApi,
   expenseAttachmentApi,
   financialReportApi,
-  fundAllocationHistoryApi,
   fundAllocationApi,
+  fundAllocationHistoryApi,
   fundApi,
   fundTransferApi,
   invoiceApi,
   membershipApi,
   operationalZoneApi,
+  organizationApi,
   organizationHierarchyApi,
   organizationProfileApi,
-  organizationApi,
+  paymentApi,
   paymentGatewayApi,
   paymentLogApi,
-  paymentApi,
   paymentTransactionApi,
   paymentWebhookApi,
   payoutApi,
+  projectApi,
   projectBeneficiaryApi,
   projectBudgetApi,
   projectCategoryApi,
   projectExpenseApi,
   projectGalleryApi,
   projectReportApi,
-  projectApi,
   projectTimelineApi,
   projectUpdateApi,
   projectVolunteerApi,
@@ -79,7 +81,6 @@ import {
   volunteerApi,
   wardApi,
   zoneAssignmentApi,
-  campaignCategoriesApi,
 } from "../slices";
 
 const apiSlices = [
@@ -164,12 +165,13 @@ const apiSlices = [
   zoneAssignmentApi,
 ];
 
-const apiReducers = apiSlices.reduce((acc, api) => {
-  acc[api.reducerPath] = api.reducer;
-  return acc;
-}, {} as Record<string, any>);
-
-import { counterSlice } from "../slices/counterSlice";
+const apiReducers = apiSlices.reduce(
+  (acc, api) => {
+    acc[api.reducerPath] = api.reducer;
+    return acc;
+  },
+  {} as Record<string, any>,
+);
 
 export const store = configureStore({
   reducer: {
@@ -177,7 +179,9 @@ export const store = configureStore({
     ...apiReducers,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(...(apiSlices.map((api) => api.middleware) as any[])),
+    getDefaultMiddleware().concat(
+      ...(apiSlices.map((api) => api.middleware) as any[]),
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
