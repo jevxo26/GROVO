@@ -50,3 +50,26 @@ export interface CampaignResponse {
     data: Campaign[];
   };
 }
+
+export type CampaignStatus =
+  | "DRAFT"
+  | "PUBLISHED"
+  | "ACTIVE"
+  | "COMPLETED"
+  | "CANCELLED";
+export type CampaignType = "STANDARD" | "EMERGENCY" | "RECURRING";
+
+export interface Campaign2 {
+  id: string;
+  campaignCode: string;
+  title: string;
+  slug: string;
+  categoryId: string;
+  campaignType: CampaignType;
+  targetAmount: number;
+  raisedAmount: number;
+  startDate: Date;
+  endDate: Date | null;
+  status: CampaignStatus;
+  createdAt: Date;
+}

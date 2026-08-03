@@ -3,11 +3,11 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 import { ReduxProvider } from "@/components/providers/reduxProvider";
+import Header from "@/components/shared/Header";
+import Footer from "@/components/ui/footer/footer";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/ui/footer/footer";
-import Header from "@/components/shared/Header";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
