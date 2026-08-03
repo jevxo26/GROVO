@@ -33,20 +33,20 @@ export default function CoordinatorBranchSettings() {
   };
 
   return (
-    <div className="space-y-6 pb-12 font-sans text-slate-800 dark:text-slate-100 max-w-4xl">
-      <div className="text-sm text-slate-500 dark:text-slate-400">
-        Home <span className="mx-1">›</span> Branch Settings
+    <div className="space-y-6 pb-12 font-sans text-foreground max-w-4xl">
+      <div className="text-sm text-muted-foreground flex items-center gap-1">
+        <span>Home</span> <span>›</span> <span className="text-foreground font-medium">Branch Settings</span>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
-        <h3 className="font-bold text-slate-900 dark:text-white text-base border-b border-slate-100 dark:border-slate-800 pb-4">
+      <div className="bg-card text-card-foreground p-6 sm:p-8 rounded-2xl border border-border shadow-sm space-y-6">
+        <h3 className="font-bold text-foreground text-base border-b border-border pb-4 tracking-tight">
           Branch Information
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 Branch Name
               </label>
               <input
@@ -54,11 +54,11 @@ export default function CoordinatorBranchSettings() {
                 name="branchName"
                 value={formData.branchName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-lime-700 text-slate-800 dark:text-slate-100"
+                className="w-full px-4 py-2.5 bg-background border border-input rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 Phone
               </label>
               <input
@@ -66,13 +66,13 @@ export default function CoordinatorBranchSettings() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-lime-700 text-slate-800 dark:text-slate-100"
+                className="w-full px-4 py-2.5 bg-background border border-input rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground font-mono"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               Address
             </label>
             <input
@@ -80,13 +80,13 @@ export default function CoordinatorBranchSettings() {
               name="address"
               value={formData.address}
               onChange={handleChange}
-              className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-lime-700 text-slate-800 dark:text-slate-100"
+              className="w-full px-4 py-2.5 bg-background border border-input rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 Email
               </label>
               <input
@@ -94,11 +94,11 @@ export default function CoordinatorBranchSettings() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-lime-700 text-slate-800 dark:text-slate-100"
+                className="w-full px-4 py-2.5 bg-background border border-input rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 Working Hours
               </label>
               <input
@@ -106,13 +106,13 @@ export default function CoordinatorBranchSettings() {
                 name="workingHours"
                 value={formData.workingHours}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-lime-700 text-slate-800 dark:text-slate-100"
+                className="w-full px-4 py-2.5 bg-background border border-input rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
               />
             </div>
           </div>
 
           <div className="space-y-1.5 sm:w-1/2 sm:pr-2">
-            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               Working Days
             </label>
             <input
@@ -120,21 +120,21 @@ export default function CoordinatorBranchSettings() {
               name="workingDays"
               value={formData.workingDays}
               onChange={handleChange}
-              className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-lime-700 text-slate-800 dark:text-slate-100"
+              className="w-full px-4 py-2.5 bg-background border border-input rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
             />
           </div>
 
           <div className="flex items-center gap-3 pt-4">
             <button
               type="submit"
-              className="px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-sm font-semibold transition-colors shadow-sm"
+              className="px-6 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity shadow-sm cursor-pointer"
             >
               Save Changes
             </button>
             <button
               type="button"
               onClick={handleReset}
-              className="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-semibold transition-colors"
+              className="px-6 py-2.5 bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground rounded-xl text-sm font-semibold transition-all cursor-pointer"
             >
               Reset
             </button>
