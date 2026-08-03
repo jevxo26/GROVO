@@ -16,6 +16,7 @@ const navItems: NavItem[] = [
   { name: "About", path: "/about" },
   { name: "Campaigns", path: "/campaigns" },
   { name: "Impact", path: "/impact" },
+  {name: "Gallery", path: '/gallery'},
   { name: "Volunteer", path: "/volunteer" },
   { name: "Contact", path: "/contact" },
 ];
