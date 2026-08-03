@@ -3,7 +3,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 import { ReduxProvider } from "@/components/providers/reduxProvider";
-import Header from "@/components/shared/Header";
 import Footer from "@/components/ui/footer/footer";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
@@ -33,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en" 
+      lang="en"
       className={cn(
         "h-full",
         "antialiased",
@@ -52,7 +51,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ReduxProvider>
-            <Header />
             {children}
             <Footer />
           </ReduxProvider>

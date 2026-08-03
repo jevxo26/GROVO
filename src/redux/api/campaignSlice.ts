@@ -57,30 +57,7 @@ export const campaignCategoriesApi = createApi({
       query: () => "/campaigns",
       transformResponse: (response: CampaignResponse): CampaignProps[] => {
         // Map backend Campaign model to CampaignProps structure required by frontend
-        const campaignsList = response?.data?.data || [];
-        return campaignsList.map((campaign: any) => {
-          const end = new Date(campaign.endDate).getTime();
-          const now = new Date().getTime();
-          const diff = end - now;
-          const daysLeft = diff > 0 ? Math.ceil(diff / (1000 * 60 * 60 * 24)) : 0;
-
-          return {
-            id: campaign.id,
-            image: campaign.thumbnail || campaign.banner || "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800",
-            category: campaign.category?.name || "HUMANITARIAN",
-            isUrgent: campaign.campaignType === "EMERGENCY",
-            raised: `BDT ${Math.round(campaign.raisedAmount / 1000)}K`,
-            goal: `BDT ${Math.round(campaign.targetAmount / 1000)}K`,
-            title: campaign.title,
-            description: campaign.shortDescription || campaign.description,
-            percentage:
-              campaign.targetAmount > 0
-                ? Math.round((campaign.raisedAmount / campaign.targetAmount) * 100)
-                : 0,
-            daysLeft,
-            helpedCount: campaign._count?.donations ? String(campaign._count.donations) : "0",
-          };
-        });
+        return response?.data?.data || [];
       },
       providesTags: (result) =>
         result
@@ -92,7 +69,10 @@ export const campaignCategoriesApi = createApi({
     }),
 
     // POST create new campaign category
-    createCampaignCategory: builder.mutation<CampaignProps, Partial<CampaignProps>>({
+    createCampaignCategory: builder.mutation<
+      CampaignProps,
+      Partial<CampaignProps>
+    >({
       query: (newCategory) => ({
         url: "/campaigns",
         method: "POST",
@@ -103,7 +83,10 @@ export const campaignCategoriesApi = createApi({
     }),
 
     // PATCH update campaign category
-    updateCampaignCategory: builder.mutation<CampaignProps, { id: string; data: Partial<CampaignProps> }>({
+    updateCampaignCategory: builder.mutation<
+      CampaignProps,
+      { id: string; data: Partial<CampaignProps> }
+    >({
       query: ({ id, data }) => ({
         url: `/campaigns/${id}`,
         method: "PATCH",

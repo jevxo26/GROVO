@@ -20,7 +20,7 @@ export function DataStateView({
     return (
       <div className="w-full animate-pulse flex flex-col gap-4">
         {skeleton || (
-          <div className="h-64 bg-muted rounded-md w-full border border-border"></div>
+          <div className="h-64 bg-muted rounded-md w-full border border-primary"></div>
         )}
       </div>
     );
