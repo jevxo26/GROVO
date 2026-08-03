@@ -141,7 +141,7 @@ export default function MembersPage() {
           </span>
           <Button
             onClick={() => setIsMemberOpen(true)}
-            className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm"
+            className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl shadow-sm"
           >
             <Plus className="w-4 h-4 mr-2" /> Add Member
           </Button>
