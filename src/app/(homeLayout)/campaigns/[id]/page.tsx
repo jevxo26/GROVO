@@ -43,7 +43,6 @@ return ( <main className="w-full bg-background min-h-screen text-foreground">
           </span>
         )}
       </div>
-
       <h1 className="text-3xl sm:text-5xl font-bold text-white max-w-4xl font-serif leading-tight">
         {campaign.title}
       </h1>
