@@ -17,7 +17,7 @@ export default function DashboardLayout({
   districtcoordinator,
   upazilacoordinator,
   unioncoordinator,
-  role = "admin",
+  role = "divisioncoordinator",
 }: {
   volunteer: ReactNode;
   member: ReactNode;

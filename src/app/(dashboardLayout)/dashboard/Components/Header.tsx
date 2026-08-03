@@ -6,7 +6,7 @@ import { ModeToggle } from "@/components/ui/modeToggle";
 import { usePathname } from "next/navigation";
 import { UserRole } from "./Sidebar";
 
-export function Header({
+export function Header({ 
   onMenuClick,
   role = "admin",
 }: { 
