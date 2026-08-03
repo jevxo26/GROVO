@@ -1,5 +1,4 @@
 "use client";
-
 import { StatCard } from "./_components/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, ResponsiveContainer, Tooltip, YAxis } from "recharts";
@@ -38,7 +37,7 @@ const quickLinks = [
 
 export default function DashboardOverview() {
   return (
-    <div className=" space-y-6">
+    <div className="space-y-6">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <StatCard title="MEMBERS" value="48,500" subtext="+847 this month" />
@@ -52,21 +51,21 @@ export default function DashboardOverview() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Trend Chart */}
-        <Card className="lg:col-span-2 shadow-sm border-border bg-card px-4 py-3">
-          <CardHeader>
+        <Card className="lg:col-span-2 shadow-sm border-border bg-card">
+          <CardHeader className="pb-2">
             <CardTitle className="text-lg font-bold text-foreground">Monthly Fundraising Trends</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px] w-full">
+            <div className="h-[300px] w-full pt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={trendData} barSize={32}>
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'currentColor', fontSize: 12 }} className="text-muted-foreground" />
                   <Tooltip 
                     cursor={{fill: 'transparent'}}
-                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                    contentStyle={{ backgroundColor: 'hsl(var(--card))', color: 'hsl(var(--card-foreground))', borderRadius: '8px', border: '1px solid hsl(var(--border))', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                   />
                   <Bar dataKey="raised" stackId="a" fill="#14b8a6" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="distributed" stackId="a" fill="#e2c0b0" radius={[0, 0, 4, 4]} />
+                  <Bar dataKey="distributed" stackId="a" fill="#fdbf6f" radius={[0, 0, 4, 4]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -75,20 +74,20 @@ export default function DashboardOverview() {
                 <span className="w-3 h-3 rounded-sm bg-[#14b8a6]"></span> Raised
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-sm bg-[#e2c0b0]"></span> Distributed
+                <span className="w-3 h-3 rounded-sm bg-[#fdbf6f]"></span> Distributed
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Category Progress */}
-        <Card className="shadow-sm border-border bg-card px-4 py-3">
-          <CardHeader>
+        <Card className="shadow-sm border-border bg-card flex flex-col justify-between">
+          <CardHeader className="pb-2">
             <CardTitle className="text-lg font-bold text-foreground">Funds by Category</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-4">
             {categoryData.map((item) => (
-              <div key={item.name} className="space-y-2">
+              <div key={item.name} className="space-y-1.5">
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-medium text-foreground">{item.name}</span>
                   <span className="font-bold text-foreground">{item.percentage}%</span>
@@ -101,7 +100,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* Quick Links */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 pt-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 pt-2">
         {quickLinks.map((link) => (
           <Link
             key={link.name}
