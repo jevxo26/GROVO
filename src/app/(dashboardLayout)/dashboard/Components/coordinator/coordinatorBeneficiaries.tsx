@@ -32,28 +32,28 @@ export default function CoordinatorBeneficiaries() {
   });
 
   return (
-    <div className="space-y-6 pb-12 font-sans text-slate-800 dark:text-slate-100">
-      <div className="text-sm text-slate-500 dark:text-slate-400">
-        Home <span className="mx-1">›</span> Beneficiaries
+    <div className="space-y-6 pb-12 font-sans text-foreground">
+      <div className="text-sm text-muted-foreground flex items-center gap-1">
+        <span>Home</span> <span>›</span> <span className="text-foreground font-medium">Beneficiaries</span>
       </div>
 
       {/* Search & Filter Bar */}
-      <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row gap-3">
+      <div className="bg-card text-card-foreground p-4 rounded-2xl border border-border shadow-sm flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search beneficiaries..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-lime-700"
+            className="w-full pl-10 pr-4 py-2.5 bg-background border border-input rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
           />
         </div>
         <div>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full sm:w-auto px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-lime-700 text-slate-600 dark:text-slate-300"
+            className="w-full sm:w-auto px-4 py-2.5 bg-background border border-input rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground cursor-pointer"
           >
             <option value="All Categories">All Categories</option>
             <option value="Flood Victim">Flood Victim</option>
@@ -67,11 +67,11 @@ export default function CoordinatorBeneficiaries() {
       </div>
 
       {/* Beneficiaries Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+      <div className="bg-card text-card-foreground rounded-2xl border border-border shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-100 dark:border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50/50 dark:bg-slate-800/50">
+              <tr className="border-b border-border text-[11px] font-bold text-muted-foreground uppercase tracking-wider bg-accent/50">
                 <th className="py-3.5 px-6">Beneficiary</th>
                 <th className="py-3.5 px-6">Code</th>
                 <th className="py-3.5 px-6">Category</th>
@@ -80,32 +80,32 @@ export default function CoordinatorBeneficiaries() {
                 <th className="py-3.5 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+            <tbody className="divide-y divide-border text-sm">
               {filteredBeneficiaries.map((ben, index) => (
-                <tr key={index} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/50 transition-colors">
+                <tr key={index} className="hover:bg-accent/40 transition-colors">
                   <td className="py-4 px-6">
-                    <div className="font-semibold text-slate-900 dark:text-white">{ben.name}</div>
-                    <div className="text-xs text-slate-400">{ben.phone}</div>
+                    <div className="font-semibold text-foreground">{ben.name}</div>
+                    <div className="text-xs text-muted-foreground">{ben.phone}</div>
                   </td>
-                  <td className="py-4 px-6 text-slate-600 dark:text-slate-300 font-mono text-xs">{ben.code}</td>
-                  <td className="py-4 px-6 text-slate-600 dark:text-slate-300">{ben.category}</td>
-                  <td className="py-4 px-6 text-slate-600 dark:text-slate-300">{ben.union}</td>
+                  <td className="py-4 px-6 text-foreground font-mono text-xs">{ben.code}</td>
+                  <td className="py-4 px-6 text-muted-foreground">{ben.category}</td>
+                  <td className="py-4 px-6 text-muted-foreground">{ben.union}</td>
                   <td className="py-4 px-6">
-                    <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                      ben.status === "active" ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400" :
-                      ben.status === "assisted" ? "bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400" :
-                      "bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400"
+                    <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
+                      ben.status === "active" ? "bg-primary/15 text-primary border-primary/20" :
+                      ben.status === "assisted" ? "bg-accent text-accent-foreground border-border" :
+                      "bg-accent text-muted-foreground border-border"
                     }`}>
                       {ben.status}
                     </span>
                   </td>
                   <td className="py-4 px-6 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors" title="View Details">
-                        <Eye className="w-3.5 h-3.5" />
+                      <button className="w-8 h-8 rounded-xl bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all shadow-xs cursor-pointer" title="View Details">
+                        <Eye className="w-4 h-4" />
                       </button>
-                      <button className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors" title="Verify">
-                        <Check className="w-3.5 h-3.5" />
+                      <button className="w-8 h-8 rounded-xl bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all shadow-xs cursor-pointer" title="Verify">
+                        <Check className="w-4 h-4" />
                       </button>
                     </div>
                   </td>
@@ -113,7 +113,7 @@ export default function CoordinatorBeneficiaries() {
               ))}
               {filteredBeneficiaries.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="text-center py-8 text-slate-400 text-sm">No beneficiaries found.</td>
+                  <td colSpan={6} className="text-center py-8 text-muted-foreground text-sm">No beneficiaries found.</td>
                 </tr>
               )}
             </tbody>
