@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import {
   analyticsReportsApi,
+  counterSlice,
   areaCoverageApi,
   beneficiaryApi,
   branchAnnouncementApi,
