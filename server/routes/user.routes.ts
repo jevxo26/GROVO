@@ -1,8 +1,6 @@
 import express from "express";
 
 import { userController } from "../controllers/user/user.controller";
-import { checkAuth } from "../middlewares/checkAuth";
-import { UserRole } from "../../generated/prisma/enums";
 
 const router = express.Router();
 
@@ -10,7 +8,7 @@ router.post("/sign-up", userController.createUser);
 router.post("/login", userController.login);
 router.get(
   "/user-profile",
-  checkAuth(UserRole.GENERAL_MEMBER),
+  
   userController.getUserProfile,
 );
 router.patch("/", userController.updateUserInfo);

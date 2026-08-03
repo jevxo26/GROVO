@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HandHeart, Menu, X } from "lucide-react";
+import { HandHeart, Menu, X, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 
 interface NavItem {
   name: string;
@@ -23,31 +24,36 @@ export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen((prev) => !prev);
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // ✅ hydration fix
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   return (
-    <header className="w-full relative bg-[#ecebde] text-[#1b2a21] shadow-sm z-50">
+    <header className="fixed top-0 left-0 w-full z-[9999] bg-background/80 backdrop-blur-md text-foreground border-b border-border shadow-sm">
       <div className="py-4 px-4 sm:px-6 md:px-12 flex items-center justify-between">
-        
-        {/* Logo with Home Link & Hover Animation */}
+
+        {/* Logo */}
         <Link
           href="/"
-          className="flex items-center space-x-2 sm:space-x-3 group transition-transform duration-200 hover:scale-[1.02]"
+          className="flex items-center space-x-3 group hover:scale-[1.02] transition"
         >
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#008a3e] flex items-center justify-center text-white shadow-sm group-hover:bg-[#007333] group-hover:shadow-md transition-all duration-300">
-            <HandHeart
-              size={20}
-              className="stroke-[2.5] group-hover:rotate-12 transition-transform duration-300 sm:w-5.5 sm:h-5.5"
-            />
+          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-sm group-hover:shadow-md transition">
+            <HandHeart className="group-hover:rotate-12 transition" />
           </div>
-          <span className="text-xl sm:text-2xl font-black tracking-wider text-[#0a1a11] font-serif">
+          <span className="text-2xl font-black tracking-wider font-serif">
             ASHRAY
           </span>
         </Link>
 
-        {/* Desktop Navigation Menu */}
+        {/* Desktop Menu */}
         <nav className="hidden lg:flex items-center space-x-8">
           {navItems.map((item) => {
             const isActive = pathname === item.path;
@@ -56,22 +62,16 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.path}
-                className={`relative py-1 text-sm font-semibold transition-all duration-300 group flex flex-col items-center ${
+                className={`relative text-sm font-semibold transition ${
                   isActive
-                    ? "text-[#008a3e]"
-                    : "text-[#4d5c52] hover:text-[#008a3e]"
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
                 }`}
               >
-                <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
-                  {item.name}
-                </span>
-
-                {/* Active Underline & Hover Animated Line */}
+                {item.name}
                 <span
-                  className={`absolute -bottom-1.5 rounded-full bg-[#008a3e] transition-all duration-300 ${
-                    isActive
-                      ? "w-4 h-[2.5px]"
-                      : "w-0 h-[2.5px] group-hover:w-4"
+                  className={`absolute -bottom-1 left-0 h-[2px] bg-primary transition-all ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
                   }`}
                 />
               </Link>
@@ -79,76 +79,87 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Action Buttons (Desktop & Tablet) */}
-        <div className="hidden sm:flex items-center space-x-3">
-          {/* Login Link */}
-          <Link
-            href="/login"
-            className="px-5 sm:px-6 py-2 rounded-full border border-[#b8c2ba] text-[#1b2a21] text-sm font-semibold hover:bg-[#008a3e] hover:text-white hover:border-[#008a3e] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0"
-          >
-            Login
-          </Link>
+        {/* Right Side */}
+        <div className="flex items-center gap-3">
 
-          {/* Donate Now Link */}
-          <Link
-            href="/donate"
-            className="px-5 sm:px-6 py-2 rounded-full bg-[#008a3e] text-white text-sm font-bold shadow-sm hover:bg-[#007333] hover:shadow-md hover:shadow-emerald-900/20 hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0"
-          >
-            Donate Now
-          </Link>
-        </div>
+          {/* 🌗 Theme Toggle */}
+          {mounted && (
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg border border-border bg-muted hover:bg-accent transition"
+            >
+              {resolvedTheme === "dark" ? (
+                <Sun className="w-4 h-4" />
+              ) : (
+                <Moon className="w-4 h-4" />
+              )}
+            </button>
+          )}
 
-        {/* Mobile Hamburger Button */}
-        <div className="flex items-center lg:hidden">
-          <button
-            onClick={toggleMobileMenu}
-            aria-label="Toggle Navigation Menu"
-            className="p-2 rounded-lg text-[#1b2a21] hover:bg-[#dedccf] transition-colors"
-          >
-            {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation Dropdown Menu */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden bg-[#ecebde] border-t border-[#dedccf] px-6 py-5 flex flex-col space-y-4 animate-in slide-in-from-top-2 duration-200 shadow-md">
-          {/* Nav Items */}
-          <div className="flex flex-col space-y-3">
-            {navItems.map((item) => {
-              const isActive = pathname === item.path;
-
-              return (
-                <Link
-                  key={item.name}
-                  href={item.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-base font-semibold py-1.5 transition-colors ${
-                    isActive
-                      ? "text-[#008a3e] font-bold"
-                      : "text-[#4d5c52] hover:text-[#008a3e]"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Mobile Buttons (Visible only on small screens) */}
-          <div className="pt-3 border-t border-[#dedccf] flex flex-col gap-2.5 sm:hidden">
+          {/* Buttons */}
+          <div className="hidden sm:flex items-center space-x-3">
             <Link
               href="/login"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-full border border-[#b8c2ba] text-[#1b2a21] text-sm font-semibold hover:bg-[#008a3e] hover:text-white transition-all"
+              className="px-5 py-2 rounded-full border border-border text-sm font-semibold hover:bg-accent transition"
             >
               Login
             </Link>
 
             <Link
               href="/donate"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-full bg-[#008a3e] text-white text-sm font-bold shadow-sm hover:bg-[#007333] transition-all"
+              className="px-5 py-2 rounded-full bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition shadow"
+            >
+              Donate Now
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-lg hover:bg-accent transition"
+            >
+              {isMobileMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden bg-background border-t border-border px-6 py-5 flex flex-col space-y-4 shadow-md">
+
+          {navItems.map((item) => {
+            const isActive = pathname === item.path;
+
+            return (
+              <Link
+                key={item.name}
+                href={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`text-base font-semibold ${
+                  isActive
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+
+          <div className="pt-3 border-t border-border flex flex-col gap-2 sm:hidden">
+            <Link
+              href="/login"
+              className="text-center py-2 rounded-full border border-border hover:bg-accent transition"
+            >
+              Login
+            </Link>
+
+            <Link
+              href="/donate"
+              className="text-center py-2 rounded-full bg-primary text-primary-foreground font-bold"
             >
               Donate Now
             </Link>

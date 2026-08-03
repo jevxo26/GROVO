@@ -218,7 +218,7 @@ export const sidebarNavigation = {
     {
       name: "Distribution",
       href: "/dashboard/distribution",
-      icon: Truck, 
+      icon: Truck,
     },
     {
       name: "Field Activities",
@@ -280,7 +280,7 @@ export const sidebarNavigation = {
     {
       name: "Distribution",
       href: "/dashboard/distribution",
-      icon: Truck, 
+      icon: Truck,
     },
     {
       name: "Field Activities",
@@ -295,7 +295,7 @@ export const sidebarNavigation = {
     {
       name: "Branch Settings",
       href: "/dashboard/settings",
-      icon: Settings, 
+      icon: Settings,
     },
     {
       name: "Announcements",
@@ -342,7 +342,7 @@ export const sidebarNavigation = {
     {
       name: "Distribution",
       href: "/dashboard/distribution",
-      icon: Truck, 
+      icon: Truck,
     },
     {
       name: "Field Activities",
@@ -357,7 +357,7 @@ export const sidebarNavigation = {
     {
       name: "Branch Settings",
       href: "/dashboard/settings",
-      icon: Settings, 
+      icon: Settings,
     },
     {
       name: "Announcements",
@@ -404,7 +404,7 @@ export const sidebarNavigation = {
     {
       name: "Distribution",
       href: "/dashboard/distribution",
-      icon: Truck, 
+      icon: Truck,
     },
     {
       name: "Field Activities",
@@ -419,7 +419,7 @@ export const sidebarNavigation = {
     {
       name: "Branch Settings",
       href: "/dashboard/settings",
-      icon: Settings, 
+      icon: Settings,
     },
     {
       name: "Announcements",
@@ -431,7 +431,7 @@ export const sidebarNavigation = {
 
 export function Sidebar({
   onClose,
-  role = "upazilacoordinator",
+  role = "admin",
 }: {
   onClose?: () => void;
   role?: UserRole;

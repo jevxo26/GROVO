@@ -1,0 +1,62 @@
+"use client";
+
+import React, { useState } from "react";
+import CampaignCard from "../shared/CampaignCard";
+import {
+  categories,
+  allCampaigns,
+} from "../../data/landingpage/campaignsData";
+
+export default function CampaignsSection() {
+  const [activeTab, setActiveTab] = useState("All");
+
+  const filteredCampaigns =
+    activeTab === "All"
+      ? allCampaigns
+      : allCampaigns.filter((item) => item.category === activeTab);
+
+  return (
+    <section className="w-full bg-background py-8 px-6 sm:px-12 lg:px-20">
+      <div className="max-w-7xl mx-auto flex flex-col gap-8">
+
+        {/* Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+
+          {categories.map((category) => {
+            const isActive = activeTab === category;
+
+            return (
+              <button
+                key={category}
+                onClick={() => setActiveTab(category)}
+                className={`px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap border ${
+                  isActive
+                    ? "bg-primary text-primary-foreground border-primary shadow-md"
+                    : "bg-muted text-muted-foreground border-border hover:bg-accent hover:text-foreground"
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredCampaigns.map((campaign) => (
+            <CampaignCard key={campaign.id} campaign={campaign} />
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {filteredCampaigns.length === 0 && (
+          <div className="text-center py-12 text-muted-foreground font-medium">
+            No active campaigns found for &quot;{activeTab}&quot;.
+          </div>
+        )}
+
+      </div>
+    </section>
+  );
+}

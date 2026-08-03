@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
-  "exclude": ["node_modules"]
+, "src/redux/slices/campaignSlice.ts"  ],
+  "exclude": ["node_modules", "server", "dist"]
 }

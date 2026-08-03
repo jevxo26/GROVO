@@ -152,7 +152,7 @@ export const checkAuth = (...authRoles: string[]) => {
             // Check roles
             if (
               authRoles.length > 0 &&
-              !authRoles.includes(session.user.role)
+              !authRoles.includes((session.user as any).role)
             ) {
               throw new customError(
                 status.FORBIDDEN,
@@ -167,7 +167,7 @@ export const checkAuth = (...authRoles: string[]) => {
             req.user = {
               userId: session.user.id,
               email: session.user.email,
-              role: session.user.role,
+              role: (session.user as any).role || "",
             };
             req.session = session;
 

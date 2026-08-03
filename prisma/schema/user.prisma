@@ -31,9 +31,10 @@ model User {
   status        UserStatus  @default(PENDING)
   isVerified    Boolean     @default(false)
   lastLogin     DateTime?
+  role          UserRole    @default(GENERAL_MEMBER)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  role          UserRole    @default(GENERAL_MEMBER)
+ 
 
   userProfile         UserProfile?
   devices             UserDevice[]
@@ -45,6 +46,11 @@ model User {
   security            UserSecurity?
   addresses           UserAddress[]
   membership          Membership[]
+
+  donors              Donor[]
+  roleAssignments     UserRoleAssignment[]
+  adminPermissions    AdminPermission[]
+  accessLogs          AccessLog[]
 
   createdCampaigns   Campaign[]         @relation("CampaignCreator")
   campaignDonations  CampaignDonation[] @relation("CampaignDonations")

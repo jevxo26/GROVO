@@ -66,10 +66,21 @@ const deleteProjectBeneficiary = catchAsync(async (req, res) => {
   });
 });
 
+const getAllProjectBeneficiaries = catchAsync(async (req, res) => {
+  const result = await projectBeneficiaryService.getAllProjectBeneficiaries();
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Project beneficiaries fetched successfully",
+    data: result,
+  });
+});
+
 export const projectBeneficiaryController = {
   createProjectBeneficiary,
   getBeneficiariesByProjectId,
   getProjectBeneficiaryById,
   updateProjectBeneficiary,
   deleteProjectBeneficiary,
+  getAllProjectBeneficiaries,
 };

@@ -57,17 +57,16 @@ model Donor {
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 
-  // RELATIONS (Commented out for initial independent testing)
-  // user                User                  @relation(fields: [userId], references: [id])
-  // individualDonor     IndividualDonor?
-  // corporateDonor      CorporateDonor?
-  // subscriptions       DonorSubscription[]
-  // commitments         DonationCommitment[]
-  // wallet              DonorWallet?
-  // certificates        DonorCertificate[]
-  // badges              DonorBadge[]
-  // activities          DonorActivity[]
-  // preference          DonorPreference?
+  user                User                  @relation(fields: [userId], references: [id])
+  individualDonor     IndividualDonor?
+  corporateDonor      CorporateDonor?
+  subscriptions       DonorSubscription[]
+  commitments         DonationCommitment[]
+  wallet              DonorWallet?
+  certificates        DonorCertificate[]
+  badges              DonorBadge[]
+  activities          DonorActivity[]
+  preference          DonorPreference?
 
   @@map("donors")
 }
@@ -85,7 +84,7 @@ model IndividualDonor {
   updatedAt          DateTime      @updatedAt
 
   // RELATIONS
-  // donor              Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donor              Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
 
   @@map("individual_donors")
 }
@@ -107,8 +106,8 @@ model CorporateDonor {
   updatedAt             DateTime      @updatedAt
 
   // RELATIONS
-  // donor                 Donor               @relation(fields: [donorId], references: [id], onDelete: Cascade)
-  // donorOrganization     DonorOrganization?
+  donor                 Donor               @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donorOrganization     DonorOrganization?
 
   @@map("corporate_donors")
 }
@@ -127,7 +126,7 @@ model DonorOrganization {
   updatedAt        DateTime @updatedAt
 
   // RELATIONS
-  // corporateDonor   CorporateDonor @relation(fields: [corporateDonorId], references: [id], onDelete: Cascade)
+  corporateDonor   CorporateDonor @relation(fields: [corporateDonorId], references: [id], onDelete: Cascade)
 
   @@map("donor_organizations")
 }
@@ -148,7 +147,7 @@ model DonorSubscription {
   updatedAt        DateTime      @updatedAt
 
   // RELATIONS
-  // donor            Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donor            Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
 
   @@map("donor_subscriptions")
 }
@@ -167,7 +166,7 @@ model DonationCommitment {
   updatedAt       DateTime      @updatedAt
 
   // RELATIONS
-  // donor           Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donor           Donor         @relation(fields: [donorId], references: [id], onDelete: Cascade)
 
   @@map("donation_commitments")
 }
@@ -184,8 +183,8 @@ model DonorWallet {
   updatedAt    DateTime      @updatedAt
 
   // RELATIONS
-  // donor        Donor              @relation(fields: [donorId], references: [id], onDelete: Cascade)
-  // transactions DonorTransaction[]
+  donor        Donor              @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  transactions DonorTransaction[]
 
   @@map("donor_wallets")
 }
@@ -203,7 +202,7 @@ model DonorTransaction {
   updatedAt       DateTime        @updatedAt
 
   // RELATIONS
-  // wallet          DonorWallet     @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  wallet          DonorWallet     @relation(fields: [walletId], references: [id], onDelete: Cascade)
 
   @@map("donor_transactions")
 }
@@ -221,7 +220,7 @@ model DonorCertificate {
   updatedAt         DateTime        @updatedAt
 
   // RELATIONS
-  // donor             Donor           @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donor             Donor           @relation(fields: [donorId], references: [id], onDelete: Cascade)
 
   @@map("donor_certificates")
 }
@@ -236,7 +235,7 @@ model DonorBadge {
   createdAt  DateTime @default(now())
 
   // RELATIONS
-  // donor      Donor    @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donor      Donor    @relation(fields: [donorId], references: [id], onDelete: Cascade)
 
   @@map("donor_badges")
 }
@@ -294,7 +293,7 @@ model Referral {
   updatedAt      DateTime      @updatedAt
 
   // RELATIONS
-  // rewards        ReferralReward[]
+  rewards        ReferralReward[]
 
   @@map("referrals")
 }
@@ -310,7 +309,7 @@ model ReferralReward {
   updatedAt   DateTime      @updatedAt
 
   // RELATIONS
-  // referral    Referral      @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  referral    Referral      @relation(fields: [referralId], references: [id], onDelete: Cascade)
 
   @@map("referral_rewards")
 }
@@ -325,7 +324,7 @@ model DonorActivity {
   createdAt    DateTime     @default(now())
 
   // RELATIONS
-  // donor        Donor        @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donor        Donor        @relation(fields: [donorId], references: [id], onDelete: Cascade)
 
   @@map("donor_activities")
 }
@@ -344,7 +343,7 @@ model DonorPreference {
   updatedAt         DateTime @updatedAt
 
   // RELATIONS
-  // donor             Donor    @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donor             Donor    @relation(fields: [donorId], references: [id], onDelete: Cascade)
 
   @@map("donor_preferences")
 }
