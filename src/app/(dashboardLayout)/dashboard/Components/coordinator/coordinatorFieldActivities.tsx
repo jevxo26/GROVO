@@ -44,9 +44,9 @@ export default function CoordinatorFieldActivities() {
   ];
 
   return (
-    <div className="space-y-6 pb-12 font-sans text-slate-800 dark:text-slate-100">
-      <div className="text-sm text-slate-500 dark:text-slate-400">
-        Home <span className="mx-1">›</span> Field Activities
+    <div className="space-y-6 pb-12 font-sans text-foreground">
+      <div className="text-sm text-muted-foreground flex items-center gap-1">
+        <span>Home</span> <span>›</span> <span className="text-foreground font-medium">Field Activities</span>
       </div>
 
       {/* Activities Grid */}
@@ -54,32 +54,32 @@ export default function CoordinatorFieldActivities() {
         {activitiesData.map((act, index) => (
           <div
             key={index}
-            className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-4"
+            className="bg-card text-card-foreground p-5 rounded-2xl border border-border shadow-sm space-y-4 transition-all hover:border-primary/40 group"
           >
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                <h3 className="font-bold text-foreground text-base tracking-tight">
                   {act.title}
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   {act.volunteer}
                 </p>
               </div>
               <span
-                className={`inline-block px-2.5 py-1 rounded-full text-[10px] uppercase font-semibold tracking-wider ${
+                className={`inline-block px-2.5 py-1 rounded-full text-[10px] uppercase font-semibold tracking-wider border ${
                   act.status === "pending"
-                    ? "bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400"
+                    ? "bg-accent text-accent-foreground border-border"
                     : act.status === "verified"
-                    ? "bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400"
-                    : "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400"
+                    ? "bg-accent text-muted-foreground border-border"
+                    : "bg-primary/15 text-primary border-primary/20"
                 }`}
               >
                 {act.status}
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs text-slate-400">
-              <MapPin className="w-3.5 h-3.5" />
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <MapPin className="w-3.5 h-3.5 text-primary" />
               <span>{act.location}</span>
               <span>•</span>
               <span>{act.date}</span>
@@ -87,22 +87,22 @@ export default function CoordinatorFieldActivities() {
 
             {/* Separate Cards for Families & Expenses */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl text-center border border-slate-100 dark:border-slate-800">
-                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Families</div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">{act.families}</div>
+              <div className="bg-accent/40 p-3 rounded-xl text-center border border-border">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">Families</div>
+                <div className="text-sm font-bold text-foreground mt-0.5">{act.families}</div>
               </div>
-              <div className="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl text-center border border-slate-100 dark:border-slate-800">
-                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Expenses</div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">{act.expenses}</div>
+              <div className="bg-accent/40 p-3 rounded-xl text-center border border-border">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">Expenses</div>
+                <div className="text-sm font-bold text-foreground mt-0.5">{act.expenses}</div>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2 pt-1">
-              <button className="flex items-center justify-center gap-1.5 py-2 px-4 rounded-xl border border-emerald-600 text-emerald-600 dark:text-emerald-400 dark:border-emerald-500 text-xs font-semibold hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors">
+              <button className="flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm cursor-pointer">
                 <Check className="w-3.5 h-3.5" />
                 Approve
               </button>
-              <button className="flex items-center justify-center gap-1.5 py-2 px-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+              <button className="flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-accent text-accent-foreground text-xs font-semibold hover:bg-primary hover:text-primary-foreground transition-all cursor-pointer">
                 <Eye className="w-3.5 h-3.5" />
                 View
               </button>
