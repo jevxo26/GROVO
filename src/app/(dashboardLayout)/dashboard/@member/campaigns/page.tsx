@@ -26,7 +26,7 @@ export default function MemberCampaignsPage() {
       </div>
 
       {/* Campaign Cards Grid */}
-      <SupportedCampaigns title="Explore & Support Active Appeals" campaigns={campaignsData} />
+      <SupportedCampaigns layout="grid" title="Explore & Support Active Appeals" campaigns={campaignsData} />
     </div>
   );
 }

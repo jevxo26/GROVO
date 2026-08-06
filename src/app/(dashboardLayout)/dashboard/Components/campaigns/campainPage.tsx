@@ -169,6 +169,7 @@ export default function CampaignsPage() {
       {/* View Content */}
       {viewMode === "grid" ? (
         <SupportedCampaigns
+          layout="grid"
           title={`${activeCategory === "All" ? "All Active" : activeCategory} Campaigns & Appeals`}
           campaigns={filteredCampaigns}
         />
