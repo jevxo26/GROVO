@@ -14,33 +14,26 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useLoginMutation } from "@/redux/slices/userSlice";
+import { getRoleDashboardPath } from "@/lib/roleUtils";
 
 export default function LoginPage() {
   const router = useRouter();
   const { toast, setToast } = useAuthToast();
 
+  const [login, { isLoading: loginLoading }] = useLoginMutation();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
-  const [pending, setPending] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setPending(true);
 
     try {
-      const response = await fetch("/api/v1/user/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const resData = await login({ email, password }).unwrap();
 
-      const resData = await response.json();
-      setPending(false);
-
-      if (!response.ok || !resData.success) {
+      if (!resData.success) {
         setToast({
           message: resData.message || "Invalid credentials. Please try again.",
           variant: "error",
@@ -48,31 +41,21 @@ export default function LoginPage() {
         return;
       }
 
-      // Store local credentials
-      localStorage.setItem("token", resData.data.token);
-      localStorage.setItem("user", JSON.stringify(resData.data.user));
+      setToast({ message: "Welcome back! Redirecting to dashboard...", variant: "success" });
 
-      setToast({ message: "Welcome back! Redirecting...", variant: "success" });
+      // Resolve user role from login payload (relational role assignments or user.role)
+      const userRole =
+        resData?.data?.user?.role ||
+        resData?.data?.user?.roleAssignments?.[0]?.role?.roleName ||
+        resData?.data?.user?.membership?.[0]?.membershipType ||
+        "GENERAL_MEMBER";
 
-      // Determine dashboard based on email signature or role
-      const lowerEmail = email.toLowerCase();
-      if (lowerEmail.includes("admin")) {
-        router.push("/dashboard/admin");
-      } else if (lowerEmail.includes("staff") || lowerEmail.includes("staf")) {
-        router.push("/dashboard/staf");
-      } else if (lowerEmail.includes("volunteer")) {
-        router.push("/dashboard/volunteer");
-      } else if (lowerEmail.includes("corporate")) {
-        router.push("/dashboard/corporate");
-      } else if (lowerEmail.includes("executive")) {
-        router.push("/dashboard/executivemember");
-      } else {
-        router.push("/dashboard/member");
-      }
-    } catch (err) {
-      setPending(false);
+      // Route directly to the corresponding role dashboard slot
+      const targetPath = getRoleDashboardPath(userRole);
+      router.push(targetPath);
+    } catch (err: any) {
       setToast({
-        message: "Failed to connect to the server. Please check your connection.",
+        message: err?.data?.message || err?.message || "Failed to log in. Please check your credentials.",
         variant: "error",
       });
     }
@@ -82,7 +65,7 @@ export default function LoginPage() {
     <AuthShell>
       <div className="mb-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
         <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-          Get started
+          Get Started
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Sign in to your account or create a new one
@@ -105,7 +88,7 @@ export default function LoginPage() {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email">Email address</Label>
+          <Label htmlFor="email">Email Address</Label>
           <div className="relative">
             <Mail className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -115,6 +98,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
+              placeholder="name@example.com"
               className="h-10 pl-9"
             />
           </div>
@@ -139,7 +123,7 @@ export default function LoginPage() {
           </label>
           <Link
             href="/forgot-password"
-            className="text-sm font-medium text-primary hover:underline"
+            className="text-sm font-medium text-[#136139] hover:underline"
           >
             Forgot password?
           </Link>
@@ -147,10 +131,10 @@ export default function LoginPage() {
 
         <Button
           type="submit"
-          disabled={pending}
-          className="mt-2 h-10 justify-center gap-2"
+          disabled={loginLoading}
+          className="mt-2 h-10 justify-center gap-2 bg-[#136139] hover:bg-[#0f4d2d] text-white"
         >
-          {pending ? (
+          {loginLoading ? (
             <Loader2 className="size-4 animate-spin" />
           ) : (
             <>
@@ -165,7 +149,7 @@ export default function LoginPage() {
         Need help?{" "}
         <Link
           href="/support"
-          className="font-medium text-primary hover:underline"
+          className="font-medium text-[#136139] hover:underline"
         >
           Contact support
         </Link>

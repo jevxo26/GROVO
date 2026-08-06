@@ -240,7 +240,7 @@ export const checkAuth = (...authRoles: string[]) => {
       }
 
       // 7. Check role-based access
-      if (authRoles.length > 0 && !authRoles.includes(user.role)) {
+      if (authRoles.length > 0 && !authRoles.includes((user as any).role)) {
         throw new customError(status.FORBIDDEN, "Insufficient permissions.");
       }
 
@@ -260,7 +260,7 @@ export const checkAuth = (...authRoles: string[]) => {
       req.user = {
         userId: user.id,
         email: user.email,
-        role: user.role,
+        role: (user as any).role || "",
       };
       req.session = userSession;
 

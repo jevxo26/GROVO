@@ -13,7 +13,21 @@ const createUser = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     statusCode: status.CREATED,
-    message: "User created successfully",
+    message: "User registered successfully. OTP code sent.",
+    data: result,
+  });
+});
+
+const verifyOtp = catchAsync(async (req, res) => {
+  const payload = req.body;
+
+  const result = await userServices.verifyOtp(payload);
+  tokenUtils.setAccessTokenCookie(res, result.accessToken);
+  tokenUtils.setRefreshTokenCookie(res, result.refreshToken);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: "Account verified successfully",
     data: result,
   });
 });
@@ -55,32 +69,35 @@ const updateUserInfo = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const updateUserNotificationSetting = catchAsync(async (req, res) => {
   const payload = req.body;
   const userId = req.user?.userId;
-  const result = await userServices.updateUserInfo(payload, userId as string);
+  const result = await userServices.updateUserNotificationSetting(payload, userId as string);
   sendResponse(res, {
     statusCode: status.OK,
-    message: "User info updated successfully",
+    message: "Notification settings updated successfully",
     data: result,
   });
 });
+
 const updateUserSecurity = catchAsync(async (req, res) => {
   const payload = req.body;
   const userId = req.user?.userId;
-  const result = await userServices.updateUserInfo(payload, userId as string);
+  const result = await userServices.updateUserSecurity(payload, userId as string);
   sendResponse(res, {
     statusCode: status.OK,
-    message: "User info updated successfully",
+    message: "User security updated successfully",
     data: result,
   });
 });
 
 export const userController = {
   createUser,
+  verifyOtp,
   login,
   getUserProfile,
   updateUserInfo,
   updateUserNotificationSetting,
-  updateUserSecurity
+  updateUserSecurity,
 };

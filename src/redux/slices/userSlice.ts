@@ -17,12 +17,21 @@ export const userApi = createApi({
         body: data,
       }),
     }),
+    verifyOtp: builder.mutation<any, { email: string; otp: string }>({
+      query: (data) => ({
+        url: "/user/verify-otp",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [{ type: "User", id: "PROFILE" }],
+    }),
     login: builder.mutation<any, Partial<any>>({
       query: (credentials) => ({
         url: "/user/login",
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: [{ type: "User", id: "PROFILE" }],
     }),
     updateUserInfo: builder.mutation<any, Partial<any>>({
       query: (data) => ({
@@ -54,6 +63,7 @@ export const userApi = createApi({
 export const {
   useGetUserProfileQuery,
   useSignUpMutation,
+  useVerifyOtpMutation,
   useLoginMutation,
   useUpdateUserInfoMutation,
   useUpdateNotificationSettingsMutation,
