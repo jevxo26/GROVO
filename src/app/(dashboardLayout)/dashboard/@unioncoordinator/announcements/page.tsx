@@ -1,10 +1,3 @@
-import React from 'react'
-import CoordinatorAnnouncements from '../../Components/coordinator/coordinatorAnnouncements'
-
-const page = () => {
-  return (
-    <CoordinatorAnnouncements/>
-  )
-}
-
-export default page
+"use client";
+import NotificationsPage from "../../Components/notifications/notificationsPage";
+export default function CoordinatorAnnouncementsPage() { return <NotificationsPage />; }

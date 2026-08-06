@@ -1,162 +1,90 @@
 "use client";
 
 import React, { useState } from "react";
-import { Check, Clock, Plus } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { CheckCircle, Clock, Plus, Activity, Award, MapPin } from "lucide-react";
+import StatCard from "@/components/dashboard/shared/StatCard";
+import DataTable, { Column } from "@/components/dashboard/shared/DataTable";
+import { Button } from "@/components/ui/button";
+import { VolunteerModalForm } from "@/components/dashboard/volunteers/VolunteerModalForm";
 
-interface Activity {
-  title: string;
-  date: string;
-  location: string;
-  points?: number;
-  status: "approved" | "pending";
-}
-
-interface FormData {
-  type: string;
-  description: string;
-  location: string;
-  date: string;
-}
-
-const schema: yup.ObjectSchema<FormData> = yup.object({
-  type: yup.string().required("Activity type is required"),
-  description: yup.string().required("Description is required"),
-  location: yup.string().required("Location is required"),
-  date: yup.string().required("Date is required"),
-});
-
-const activitiesData: Activity[] = [
-  {
-    title: "Registered 5 new members",
-    date: "2026-07-09",
-    location: "Dhaka",
-    points: 50,
-    status: "approved",
-  },
-  {
-    title: "Monthly report",
-    date: "2026-07-01",
-    location: "Dhaka",
-    points: 30,
-    status: "pending",
-  },
+const activitiesData = [
+  { id: "1", title: "Registered 5 new members in Savar Union", date: "2026-07-09", location: "Savar, Dhaka", points: 50, status: "approved" },
+  { id: "2", title: "Secured 3 new monthly donors for Education Campaign", date: "2026-07-07", location: "Dhamrai, Dhaka", points: 45, status: "approved" },
+  { id: "3", title: "Beneficiary verification visit - 12 families assessed", date: "2026-07-05", location: "Ashulia, Dhaka", points: 60, status: "approved" },
+  { id: "4", title: "Assisted in Winter Warmth blanket distribution", date: "2026-06-28", location: "Savar, Dhaka", points: 80, status: "approved" },
+  { id: "5", title: "Uploaded 47 photos from Medical Camp event", date: "2026-06-20", location: "Dhamrai, Dhaka", points: 25, status: "pending" },
 ];
 
-const activityTypes = [
-  "Member Registration",
-  "Donor Outreach",
-  "Field Visit",
-  "Campaign Support",
-  "Photo Upload",
-];
+export default function VolunteerActivitiesPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-const Activities: React.FC = () => {
-  const [showForm, setShowForm] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    alert("Submitted ✅");
-    reset();
-    setShowForm(false);
-  };
-
-  // ✅ Cancel handler
-  const handleCancel = () => {
-    reset();
-    setShowForm(false);
-  };
+  const columns: Column<(typeof activitiesData)[0]>[] = [
+    {
+      header: "Activity Description",
+      cell: (row) => (
+        <div>
+          <div className="font-bold text-foreground text-sm">{row.title}</div>
+          <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+            <MapPin className="w-3 h-3" /> {row.location}
+          </div>
+        </div>
+      ),
+    },
+    { header: "Date", accessorKey: "date" },
+    {
+      header: "Points Earned",
+      cell: (row) => (
+        <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
+          +{row.points} pts
+        </span>
+      ),
+    },
+    {
+      header: "Status",
+      cell: (row) => (
+        <span
+          className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+            row.status === "approved"
+              ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
+              : "bg-amber-500/10 text-amber-600 border border-amber-500/20"
+          }`}
+        >
+          {row.status}
+        </span>
+      ),
+    },
+  ];
 
   return (
-    <div className="p-6 md:p-10 bg-background min-h-screen transition-colors duration-300">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-foreground text-xl font-semibold">
-          Total activities: <b className="text-primary">8</b> · Total points: <b className="text-primary">445</b>
-        </h1>
-
-        <button
-          onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
-        >
-          <Plus size={18} />
-          {showForm ? "Close Form" : "Submit Activity"}
-        </button>
+    <div className="space-y-6">
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard title="Total Activities" value={activitiesData.length} change="Field assignments" icon={Activity} />
+        <StatCard title="Total Points" value="445 pts" change="Gold Tier" icon={Award} />
+        <StatCard title="Approved Reports" value={activitiesData.filter((a) => a.status === "approved").length} change="Verified by coordinator" icon={CheckCircle} />
+        <StatCard title="Pending Review" value={activitiesData.filter((a) => a.status === "pending").length} change="Needs review" isPositive={false} icon={Clock} />
       </div>
 
-      {/* Form */}
-      {showForm && (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="bg-card p-8 rounded-[--radius] border border-border shadow-sm max-w-4xl mx-auto mb-8"
-        >
-          <h2 className="text-lg font-bold mb-6 text-card-foreground">
-            New Activity Report
-          </h2>
+      {/* Activities Table */}
+      <DataTable
+        title="Field Activity Reports & Check-ins"
+        description="Track your field assignments, member registrations, and volunteer check-ins"
+        columns={columns}
+        data={activitiesData}
+        searchPlaceholder="Search activities..."
+        searchField="title"
+        onAddClick={() => setIsModalOpen(true)}
+        addButtonLabel="Submit Activity Report"
+      />
 
-          <div className="mb-4">
-            <select {...register("type")} className="w-full p-3 border border-input bg-card text-card-foreground rounded-lg focus:ring-2 focus:ring-ring outline-none">
-              <option value="">Select type...</option>
-              {activityTypes.map((type) => (
-                <option key={type}>{type}</option>
-              ))}
-            </select>
-            <p className="text-destructive text-xs mt-1">{errors.type?.message}</p>
-          </div>
-
-          <div className="mb-4">
-            <textarea
-              {...register("description")}
-              className="w-full p-3 border border-input bg-card text-card-foreground rounded-lg h-24 focus:ring-2 focus:ring-ring outline-none"
-              placeholder="Describe..."
-            />
-            <p className="text-destructive text-xs mt-1">{errors.description?.message}</p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <input {...register("location")} className="w-full p-3 border border-input bg-card text-card-foreground rounded-lg" placeholder="Location" />
-            <input type="date" {...register("date")} className="w-full p-3 border border-input bg-card text-card-foreground rounded-lg" />
-          </div>
-
-          <div className="flex gap-4">
-            <button type="submit" className="bg-primary text-primary-foreground px-6 py-2 rounded-lg">Submit</button>
-            <button type="button" onClick={handleCancel} className="px-6 py-2 border border-input text-card-foreground rounded-lg hover:bg-muted">Cancel</button>
-          </div>
-        </form>
-      )}
-
-      {/* List */}
-      <div className="bg-card rounded-[--radius] border border-border shadow-sm">
-        {activitiesData.map((act, i) => (
-          <div key={i} className="flex items-center gap-4 p-5 border-b border-border last:border-0">
-            <div className={act.status === "approved" ? "text-chart-2" : "text-chart-1"}>
-              {act.status === "approved" ? <Check /> : <Clock />}
-            </div>
-
-            <div className="flex-1">
-              <h3 className="text-card-foreground font-medium">{act.title}</h3>
-              <p className="text-sm text-muted-foreground">{act.date} · {act.location}</p>
-            </div>
-
-            <div>
-              <p className="font-bold text-primary">+{act.points}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+      <VolunteerModalForm
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={async (data) => {
+          console.log("Submitting volunteer report:", data);
+          setIsModalOpen(false);
+        }}
+      />
     </div>
   );
-};
-
-export default Activities;
+}

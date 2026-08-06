@@ -1,10 +1,3 @@
-import React from 'react'
-import CoordinatorBeneficiaries from '../../Components/coordinator/coordinatorBeneficiaries'
-
-const page = () => {
-  return (
-    <CoordinatorBeneficiaries/>
-  )
-}
-
-export default page
+"use client";
+import BeneficiariesPage from "../../Components/beneficiaries/beneficiariesPage";
+export default function CoordinatorBeneficiariesPage() { return <BeneficiariesPage />; }

@@ -1,37 +1,55 @@
+"use client";
+
 import React from "react";
-import { ProgressBar } from "../components/ProgressBar/ProgressBar";
-import { StatCard } from "../components/StatCard/StatCard";
-import { PerformanceChart } from "../components/PerformanceChart/PerformanceChart";
+import { Users, HandCoins, ListChecks, Award, Target, Trophy } from "lucide-react";
+import StatCard from "@/components/dashboard/shared/StatCard";
+import OverviewCharts from "@/components/dashboard/shared/OverviewCharts";
+import { Progress } from "@/components/ui/progress";
 
-const performanceData = [
-  { month: "Jan 2026", points: 285, acts: 18, mem: 14, don: 6 },
-  { month: "Feb 2026", points: 320, acts: 22, mem: 12, don: 8 },
-  { month: "Mar 2026", points: 410, acts: 28, mem: 19, don: 5 },
-  { month: "Apr 2026", points: 360, acts: 24, mem: 15, don: 7 },
-  { month: "May 2026", points: 445, acts: 31, mem: 16, don: 4 },
-  { month: "Jun 2026", points: 395, acts: 26, mem: 11, don: 4 },
-  { month: "Jul 2026", points: 230, acts: 15, mem: 8, don: 3 },
-];
-const Performance: React.FC = () => {
+export default function VolunteerPerformancePage() {
   return (
-    <div className="p-6 md:p-10 space-y-6 bg-gray-50 dark:bg-[#120f0d] min-h-screen transition-colors">
-      {/* Top Performance Card */}
-      <div className="bg-white dark:bg-[#1a1716] p-8 rounded-3xl border border-[#efe9e6] dark:border-[#2f2824] shadow-sm">
-        <ProgressBar score={94} />
+    <div className="space-y-6">
+      {/* Top Performance Rank Banner */}
+      <div className="bg-card text-card-foreground p-6 md:p-8 rounded-3xl border border-border shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <span className="px-3 py-1 bg-amber-500/10 text-amber-600 border border-amber-500/20 rounded-full text-xs font-bold uppercase tracking-wider">
+              🥇 Gold Rank Volunteer
+            </span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight mt-2">
+              Performance Score: 94 / 100
+            </h2>
+            <p className="text-xs text-muted-foreground mt-0.5">Top 5% volunteer across Dhaka Division</p>
+          </div>
+          <div className="bg-primary/10 border border-primary/20 text-primary p-4 rounded-2xl flex items-center gap-3">
+            <Trophy className="w-8 h-8 shrink-0" />
+            <div>
+              <div className="text-xs text-muted-foreground font-semibold">Next Rank Milestone</div>
+              <div className="font-bold text-foreground text-sm">Platinum Tier (600 pts)</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Rank Progress Bar */}
+        <div className="space-y-2 pt-2">
+          <div className="flex justify-between text-xs font-bold">
+            <span className="text-muted-foreground">Progress to Platinum</span>
+            <span className="text-primary">445 / 600 pts (74%)</span>
+          </div>
+          <Progress value={74} className="h-3 bg-muted [&>div]:bg-primary" />
+        </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard title="Members Registered" value={87} />
-        <StatCard title="Donors Registered" value={34} />
-        <StatCard title="Activities Done" value={156} />
-        <StatCard title="Next Rank" value="Platinum" />
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard title="Members Registered" value="87" change="+12 this month" icon={Users} />
+        <StatCard title="Donors Registered" value="34" change="Monthly pledges" icon={HandCoins} />
+        <StatCard title="Activities Completed" value="156" change="100% verified" icon={ListChecks} />
+        <StatCard title="Current Rank" value="Gold" change="Score: 94/100" icon={Award} />
       </div>
-      <div>
-        <PerformanceChart data={performanceData} />
-      </div>
+
+      {/* Performance Charts */}
+      <OverviewCharts />
     </div>
   );
-};
-
-export default Performance;
+}

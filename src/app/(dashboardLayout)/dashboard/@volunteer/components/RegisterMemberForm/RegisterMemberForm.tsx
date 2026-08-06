@@ -4,6 +4,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Button } from "@/components/ui/button";
+import { UserPlus } from "lucide-react";
 
 interface FormData {
   firstName: string;
@@ -51,155 +53,126 @@ export const RegisterMemberForm: React.FC = () => {
     reset();
   };
 
-  // কমন স্টাইল অবজেক্ট (সহজ করার জন্য)
   const inputStyle =
-    "w-full p-3 border rounded-lg bg-white dark:bg-[#120f0d] dark:border-[#2f2824] dark:text-white";
+    "w-full p-3 border border-border rounded-xl bg-card text-card-foreground focus:ring-2 focus:ring-ring outline-none transition-colors";
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white dark:bg-[#1a1716] p-8 rounded-2xl border border-gray-100 dark:border-[#2f2824] shadow-sm max-w-4xl mx-auto transition-colors"
+      className="bg-card text-card-foreground p-6 md:p-8 rounded-3xl border border-border shadow-sm max-w-4xl mx-auto space-y-6"
     >
-      <h2 className="text-lg font-bold mb-6 text-gray-900 dark:text-gray-100">
-        NEW MEMBER DETAILS
-      </h2>
-
-      {/* Name */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div className="flex items-center gap-3 border-b border-border/50 pb-4">
+        <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+          <UserPlus className="w-5 h-5" />
+        </div>
         <div>
-          <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+          <h2 className="text-lg font-extrabold text-foreground tracking-tight">
+            New Member Registration
+          </h2>
+          <p className="text-xs text-muted-foreground">Onboard a new community member into the Ashray system</p>
+        </div>
+      </div>
+
+      {/* Name Fields */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">
             First Name
           </label>
-          <input
-            {...register("firstName")}
-            className={inputStyle}
-            placeholder="Enter first name"
-          />
-          <p className="text-red-500 text-xs">{errors.firstName?.message}</p>
+          <input {...register("firstName")} className={inputStyle} placeholder="Enter first name" />
+          {errors.firstName && <p className="text-destructive text-xs">{errors.firstName.message}</p>}
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">
             Last Name
           </label>
-          <input
-            {...register("lastName")}
-            className={inputStyle}
-            placeholder="Enter last name"
-          />
-          <p className="text-red-500 text-xs">{errors.lastName?.message}</p>
+          <input {...register("lastName")} className={inputStyle} placeholder="Enter last name" />
+          {errors.lastName && <p className="text-destructive text-xs">{errors.lastName.message}</p>}
         </div>
       </div>
 
-      {/* Contact */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-        <div>
-          <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+      {/* Contact Fields */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">
             Phone Number
           </label>
-          <input
-            {...register("phone")}
-            className={inputStyle}
-            placeholder="+880 1XXX-XXXXXX"
-          />
-          <p className="text-red-500 text-xs">{errors.phone?.message}</p>
+          <input {...register("phone")} className={inputStyle} placeholder="+880 1XXX-XXXXXX" />
+          {errors.phone && <p className="text-destructive text-xs">{errors.phone.message}</p>}
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-            Email (optional)
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">
+            Email (Optional)
           </label>
-          <input
-            {...register("email")}
-            className={inputStyle}
-            placeholder="email@example.com"
-          />
-          <p className="text-red-500 text-xs">{errors.email?.message}</p>
+          <input {...register("email")} className={inputStyle} placeholder="email@example.com" />
+          {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
         </div>
       </div>
 
-      {/* Membership */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+      {/* Membership Type */}
+      <div className="space-y-1.5">
+        <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">
           Membership Type
         </label>
         <select {...register("membershipType")} className={inputStyle}>
-          <option value="">Select type...</option>
-          <option value="general">General</option>
-          <option value="premium">Premium</option>
+          <option value="">Select membership type...</option>
+          <option value="general">General Member</option>
+          <option value="premium">Executive Member</option>
         </select>
-        <p className="text-red-500 text-xs">{errors.membershipType?.message}</p>
+        {errors.membershipType && <p className="text-destructive text-xs">{errors.membershipType.message}</p>}
       </div>
 
       {/* Address */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-          Address
+      <div className="space-y-1.5">
+        <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">
+          Full Address
         </label>
-        <input
-          {...register("address")}
-          className={inputStyle}
-          placeholder="Enter address"
-        />
-        <p className="text-red-500 text-xs">{errors.address?.message}</p>
+        <input {...register("address")} className={inputStyle} placeholder="Enter full address" />
+        {errors.address && <p className="text-destructive text-xs">{errors.address.message}</p>}
       </div>
 
-      {/* Location */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        {/* District Select */}
-        <div>
+      {/* Location Selectors */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">District</label>
           <select {...register("district")} className={inputStyle}>
-            <option value="">District</option>
+            <option value="">Select district</option>
             {locations.districts.map((d) => (
-              <option key={d} value={d.toLowerCase()}>
-                {d}
-              </option>
+              <option key={d} value={d.toLowerCase()}>{d}</option>
             ))}
           </select>
-          <p className="text-red-500 text-xs">{errors.district?.message}</p>
+          {errors.district && <p className="text-destructive text-xs">{errors.district.message}</p>}
         </div>
-
-        {/* Upazila Select */}
-        <div>
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">Upazila</label>
           <select {...register("upazila")} className={inputStyle}>
-            <option value="">Upazila</option>
+            <option value="">Select upazila</option>
             {locations.upazilas.map((u) => (
-              <option key={u} value={u.toLowerCase()}>
-                {u}
-              </option>
+              <option key={u} value={u.toLowerCase()}>{u}</option>
             ))}
           </select>
-          <p className="text-red-500 text-xs">{errors.upazila?.message}</p>
+          {errors.upazila && <p className="text-destructive text-xs">{errors.upazila.message}</p>}
         </div>
-
-        {/* Union Select */}
-        <div>
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">Union</label>
           <select {...register("union")} className={inputStyle}>
-            <option value="">Union</option>
+            <option value="">Select union</option>
             {locations.unions.map((u) => (
-              <option key={u} value={u.toLowerCase()}>
-                {u}
-              </option>
+              <option key={u} value={u.toLowerCase()}>{u}</option>
             ))}
           </select>
-          <p className="text-red-500 text-xs">{errors.union?.message}</p>
+          {errors.union && <p className="text-destructive text-xs">{errors.union.message}</p>}
         </div>
       </div>
 
       {/* Actions */}
-      <div className="flex gap-4">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="bg-[#009688] hover:bg-[#00796b] text-white px-6 py-3 rounded-lg font-medium transition-colors"
-        >
+      <div className="flex gap-4 pt-4 border-t border-border/50">
+        <Button type="submit" disabled={isSubmitting} className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-bold">
           {isSubmitting ? "Submitting..." : "Submit Registration"}
-        </button>
-        <button
-          type="button"
-          onClick={() => reset()}
-          className="px-6 py-3 rounded-lg border border-gray-200 dark:border-[#2f2824] dark:text-white hover:bg-gray-50 dark:hover:bg-[#2f2824] transition-colors"
-        >
-          Clear
-        </button>
+        </Button>
+        <Button type="button" variant="outline" onClick={() => reset()} className="rounded-xl border-border">
+          Clear Form
+        </Button>
       </div>
     </form>
   );
