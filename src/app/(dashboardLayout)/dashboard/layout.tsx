@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Sidebar, UserRole } from "@/components/dashboard/Sidebar";
 import { Header } from "@/components/dashboard/Header";
 import { useGetUserProfileQuery } from "@/redux/slices/userSlice";
@@ -20,7 +20,7 @@ export default function DashboardLayout({
   districtcoordinator,
   upazilacoordinator,
   unioncoordinator,
-  role: overrideRole,
+  role: overrideRoleProp,
 }: {
   children?: ReactNode;
   volunteer?: ReactNode;
@@ -38,18 +38,32 @@ export default function DashboardLayout({
   role?: UserRole;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [testRole, setTestRole] = useState<UserRole | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("ashray_active_role") as UserRole | null;
+    if (saved) {
+      setTestRole(saved);
+    }
+  }, []);
+
+  const handleRoleChange = (newRole: UserRole) => {
+    setTestRole(newRole);
+    localStorage.setItem("ashray_active_role", newRole);
+  };
 
   // Fetch active user profile reactively via RTK Query
   const { data: profileRes, isLoading } = useGetUserProfileQuery();
   const userProfile = profileRes?.data || profileRes;
 
-  // Resolve dynamic role from RTK Query user profile, or overrideRole, falling back to 'admin'
+  // Resolve dynamic role from RTK Query user profile, testRole, or overrideRoleProp, falling back to 'admin'
   const rawRoleName =
     userProfile?.role ||
     userProfile?.roleAssignments?.[0]?.role?.roleName ||
     userProfile?.membership?.[0]?.membershipType;
 
-  const activeRole: UserRole = overrideRole || (rawRoleName ? normalizeRole(rawRoleName) : "admin");
+  const activeRole: UserRole =
+    testRole || overrideRoleProp || (rawRoleName ? normalizeRole(rawRoleName) : "admin");
 
   return (
     <div className="flex min-h-screen bg-background relative overflow-hidden font-sans">
@@ -67,7 +81,7 @@ export default function DashboardLayout({
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
-        <Header role={activeRole} onMenuClick={() => setSidebarOpen(true)} />
+        <Header role={activeRole} onRoleChange={handleRoleChange} onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 overflow-y-auto bg-background/50">
           <div className="mx-auto w-full p-4 md:p-6 max-w-7xl">

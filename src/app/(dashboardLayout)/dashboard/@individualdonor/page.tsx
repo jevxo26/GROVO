@@ -1,99 +1,78 @@
 "use client";
+
 import React from "react";
-import UserWelcomeSection from "../Components/UserWelcomeSection";
-import { campaigns } from "@/data/campaigns";
-import SupportedCampaigns from "../Components/SupportedCampaigns";
-import { RecentDonations } from "../Components/RecentDonations";
-import { donations } from "@/data/donations";
-import { QuickActions } from "../Components/QuickActions";
-import { StatCard } from "../@corporate/components/StatCard";
-import { CircleDollarSign, Coins, Flag, CornerUpRight } from 'lucide-react';
-import { donoractions } from "@/data/quickActions";
+import { CircleDollarSign, Coins, Flag, CornerUpRight, Wallet, Award, Eye, Share2 } from "lucide-react";
+import StatCard from "@/components/dashboard/shared/StatCard";
+import UserWelcomeSection from "@/components/dashboard/UserWelcomeSection";
+import SupportedCampaigns from "@/components/dashboard/SupportedCampaigns";
+import RecentDonations from "@/components/dashboard/RecentDonations";
+import QuickActions from "@/components/dashboard/QuickActions";
+import { useGetUserProfileQuery } from "@/redux/slices/userSlice";
 
-type Badge = string;
+export default function IndividualDonorDashboardPage() {
+  const { data: profileRes } = useGetUserProfileQuery();
+  const user = profileRes?.data || profileRes;
+  const fullName = user?.fullName || [user?.firstName, user?.lastName].filter(Boolean).join(" ") || "Donor";
 
-const MemberDashboard: React.FC = () => {
-  const badges: Badge[] = [
-    "Early Supporter",
-    "Monthly Donor",
-    "Education Champion",
-    "Emergency Responder",
+  const badges = ["Early Supporter", "Monthly Donor", "Education Champion", "Emergency Responder"];
+
+  const recentDonationsData = [
+    { id: "DON-001", title: "Sylhet Flood Emergency Appeal", date: "2026-07-28", amount: "৳ 5,000", status: "completed" },
+    { id: "DON-002", title: "Orphan Education Monthly Fund", date: "2026-07-01", amount: "৳ 2,500", status: "completed" },
+    { id: "DON-003", title: "Winter Relief Package Drive", date: "2026-06-15", amount: "৳ 3,000", status: "completed" },
+  ];
+
+  const supportedCampaignsData = [
+    { title: "Sylhet Emergency Flood Relief", percentage: 85, raised: "8,50,000", target: "10,000,000", beneficiaries: 12500 },
+    { title: "Orphan Education Sponsorship", percentage: 62, raised: "3,10,000", target: "5,00,000", beneficiaries: 450 },
+    { title: "Free Medical Camp", percentage: 90, raised: "4,50,000", target: "5,00,000", beneficiaries: 3200 },
+  ];
+
+  const quickActionsData = [
+    { title: "My Wallet", desc: "Check reward points & transaction history", icon: Wallet, href: "/dashboard/wallet" },
+    { title: "Make a Donation", desc: "Contribute to active humanitarian campaigns", icon: CircleDollarSign, href: "/dashboard/donations" },
+    { title: "My Impact", desc: "See real-time usage tracker of your donations", icon: Eye, href: "/dashboard/impact" },
+    { title: "Refer a Friend", desc: "Invite others and earn referral points", icon: Share2, href: "/dashboard/referal" },
   ];
 
   return (
-    <div className="space-y-8 p-4 md:p-8 bg-background text-foreground min-h-screen transition-colors duration-300">
-      {/* Header Banner */}
-      <UserWelcomeSection
-        name="Kamal Hossain"
-        memberSince="ASH-DON-2024-0847"
-        memberId=""
-        onDonationClick={() => console.log("Donation clicked!")}
-        bgColor="bg-[#8b4513]"
-      />
+    <div className="space-y-6">
+      {/* Welcome Banner */}
+      <UserWelcomeSection name={fullName} memberSince="2024" memberId="ASH-DON-2024-0847" />
 
-      {/* Stats Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="TOTAL DONATED"
-          value="৳ 19,000"
-          icon={CircleDollarSign}
-          iconBg="bg-emerald-100 dark:bg-emerald-950"
-          iconColor="text-emerald-700 dark:text-emerald-400"
-        />
-        <StatCard
-          title="Reward Points"
-          value="2,450"
-          icon={Coins}
-          iconBg="bg-teal-100 dark:bg-teal-950"
-          iconColor="text-teal-700 dark:text-teal-400"
-        />
-        <StatCard
-          title="Campaigns"
-          value="4"
-          icon={Flag}
-          iconBg="bg-orange-100 dark:bg-orange-950"
-          iconColor="text-orange-700 dark:text-orange-400"
-        />
-        <StatCard
-          title="Referrals"
-          value="4"
-          icon={CornerUpRight}
-          iconBg="bg-emerald-100 dark:bg-emerald-950"
-          iconColor="text-emerald-700 dark:text-emerald-400"
-        />
-      </section>
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard title="Total Donated" value="৳ 19,000" change="All-time giving" icon={CircleDollarSign} />
+        <StatCard title="Reward Points" value="2,450" change="Redeemable balance" icon={Coins} />
+        <StatCard title="Campaigns Supported" value="4" change="Active campaigns" icon={Flag} />
+        <StatCard title="Successful Referrals" value="4" change="+200 bonus pts" icon={CornerUpRight} />
+      </div>
 
-      {/* Badges Section */}
-      <section>
-        <h2 className="font-bold text-gray-800 dark:text-gray-200 mb-4 tracking-wide text-sm">
-          YOUR BADGES
-        </h2>
-        <div className="flex flex-wrap gap-3">
-          {badges.map((badge: Badge) => (
-            <span
-              key={badge}
-              className="px-4 py-2 bg-[#d1ede6] dark:bg-teal-950 text-[#006d5b] dark:text-teal-400 rounded-full text-sm font-medium"
-            >
-              {badge}
+      {/* Badges */}
+      <div className="bg-card text-card-foreground p-6 rounded-3xl border border-border shadow-sm">
+        <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">
+          Donor Achievement Badges
+        </h3>
+        <div className="flex flex-wrap gap-2.5">
+          {badges.map((badge) => (
+            <span key={badge} className="px-3.5 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-semibold tracking-wide">
+              🎖 {badge}
             </span>
           ))}
         </div>
+      </div>
 
-        {/* Recent Section */}
-        <div className="grid grid-cols-1 py-8 md:grid-cols-2 gap-6">
-          <RecentDonations title="Recent Donations" donations={donations} />
-          <SupportedCampaigns
-            title="Supported Campaigns"
-            campaigns={campaigns}
-          />
-        </div>
+      {/* Recent Activity Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <RecentDonations title="My Recent Donations" donations={recentDonationsData} />
+        <SupportedCampaigns title="Campaigns You Supported" campaigns={supportedCampaignsData} />
+      </div>
 
-        <div>
-          <QuickActions actions={donoractions} />
-        </div>
-      </section>
+      {/* Quick Launch */}
+      <div>
+        <h3 className="font-bold text-foreground text-base mb-3">Donor Quick Services</h3>
+        <QuickActions actions={quickActionsData} />
+      </div>
     </div>
   );
-};
-
-export default MemberDashboard;
+}

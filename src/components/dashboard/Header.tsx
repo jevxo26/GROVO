@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, ChevronDown, Menu, UserCheck, Shield } from "lucide-react";
+import { Bell, ChevronDown, Menu, Shield, UserCheck, RefreshCw } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "@/components/ui/modeToggle";
 import { usePathname } from "next/navigation";
@@ -10,9 +10,11 @@ import { useGetUserProfileQuery } from "@/redux/slices/userSlice";
 export function Header({
   onMenuClick,
   role = "admin",
+  onRoleChange,
 }: {
   onMenuClick?: () => void;
   role?: UserRole;
+  onRoleChange?: (newRole: UserRole) => void;
 }) {
   const pathname = usePathname();
 
@@ -97,7 +99,32 @@ export function Header({
         </h2>
       </div>
 
-      <div className="flex items-center gap-2 md:gap-4">
+      <div className="flex items-center gap-2 md:gap-3">
+        {/* Role Switcher Select Dropdown for Testing */}
+        {onRoleChange && (
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary/10 border border-primary/20 text-xs font-semibold text-primary">
+            <Shield className="w-3.5 h-3.5 shrink-0" />
+            <select
+              value={role}
+              onChange={(e) => onRoleChange(e.target.value as UserRole)}
+              className="bg-transparent text-primary font-bold focus:outline-none cursor-pointer text-xs uppercase tracking-wider"
+            >
+              <option value="admin" className="bg-card text-foreground">Super Admin</option>
+              <option value="nationaladmin" className="bg-card text-foreground">National Admin</option>
+              <option value="divisioncoordinator" className="bg-card text-foreground">Division Coordinator</option>
+              <option value="districtcoordinator" className="bg-card text-foreground">District Coordinator</option>
+              <option value="upazilacoordinator" className="bg-card text-foreground">Upazila Coordinator</option>
+              <option value="unioncoordinator" className="bg-card text-foreground">Union Coordinator</option>
+              <option value="executivemember" className="bg-card text-foreground">Executive Member</option>
+              <option value="staf" className="bg-card text-foreground">Branch Staff</option>
+              <option value="volunteer" className="bg-card text-foreground">Field Volunteer</option>
+              <option value="corporate" className="bg-card text-foreground">Corporate Donor</option>
+              <option value="individualdonor" className="bg-card text-foreground">Individual Donor</option>
+              <option value="member" className="bg-card text-foreground">General Member</option>
+            </select>
+          </div>
+        )}
+
         <ModeToggle />
 
         <button className="relative p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors hidden sm:block">
