@@ -1,3 +1,5 @@
-export default function Default() {
-  return null;
+import UpazilaCoordinatorPage from "./page";
+
+export default function UpazilaCoordinatorDefault() {
+  return <UpazilaCoordinatorPage />;
 }

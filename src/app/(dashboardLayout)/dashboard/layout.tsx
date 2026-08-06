@@ -65,6 +65,23 @@ export default function DashboardLayout({
   const activeRole: UserRole =
     testRole || overrideRoleProp || (rawRoleName ? normalizeRole(rawRoleName) : "admin");
 
+  const slotMap: Record<UserRole, ReactNode> = {
+    admin,
+    nationaladmin,
+    divisioncoordinator,
+    districtcoordinator,
+    upazilacoordinator,
+    unioncoordinator,
+    executivemember,
+    staf,
+    volunteer,
+    corporate,
+    individualdonor,
+    member,
+  };
+
+  const activeSlotContent = slotMap[activeRole] || admin || children;
+
   return (
     <div className="flex min-h-screen bg-background relative overflow-hidden font-sans">
       {/* Mobile overlay */}
@@ -91,20 +108,7 @@ export default function DashboardLayout({
                 <span className="text-sm font-medium">Loading workspace layout...</span>
               </div>
             ) : (
-              <>
-                {activeRole === "volunteer" && <div>{volunteer || children}</div>}
-                {activeRole === "member" && <div>{member || children}</div>}
-                {activeRole === "staf" && <div>{staf || children}</div>}
-                {activeRole === "corporate" && <div>{corporate || children}</div>}
-                {activeRole === "executivemember" && <div>{executivemember || children}</div>}
-                {activeRole === "individualdonor" && <div>{individualdonor || children}</div>}
-                {activeRole === "admin" && <div>{admin || children}</div>}
-                {activeRole === "nationaladmin" && <div>{nationaladmin || children}</div>}
-                {activeRole === "divisioncoordinator" && <div>{divisioncoordinator || children}</div>}
-                {activeRole === "districtcoordinator" && <div>{districtcoordinator || children}</div>}
-                {activeRole === "upazilacoordinator" && <div>{upazilacoordinator || children}</div>}
-                {activeRole === "unioncoordinator" && <div>{unioncoordinator || children}</div>}
-              </>
+              <div>{activeSlotContent}</div>
             )}
           </div>
         </main>

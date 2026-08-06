@@ -1,3 +1,5 @@
-export default function Default() {
-  return null;
+import DistrictCoordinatorPage from "./page";
+
+export default function DistrictCoordinatorDefault() {
+  return <DistrictCoordinatorPage />;
 }

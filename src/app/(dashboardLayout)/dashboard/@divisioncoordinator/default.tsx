@@ -1,3 +1,5 @@
-export default function Default() {
-  return null;
+import DivisionCoordinatorPage from "./page";
+
+export default function DivisionCoordinatorDefault() {
+  return <DivisionCoordinatorPage />;
 }
