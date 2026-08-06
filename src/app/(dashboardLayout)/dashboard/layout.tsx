@@ -10,7 +10,7 @@ export default function DashboardLayout({
   children,
   volunteer,
   member,
-  staf,
+  staff,
   corporate,
   executivemember,
   individualdonor,
@@ -25,7 +25,7 @@ export default function DashboardLayout({
   children?: ReactNode;
   volunteer?: ReactNode;
   member?: ReactNode;
-  staf?: ReactNode;
+  staff?: ReactNode;
   corporate?: ReactNode;
   executivemember?: ReactNode;
   individualdonor?: ReactNode;
@@ -73,7 +73,7 @@ export default function DashboardLayout({
     upazilacoordinator,
     unioncoordinator,
     executivemember,
-    staf,
+    staff,
     volunteer,
     corporate,
     individualdonor,

@@ -51,7 +51,7 @@ export function Header({
     }
 
     // Staff Routes
-    if (userRole === "staf") {
+    if (userRole === "staff") {
       if (path === "/dashboard") return "Staff Dashboard";
       if (path === "/dashboard/mytask") return "My Tasks";
       if (path === "/dashboard/branchinfo") return "Branch Information";

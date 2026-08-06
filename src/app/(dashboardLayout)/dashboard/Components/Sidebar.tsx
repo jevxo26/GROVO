@@ -39,7 +39,7 @@ export type UserRole =
   | "corporate"
   | "executivemember"
   | "volunteer"
-  | "staf"
+  | "staff"
   | "individualdonor"
   | "admin"
   | "divisioncoordinator"
@@ -79,7 +79,7 @@ export const sidebarNavigation = {
     { name: "My Activities", href: "/dashboard/activities", icon: SquareCheck },
     { name: "Performance", href: "/dashboard/performance", icon: BarChart3 },
   ],
-  staf: [
+  staff: [
     { name: "Overview", href: "/dashboard", icon: LayoutGrid },
     { name: "My Tasks", href: "/dashboard/mytask", icon: SquareCheck },
     { name: "Branch Info", href: "/dashboard/branchinfo", icon: Building2 },

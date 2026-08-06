@@ -6,7 +6,7 @@ export type DashboardRoleSlot =
   | "upazilacoordinator"
   | "unioncoordinator"
   | "executivemember"
-  | "staf"
+  | "staff"
   | "volunteer"
   | "corporate"
   | "individualdonor"
@@ -54,7 +54,7 @@ export function normalizeRole(roleName?: string | null): DashboardRoleSlot {
     case "FINANCE_MANAGER":
     case "CAMPAIGN_MANAGER":
     case "SUPPORT_EXECUTIVE":
-      return "staf";
+      return "staff";
 
     case "VOLUNTEER":
     case "VOLUNTEER_MANAGER":

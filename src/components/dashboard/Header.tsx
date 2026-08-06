@@ -48,7 +48,7 @@ export function Header({
       if (path === "/dashboard/performance") return "Performance Tracking";
     }
 
-    if (userRole === "staf") {
+    if (userRole === "staff") {
       if (path === "/dashboard") return "Staff Dashboard";
       if (path === "/dashboard/mytask") return "My Tasks";
       if (path === "/dashboard/branchinfo") return "Branch Information";
@@ -116,7 +116,7 @@ export function Header({
               <option value="upazilacoordinator" className="bg-card text-foreground">Upazila Coordinator</option>
               <option value="unioncoordinator" className="bg-card text-foreground">Union Coordinator</option>
               <option value="executivemember" className="bg-card text-foreground">Executive Member</option>
-              <option value="staf" className="bg-card text-foreground">Branch Staff</option>
+              <option value="staff" className="bg-card text-foreground">Branch Staff</option>
               <option value="volunteer" className="bg-card text-foreground">Field Volunteer</option>
               <option value="corporate" className="bg-card text-foreground">Corporate Donor</option>
               <option value="individualdonor" className="bg-card text-foreground">Individual Donor</option>
