@@ -24,40 +24,42 @@ export const StatCard: React.FC<StatCardProps> = ({
   return (
     <div
       className={cn(
-        "bg-card text-card-foreground p-6 rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary/40 transition-all duration-300 group",
+        "bg-card text-card-foreground p-5 rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary/40 transition-all duration-300 group flex flex-col justify-between min-w-0",
         className,
       )}
     >
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+      {/* Card Header: Title & Icon */}
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider truncate">
           {title}
         </span>
-        <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-          <Icon className="w-5 h-5" />
+        <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+          <Icon className="w-4 h-4" />
         </div>
       </div>
 
-      <div className="flex items-baseline justify-between gap-2">
-        <h3 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight">
+      {/* Card Value & Trend Badge */}
+      <div className="space-y-1.5 mt-1">
+        <h3 className="text-xl lg:text-2xl font-extrabold text-foreground tracking-tight truncate leading-tight">
           {value}
         </h3>
         {change && (
           <div
             className={cn(
-              "flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-md",
+              "inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md whitespace-nowrap max-w-full",
               isPositive
-                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                : "bg-red-500/10 text-red-600 dark:text-red-400",
+                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                : "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20",
             )}
           >
-            {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-            <span>{change}</span>
+            {isPositive ? <TrendingUp className="w-3 h-3 shrink-0" /> : <TrendingDown className="w-3 h-3 shrink-0" />}
+            <span className="truncate">{change}</span>
           </div>
         )}
       </div>
 
       {description && (
-        <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+        <p className="text-xs text-muted-foreground mt-2 leading-relaxed truncate">
           {description}
         </p>
       )}
