@@ -1,10 +1,2 @@
-import React from 'react'
-import CoordinatorDistribution from '../../Components/coordinator/coordinatorDistribution'
-
-const page = () => {
-  return (
-    <CoordinatorDistribution/>
-  )
-}
-
-export default page
+import CoordinatorDistributionPage from "../../@unioncoordinator/distribution/page";
+export default CoordinatorDistributionPage;
