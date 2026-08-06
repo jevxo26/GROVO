@@ -1,8 +1,8 @@
 "use client";
 
 import { ReactNode, useState } from "react";
-import { Sidebar, UserRole } from "./Components/Sidebar";
-import { Header } from "./Components/Header";
+import { Sidebar, UserRole } from "@/components/dashboard/Sidebar";
+import { Header } from "@/components/dashboard/Header";
 import { useGetUserProfileQuery } from "@/redux/slices/userSlice";
 import { normalizeRole } from "@/lib/roleUtils";
 
