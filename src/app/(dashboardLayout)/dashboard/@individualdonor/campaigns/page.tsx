@@ -1,17 +1,8 @@
-import React from 'react';
-import { DonationCard } from '../Components/DonationCard/DonationCard';
-import { donordonation } from '@/data/donordonation';
+"use client";
 
-const CampaignsPage = () => {
-  return (
-    <div className="max-w-7xl mx-auto space-y-8 p-4 md:p-8 bg-background text-foreground min-h-screen transition-colors duration-300">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {donordonation.map((item, index) => (
-          <DonationCard key={index} {...item} />
-        ))}
-      </div>
-    </div>
-  );
-};
+import React from "react";
+import MemberCampaignsPage from "../../@member/campaigns/page";
 
-export default CampaignsPage;
+export default function IndividualDonorCampaignsPage() {
+  return <MemberCampaignsPage />;
+}

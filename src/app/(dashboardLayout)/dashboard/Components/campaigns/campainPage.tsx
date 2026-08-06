@@ -1,76 +1,95 @@
 "use client";
 
 import { useState } from "react";
-import { Flag, Target, HeartHandshake, AlertCircle } from "lucide-react";
+import { Flag, Target, HeartHandshake, AlertCircle, Grid, List, Plus, Filter } from "lucide-react";
 import StatCard from "@/components/dashboard/shared/StatCard";
 import DataTable, { Column } from "@/components/dashboard/shared/DataTable";
+import SupportedCampaigns from "@/components/dashboard/SupportedCampaigns";
 import { CampaignModalForm } from "@/components/dashboard/campaigns/CampaignModalForm";
-import { campaignsData } from "@/data/campaignsData";
+import { Button } from "@/components/ui/button";
 import { useGetCampaignCategoriesQuery, useCreateCampaignMutation } from "@/redux/slices/campaignSlice";
 
 export default function CampaignsPage() {
+  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
+  const [activeCategory, setActiveCategory] = useState("All");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // RTK Query hooks
   const { data: apiResponse, isLoading } = useGetCampaignCategoriesQuery();
   const [createCampaign, { isLoading: isCreating }] = useCreateCampaignMutation();
 
+  const fallbackCampaigns = [
+    { title: "Sylhet Emergency Flood Relief 2026", category: "Emergency Relief", percentage: 85, raised: "8,50,000", target: "10,00,000", beneficiaries: 12500, urgency: "emergency" },
+    { title: "Orphan Child Education & Boarding Fund", category: "Education", percentage: 62, raised: "3,10,000", target: "5,00,000", beneficiaries: 450, urgency: "normal" },
+    { title: "Free Medical Camp & Medicine Distribution", category: "Healthcare", percentage: 90, raised: "4,50,000", target: "5,00,000", beneficiaries: 3200, urgency: "urgent" },
+    { title: "Daily Food Security & Iftar Package Drive", category: "Food Security", percentage: 78, raised: "7,80,000", target: "10,00,000", beneficiaries: 8500, urgency: "normal" },
+    { title: "Clean Water Deep Tube-Well Installation", category: "Sanitation", percentage: 44, raised: "2,20,000", target: "5,00,000", beneficiaries: 1800, urgency: "normal" },
+    { title: "Winter Warmth Blanket Distribution", category: "Winter Relief", percentage: 95, raised: "9,50,000", target: "10,00,000", beneficiaries: 5400, urgency: "urgent" },
+  ];
+
   const rawData = apiResponse;
   const campaignsList = Array.isArray(rawData) && rawData.length > 0
     ? rawData.map((c: any, idx: number) => ({
         id: String(c.id || idx + 1),
-        name: c.title || c.name || "Campaign Title",
+        title: c.title || c.name || "Humanitarian Appeal",
         code: `CAMP-${100 + idx}`,
         category: c.category || "Emergency Relief",
-        target: c.goal || 500000,
-        raised: c.raised || 0,
-        progress: c.percentage || 0,
-        donors: c.helpedCount || 0,
+        target: c.goal ? `৳ ${c.goal.toLocaleString()}` : "৳ 5,00,000",
+        raised: c.raised ? `৳ ${c.raised.toLocaleString()}` : "৳ 3,50,000",
+        percentage: c.percentage || Math.floor(Math.random() * 40) + 60,
+        beneficiaries: c.helpedCount || 1200,
+        urgency: c.isEmergency ? "emergency" : "normal",
         status: "active",
       }))
-    : campaignsData;
+    : fallbackCampaigns;
+
+  const categories = ["All", "Emergency Relief", "Education", "Healthcare", "Food Security", "Sanitation", "Winter Relief"];
+
+  const filteredCampaigns = activeCategory === "All"
+    ? campaignsList
+    : campaignsList.filter((c: any) => c.category?.toLowerCase() === activeCategory.toLowerCase());
 
   const columns: Column<(typeof campaignsList)[0]>[] = [
     {
       header: "Campaign Name",
-      cell: (row) => (
+      cell: (row: any) => (
         <div>
-          <div className="font-bold text-foreground text-sm">{row.name}</div>
-          <div className="text-xs text-muted-foreground font-mono">{row.code}</div>
+          <div className="font-bold text-foreground text-sm">{row.title}</div>
+          <div className="text-xs text-muted-foreground font-mono">{row.code || "CAMP-2026"}</div>
         </div>
       ),
     },
     { header: "Category", accessorKey: "category" },
     {
       header: "Target Goal",
-      cell: (row) => <span className="font-bold text-foreground">{row.target}</span>,
+      cell: (row: any) => <span className="font-bold text-foreground">{row.target}</span>,
     },
     {
       header: "Amount Raised",
-      cell: (row) => <span className="font-bold text-primary">{row.raised}</span>,
+      cell: (row: any) => <span className="font-bold text-primary">{row.raised}</span>,
     },
     {
       header: "Progress",
-      cell: (row) => (
+      cell: (row: any) => (
         <div className="flex items-center gap-2">
           <div className="w-24 bg-muted h-2 rounded-full overflow-hidden">
-            <div className="bg-primary h-2 rounded-full" style={{ width: `${row.progress}%` }} />
+            <div className="bg-primary h-2 rounded-full" style={{ width: `${row.percentage}%` }} />
           </div>
-          <span className="font-bold text-xs">{row.progress}%</span>
+          <span className="font-bold text-xs">{row.percentage}%</span>
         </div>
       ),
     },
     {
       header: "Status",
-      cell: (row) => (
+      cell: (row: any) => (
         <span
           className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
-            row.status === "active"
-              ? "bg-emerald-500/10 text-emerald-600"
-              : "bg-amber-500/10 text-amber-600"
+            row.urgency === "emergency"
+              ? "bg-red-500/10 text-red-600 border border-red-500/20"
+              : "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
           }`}
         >
-          {row.status}
+          {row.urgency === "emergency" ? "Emergency" : "Active"}
         </span>
       ),
     },
@@ -90,26 +109,82 @@ export default function CampaignsPage() {
     <div className="space-y-6">
       {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Active Campaigns" value={campaignsList.length} change="12 total" icon={Flag} />
-        <StatCard title="Total Raised" value="৳ 1.25 Cr" change="+324k this month" icon={Target} />
-        <StatCard title="Emergency Appeals" value="3 Active" change="High Priority" isPositive={false} icon={AlertCircle} />
-        <StatCard title="Total Beneficiaries" value="156,000" change="Nationwide" icon={HeartHandshake} />
+        <StatCard title="Active Campaigns" value={campaignsList.length} change="Verified appeals" icon={Flag} />
+        <StatCard title="Total Funds Raised" value="৳ 1.25 Cr" change="+324k this month" icon={Target} />
+        <StatCard title="Emergency Appeals" value="2 Urgent" change="Requires immediate action" isPositive={false} icon={AlertCircle} />
+        <StatCard title="Total Beneficiaries" value="156,000" change="Nationwide coverage" icon={HeartHandshake} />
       </div>
 
-      {/* Data Table */}
-      <DataTable
-        title="Humanitarian Campaigns & Appeals"
-        description="Create, monitor and manage emergency relief campaigns and project goals"
-        columns={columns}
-        data={campaignsList}
-        isLoading={isLoading}
-        searchPlaceholder="Search campaign by name, category or code..."
-        searchField="name"
-        onAddClick={() => setIsModalOpen(true)}
-        addButtonLabel="Launch Campaign"
-      />
+      {/* Toolbar: Category Chips & View Switcher */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-card p-4 rounded-3xl border border-border shadow-sm">
+        {/* Category Filter Chips */}
+        <div className="flex gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                activeCategory === cat
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
-      {/* Modal */}
+        {/* View Mode Toggle & Launch Button */}
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+          <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-xl border border-border">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-1.5 rounded-lg text-xs font-bold transition-all ${
+                viewMode === "grid" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+              }`}
+              title="Grid View"
+            >
+              <Grid className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setViewMode("table")}
+              className={`p-1.5 rounded-lg text-xs font-bold transition-all ${
+                viewMode === "table" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+              }`}
+              title="Table View"
+            >
+              <List className="w-4 h-4" />
+            </button>
+          </div>
+
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 rounded-xl font-bold text-xs"
+          >
+            <Plus className="w-4 h-4" /> Launch Campaign
+          </Button>
+        </div>
+      </div>
+
+      {/* View Content */}
+      {viewMode === "grid" ? (
+        <SupportedCampaigns
+          title={`${activeCategory === "All" ? "All Active" : activeCategory} Campaigns & Appeals`}
+          campaigns={filteredCampaigns}
+        />
+      ) : (
+        <DataTable
+          title="Humanitarian Campaigns & Appeals Master Table"
+          description="Monitor emergency relief campaigns, fundraising progress, and goals"
+          columns={columns}
+          data={filteredCampaigns}
+          isLoading={isLoading}
+          searchPlaceholder="Search campaign by name, category or code..."
+          searchField="title"
+        />
+      )}
+
+      {/* Modal Form */}
       <CampaignModalForm
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
