@@ -41,7 +41,7 @@ export const projectBeneficiaryApi = createApi({
     }),
     updateProjectBeneficiary: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/project-beneficiaries/${id}",
+        url: `/project-beneficiaries/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const projectBeneficiaryApi = createApi({
     }),
     deleteProjectBeneficiary: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/project-beneficiaries/${id}",
+        url: `/project-beneficiaries/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

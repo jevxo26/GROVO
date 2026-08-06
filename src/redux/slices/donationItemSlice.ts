@@ -41,7 +41,7 @@ export const donationItemApi = createApi({
     }),
     updateDonationItem: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/donation-items/${id}",
+        url: `/donation-items/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const donationItemApi = createApi({
     }),
     deleteDonationItem: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/donation-items/${id}",
+        url: `/donation-items/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

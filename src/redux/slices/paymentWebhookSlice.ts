@@ -41,7 +41,7 @@ export const paymentWebhookApi = createApi({
     }),
     updatePaymentWebhook: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/payment-webhooks/${id}",
+        url: `/payment-webhooks/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const paymentWebhookApi = createApi({
     }),
     deletePaymentWebhook: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/payment-webhooks/${id}",
+        url: `/payment-webhooks/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

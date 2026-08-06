@@ -41,7 +41,7 @@ export const paymentGatewayApi = createApi({
     }),
     updatePaymentGateway: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/payment-gateways/${id}",
+        url: `/payment-gateways/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const paymentGatewayApi = createApi({
     }),
     deletePaymentGateway: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/payment-gateways/${id}",
+        url: `/payment-gateways/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

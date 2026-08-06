@@ -41,7 +41,7 @@ export const zoneAssignmentApi = createApi({
     }),
     updateZoneAssignment: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/zone-assignments/${id}",
+        url: `/zone-assignments/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const zoneAssignmentApi = createApi({
     }),
     deleteZoneAssignment: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/zone-assignments/${id}",
+        url: `/zone-assignments/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

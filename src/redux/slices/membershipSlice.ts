@@ -41,7 +41,7 @@ export const membershipApi = createApi({
     }),
     updateMembership: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/user/memberships/${id}",
+        url: `/user/memberships/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const membershipApi = createApi({
     }),
     deleteMembership: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/user/memberships/${id}",
+        url: `/user/memberships/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

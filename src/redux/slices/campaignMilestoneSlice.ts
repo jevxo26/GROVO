@@ -41,7 +41,7 @@ export const campaignMilestoneApi = createApi({
     }),
     updateCampaignMilestone: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/campaign-milestones/${id}",
+        url: `/campaign-milestones/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const campaignMilestoneApi = createApi({
     }),
     deleteCampaignMilestone: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/campaign-milestones/${id}",
+        url: `/campaign-milestones/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

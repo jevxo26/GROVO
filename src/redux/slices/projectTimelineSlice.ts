@@ -41,7 +41,7 @@ export const projectTimelineApi = createApi({
     }),
     updateProjectTimeline: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/project-timelines/${id}",
+        url: `/project-timelines/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const projectTimelineApi = createApi({
     }),
     deleteProjectTimeline: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/project-timelines/${id}",
+        url: `/project-timelines/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

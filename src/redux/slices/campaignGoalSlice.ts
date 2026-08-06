@@ -41,7 +41,7 @@ export const campaignGoalApi = createApi({
     }),
     updateCampaignGoal: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/campaign-goals/${id}",
+        url: `/campaign-goals/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const campaignGoalApi = createApi({
     }),
     deleteCampaignGoal: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/campaign-goals/${id}",
+        url: `/campaign-goals/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

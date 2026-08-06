@@ -41,7 +41,7 @@ export const campaignCategoryApi = createApi({
     }),
     updateCampaignCategory: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/campaign-categories/${id}",
+        url: `/campaign-categories/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const campaignCategoryApi = createApi({
     }),
     deleteCampaignCategory: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/campaign-categories/${id}",
+        url: `/campaign-categories/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

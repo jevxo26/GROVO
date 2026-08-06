@@ -41,7 +41,7 @@ export const organizationProfileApi = createApi({
     }),
     updateOrganizationProfile: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/organization-profiles/${id}",
+        url: `/organization-profiles/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const organizationProfileApi = createApi({
     }),
     deleteOrganizationProfile: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/organization-profiles/${id}",
+        url: `/organization-profiles/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

@@ -41,7 +41,7 @@ export const upazilaApi = createApi({
     }),
     updateUpazila: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/upazilas/${id}",
+        url: `/upazilas/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const upazilaApi = createApi({
     }),
     deleteUpazila: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/upazilas/${id}",
+        url: `/upazilas/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

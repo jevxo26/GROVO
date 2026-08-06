@@ -41,7 +41,7 @@ export const fundAllocationApi = createApi({
     }),
     updateFundAllocation: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/fund-allocations/${id}",
+        url: `/fund-allocations/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const fundAllocationApi = createApi({
     }),
     deleteFundAllocation: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/fund-allocations/${id}",
+        url: `/fund-allocations/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

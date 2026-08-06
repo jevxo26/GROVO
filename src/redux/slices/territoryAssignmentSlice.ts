@@ -41,7 +41,7 @@ export const territoryAssignmentApi = createApi({
     }),
     updateTerritoryAssignment: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/territory-assignments/${id}",
+        url: `/territory-assignments/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const territoryAssignmentApi = createApi({
     }),
     deleteTerritoryAssignment: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/territory-assignments/${id}",
+        url: `/territory-assignments/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

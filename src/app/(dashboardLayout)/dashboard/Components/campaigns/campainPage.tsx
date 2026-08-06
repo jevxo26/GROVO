@@ -1,31 +1,43 @@
 "use client";
 
 import { useState } from "react";
-import { Flag, Target, HeartHandshake, AlertCircle, Grid, List, Plus, Filter } from "lucide-react";
+import { Flag, Target, HeartHandshake, AlertCircle, Grid, List, Plus, Tag, Eye, Edit3, Trash2 } from "lucide-react";
 import StatCard from "@/components/dashboard/shared/StatCard";
 import DataTable, { Column } from "@/components/dashboard/shared/DataTable";
 import SupportedCampaigns from "@/components/dashboard/SupportedCampaigns";
 import { CampaignModalForm } from "@/components/dashboard/campaigns/CampaignModalForm";
+import { CampaignCategoryModal } from "@/components/dashboard/campaigns/CampaignCategoryModal";
+import { CampaignActionModal } from "@/components/dashboard/campaigns/CampaignActionModal";
 import { Button } from "@/components/ui/button";
-import { useGetCampaignCategoriesQuery, useCreateCampaignMutation } from "@/redux/slices/campaignSlice";
+import {
+  useGetCampaignCategoriesQuery,
+  useCreateCampaignMutation,
+  useDeleteCampaignMutation,
+} from "@/redux/slices/campaignSlice";
 
 export default function CampaignsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
   const [activeCategory, setActiveCategory] = useState("All");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLaunchModalOpen, setIsLaunchModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+
+  // Selected campaign for Action Modal
+  const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
+  const [actionMode, setActionMode] = useState<"view" | "edit" | "delete" | null>(null);
 
   // RTK Query hooks
   const { data: apiResponse, isLoading } = useGetCampaignCategoriesQuery();
   const [createCampaign, { isLoading: isCreating }] = useCreateCampaignMutation();
+  const [deleteCampaignApi] = useDeleteCampaignMutation();
 
-  const fallbackCampaigns = [
-    { title: "Sylhet Emergency Flood Relief 2026", category: "Emergency Relief", percentage: 85, raised: "8,50,000", target: "10,00,000", beneficiaries: 12500, urgency: "emergency" },
-    { title: "Orphan Child Education & Boarding Fund", category: "Education", percentage: 62, raised: "3,10,000", target: "5,00,000", beneficiaries: 450, urgency: "normal" },
-    { title: "Free Medical Camp & Medicine Distribution", category: "Healthcare", percentage: 90, raised: "4,50,000", target: "5,00,000", beneficiaries: 3200, urgency: "urgent" },
-    { title: "Daily Food Security & Iftar Package Drive", category: "Food Security", percentage: 78, raised: "7,80,000", target: "10,00,000", beneficiaries: 8500, urgency: "normal" },
-    { title: "Clean Water Deep Tube-Well Installation", category: "Sanitation", percentage: 44, raised: "2,20,000", target: "5,00,000", beneficiaries: 1800, urgency: "normal" },
-    { title: "Winter Warmth Blanket Distribution", category: "Winter Relief", percentage: 95, raised: "9,50,000", target: "10,00,000", beneficiaries: 5400, urgency: "urgent" },
-  ];
+  const [localCampaigns, setLocalCampaigns] = useState([
+    { id: "1", title: "Sylhet Emergency Flood Relief 2026", category: "Emergency Relief", percentage: 85, raised: "8,50,000", target: "10,00,000", beneficiaries: 12500, urgency: "emergency" },
+    { id: "2", title: "Orphan Child Education & Boarding Fund", category: "Education", percentage: 62, raised: "3,10,000", target: "5,00,000", beneficiaries: 450, urgency: "normal" },
+    { id: "3", title: "Free Medical Camp & Medicine Distribution", category: "Healthcare", percentage: 90, raised: "4,50,000", target: "5,00,000", beneficiaries: 3200, urgency: "urgent" },
+    { id: "4", title: "Daily Food Security & Iftar Package Drive", category: "Food Security", percentage: 78, raised: "7,80,000", target: "10,00,000", beneficiaries: 8500, urgency: "normal" },
+    { id: "5", title: "Clean Water Deep Tube-Well Installation", category: "Sanitation", percentage: 44, raised: "2,20,000", target: "5,00,000", beneficiaries: 1800, urgency: "normal" },
+    { id: "6", title: "Winter Warmth Blanket Distribution", category: "Winter Relief", percentage: 95, raised: "9,50,000", target: "10,00,000", beneficiaries: 5400, urgency: "urgent" },
+  ]);
 
   const rawData = apiResponse;
   const campaignsList = Array.isArray(rawData) && rawData.length > 0
@@ -41,13 +53,32 @@ export default function CampaignsPage() {
         urgency: c.isEmergency ? "emergency" : "normal",
         status: "active",
       }))
-    : fallbackCampaigns;
+    : localCampaigns;
 
   const categories = ["All", "Emergency Relief", "Education", "Healthcare", "Food Security", "Sanitation", "Winter Relief"];
 
   const filteredCampaigns = activeCategory === "All"
     ? campaignsList
     : campaignsList.filter((c: any) => c.category?.toLowerCase() === activeCategory.toLowerCase());
+
+  const handleAction = (campaign: any, mode: "view" | "edit" | "delete") => {
+    setSelectedCampaign(campaign);
+    setActionMode(mode);
+  };
+
+  const handleDeleteCampaign = async (id: string | number) => {
+    try {
+      await deleteCampaignApi(id as any).unwrap();
+    } catch (err) {
+      setLocalCampaigns((prev) => prev.filter((c) => String(c.id) !== String(id)));
+    }
+  };
+
+  const handleSaveCampaign = (updated: any) => {
+    setLocalCampaigns((prev) =>
+      prev.map((c) => (String(c.id) === String(updated.id) ? { ...c, ...updated } : c))
+    );
+  };
 
   const columns: Column<(typeof campaignsList)[0]>[] = [
     {
@@ -93,15 +124,55 @@ export default function CampaignsPage() {
         </span>
       ),
     },
+    {
+      header: "Actions",
+      cell: (row: any) => (
+        <div className="flex items-center justify-end gap-1.5">
+          <button
+            onClick={() => handleAction(row, "view")}
+            className="p-1.5 rounded-lg bg-muted hover:bg-primary/10 hover:text-primary text-muted-foreground transition-colors"
+            title="Inspect Campaign Details"
+          >
+            <Eye className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={() => handleAction(row, "edit")}
+            className="p-1.5 rounded-lg bg-muted hover:bg-primary/10 hover:text-primary text-muted-foreground transition-colors"
+            title="Edit Campaign"
+          >
+            <Edit3 className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={() => handleAction(row, "delete")}
+            className="p-1.5 rounded-lg bg-muted hover:bg-rose-500/10 hover:text-rose-500 text-muted-foreground transition-colors"
+            title="Delete Campaign"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      ),
+    },
   ];
 
   const handleCreate = async (formData: Record<string, any>) => {
     try {
       await createCampaign(formData as any).unwrap();
     } catch (err) {
-      console.log("Submitting campaign:", formData);
+      setLocalCampaigns((prev) => [
+        {
+          id: String(Date.now()),
+          title: formData.title || "New Humanitarian Appeal",
+          category: formData.category || "Emergency Relief",
+          percentage: 0,
+          raised: "0",
+          target: formData.targetAmount || "5,00,000",
+          beneficiaries: 0,
+          urgency: "normal",
+        },
+        ...prev,
+      ]);
     } finally {
-      setIsModalOpen(false);
+      setIsLaunchModalOpen(false);
     }
   };
 
@@ -134,8 +205,8 @@ export default function CampaignsPage() {
           ))}
         </div>
 
-        {/* View Mode Toggle & Launch Button */}
-        <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+        {/* Action Controls */}
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end flex-wrap">
           <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-xl border border-border">
             <button
               onClick={() => setViewMode("grid")}
@@ -158,8 +229,16 @@ export default function CampaignsPage() {
           </div>
 
           <Button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 rounded-xl font-bold text-xs"
+            variant="outline"
+            onClick={() => setIsCategoryModalOpen(true)}
+            className="rounded-xl font-bold text-xs gap-1.5 border-border hover:bg-muted"
+          >
+            <Tag className="w-3.5 h-3.5 text-primary" /> Manage Categories
+          </Button>
+
+          <Button
+            onClick={() => setIsLaunchModalOpen(true)}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 rounded-xl font-bold text-xs shadow-md shadow-primary/20"
           >
             <Plus className="w-4 h-4" /> Launch Campaign
           </Button>
@@ -185,12 +264,27 @@ export default function CampaignsPage() {
         />
       )}
 
-      {/* Modal Form */}
+      {/* Campaign Launch Form Modal */}
       <CampaignModalForm
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isLaunchModalOpen}
+        onClose={() => setIsLaunchModalOpen(false)}
         onSubmit={handleCreate}
         isLoading={isCreating}
+      />
+
+      {/* Prerequisite Campaign Category Manager Modal */}
+      <CampaignCategoryModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+      />
+
+      {/* Campaign Action Modal (View / Edit / Delete) */}
+      <CampaignActionModal
+        campaign={selectedCampaign}
+        mode={actionMode}
+        onClose={() => { setActionMode(null); setSelectedCampaign(null); }}
+        onSave={handleSaveCampaign}
+        onDelete={handleDeleteCampaign}
       />
     </div>
   );

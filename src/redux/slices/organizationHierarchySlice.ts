@@ -41,7 +41,7 @@ export const organizationHierarchyApi = createApi({
     }),
     updateOrganizationHierarchy: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/organization-hierarchies/${id}",
+        url: `/organization-hierarchies/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const organizationHierarchyApi = createApi({
     }),
     deleteOrganizationHierarchy: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/organization-hierarchies/${id}",
+        url: `/organization-hierarchies/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

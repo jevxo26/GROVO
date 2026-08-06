@@ -41,7 +41,7 @@ export const projectGalleryApi = createApi({
     }),
     updateProjectGallery: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/project-gallery/${id}",
+        url: `/project-gallery/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const projectGalleryApi = createApi({
     }),
     deleteProjectGallery: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/project-gallery/${id}",
+        url: `/project-gallery/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

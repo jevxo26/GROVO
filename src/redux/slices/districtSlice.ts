@@ -41,7 +41,7 @@ export const districtApi = createApi({
     }),
     updateDistrict: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/districts/${id}",
+        url: `/districts/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const districtApi = createApi({
     }),
     deleteDistrict: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/districts/${id}",
+        url: `/districts/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

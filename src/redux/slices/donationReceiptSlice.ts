@@ -41,7 +41,7 @@ export const donationReceiptApi = createApi({
     }),
     updateDonationReceipt: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/donation-receipts/${id}",
+        url: `/donation-receipts/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const donationReceiptApi = createApi({
     }),
     deleteDonationReceipt: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/donation-receipts/${id}",
+        url: `/donation-receipts/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

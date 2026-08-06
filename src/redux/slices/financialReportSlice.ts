@@ -41,7 +41,7 @@ export const financialReportApi = createApi({
     }),
     updateFinancialReport: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/financial-reports/${id}",
+        url: `/financial-reports/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const financialReportApi = createApi({
     }),
     deleteFinancialReport: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/financial-reports/${id}",
+        url: `/financial-reports/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

@@ -41,7 +41,7 @@ export const divisionApi = createApi({
     }),
     updateDivision: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/divisions/${id}",
+        url: `/divisions/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const divisionApi = createApi({
     }),
     deleteDivision: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/divisions/${id}",
+        url: `/divisions/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

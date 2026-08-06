@@ -41,7 +41,7 @@ export const paymentTransactionApi = createApi({
     }),
     updatePaymentTransaction: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/payment-transactions/${id}",
+        url: `/payment-transactions/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const paymentTransactionApi = createApi({
     }),
     deletePaymentTransaction: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/payment-transactions/${id}",
+        url: `/payment-transactions/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

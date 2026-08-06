@@ -41,7 +41,7 @@ export const refundApi = createApi({
     }),
     updateRefund: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/refunds/${id}",
+        url: `/refunds/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const refundApi = createApi({
     }),
     deleteRefund: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/refunds/${id}",
+        url: `/refunds/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

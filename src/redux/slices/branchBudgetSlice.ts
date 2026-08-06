@@ -41,7 +41,7 @@ export const branchBudgetApi = createApi({
     }),
     updateBranchBudget: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/branch-budgets/${id}",
+        url: `/branch-budgets/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const branchBudgetApi = createApi({
     }),
     deleteBranchBudget: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/branch-budgets/${id}",
+        url: `/branch-budgets/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

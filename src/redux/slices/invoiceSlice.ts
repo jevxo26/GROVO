@@ -41,7 +41,7 @@ export const invoiceApi = createApi({
     }),
     updateInvoice: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/invoices/${id}",
+        url: `/invoices/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const invoiceApi = createApi({
     }),
     deleteInvoice: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/invoices/${id}",
+        url: `/invoices/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

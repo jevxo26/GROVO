@@ -41,7 +41,7 @@ export const operationalZoneApi = createApi({
     }),
     updateOperationalZone: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/operational-zones/${id}",
+        url: `/operational-zones/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const operationalZoneApi = createApi({
     }),
     deleteOperationalZone: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/operational-zones/${id}",
+        url: `/operational-zones/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

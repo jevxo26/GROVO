@@ -41,7 +41,7 @@ export const unionApi = createApi({
     }),
     updateUnion: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/unions/${id}",
+        url: `/unions/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const unionApi = createApi({
     }),
     deleteUnion: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/unions/${id}",
+        url: `/unions/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

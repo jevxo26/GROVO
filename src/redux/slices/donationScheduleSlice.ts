@@ -41,7 +41,7 @@ export const donationScheduleApi = createApi({
     }),
     updateDonationSchedule: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/donation-schedules/${id}",
+        url: `/donation-schedules/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const donationScheduleApi = createApi({
     }),
     deleteDonationSchedule: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/donation-schedules/${id}",
+        url: `/donation-schedules/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

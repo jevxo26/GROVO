@@ -41,7 +41,7 @@ export const wardApi = createApi({
     }),
     updateWard: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/wards/${id}",
+        url: `/wards/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const wardApi = createApi({
     }),
     deleteWard: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/wards/${id}",
+        url: `/wards/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

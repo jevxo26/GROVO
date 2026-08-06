@@ -41,7 +41,7 @@ export const settlementApi = createApi({
     }),
     updateSettlement: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/settlements/${id}",
+        url: `/settlements/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const settlementApi = createApi({
     }),
     deleteSettlement: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/settlements/${id}",
+        url: `/settlements/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

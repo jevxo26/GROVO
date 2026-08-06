@@ -41,7 +41,7 @@ export const paymentLogApi = createApi({
     }),
     updatePaymentLog: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/payment-logs/${id}",
+        url: `/payment-logs/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const paymentLogApi = createApi({
     }),
     deletePaymentLog: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/payment-logs/${id}",
+        url: `/payment-logs/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [

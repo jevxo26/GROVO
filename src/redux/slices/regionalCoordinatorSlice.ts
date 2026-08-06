@@ -41,7 +41,7 @@ export const regionalCoordinatorApi = createApi({
     }),
     updateRegionalCoordinator: builder.mutation<any, { id: string | number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: "/regional-coordinators/${id}",
+        url: `/regional-coordinators/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -52,7 +52,7 @@ export const regionalCoordinatorApi = createApi({
     }),
     deleteRegionalCoordinator: builder.mutation<any, string | number>({
       query: (id) => ({
-        url: "/regional-coordinators/${id}",
+        url: `/regional-coordinators/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [
