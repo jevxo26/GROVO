@@ -7,6 +7,7 @@ import { useGetUserProfileQuery } from "@/redux/slices/userSlice";
 import { normalizeRole } from "@/lib/roleUtils";
 
 export default function DashboardLayout({
+  children,
   volunteer,
   member,
   staf,
@@ -21,18 +22,19 @@ export default function DashboardLayout({
   unioncoordinator,
   role: overrideRole,
 }: {
-  volunteer: ReactNode;
-  member: ReactNode;
-  staf: ReactNode;
-  corporate: ReactNode;
-  executivemember: ReactNode;
-  individualdonor: ReactNode;
-  admin: ReactNode;
-  nationaladmin: ReactNode;
-  divisioncoordinator: ReactNode;
-  districtcoordinator: ReactNode;
-  upazilacoordinator: ReactNode;
-  unioncoordinator: ReactNode;
+  children?: ReactNode;
+  volunteer?: ReactNode;
+  member?: ReactNode;
+  staf?: ReactNode;
+  corporate?: ReactNode;
+  executivemember?: ReactNode;
+  individualdonor?: ReactNode;
+  admin?: ReactNode;
+  nationaladmin?: ReactNode;
+  divisioncoordinator?: ReactNode;
+  districtcoordinator?: ReactNode;
+  upazilacoordinator?: ReactNode;
+  unioncoordinator?: ReactNode;
   role?: UserRole;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,7 +43,7 @@ export default function DashboardLayout({
   const { data: profileRes, isLoading } = useGetUserProfileQuery();
   const userProfile = profileRes?.data || profileRes;
 
-  // Resolve dynamic role from RTK Query user profile, or overrideRole, falling back to 'member'
+  // Resolve dynamic role from RTK Query user profile, or overrideRole, falling back to 'admin'
   const rawRoleName =
     userProfile?.role ||
     userProfile?.roleAssignments?.[0]?.role?.roleName ||
@@ -50,11 +52,11 @@ export default function DashboardLayout({
   const activeRole: UserRole = overrideRole || (rawRoleName ? normalizeRole(rawRoleName) : "admin");
 
   return (
-    <div className="flex min-h-screen bg-background relative overflow-hidden">
+    <div className="flex min-h-screen bg-background relative overflow-hidden font-sans">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-20 md:hidden transition-opacity"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-20 md:hidden transition-opacity"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -67,30 +69,31 @@ export default function DashboardLayout({
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         <Header role={activeRole} onMenuClick={() => setSidebarOpen(true)} />
 
-        <main className="flex-1 overflow-y-auto bg-background">
-          <div className="mx-auto w-full p-5">
+        <main className="flex-1 overflow-y-auto bg-background/50">
+          <div className="mx-auto w-full p-4 md:p-6 max-w-7xl">
             {isLoading ? (
-              <div className="flex items-center justify-center py-20 text-gray-500 text-sm">
-                Loading dashboard...
+              <div className="flex flex-col items-center justify-center py-24 gap-3 text-muted-foreground">
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                <span className="text-sm font-medium">Loading workspace layout...</span>
               </div>
             ) : (
               <>
-                {activeRole === "volunteer" && <div>{volunteer}</div>}
-                {activeRole === "member" && <div>{member}</div>}
-                {activeRole === "staf" && <div>{staf}</div>}
-                {activeRole === "corporate" && <div>{corporate}</div>}
-                {activeRole === "executivemember" && <div>{executivemember}</div>}
-                {activeRole === "individualdonor" && <div>{individualdonor}</div>}
-                {activeRole === "admin" && <div>{admin}</div>}
-                {activeRole === "nationaladmin" && <div>{nationaladmin}</div>}
-                {activeRole === "divisioncoordinator" && <div>{divisioncoordinator}</div>}
-                {activeRole === "districtcoordinator" && <div>{districtcoordinator}</div>}
-                {activeRole === "upazilacoordinator" && <div>{upazilacoordinator}</div>}
-                {activeRole === "unioncoordinator" && <div>{unioncoordinator}</div>}
+                {activeRole === "volunteer" && <div>{volunteer || children}</div>}
+                {activeRole === "member" && <div>{member || children}</div>}
+                {activeRole === "staf" && <div>{staf || children}</div>}
+                {activeRole === "corporate" && <div>{corporate || children}</div>}
+                {activeRole === "executivemember" && <div>{executivemember || children}</div>}
+                {activeRole === "individualdonor" && <div>{individualdonor || children}</div>}
+                {activeRole === "admin" && <div>{admin || children}</div>}
+                {activeRole === "nationaladmin" && <div>{nationaladmin || children}</div>}
+                {activeRole === "divisioncoordinator" && <div>{divisioncoordinator || children}</div>}
+                {activeRole === "districtcoordinator" && <div>{districtcoordinator || children}</div>}
+                {activeRole === "upazilacoordinator" && <div>{upazilacoordinator || children}</div>}
+                {activeRole === "unioncoordinator" && <div>{unioncoordinator || children}</div>}
               </>
             )}
           </div>
-        </main> 
+        </main>
       </div>
     </div>
   );

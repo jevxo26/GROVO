@@ -29,8 +29,11 @@ import {
   Settings,
   Shield,
   FileText,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useGetUserProfileQuery } from "@/redux/slices/userSlice";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export type UserRole =
   | "member"
@@ -165,22 +168,27 @@ export function Sidebar({
   onClose?: () => void;
 }) {
   const pathname = usePathname();
+  const { data: profileRes } = useGetUserProfileQuery();
+  const user = profileRes?.data || profileRes;
+  const fullName = user?.fullName || [user?.firstName, user?.lastName].filter(Boolean).join(" ") || "User";
+  const userInitials = fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) || "US";
+
   const navigation = sidebarNavigation[role] || sidebarNavigation.admin;
 
   return (
     <aside className="w-64 bg-sidebar border-r border-sidebar-border h-full flex flex-col justify-between shrink-0 shadow-sm transition-colors duration-300">
-      <div>
+      <div className="flex flex-col h-full overflow-hidden">
         {/* Brand Header */}
-        <div className="h-16 md:h-20 flex items-center justify-between px-6 border-b border-sidebar-border">
+        <div className="h-16 md:h-20 flex items-center justify-between px-6 border-b border-sidebar-border shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-md shadow-primary/20">
+            <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-md shadow-primary/25">
               A
             </div>
             <div>
               <span className="font-bold text-lg text-sidebar-foreground tracking-tight block leading-none">
                 ASHRAY
               </span>
-              <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest block mt-0.5">
+              <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest block mt-1">
                 Foundation OS
               </span>
             </div>
@@ -195,20 +203,26 @@ export function Sidebar({
           )}
         </div>
 
-        {/* Role Badge */}
-        <div className="px-4 pt-4 pb-2">
-          <div className="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 flex items-center gap-2">
-            <Shield className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-semibold text-primary capitalize tracking-wide">
-              {role.replace(/_/g, " ")} Role
+        {/* Role Badge Status */}
+        <div className="px-4 pt-4 pb-2 shrink-0">
+          <div className="px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Shield className="w-3.5 h-3.5 text-primary" />
+              <span className="text-xs font-semibold text-primary capitalize tracking-wide">
+                {role.replace(/_/g, " ")}
+              </span>
+            </div>
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
           </div>
         </div>
 
         {/* Navigation Section */}
-        <div className="px-3 py-2">
-          <p className="px-3 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-            Menu Navigation
+        <div className="px-3 py-2 overflow-y-auto flex-1 custom-scrollbar">
+          <p className="px-3 text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-2">
+            Navigation Menu
           </p>
 
           <nav className="space-y-1">
@@ -239,17 +253,36 @@ export function Sidebar({
             })}
           </nav>
         </div>
-      </div>
 
-      {/* Footer Back Link */}
-      <div className="p-4 border-t border-sidebar-border">
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 text-sm font-medium text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent px-3 py-2.5 rounded-xl transition-all"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Main Website</span>
-        </Link>
+        {/* Footer Profile & Back Link */}
+        <div className="p-3 border-t border-sidebar-border space-y-2 shrink-0 bg-sidebar/50">
+          <div className="flex items-center gap-3 p-2 rounded-xl bg-sidebar-accent/50 border border-sidebar-border/60">
+            <Avatar className="w-8 h-8 border border-primary/20">
+              <AvatarImage src={user?.profilePhoto} alt={fullName} />
+              <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                {userInitials}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-xs font-semibold text-sidebar-foreground truncate">
+                {fullName}
+              </span>
+              <span className="text-[10px] text-muted-foreground truncate">
+                {user?.email || "verified@ashray.org"}
+              </span>
+            </div>
+          </div>
+
+          <Link
+            href="/"
+            className="flex items-center justify-between text-xs font-medium text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent px-3 py-2 rounded-xl transition-all"
+          >
+            <span className="flex items-center gap-2">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Main Website</span>
+            </span>
+          </Link>
+        </div>
       </div>
     </aside>
   );
